@@ -533,7 +533,8 @@ class GetCRSP:
 
     
 def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
-                   subset=None, ff_dir=r'C:\Users\derobertisna.UFAD\Desktop\Data\FF'):
+                   subset=None, ff_dir=r'C:\Users\derobertisna.UFAD\Desktop\Data\FF',
+                  custom_ff_name=None):
     """
     Pulls Fama-French factors and merges them to dataset
     
@@ -586,7 +587,10 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
         right_datevars = ['date']
         
     subset += right_datevars + ['rf'] #need to pull date variables and risk free rate as well
-        
+    
+    if custom_ff_name is not None:
+        ff_name = custom_ff_name
+    
     path = os.path.join(ff_dir, ff_name)
     ffdf = load_sas(path)
     ffdf['date'] = convert_sas_date_to_pandas_date(ffdf['date']) #convert to date object
@@ -599,8 +603,8 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
     
     return merged
 
-def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_fac=4, retvar='RET',
-              includecoef=False, includefac=False):
+def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_fac=5, retvar='RET',
+              includecoef=False, includefac=False, **get_ff_kwargs):
     """
     Takes a dataframe containing a column of returns, dates, and at least one by variable and calculates
     abnormal returns for the model of choice. Returns a dataframe with the abnormal returns merged.
@@ -612,19 +616,26 @@ def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_f
     year_month: list of strs, columns names of year and month variables, e.g. ['Year','Month']. Must
                 set fulldatevar to None if year_month is provided.
     freq: 'm' or 'd', 'm' for monthly returns, 'd' for daily returns
-    abret_fac: int (1, 3, 4), abnormal return model
+    abret_fac: int (1, 3, 5), abnormal return model
     retvar: str, name of return variable
     includecoef: bool, set to True to get factor loadings
     includefac: bool, set to True to get factors and risk free rate
     """
-    assert abret_fac in (1, 3, 4)
+    assert abret_fac in (1, 3, 5)
     factors = ['mktrf']
     if abret_fac >= 3:
         factors += ['smb','hml']
-    if abret_fac == 4:
-        factors += ['umd']
+    if abret_fac == 5:
+        factors += ['rmw','cma']
     
-    out = get_ff_factors(df, fulldatevar=fulldatevar, freq=freq, subset=factors, year_month=year_month)
+    out = get_ff_factors(
+        df, 
+        fulldatevar=fulldatevar,
+        freq=freq,
+        subset=factors,
+        year_month=year_month,
+        **get_ff_kwargs
+    )
     out = factor_reg_by(out, byvars, fac=abret_fac, retvar=retvar)
     
     if not includefac:
