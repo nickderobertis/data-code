@@ -533,7 +533,7 @@ class GetCRSP:
 
     
 def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
-                   subset=None, ff_dir=r'C:\Users\derobertisna.UFAD\Desktop\Data\FF',
+                   subset=None, ff_dir=r'E:\Data\FF',
                   custom_ff_name=None):
     """
     Pulls Fama-French factors and merges them to dataset
@@ -559,12 +559,12 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
     df = df.copy()
     
     if not subset:
-        subset = ['mktrf', 'smb', 'hml', 'umd']
+        subset = ['mktrf', 'smb', 'hml', 'rmw', 'cma']
     if isinstance(subset, str):
         subset = [subset]
     assert isinstance(subset, list)
     for item in subset:
-        assert item in ['mktrf', 'smb', 'hml', 'umd']
+        assert item in ['mktrf', 'smb', 'hml', 'rmw', 'cma', 'umd']
         
     subset = subset.copy() #don't modify original beyond converting to list
     
