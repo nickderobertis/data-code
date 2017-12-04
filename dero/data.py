@@ -592,8 +592,7 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
         ff_name = custom_ff_name
     
     path = os.path.join(ff_dir, ff_name)
-    ffdf = load_sas(path)
-    ffdf['date'] = convert_sas_date_to_pandas_date(ffdf['date']) #convert to date object
+    ffdf = _load_data_by_extension_and_convert_date(path)
     
     merged = df_for_merge.merge(ffdf[subset], how='left', left_on=left_datevars, right_on=right_datevars)
     merged.drop(right_datevars, axis=1, inplace=True)
@@ -602,6 +601,17 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
         merged.drop(left_datevars, axis=1, inplace=True)
     
     return merged
+
+def _load_data_by_extension_and_convert_date(filepath):
+    filename, file_extension = os.path.splitext(filepath)
+    extension = file_extension.lower()
+    if extension == '.sas7bdat':
+        df = load_sas(filepath)
+        df['date'] = convert_sas_date_to_pandas_date(df['date']) #convert to date object
+    elif extension == '.csv':
+        return pd.read_csv(filepath, parse_dates=['date'])
+    else:
+        raise ValueError(f'Please pass a sas7bdat or csv for FF factors, got {extension}')
 
 def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_fac=5, retvar='RET',
               includecoef=False, includefac=False, **get_ff_kwargs):
