@@ -180,7 +180,7 @@ class GetCRSP:
         
     
     def pull_crsp(self, df, coid='PERMNO', freq='m', get=['PRC','SHROUT'], date='Date', other_byvars=None,
-                 time=None, wide=True,
+                 time=None, between_time=False, wide=True,
                  abret=False, window=None, cumret=False, includefac=False, includecoef=False, 
                  drop_first=False):
         '''
@@ -198,6 +198,8 @@ class GetCRSP:
                freq='m' and get='RET' would pull three returns per observation, one twelve months prior, one contemporaneous,
                and one twelve months later, naming them RET-12, RET0, and RET12. If freq='d' in the same example, it would be
                twelve days prior, etc.
+        between_time = bool. Only applicable if time is not None. True to generate periods in between given time periods, e.g.
+                        passing time=[12,24,36] will get periods 12, 13, 14, ..., 35, 36.
         abret = 1, 3, 4, or False. If 1, 3, or 4 is passed and 'RET' is in get, will calculate abnormal returns according to CAPM,
                 3 or 4 factor model, respectively. 
         window = Integer or None. Must provide an integer if abret is not False. This is the number of prior periods to use
@@ -248,6 +250,7 @@ class GetCRSP:
         self.date = date
         self.other_byvars = other_byvars
         self.time = time
+        self.intermediate_periods = between_time
         self.wide = wide
         self.abret = abret
         self.window = window
@@ -352,9 +355,14 @@ class GetCRSP:
             ############
             
         #Now need to remove unneeded periods
-        keep_time = self.time
+        # First check if we should be getting intermediate periods, e.g. [1, 4] -> [1, 2, 3, 4]
+        if self.intermediate_periods:
+            keep_time = [t for t in range(min(self.time), max(self.time) + 1)]
+        else:
+            keep_time = self.time
+
         if self.drop_first:
-            keep_time = self.time[1:]
+            keep_time = keep_time[1:]
         self.long_df = self.long_df[self.long_df['Shift'].isin(keep_time)]
             
     def _handle_abret(self):
@@ -409,12 +417,13 @@ class GetCRSP:
         #Ensure time is of the right type
         if isinstance(self.time, int): self.time = [self.time]
         assert (isinstance(self.time, list) and isinstance(self.time[0], int))
-        intermediate_periods = False
         if self.cumret:
             self._log('Cumret detected, will generate intermediate periods.')
             intermediate_periods = True
+        else:
+            intermediate_periods = self.intermediate_periods
         self._log('Generating periods {} {}'.format(self.time, '+ itermediate' if intermediate_periods else ''))
-        self.long_df = expand_time(self.df, intermediate_periods=intermediate_periods, 
+        self.long_df = expand_time(self.df, intermediate_periods=intermediate_periods,
                                    datevar=self.date, freq=self.freq, time=self.time)
         self._log('Finished generating periods. Generating key.')
         self.byvars = ['PERMNO', self.date, 'Shift Date']
