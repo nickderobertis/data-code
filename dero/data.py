@@ -570,7 +570,7 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
                  and Year in the input data.
     year_month: Two element list of ['yearvar','monthvar']. Specify this OR full date variable.
     freq: 'm' for monthly factors, 'd' for daily
-    subset: str or list, names of ff factors to pull. Can specify any of 'mktrf', 'smb', 'hml', 'umd'
+    subset: str or list, names of ff factors to pull. Can specify any of 'mktrf', 'smb', 'hml', 'rmw', 'cma', 'umd'
     ff_dir: folder containing FF data
     """
 
