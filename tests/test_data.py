@@ -245,7 +245,7 @@ class TestGetCRSP:
         
         gc_prc_shrout_m = self.crsp.pull_crsp(self.input_data.df_datetime) #get PRC and SHROUT is default
         
-        assert_frame_equal(expect_df_prc_shrout_m, gc_prc_shrout_m)
+        assert_frame_equal(expect_df_prc_shrout_m, gc_prc_shrout_m, check_dtype=False)
         
     def test_get_prc_shrout_same_period_daily(self):
         expect_df_prc_shrout_d = pd.DataFrame(data = [
@@ -269,7 +269,7 @@ class TestGetCRSP:
         
         print('Printing output df: ', gc_prc_shrout_d)
         
-        assert_frame_equal(expect_df_prc_shrout_d, gc_prc_shrout_d)
+        assert_frame_equal(expect_df_prc_shrout_d, gc_prc_shrout_d, check_dtype=False)
         
     def test_get_ret_0_3_monthly(self):
         expect_df_ret_0_3_m = pd.DataFrame(data = [
@@ -290,7 +290,7 @@ class TestGetCRSP:
         gc_ret_0_3_m = self.crsp.pull_crsp(self.input_data.df_datetime, get=['RET'], time=[0,3],
                                       other_byvars='byvar') #freq m default
         
-        assert_frame_equal(expect_df_ret_0_3_m, gc_ret_0_3_m)
+        assert_frame_equal(expect_df_ret_0_3_m, gc_ret_0_3_m, check_dtype=False)
         
     def test_get_ret_0_3_daily(self):
         expect_df_ret_0_3_d = pd.DataFrame(data = [
@@ -311,7 +311,7 @@ class TestGetCRSP:
         gc_ret_0_3_d = self.crsp.pull_crsp(self.input_data.df_datetime, freq='d', get=['RET'],
                                       other_byvars='byvar', time=[0,3])
         
-        assert_frame_equal(expect_df_ret_0_3_d, gc_ret_0_3_d)
+        assert_frame_equal(expect_df_ret_0_3_d, gc_ret_0_3_d, check_dtype=False)
         
     def test_get_abret_daily(self):
         expect_df_abret1w30_d = pd.DataFrame(data = [
@@ -391,7 +391,7 @@ class TestGetCRSP:
                                         other_byvars='byvar', abret=1, window=30,
                                         includefac=True, includecoef=True)
         
-        assert_frame_equal(expect_df_abret1w30ific_d, gc_abret1w30ific_d)
+        assert_frame_equal(expect_df_abret1w30ific_d, gc_abret1w30ific_d, check_dtype=False)
         
     def test_get_abret_monthly(self):
 #         expect_df_abret4w36_m = pd.DataFrame(data = [
@@ -427,7 +427,7 @@ class TestGetCRSP:
         gc_abret4w36_m = self.crsp.pull_crsp(self.input_data.df_datetime, get=['RET'],
                                         other_byvars='byvar', abret=4, window=36)
         
-        assert_frame_equal(expect_df_abret4w36_m, gc_abret4w36_m)
+        assert_frame_equal(expect_df_abret4w36_m, gc_abret4w36_m, check_dtype=False)
         
     def test_get_abret_0_3_cumretfirst_dropfirst_daily(self):
         expect_df_cumfirst_abret1w30_0_3_dropf_d = pd.DataFrame(data = [

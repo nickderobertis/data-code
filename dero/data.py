@@ -628,6 +628,7 @@ def _load_data_by_extension_and_convert_date(filepath):
     if extension == '.sas7bdat':
         df = load_sas(filepath)
         df['date'] = convert_sas_date_to_pandas_date(df['date']) #convert to date object
+        return df
     elif extension == '.csv':
         return pd.read_csv(filepath, parse_dates=['date'])
     else:
