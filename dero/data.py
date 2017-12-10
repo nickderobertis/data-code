@@ -365,10 +365,10 @@ class GetCRSP:
         facs = ['mktrf']
         if self.abret >= 3:
             facs += ['hml','smb']
-        if self.abret == 4:
-            facs += ['umd']
-        if self.abret not in (1,3,4):
-            raise ValueError('Currently only supports 1, 3, and 4-factor models (mktrf, hml, smb, umd)')
+        if self.abret == 5:
+            facs += ['rmw', 'cma']
+        if self.abret not in (1,3,5):
+            raise ValueError('Currently only supports 1, 3, and 5-factor models (mktrf, hml, smb, rmw, cma)')
         
         prior_wind = [i for i in range(0,-self.window - 1,-1)] #e.g. if window = 3, prior_wind = [0, -1, -2, -3]
         self._log('Creating abret window periods.')
@@ -589,7 +589,7 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
     subset = subset.copy() #don't modify original beyond converting to list
     
     if freq == 'm': 
-        ff_name = 'ff_fac_month.sas7bdat'
+        ff_name = 'ff_fac_month.csv'
         drop = False
         if year_month != None:
             left_datevars = year_month
@@ -602,7 +602,7 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
     else: 
         drop = False
         df_for_merge = df
-        ff_name = 'ff_fac_daily.sas7bdat'
+        ff_name = 'ff_fac_daily.csv'
         left_datevars = fulldatevar
         right_datevars = ['date']
         
@@ -612,7 +612,7 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
         ff_name = custom_ff_name
     
     path = os.path.join(ff_dir, ff_name)
-    ffdf = _load_data_by_extension_and_convert_date(path)
+    ffdf = _load_data_by_extension_and_convert_date(path, freq=freq)
     
     merged = df_for_merge.merge(ffdf[subset], how='left', left_on=left_datevars, right_on=right_datevars)
     merged.drop(right_datevars, axis=1, inplace=True)
@@ -622,15 +622,19 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
     
     return merged
 
-def _load_data_by_extension_and_convert_date(filepath):
+def _load_data_by_extension_and_convert_date(filepath, freq='m'):
     filename, file_extension = os.path.splitext(filepath)
     extension = file_extension.lower()
     if extension == '.sas7bdat':
         df = load_sas(filepath)
-        df['date'] = convert_sas_date_to_pandas_date(df['date']) #convert to date object
+        if freq == 'd':
+            df['date'] = convert_sas_date_to_pandas_date(df['date']) #convert to date object
         return df
     elif extension == '.csv':
-        return pd.read_csv(filepath, parse_dates=['date'])
+        if freq == 'd':
+            return pd.read_csv(filepath, parse_dates=['date'])
+        else:
+            return pd.read_csv(filepath)
     else:
         raise ValueError(f'Please pass a sas7bdat or csv for FF factors, got {extension}')
 
@@ -668,7 +672,7 @@ def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_f
         **get_ff_kwargs
     )
     out = factor_reg_by(out, byvars, fac=abret_fac, retvar=retvar)
-    
+
     if not includefac:
         out.drop(factors + ['rf'], axis=1, inplace=True)
     if not includecoef:
