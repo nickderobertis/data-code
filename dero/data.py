@@ -7,6 +7,7 @@ from .ext_pandas import expand_time, cumulate, convert_sas_date_to_pandas_date, 
                     long_to_wide, year_month_from_date, join_col_strings
     
 from .compustat import convert_gvkey, load_compustat, merge_compustat
+from .config import data_path
 
 
 def replace_missing_csv(csv_list, missing_rep):
@@ -26,7 +27,7 @@ def replace_missing_csv(csv_list, missing_rep):
 
 def merge_dsenames(df, on='TICKER', get='PERMNO', date='Date', 
                    other_byvars=None, 
-                   crsp_dir=r'C:\Users\derobertisna.UFAD\Desktop\Data\CRSP'):
+                   crsp_dir=None):
     '''
     Merges with dsenames file on on variable (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6), to get get variable (same list).
     Must have a Date variable in df.
@@ -43,6 +44,11 @@ def merge_dsenames(df, on='TICKER', get='PERMNO', date='Date',
     date: str, column name of date variable
     other_byvars: any other variables signifying groups in the data, prevents from collapsing those groups
     '''
+
+    # Set default CRSP dir
+    if crsp_dir is None:
+        crsp_dir = data_path('CRSP')
+
     #Make get a list
     if isinstance(get, str):
         get = [get]
@@ -103,10 +109,15 @@ def merge_dsenames(df, on='TICKER', get='PERMNO', date='Date',
     return new_merged.reset_index(drop=True)
 
 def get_gvkey_or_permno(df, datevar, get='GVKEY', other_byvars=None,
-                        crsp_dir=r'C:\Users\derobertisna.UFAD\Desktop\Data\CRSP'):
+                        crsp_dir=None):
     """
     Takes a dataframe containing either GVKEY or PERMNO and merges to the CRSP linktable to get the other one.
-    """    
+    """
+
+    # Set default CRSP dir
+    if crsp_dir is None:
+        crsp_dir = data_path('CRSP')
+
     if get == 'GVKEY':
         rename_get = 'gvkey'
         l_on = 'PERMNO'
@@ -155,7 +166,12 @@ def get_gvkey_or_permno(df, datevar, get='GVKEY', other_byvars=None,
 
 class GetCRSP:
     
-    def __init__(self, debug=False, crsp_dir=r'C:\Users\derobertisna.UFAD\Desktop\Data\CRSP'):
+    def __init__(self, debug=False, crsp_dir=None):
+
+        # Set default CRSP dir
+        if crsp_dir is None:
+            crsp_dir = data_path('CRSP')
+
         self.debug = debug
         self.crsp_dir = crsp_dir
         self.loaded_m = False
@@ -533,7 +549,7 @@ class GetCRSP:
 
     
 def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
-                   subset=None, ff_dir=r'E:\Data\FF',
+                   subset=None, ff_dir=None,
                   custom_ff_name=None):
     """
     Pulls Fama-French factors and merges them to dataset
@@ -548,6 +564,10 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
     subset: str or list, names of ff factors to pull. Can specify any of 'mktrf', 'smb', 'hml', 'umd'
     ff_dir: folder containing FF data
     """
+
+    # Set default FF dir
+    if ff_dir is None:
+        ff_dir = data_path('FF')
    
     #Make sure inputs are correct
     assert isinstance(df, pd.DataFrame)
@@ -656,7 +676,7 @@ def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_f
     return out
 
 def load_and_merge_compustat(df, get=['sale'], freq='a', gvkeyvar='gvkey', datevar='Date', debug=False,
-                             comp_dir=r'C:\Users\derobertisna.UFAD\Desktop\Data\Compustat'):
+                             comp_dir=None):
     """
     Convenience function for both loading and merging compustat to existing dataframe.
     
@@ -674,6 +694,11 @@ def load_and_merge_compustat(df, get=['sale'], freq='a', gvkeyvar='gvkey', datev
     debug: bool, True to restrict to only gvkeys (001076, 001722)
     comp_dir: string, directory containing compustat files
     """
+
+    # Set default FF dir
+    if comp_dir is None:
+        comp_dir = data_path('Compustat')
+
     convert_gvkey(df, gvkeyvar)
     comp = load_compustat(freq, get=get, debug=debug, comp_dir=comp_dir)
     return merge_compustat(df, comp, datevar=datevar).rename(columns={'gvkey':gvkeyvar})
