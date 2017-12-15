@@ -3,11 +3,12 @@ from sas7bdat import SAS7BDAT
 import pandas as pd
 import os, datetime, warnings, sys
 
-from .ext_pandas import expand_time, cumulate, convert_sas_date_to_pandas_date, reg_by, factor_reg_by, load_sas, \
+from ..ext_pandas import expand_time, cumulate, convert_sas_date_to_pandas_date, reg_by, factor_reg_by, load_sas, \
                     long_to_wide, year_month_from_date, join_col_strings
     
-from .compustat import convert_gvkey, load_compustat, merge_compustat
-from .config import data_path
+from ..compustat import convert_gvkey, load_compustat, merge_compustat
+from ..config import data_path
+from .compareids import compare_identifiers
 
 
 def replace_missing_csv(csv_list, missing_rep):
