@@ -1,38 +1,4 @@
-
-class MatchData:
-
-    def __iter__(self):
-        return (i for i in self.tuple)
-
-    def __len__(self):
-        return len(self.tuple)
-
-class MatchComparisonBarData(MatchData):
-
-    def __init__(self, left_unmatched, matched, right_unmatched, name=None):
-        self.left_unmatched = left_unmatched
-        self.matched = matched
-        self.right_unmatched = right_unmatched
-        self.name = name
-        self.tuple = (left_unmatched, matched, right_unmatched)
-        self._set_midpoints()
-
-    def _set_midpoints(self):
-        left_midpoint = self.left_unmatched/2
-        matched_midpoint = self.left_unmatched + self.matched/2
-        right_midpoint = self.left_unmatched + self.matched + self.right_unmatched/2
-        self.midpoints = (left_midpoint, matched_midpoint, right_midpoint)
-
-
-class MatchComparisonBarGraphData(MatchData):
-
-    def __init__(self, left_unmatched_tup, matched_tup, right_unmatched_tup, name=None):
-        self.left_unmatched_tup = left_unmatched_tup
-        self.matched_tup = matched_tup
-        self.right_unmatched_tup = right_unmatched_tup
-        self.name = name
-        self.tuple = (left_unmatched_tup, matched_tup, right_unmatched_tup)
-
+from .interface import MatchComparisonBarData, MatchComparisonBarGraphData, IDComparisonCollection
 
 
 class MatchComparisonBar:
@@ -74,6 +40,13 @@ class MatchComparisonBarGraph:
         self.max_len = max([sum(bar) for bar in bars])
 
     def draw(self, plt):
+        plt.clf() #clear out any previous figures
+
+        #### TEMP
+        # import pdb
+        # pdb.set_trace()
+        #### END TEMP
+
         if self.graph_data.name is not None:
             _draw_title(plt, self.graph_data.name)
         _draw_bars(plt, *self.graph_data, thickness=self.thickness)
@@ -81,6 +54,12 @@ class MatchComparisonBarGraph:
         _draw_number_labels(plt, self._absolute_bars, self.max_len, self.relative)
         plt.axis('off')
         return plt
+
+    @classmethod
+    def from_id_comparison_collection(cls, id_comparison: IDComparisonCollection, plt=None):
+        if plt is None:
+            import matplotlib.pyplot as plt
+        return cls(*[MatchComparisonBarData.from_id_comparison(compare) for compare in id_comparison], name=id_comparison.name, plt=plt)
 
 def _convert_bar_data_to_bar_graph_data(data: [MatchComparisonBarData], name=None):
     split_items = [items for items in zip(*data)]
@@ -90,7 +69,7 @@ def _convert_bar_data_to_relative(data: [MatchComparisonBarData], scale=100):
     out_list = []
     for bardata in data:
         total_items = sum(bardata)
-        new_bardata = MatchComparisonBarData(*[(item/total_items) * scale for item in bardata], name=bardata.name)
+        new_bardata = MatchComparisonBarData(*[(item / total_items) * scale for item in bardata], name=bardata.name)
         out_list.append(new_bardata)
 
     return out_list

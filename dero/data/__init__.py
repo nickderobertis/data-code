@@ -8,7 +8,6 @@ from ..ext_pandas import expand_time, cumulate, convert_sas_date_to_pandas_date,
     
 from ..compustat import convert_gvkey, load_compustat, merge_compustat
 from ..config import data_path
-from .compareids import compare_identifiers
 
 
 def replace_missing_csv(csv_list, missing_rep):

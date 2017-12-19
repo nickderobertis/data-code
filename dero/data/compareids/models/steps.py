@@ -1,6 +1,6 @@
 from itertools import product
 
-from .datasets import DataSubject, DataSource
+from .datasets import DataSubject, DataCombination
 from .flowchart import Edge
 from .interface import PipelineOptions
 
@@ -34,13 +34,10 @@ class MergeStep(Step):
         return subgraphs
 
     def _merge_subgraph(self, options: PipelineOptions):
-        orig_nodes = self.data_subject.to_nodes(options)
-        merge_nodes = self.merge_into_subject.to_nodes(options)
-
         data_sources = []
-        for orig_source, merge_source in product(orig_nodes, merge_nodes):
+        for orig_source, merge_source in product(self.data_subject.sources, self.merge_into_subject.sources):
             name = orig_source.name + '/' + merge_source.name
-            data_sources.append(DataSource(name=name))
+            data_sources.append(DataCombination(orig_source, merge_source, name=name))
 
         subject_name = self.data_subject.name + '/' + self.merge_into_subject.name
         combined_subject = DataSubject(*data_sources, name=subject_name)
