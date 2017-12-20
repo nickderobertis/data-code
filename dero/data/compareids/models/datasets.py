@@ -76,7 +76,9 @@ class DataSubject:
         if options.data_sources:
             nodes = [source.to_node(**options.node_attr) for source in self.sources]
         else:
-            nodes = [Node(name=self.name + 'DUMMY', **options.node_attr)]
+            node_kwargs = options.node_attr.copy()
+            _add_no_node_line_to_node_kwargs(node_kwargs)
+            nodes = [Node(name=self.name + 'DUMMY', label=None, **node_kwargs)]
         return nodes
 
     def __repr__(self):
@@ -104,6 +106,10 @@ class DataCombination(DataItem):
         name_for_path = self.name.replace('/','-') + '.png'
         img_path = os.path.join(r'C:\Users\derobertisna.UFAD\Dropbox (Personal)\UF\Andy\ETF Project\Temp\idcomp', name_for_path)
         plt.savefig(img_path, bbox_inches='tight')
+
+        # Set node style
+        _add_no_node_line_to_node_kwargs(node_kwargs)
+
         return Node(name=self.name, label=None, image=img_path, **node_kwargs)
 
         #### END TEMP
@@ -152,3 +158,16 @@ def _get_func_attr_and_kwargs_to_reduce_from_df_or_series(df_or_series):
         return 'tolist', {}
     else:
         raise ValueError(f'Must pass series or dataframe, got type {type(df_or_series)}')
+
+
+def _add_no_node_line_to_node_kwargs(node_kwargs):
+    """
+    NOTE: inplace
+    """
+    # Set node style
+    no_line_str = 'setlinewidth(0)'
+    if 'style' in node_kwargs:
+        style = node_kwargs['style'] + ',' + no_line_str
+    else:
+        style = no_line_str
+    node_kwargs['style'] = style

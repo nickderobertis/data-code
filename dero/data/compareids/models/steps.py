@@ -70,7 +70,12 @@ class Process:
 
         subgraphs = []
         for step in self.steps:
-            subgraphs.extend(step.subgraphs(options))
+            if isinstance(step, MergeStep):
+                subgraphs.extend(step.subgraphs(options)) #contains last subgraph, combined subgraph, and to merge subgraph
+            elif isinstance(step, Step):
+                continue #step subgraph will be handled within merge step subgraph
+            else:
+                raise ValueError(f'must pass Step or MergeStep, got type {type(step)}')
 
         return subgraphs
 
@@ -93,7 +98,11 @@ class Process:
         edges = []
         last_source_name, merge_source_name = _combined_source_name_to_individual_source_names(combined_subgraph.name)
         for combined_node in combined_subgraph.nodes:
-            last_node_name, merge_node_name = _combined_name_to_input_and_merge_name(combined_node.name, last_source_name, merge_source_name)
+            if options.data_sources: #extract node names by parsing combined name
+                last_node_name, merge_node_name = _combined_name_to_input_and_merge_name(combined_node.name, last_source_name, merge_source_name)
+            else: #now the source names are representative of the node names
+                last_node_name = last_source_name
+                merge_node_name = merge_source_name
             last_node = last_subgraph.nodes[last_node_name]
             merge_node = merge_subgraph.nodes[merge_node_name]
 

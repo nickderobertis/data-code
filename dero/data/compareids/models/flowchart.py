@@ -53,7 +53,7 @@ class Subgraph:
         graph.subgraph(subgraph)
 
     def __repr__(self):
-        return f'<Subgraph(nodes={self.nodes})>'
+        return f'<Subgraph(name={self.name}, nodes={self.nodes})>'
 
 class Edge:
 
@@ -61,7 +61,7 @@ class Edge:
         self.start = start
         self.end = end
         if for_subgraphs is not None:
-            edge_kwargs.update({'ltail': for_subgraphs[0].name, 'lhead': for_subgraphs[1].name})
+            edge_kwargs.update({'ltail': 'cluster' + for_subgraphs[0].name, 'lhead': 'cluster' + for_subgraphs[1].name})
         self.edge_kwargs = edge_kwargs
 
     def add_to_graph(self, graph):
