@@ -1,10 +1,79 @@
 from .interface import MatchComparisonBarData, MatchComparisonBarGraphData, IDComparisonCollection
-
+import math
 
 class MatchComparisonBar:
 
     def __init__(self, data: MatchComparisonBarData):
         self.data = data
+
+class BarText:
+
+    def __init__(self, label, bar_length, total_length, xy=(0,0), **text_kwargs):
+        self.label = label
+        self.bar_length = bar_length
+        self.total_length = total_length
+        self.xy = xy
+        self.text_kwargs = text_kwargs
+        self.shifted = False
+
+    def draw(self, plt=None, bar_num=0):
+        """
+
+        :param plt:
+        :type plt:
+        :param bar_num: position of bar within triple bar. i.e. a single bar has three bars in it. 0 is the left.
+            1 is the middle, and 2 is the right.
+        :type bar_num: int
+        :return:
+        :rtype:
+        """
+        if plt is None:
+            import matplotlib.pyplot as plt
+
+        self._set_position(bar_num)
+        self._set_text_kwarg_defaults()
+        plt.annotate(self.label, xy=self.xy, xytext=self.text_pos, **self.text_kwargs)
+
+    def _set_position(self, bar_num):
+        """
+        Determine postion of text depending on length of bar and length of text
+        :return:
+        :rtype:
+        """
+
+        # TODO: handle when labels are so large that they overlap due to not enough x shift. E.g.
+        # MatchComparisonBarData(100000000, 100000, 100000, name='Unbalanced')
+
+        # Testing shows it takes about 51 numbers to fill a bar
+        max_digits_total_bar = 51
+        max_digits_this_bar = math.floor((self.bar_length / self.total_length) * max_digits_total_bar)
+
+        # Label fits -- no need to shift
+        if len(self.label) < max_digits_this_bar:
+            self.text_pos = self.xy
+            # self.shifted remains False
+            return
+
+        #Implicit else, label does not fit, need to shift
+
+        shift_multiplier = bar_num - 1 #change to -1, 0, 1 instead of 0, 1, 2
+        rl_shift = 0.1 * self.total_length
+        x_shift = shift_multiplier * rl_shift
+
+        self.text_pos = (self.xy[0] + x_shift, self.xy[1] - 0.5)
+        self.shifted = True
+
+    def _set_text_kwarg_defaults(self):
+        # Only add arrow if shifted text
+        if self.shifted:
+            if 'arrowprops' not in self.text_kwargs:
+                self.text_kwargs['arrowprops'] = dict(
+                    width=0.01, facecolor='black', shrink=0.05, headwidth=0
+                )
+        if 'horizontalalignment' not in self.text_kwargs:
+            self.text_kwargs['horizontalalignment'] = 'center'
+        if 'verticalalignment' not in self.text_kwargs:
+            self.text_kwargs['verticalalignment'] = 'center'
 
 
 class MatchComparisonBarGraph:
@@ -102,6 +171,9 @@ def _draw_number_labels(plt, bars: [MatchComparisonBarData], max_len, relative=T
             sum_bar = sum(bar)
             if relative:
                 pos = (bar.midpoints[j]/sum_bar) * max_len
+                bar_len = (bar[j]/sum_bar) * max_len
             else:
                 pos = bar.midpoints[j]
-            plt.text(pos, i, label, horizontalalignment='center', verticalalignment='center')
+                bar_len = bar[j]
+            text = BarText(label, bar_len, max_len, xy=(pos, i), horizontalalignment='center', verticalalignment='center')
+            text.draw(plt, bar_num=j)

@@ -40,6 +40,9 @@ class MatchData:
     def __len__(self):
         return len(self.tuple)
 
+    def __getitem__(self, item):
+        return self.tuple[item]
+
 
 class IDComparison(MatchData):
 
