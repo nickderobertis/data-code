@@ -60,7 +60,7 @@ class BarText:
         rl_shift = 0.1 * self.total_length
         x_shift = shift_multiplier * rl_shift
 
-        self.text_pos = (self.xy[0] + x_shift, self.xy[1] - 0.5)
+        self.text_pos = (self.xy[0] + x_shift, self.xy[1] - 0.35)
         self.shifted = True
 
     def _set_text_kwarg_defaults(self):
