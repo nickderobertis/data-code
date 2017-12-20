@@ -36,7 +36,7 @@ class MergeStep(Step):
     def _merge_subgraph(self, options: PipelineOptions):
         data_sources = []
         for orig_source, merge_source in product(self.data_subject.sources, self.merge_into_subject.sources):
-            name = orig_source.name + '/' + merge_source.name
+            name = orig_source.name + ' ' + self.data_subject.name + '/' + merge_source.name + ' ' + self.merge_into_subject.name
             data_sources.append(DataCombination(orig_source, merge_source, name=name))
 
         subject_name = self.data_subject.name + '/' + self.merge_into_subject.name
@@ -82,8 +82,9 @@ class Process:
         # For current, need to split combined nodes and merge subgraphs
         combined_subgraph, last_subgraph, merge_subgraph = step.to_subgraphs(options)
         edges = []
+        last_source_name, merge_source_name = _combined_source_name_to_individual_source_names(combined_subgraph.name)
         for combined_node in combined_subgraph.nodes:
-            last_node_name, merge_node_name = _combined_name_to_input_and_merge_name(combined_node.name)
+            last_node_name, merge_node_name = _combined_name_to_input_and_merge_name(combined_node.name, last_source_name, merge_source_name)
             last_node = last_subgraph.nodes[last_node_name]
             merge_node = merge_subgraph.nodes[merge_node_name]
 
@@ -103,11 +104,13 @@ class Process:
 def _to_combined_name(input_name, merge_name):
     return f'{input_name}/{merge_name}'
 
-def _combined_name_to_input_and_merge_name(combined_name):
-    combined_name = combined_name.strip('DUMMY')
+def _combined_name_to_input_and_merge_name(combined_name, last_source_name, merge_source_name):
+    combined_name = combined_name.strip('DUMMY').replace(last_source_name, '').replace(merge_source_name, '')
+    return _combined_source_name_to_individual_source_names(combined_name)
+
+
+def _combined_source_name_to_individual_source_names(combined_name):
     if '/' not in combined_name:
         raise ValueError(f'passed regular name instead of combined name. combined name must have /. got {combined_name}')
     parts = combined_name.split('/')
-    return '/'.join(parts[:-1]), parts[-1]
-
-
+    return '/'.join(parts[:-1]).strip(), parts[-1].strip()

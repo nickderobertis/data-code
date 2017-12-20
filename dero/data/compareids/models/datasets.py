@@ -104,7 +104,7 @@ class DataCombination(DataItem):
         name_for_path = self.name.replace('/','-') + '.png'
         img_path = os.path.join(r'C:\Users\derobertisna.UFAD\Dropbox (Personal)\UF\Andy\ETF Project\Temp\idcomp', name_for_path)
         plt.savefig(img_path, bbox_inches='tight')
-        return Node(name=self.name, image=img_path, **node_kwargs)
+        return Node(name=self.name, label=None, image=img_path, **node_kwargs)
 
         #### END TEMP
 
