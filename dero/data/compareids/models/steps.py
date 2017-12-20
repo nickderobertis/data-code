@@ -10,11 +10,15 @@ class Step:
     def __init__(self, data_subject: DataSubject):
         self.data_subject = data_subject
         self.all_subjects = [data_subject]
+        self._subgraphs = None
 
-    def to_subgraphs(self, options: [PipelineOptions, None] = None):
+    def subgraphs(self, options: [PipelineOptions, None] = None):
         if options is None:
             options = PipelineOptions() #initialize with defaults
-        return [subject.to_subgraph(options) for subject in self.all_subjects]
+
+        if self._subgraphs is None:
+            self._subgraphs = [subject.to_subgraph(options) for subject in self.all_subjects]
+        return self._subgraphs
 
     def __repr__(self):
         return f'<Step(data_subject={self.data_subject})>'
@@ -27,11 +31,16 @@ class MergeStep(Step):
         super().__init__(data_subject)
         self.all_subjects = [data_subject, merge_into_data_subject]
 
-    def to_subgraphs(self, options: [PipelineOptions, None] = None):
-        subgraphs = []
-        subgraphs.append(self._merge_subgraph(options))
-        subgraphs.extend(super().to_subgraphs(options))
-        return subgraphs
+    def subgraphs(self, options: [PipelineOptions, None] = None):
+        if options is None:
+            options = PipelineOptions() #initialize with defaults
+
+        if self._subgraphs is None:
+            subgraphs = []
+            subgraphs.append(self._merge_subgraph(options))
+            subgraphs.extend(super().subgraphs(options))
+            self._subgraphs = subgraphs
+        return self._subgraphs
 
     def _merge_subgraph(self, options: PipelineOptions):
         data_sources = []
@@ -61,7 +70,7 @@ class Process:
 
         subgraphs = []
         for step in self.steps:
-            subgraphs.extend(step.to_subgraphs(options))
+            subgraphs.extend(step.subgraphs(options))
 
         return subgraphs
 
@@ -80,7 +89,7 @@ class Process:
 
     def _create_edges_for_step(self, step: MergeStep, options: PipelineOptions, **edge_kwargs):
         # For current, need to split combined nodes and merge subgraphs
-        combined_subgraph, last_subgraph, merge_subgraph = step.to_subgraphs(options)
+        combined_subgraph, last_subgraph, merge_subgraph = step.subgraphs(options)
         edges = []
         last_source_name, merge_source_name = _combined_source_name_to_individual_source_names(combined_subgraph.name)
         for combined_node in combined_subgraph.nodes:
