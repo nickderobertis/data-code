@@ -30,6 +30,7 @@ class MergeStep(Step):
         self.merge_into_subject = merge_into_data_subject
         super().__init__(data_subject)
         self.all_subjects = [data_subject, merge_into_data_subject]
+        self._combined_subject = None
 
     def subgraphs(self, options: [PipelineOptions, None] = None):
         if options is None:
@@ -49,8 +50,14 @@ class MergeStep(Step):
             data_sources.append(DataCombination(orig_source, merge_source, name=name))
 
         subject_name = self.data_subject.name + '/' + self.merge_into_subject.name
-        combined_subject = DataSubject(*data_sources, name=subject_name)
-        return combined_subject.to_subgraph(options)
+        self._combined_subject = DataSubject(*data_sources, name=subject_name)
+        return self._combined_subject.to_subgraph(options)
+
+    @property
+    def combined_subject(self):
+        if self._combined_subject is None:
+            self._merge_subgraph(PipelineOptions())
+        return self._combined_subject
 
     def __repr__(self):
         return f'<MergeStep(data_subject={self.data_subject}, merge_subject={self.merge_into_subject})>'

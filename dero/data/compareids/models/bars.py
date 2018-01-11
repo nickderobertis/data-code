@@ -106,9 +106,16 @@ class MatchComparisonBarGraph:
         self._set_max_bar_length(self.bars)
 
     def _set_max_bar_length(self, bars):
+        if not bars:
+            return 0
         self.max_len = max([sum(bar) for bar in bars])
 
     def draw(self, plt):
+
+        if not self.graph_data:
+            # Don't plot
+            return plt
+
         plt.clf() #clear out any previous figures
 
         #### TEMP
@@ -128,9 +135,14 @@ class MatchComparisonBarGraph:
     def from_id_comparison_collection(cls, id_comparison: IDComparisonCollection, plt=None):
         if plt is None:
             import matplotlib.pyplot as plt
+
+        if not id_comparison:
+            return cls(name=id_comparison.name, plt=plt)
         return cls(*[MatchComparisonBarData.from_id_comparison(compare) for compare in id_comparison], name=id_comparison.name, plt=plt)
 
 def _convert_bar_data_to_bar_graph_data(data: [MatchComparisonBarData], name=None):
+    if not data:
+        return []
     split_items = [items for items in zip(*data)]
     return MatchComparisonBarGraphData(*split_items, name=name)
 

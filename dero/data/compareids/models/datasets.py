@@ -34,8 +34,12 @@ class DataSource(DataItem):
         self.data_source = data_source
         self._df = None
         super().__init__(name)
-        self.id_cols = _id_cols_collection_to_flattened_list(id_cols)
-        self.set_ids(id_cols)
+        if id_cols is not None:
+            self.id_cols = _id_cols_collection_to_flattened_list(id_cols)
+            self.set_ids(id_cols)
+        else:
+            self.id_cols = []
+            self.ids = []
         self.data_loader = _data_loader_or_pd_read_csv(data_loader)
         self.data_loader_kwargs = data_loader_kwargs
 
@@ -90,6 +94,7 @@ class DataCombination(DataItem):
         self.data_source = data_source
         self.other_data_source = other_data_source
         super().__init__(name)
+        self._ids = None
 
     def compare(self):
         return compare_id_collections(self.data_source.ids, self.other_data_source.ids, name=self.name)
@@ -98,7 +103,17 @@ class DataCombination(DataItem):
         if plt is None:
             import matplotlib.pyplot as plt
 
+        #### TEMP
+        import pdb
+        pdb.set_trace()
+        #### END TEMP
+
         comparison = self.compare()
+        # No ids, could not generate comparison, display normal node
+        if not comparison:
+            return Node(name=self.name, **node_kwargs)
+
+        # Implicit else, has ids, able to generate comparison, now put graph in node
         graph = MatchComparisonBarGraph.from_id_comparison_collection(comparison, plt=plt)
 
         #### TEMP
@@ -108,11 +123,23 @@ class DataCombination(DataItem):
         plt.savefig(img_path, bbox_inches='tight')
 
         # Set node style
-        _add_no_node_line_to_node_kwargs(node_kwargs)
+        this_node_kwargs = node_kwargs.copy()
+        _add_no_node_line_to_node_kwargs(this_node_kwargs)
 
-        return Node(name=self.name, label=None, image=img_path, **node_kwargs)
+        return Node(name=self.name, label=None, image=img_path, **this_node_kwargs)
 
         #### END TEMP
+
+    @property
+    def ids(self):
+        if self._ids is None:
+            # Find overlapping id sets
+            id_sets = [id_set for id_set in self.data_source.ids if id_set in self.other_data_source.ids]
+            self._ids = IDCollection(id_sets)
+        return self._ids
+
+    def __repr__(self):
+        return f'<DataCombination(name={self.name}, data_source={self.data_source.name}, merge_source={self.other_data_source.name})>'
 
 
 
@@ -132,7 +159,7 @@ def _extract_id_sets(df, id_cols, name=None):
     collection_items = []
     for ids in id_cols:
         id_set_name = _ids_str_or_tuple_to_id_name(ids)
-        unique = df[ids].drop_duplicates()
+        unique = df[ids].drop_duplicates().dropna()
         # 'itertuples' for dfs, 'tolist' for series
         _extract_from_df_or_series_attr, kwargs = _get_func_attr_and_kwargs_to_reduce_from_df_or_series(unique)
         reduce_func = getattr(unique, _extract_from_df_or_series_attr)
