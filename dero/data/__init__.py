@@ -648,7 +648,7 @@ def _load_data_by_extension_and_convert_date(filepath, freq='m'):
         raise ValueError(f'Please pass a sas7bdat or csv for FF factors, got {extension}')
 
 def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_fac=5, retvar='RET',
-              includecoef=False, includefac=False, **get_ff_kwargs):
+              includecoef=False, includefac=False, mp=False, **get_ff_kwargs):
     """
     Takes a dataframe containing a column of returns, dates, and at least one by variable and calculates
     abnormal returns for the model of choice. Returns a dataframe with the abnormal returns merged.
@@ -656,6 +656,8 @@ def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_f
     Required inputs:
     df: pandas dataframe
     byvars: str or list of strs, column names of columns on which to form by groups
+
+    Optional inputs:
     fulldatevar: str, name of column containing date variable. If provided, don't provide year_month.
     year_month: list of strs, columns names of year and month variables, e.g. ['Year','Month']. Must
                 set fulldatevar to None if year_month is provided.
@@ -664,6 +666,8 @@ def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_f
     retvar: str, name of return variable
     includecoef: bool, set to True to get factor loadings
     includefac: bool, set to True to get factors and risk free rate
+    mp: False to use single processor, True to use all processors, int to use # processors
+
     """
     assert abret_fac in (1, 3, 5)
     factors = ['mktrf']
@@ -680,7 +684,7 @@ def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_f
         year_month=year_month,
         **get_ff_kwargs
     )
-    out = factor_reg_by(out, byvars, fac=abret_fac, retvar=retvar)
+    out = factor_reg_by(out, byvars, fac=abret_fac, retvar=retvar, mp=mp)
 
     if not includefac:
         out.drop(factors + ['rf'], axis=1, inplace=True)
