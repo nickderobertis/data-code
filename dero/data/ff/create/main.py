@@ -14,7 +14,7 @@ from dero.data.ff.create.model import _validate_model
 from dero.data.ff.create.sort import create_ff_portfolios, _other_groupvar_portname
 from dero.data.ff.create.label import get_and_set_labels
 from dero.data.ff.create.dualsort import create_dual_sort_variables_get_pairings, _dual_sort_varname
-from dero.data.ff.create.average import portfolio_returns
+from dero.data.ff.create.average import portfolio_returns, market_returns
 from dero.data.ff.create.reshape import long_averages_to_wide_averages
 from dero.data.ff.create.minus import construct_minus_variables
 from dero.data.ff.create.inputs import _standardize_custom_args
@@ -28,6 +28,8 @@ def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
                       custom_groupvar_ngroups_dict: GroupvarNgroupsDict=None,
                       custom_pairings: TwoStrTupleList=None,
                       custom_low_minus_high_dict: StrBoolDict=None) -> pd.DataFrame:
+
+    #### Argument preparation #####
 
     _validate_model(
         factor_model,
@@ -57,6 +59,9 @@ def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
         key: _other_groupvar_portname(value) if value else value for key, value in default_varnames.items()
     }
 
+    ##### Main logic ##########
+
+    # Assigns portfolios, leaves data in the original shape
     ff_portfolios = create_ff_portfolios(
         df,
         factor_model=factor_model,
@@ -67,6 +72,7 @@ def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
         **default_varnames
     )
 
+    # Replace numbered portfolios with labeled portfolios
     labels = get_and_set_labels(
         ff_portfolios,
         factor_model=factor_model,
@@ -74,6 +80,7 @@ def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
         **default_portfolio_varnames
     )
 
+    # Get necessary dual sort pairings, create dual sort portfolio variables
     pairings = create_dual_sort_variables_get_pairings(
         ff_portfolios,
         factor_model=factor_model,
@@ -86,6 +93,7 @@ def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
     else:
         base_vars = [datevar]
 
+    # Fama-French portfolio difference procedure. Reduces down to size of time/byvars
     base_df = ff_portfolios.loc[:,base_vars].drop_duplicates()
     for pairing in pairings:
         minus_vars_df = construct_averges_and_minus_variables_for_pairing(
@@ -101,6 +109,16 @@ def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
             **default_portfolio_varnames
         )
         base_df = base_df.merge(minus_vars_df, how='left', on=base_vars)
+
+    # Add market returns
+    mkt_df: pd.DataFrame = market_returns(
+        df=ff_portfolios,
+        retvar=retvar,
+        datevar=datevar,
+        wtvar=wtvar,
+        byvars=byvars
+    )
+    base_df = base_df.merge(mkt_df, how='left', on=base_vars)
 
     return base_df
 

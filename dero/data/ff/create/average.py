@@ -28,6 +28,29 @@ def portfolio_returns(df: pd.DataFrame, retvar: str='RET', datevar: str='Date', 
 
     return avgs
 
+def market_returns(df: pd.DataFrame, retvar: str='RET', datevar: str='Date', wtvar: str='Market Equity',
+                   byvars: ListOrStr=None) -> pd.DataFrame:
+
+    byvars = _to_list_if_str(byvars)
+
+    if byvars is not None:
+        all_byvars = byvars + [datevar]
+    else:
+        all_byvars = [datevar]
+
+    avgs = dero.pandas.averages(
+        df[all_byvars + [retvar, wtvar]],
+        retvar,
+        byvars=all_byvars,
+        wtvar=wtvar,
+        count=False
+    )
+
+    _get_weighted_averages_from_averages(avgs)
+    avgs.rename(columns={retvar: 'MKT'}, inplace=True)
+
+    return avgs
+
 
 def _get_weighted_averages_from_averages(df: pd.DataFrame) -> None:
     """
