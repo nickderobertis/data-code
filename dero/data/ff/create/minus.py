@@ -6,7 +6,6 @@ from dero.data.ff.fftypes import (
     DictofStrsandStrLists,
     TwoStrTuple,
     ListOrStr,
-    TwoStrTupleList,
     StrBoolDict,
     StrOrInt
 )
@@ -42,6 +41,11 @@ def construct_minus_variables(df: pd.DataFrame, labels: DictofStrsandStrLists, p
                 low_minus_high=low_minus_high_dict[portvar]
             )
         )
+
+    # Rename first factor to show it was calculated with second factor. E.g. SMB -> SMB_HML
+    new_main_portname = _calculated_with_varname(minus_vars[0], minus_vars[1])
+    df.rename(columns={minus_vars[0]: new_main_portname}, inplace=True)
+    minus_vars = [new_main_portname] + minus_vars[1:]
 
     if byvars is not None:
         all_vars = byvars + [datevar] + minus_vars
@@ -85,7 +89,7 @@ def _construct_minus_variable(df: pd.DataFrame, labels: DictofStrsandStrLists, p
         df, port_label=short_label, port_index=portvar_index, byvars=byvars, datevar=datevar
     )
 
-    minus_label = f'{long_label}M{short_label}'
+    minus_label = _minus_label(long_label, short_label)
     df[minus_label] = df[long_cols].apply(lambda x: x.mean(), axis=1) - df[short_cols].apply(lambda x: x.mean(), axis=1)
 
     return minus_label
@@ -113,3 +117,17 @@ def _get_port_cols_matching_label_at_index(df: pd.DataFrame, port_label: str='S'
 
     port_cols = [col for col in df.columns if col not in byvars + [datevar]]
     return [col for col in port_cols if col[port_index] == port_label]
+
+def _calculated_with_varname(orig_var: str, calculated_with: str):
+    return f'{orig_var}_{calculated_with}'
+
+def _calculated_with_varname_to_orig_var(calc_with_varname: str) -> str:
+    return calc_with_varname.split('_')[0]
+
+def _get_minus_label(labels: DictofStrsandStrLists,
+                 portvar: str='Market Equity', low_minus_high=False) -> str:
+    long_label, short_label = _set_long_label_short_label(labels, portvar=portvar, low_minus_high=low_minus_high)
+    return _minus_label(long_label, short_label)
+
+def _minus_label(long_label: str, short_label: str) -> str:
+    return f'{long_label}M{short_label}'

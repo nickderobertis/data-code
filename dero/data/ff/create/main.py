@@ -18,6 +18,7 @@ from dero.data.ff.create.average import portfolio_returns, market_returns
 from dero.data.ff.create.reshape import long_averages_to_wide_averages
 from dero.data.ff.create.minus import construct_minus_variables
 from dero.data.ff.create.inputs import _standardize_custom_args
+from dero.data.ff.create.mainport import combine_main_portfolios
 
 def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
                       id_var: str='PERMNO', datevar='Date', byvars: ListOrStr=None,
@@ -94,6 +95,8 @@ def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
         base_vars = [datevar]
 
     # Fama-French portfolio difference procedure. Reduces down to size of time/byvars
+    # With 3 factor model, this is the last calculation step, as the SMB factor calculated
+    # using value portfolios is the entire SMB factor. Just need to rename after.
     base_df = ff_portfolios.loc[:,base_vars].drop_duplicates()
     for pairing in pairings:
         minus_vars_df = construct_averges_and_minus_variables_for_pairing(
@@ -109,6 +112,18 @@ def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
             **default_portfolio_varnames
         )
         base_df = base_df.merge(minus_vars_df, how='left', on=base_vars)
+
+    # 3 factor model, just rename SMB_HML to SMB
+    # For 5 factor model, SMB is calculated separatetely with value ports, profitability
+    # ports, and investment ports, then the three are averaged to get the final SMB fator
+    combine_main_portfolios(
+        df=base_df,
+        labels=labels,
+        pairings=pairings,
+        factor_model=factor_model,
+        custom_low_minus_high_dict=custom_low_minus_high_dict,
+        **default_portfolio_varnames
+    )
 
     # Add market returns
     mkt_df: pd.DataFrame = market_returns(
