@@ -558,7 +558,7 @@ class GetCRSP:
 
     
 def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
-                   subset=None, ff_dir=None,
+                   subset=None, ff_df=None, ff_dir=None,
                   custom_ff_name=None):
     """
     Pulls Fama-French factors and merges them to dataset
@@ -571,7 +571,9 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
     year_month: Two element list of ['yearvar','monthvar']. Specify this OR full date variable.
     freq: 'm' for monthly factors, 'd' for daily
     subset: str or list, names of ff factors to pull. Can specify any of 'mktrf', 'smb', 'hml', 'rmw', 'cma', 'umd'
+    ff_df: pandas DataFrame containing factors. if passed, will ignore ff_dir and custom_ff_name
     ff_dir: folder containing FF data
+    custom_ff_name: used in combination with ff_dir to select file
     """
 
     # Set default FF dir
@@ -619,11 +621,13 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
     
     if custom_ff_name is not None:
         ff_name = custom_ff_name
+
+    # Use passed df. If not passed, load df.
+    if ff_df is None:
+        path = os.path.join(ff_dir, ff_name)
+        ff_df = _load_data_by_extension_and_convert_date(path, freq=freq)
     
-    path = os.path.join(ff_dir, ff_name)
-    ffdf = _load_data_by_extension_and_convert_date(path, freq=freq)
-    
-    merged = df_for_merge.merge(ffdf[subset], how='left', left_on=left_datevars, right_on=right_datevars)
+    merged = df_for_merge.merge(ff_df[subset], how='left', left_on=left_datevars, right_on=right_datevars)
     merged.drop(right_datevars, axis=1, inplace=True)
     
     if drop:
