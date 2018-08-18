@@ -1,28 +1,31 @@
 import pandas as pd
-from typing import Tuple, Callable, Union, Optional
-from IPython.display import display
+from typing import Callable
 from functools import partial
 
-DfOrSeries = Union[pd.DataFrame, pd.Series]
-DfTuple = Tuple[DfOrSeries, DfOrSeries]
-DfTupleOrNone = Optional[DfTuple]
+from dero.data.display import display_df_dict
+from dero.data.typing import DfDictOrNone, FloatList
+
 
 def format_numbers_to_decimal_places(item, decimals=2):
+
     if isinstance(item, (float, int)):
-        if item > 999999.99:
+        if abs(item) > 999999.99:
+            # Millions formatter
             item = item / 1000000
+            # For millions decimals, treat int as float (still have decimals, because 7.02M is better than 7M for int
             return f'{item:,.{decimals}f}M'
+        decimals = decimals if isinstance(item, float) else 0  # handle int vs. float
         return f'{item:,.{decimals}f}'
     else:
         return item
 
 def describe_df(df: pd.DataFrame, disp: bool=True, format_func: Callable=format_numbers_to_decimal_places,
-                format_kwargs: dict=None) -> DfTupleOrNone:
+                format_kwargs: dict=None, percentiles: FloatList =None) -> DfDictOrNone:
     """
 
     Args:
         df:
-        disp: True to display summaries, False to only return tuple of summaries
+        disp: True to display summaries, False to only return dict of summaries
 
     Returns:
 
@@ -30,19 +33,27 @@ def describe_df(df: pd.DataFrame, disp: bool=True, format_func: Callable=format_
     if format_kwargs is None:
         format_kwargs = {}
 
-    summaries_list = []
+    if percentiles is None:
+        percentiles = [0.01, 0.05, 0.1, 0.25, .75, .9, .95, 0.99]
+
+    summaries_dict = {}
     for dtype, count in df.get_dtype_counts().iteritems():
-        summary: pd.DataFrame = df.describe(include=dtype, percentiles=[0.05, 0.1, 0.25, .75, .9, .95]).T
-        summaries_list.append(summary)
+        summary: pd.DataFrame = df.describe(include=dtype, percentiles=percentiles).T
+        if 'int' in dtype:
+            summary = summary.astype(int)  # describe is always float for int dtype, cast output format back to int
+        summary_name = f'{dtype} Variables'
+        summaries_dict[summary_name] = summary
 
     full_format_func = partial(format_func, **format_kwargs)
 
-    summaries_tuple = tuple(summary.applymap(full_format_func) for summary in summaries_list)
+    summaries_dict = {
+        summary_name: summary.applymap(full_format_func) for summary_name, summary in summaries_dict.items()
+    }
 
     if disp:
-        display(*summaries_tuple)
+        display_df_dict(summaries_dict)
     else:
-        return summaries_tuple
+        return summaries_dict
 
 
 
