@@ -3,11 +3,11 @@ import dero.latex.table as lt
 import pandas as pd
 
 from dero.data.summarize import format_numbers_to_decimal_places
-from dero.data.summarize.outliers.typing import DfDict, DocumentOrTables, Document
+from dero.data.summarize.outliers.typing import DfDict, DocumentOrTablesOrNone, DocumentOrTables, Document
 
-def outlier_summary(bad_df_dict: DfDict, selected_orig_df_dict: DfDict,
-                    keep_num_rows: int =40, output: bool =False,
-                    outdir: str = None, as_document=True, author: str=None) -> DocumentOrTables:
+def outlier_by_column_summary(bad_df_dict: DfDict, selected_orig_df_dict: DfDict,
+                              keep_num_rows: int =40, output: bool =False,
+                              outdir: str = None, as_document=True, author: str=None) -> DocumentOrTables:
 
     all_tables = []
     for col in bad_df_dict:
@@ -21,6 +21,9 @@ def outlier_summary(bad_df_dict: DfDict, selected_orig_df_dict: DfDict,
                 as_document=False
             )
         )
+
+
+    all_tables = [table for table in all_tables if table is not None]
 
     full_title = 'Outlier Summary'
 
@@ -46,10 +49,14 @@ def outlier_summary(bad_df_dict: DfDict, selected_orig_df_dict: DfDict,
 
 def outlier_summary_for_col(bad_df_dict: DfDict, selected_orig_df_dict: DfDict,
                             col: str, keep_num_rows: int =40, output: bool =False,
-                            outdir: str = None, as_document=True, author: str=None) -> DocumentOrTables:
+                            outdir: str = None, as_document=True, author: str=None) -> DocumentOrTablesOrNone:
 
     bad_df = bad_df_dict[col]
     selected_orig_df = selected_orig_df_dict[col]
+
+    if len(bad_df) == 0:
+        print(f'No outliers for {col}. Will not add tables.')
+        return None
 
     bad_table = _firm_list_table_from_df(
         bad_df,

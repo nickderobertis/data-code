@@ -1,14 +1,16 @@
 import pandas as pd
 
+from dero.latex import Document
 from dero.data.summarize.outliers.select import outlier_summary_dicts
-from dero.data.summarize.outliers.totex import outlier_summary
+from dero.data.summarize.outliers.detail.totex import outlier_by_column_summary
+from dero.data.summarize.outliers.summary.main import outlier_overview_summary_page_table
 from dero.data.summarize.outliers.typing import (
     DocumentOrTables,
     AssociatedColDict,
     MinMaxDict,
     BoolDict,
     StrList,
-    Document
+    FloatSequence
 )
 
 def outlier_summary_tables(df: pd.DataFrame, associated_col_dict: AssociatedColDict,
@@ -21,10 +23,13 @@ def outlier_summary_tables(df: pd.DataFrame, associated_col_dict: AssociatedColD
                            end_datevar: str = 'End Date',
                            expand_months: int = 3,
                            keep_num_rows: int = 40, output: bool = True,
-                           outdir: str = None, as_document=True, author: str = None
+                           outdir: str = None, as_document=True, author: str = None,
+                           title: str=None,
+                           overview_caption: str='Outlier Overview and Summary Statistics',
+                           quants: FloatSequence=(0.01, 0.1, 0.5, 0.9, 0.99)
                            ) -> DocumentOrTables:
 
-    bad_df_dict, selected_orig_df_dict = outlier_summary_dicts(
+    bad_df_dict, selected_orig_df_dict, bad_df = outlier_summary_dicts(
         df,
         associated_col_dict,
         min_max_dict,
@@ -39,14 +44,39 @@ def outlier_summary_tables(df: pd.DataFrame, associated_col_dict: AssociatedColD
         bad_column_name=bad_column_name
     )
 
-    document_or_tables = outlier_summary(
+    overview_table = outlier_overview_summary_page_table(
+        df,
+        bad_df,
+        min_max_dict,
+        bad_column_name=bad_column_name,
+        firm_id_col=firm_id_col,
+        as_document=False,
+        caption=overview_caption,
+        quants=quants
+    )
+
+    detail_tables = outlier_by_column_summary(
         bad_df_dict,
         selected_orig_df_dict,
         keep_num_rows=keep_num_rows,
         output=output,
         outdir=outdir,
-        as_document=as_document,
-        author=author
+        as_document=False,
     )
 
-    return document_or_tables
+    all_tables = [overview_table] + detail_tables
+
+    if as_document:
+        document = Document.from_ambiguous_collection(
+            all_tables,
+            author=author,
+            title=title
+        )
+        if outdir:
+            document.to_pdf_and_move(
+                outdir,
+                outname=title
+            )
+        return document
+
+    return all_tables

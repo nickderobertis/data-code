@@ -6,7 +6,7 @@ from dero.data.summarize.outliers.typing import (
     AssociatedColDict,
     BoolDict,
     DfDict,
-    TwoDfDictTuple,
+    TwoDfDictAndDfTuple,
     MinMaxDict
 )
 
@@ -20,7 +20,7 @@ def outlier_summary_dicts(df: pd.DataFrame, associated_col_dict: AssociatedColDi
                           begin_datevar: str = 'Begin Date',
                           end_datevar: str = 'End Date',
                           expand_months: int = 3
-                          ) -> TwoDfDictTuple:
+                          ) -> TwoDfDictAndDfTuple:
 
     bad_df = _bad_df_from_df(
         df,
@@ -49,9 +49,21 @@ def outlier_summary_dicts(df: pd.DataFrame, associated_col_dict: AssociatedColDi
         expand_months=expand_months
     )
 
-    return bad_df_dict, selected_orig_df_dict
+    return bad_df_dict, selected_orig_df_dict, bad_df
 
 
+def drop_outliers_by_cutoffs(df: pd.DataFrame, min_max_dict: MinMaxDict):
+    valid_df = df.copy()
+    for col, min_max in min_max_dict.items():
+        col_min = min_max[0]
+        col_max = min_max[1]
+        if col in df.columns:
+            valid_df = valid_df.loc[
+                (valid_df[col] >= col_min) & (valid_df[col] <= col_max)
+            ]
+
+
+    return valid_df
 
 
 def _bad_df_from_df(df: pd.DataFrame, min_max_dict: MinMaxDict,
