@@ -1,10 +1,10 @@
 import pandas as pd
 
 from dero.latex import Document
-from dero.data.summarize.outliers.select import outlier_summary_dicts
-from dero.data.summarize.outliers.detail.totex import outlier_by_column_summary
-from dero.data.summarize.outliers.summary.main import outlier_overview_summary_page_table
-from dero.data.summarize.outliers.typing import (
+from dero.data.summarize.subset.outliers.select import outlier_summary_dicts
+from dero.data.summarize.subset.outliers.detail.totex import outlier_by_column_summary
+from dero.data.summarize.subset.outliers.summary.main import outlier_overview_summary_page_table
+from dero.data.summarize.subset.outliers.typing import (
     DocumentOrTables,
     AssociatedColDict,
     MinMaxDict,

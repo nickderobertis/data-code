@@ -1,5 +1,5 @@
 import pandas as pd
-from dero.data.summarize.outliers.typing import StrList, FloatSequence
+from dero.data.summarize.subset.outliers.typing import StrList, FloatSequence
 from dero.data.summarize import format_numbers_to_decimal_places
 
 

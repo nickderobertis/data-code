@@ -1,10 +1,10 @@
 import pandas as pd
 
-from dero.data.summarize.outliers.summary.overview import bad_df_summary_df
-from dero.data.summarize.outliers.summary.stats import bad_df_summary_stats_df, full_df_summary_stats_df
-from dero.data.summarize.outliers.select import drop_outliers_by_cutoffs
-from dero.data.summarize.outliers.summary.totex import df_dict_to_table
-from dero.data.summarize.outliers.typing import (
+from dero.data.summarize.subset.outliers.summary.overview import bad_df_summary_df
+from dero.data.summarize.subset.outliers.summary.stats import full_df_summary_stats_df
+from dero.data.summarize.subset.outliers.select import drop_outliers_by_cutoffs
+from dero.data.summarize.subset.outliers.summary.totex import df_dict_to_table
+from dero.data.summarize.subset.outliers.typing import (
     DocumentOrTables,
     MinMaxDict,
     FloatSequence

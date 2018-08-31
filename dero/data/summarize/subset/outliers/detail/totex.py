@@ -3,7 +3,7 @@ import dero.latex.table as lt
 import pandas as pd
 
 from dero.data.summarize import format_numbers_to_decimal_places
-from dero.data.summarize.outliers.typing import DfDict, DocumentOrTablesOrNone, DocumentOrTables, Document
+from dero.data.summarize.subset.outliers.typing import DfDict, DocumentOrTablesOrNone, DocumentOrTables, Document
 
 def outlier_by_column_summary(bad_df_dict: DfDict, selected_orig_df_dict: DfDict,
                               keep_num_rows: int =40, output: bool =False,

@@ -1,7 +1,7 @@
 import pandas as pd
 from dateutil.relativedelta import relativedelta
 
-from dero.data.summarize.outliers.typing import (
+from dero.data.summarize.subset.outliers.typing import (
     StrList,
     AssociatedColDict,
     BoolDict,

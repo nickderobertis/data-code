@@ -1,7 +1,7 @@
 import pandas as pd
 
 from dero.data.summarize import format_numbers_to_decimal_places
-from dero.data.summarize.outliers.typing import MinMaxDict
+from dero.data.summarize.subset.outliers.typing import MinMaxDict
 
 
 def bad_df_summary_df(bad_df: pd.DataFrame, min_max_dict: MinMaxDict,
