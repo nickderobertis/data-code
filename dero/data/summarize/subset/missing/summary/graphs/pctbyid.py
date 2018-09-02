@@ -7,6 +7,9 @@ def missing_pct_by_id_figure(df: pd.DataFrame, id_col: str, col_with_missings: s
                              outname: str='Percentage Missing Obs by Firm',
                              outfolder: str='.') -> Figure:
 
+    if outfolder is None:
+        outfolder = '.'
+
     matplotlib_figure = _missing_pct_by_id_plot(
         df,
         id_col,

@@ -1,4 +1,5 @@
-from dero.data.summarize.subset.outliers.typing import DfDict, DocumentOrTable
+from dero.data.summarize.subset.outliers.typing import DfDict
+from dero.data.typing import DocumentOrTable
 import dero.latex.table as lt
 from dero.latex import Document
 

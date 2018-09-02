@@ -5,13 +5,14 @@ from dero.data.summarize.subset.outliers.select import outlier_summary_dicts
 from dero.data.summarize.subset.outliers.detail.totex import outlier_by_column_summary
 from dero.data.summarize.subset.outliers.summary.main import outlier_overview_summary_page_table
 from dero.data.summarize.subset.outliers.typing import (
-    DocumentOrTables,
     AssociatedColDict,
     MinMaxDict,
     BoolDict,
     StrList,
     FloatSequence
 )
+from dero.data.typing import DocumentOrTables
+
 
 def outlier_summary_tables(df: pd.DataFrame, associated_col_dict: AssociatedColDict,
                            min_max_dict: MinMaxDict,
