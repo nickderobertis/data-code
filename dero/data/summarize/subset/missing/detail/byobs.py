@@ -3,7 +3,7 @@ from dero.data.typing import StrList
 
 
 def obs_pct_long_df(df: pd.DataFrame, byvars: StrList, obs_count_var: str,
-                    count_with_missings_var: str) -> pd.DataFrame:
+                    count_with_missings_var: str, missing_display_str: str='Missing') -> pd.DataFrame:
     """
 
     Args:
@@ -22,7 +22,8 @@ def obs_pct_long_df(df: pd.DataFrame, byvars: StrList, obs_count_var: str,
         [obs_count_var, count_with_missings_var]
     )
 
-    long_obs_df['Obs Missing Percentage'] = (1 - (long_obs_df[count_with_missings_var] / long_obs_df[obs_count_var])) * 100
+    long_obs_df[f'Obs {missing_display_str} Percentage'] = \
+        (1 - (long_obs_df[count_with_missings_var] / long_obs_df[obs_count_var])) * 100
     long_obs_df.drop(count_with_missings_var, axis=1, inplace=True)
     long_obs_df.rename(columns={obs_count_var: 'Obs'}, inplace=True)
 

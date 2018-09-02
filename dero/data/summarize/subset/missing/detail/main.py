@@ -12,6 +12,7 @@ def obs_and_id_count_and_missing_pct_table(df: pd.DataFrame, col_with_missings: 
                                            missing_tolerance: int=0,
                                            sort_cols_as_numeric: bool = True, sort_rows_as_numeric: bool = True,
                                            count_format_str: str = '.0f', pct_format_str: str = '.1f',
+                                           missing_display_str: str = 'Missing',
                                            extra_caption: str='', extra_below_text: str='',
                                            outfolder: StrOrNone=None) -> lt.Table:
 
@@ -25,7 +26,8 @@ def obs_and_id_count_and_missing_pct_table(df: pd.DataFrame, col_with_missings: 
         sort_cols_as_numeric=sort_cols_as_numeric,
         sort_rows_as_numeric=sort_rows_as_numeric,
         count_format_str=count_format_str,
-        pct_format_str=pct_format_str
+        pct_format_str=pct_format_str,
+        missing_display_str=missing_display_str
     )
 
     table = missing_detail_df_dict_to_table_and_output(
@@ -35,6 +37,7 @@ def obs_and_id_count_and_missing_pct_table(df: pd.DataFrame, col_with_missings: 
         id_col,
         col_with_missings,
         missing_tolerance,
+        missing_display_str=missing_display_str,
         extra_caption=extra_caption,
         extra_below_text=extra_below_text,
         outfolder=outfolder
@@ -47,7 +50,8 @@ def obs_and_id_count_and_missing_pct_df_dict(df: pd.DataFrame, col_with_missings
                                              row_byvar: str, col_byvar: str,
                                              missing_tolerance: int=0,
                                              sort_cols_as_numeric: bool = True, sort_rows_as_numeric: bool = True,
-                                             count_format_str: str = '.0f', pct_format_str: str = '.1f'
+                                             count_format_str: str = '.0f', pct_format_str: str = '.1f',
+                                             missing_display_str: str = 'Missing'
                                              ) -> DfDict:
 
     byvars = [row_byvar, col_byvar]
@@ -60,12 +64,14 @@ def obs_and_id_count_and_missing_pct_df_dict(df: pd.DataFrame, col_with_missings
     )
 
     obs_pct_df = obs_pct_long_df(
-        *common_args
+        *common_args,
+        missing_display_str=missing_display_str
     )
 
     by_id_pct_df = by_id_pct_long_df(
         *common_args,
-        missing_tolerance=missing_tolerance
+        missing_tolerance=missing_tolerance,
+        missing_display_str=missing_display_str
     )
 
     format_strs = [count_format_str, pct_format_str]
