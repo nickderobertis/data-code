@@ -1,17 +1,18 @@
 import pandas as pd
 from dero.latex import Document
 
-from dero.data.typing import StrOrNone, DocumentOrLatexObjs
+from dero.data.typing import StrOrNone, DocumentOrLatexObjs, IntSequence
 from dero.data.summarize.subset.missing.summary.graphs.pctbyid import missing_pct_by_id_figure
 from dero.data.summarize.subset.missing.detail.main import obs_and_id_count_and_missing_pct_table
 
 def missing_data_single_column_analysis(df: pd.DataFrame, col_with_missings: str, id_col: str,
-                                        row_byvar: str, col_byvar: str,
-                                        missing_tolerance: int=0,
+                                        row_byvar: str, col_byvar: str, datevar: str,
+                                        missing_tolerance: int=0, summary_missing_tolerances: IntSequence=(0, 5, 10),
                                         sort_cols_as_numeric: bool = True, sort_rows_as_numeric: bool = True,
                                         count_format_str: str = '.0f', pct_format_str: str = '.1f',
-                                        missing_display_str: str = 'Missing',
+                                        missing_display_str: str = 'Missing', period_display_name: str='Period',
                                         extra_caption: str='', table_extra_below_text: str='',
+                                        table_align: str=None,
                                         outfolder: StrOrNone=None, as_document: bool=True,
                                         document_title: StrOrNone=None, author: StrOrNone=None,
                                         ) -> DocumentOrLatexObjs:
@@ -30,14 +31,18 @@ def missing_data_single_column_analysis(df: pd.DataFrame, col_with_missings: str
         id_col,
         row_byvar,
         col_byvar,
+        datevar,
         missing_tolerance=missing_tolerance,
+        summary_missing_tolerances=summary_missing_tolerances,
         sort_cols_as_numeric=sort_cols_as_numeric,
         sort_rows_as_numeric=sort_rows_as_numeric,
         count_format_str=count_format_str,
         pct_format_str=pct_format_str,
         missing_display_str=missing_display_str,
+        period_display_name=period_display_name,
         extra_caption=extra_caption,
         extra_below_text=table_extra_below_text,
+        table_align=table_align,
         outfolder=outfolder
     )
 

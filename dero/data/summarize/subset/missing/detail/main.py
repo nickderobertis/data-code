@@ -1,19 +1,21 @@
 import pandas as pd
 import dero.latex.table as lt
 
-from dero.data.typing import DfDict, StrOrNone
+from dero.data.typing import SimpleDfDict, StrOrNone, IntSequence
 from dero.data.summarize.subset.missing.detail.byid import by_id_pct_long_df
 from dero.data.summarize.subset.missing.detail.byobs import obs_pct_long_df
 from dero.data.summarize.subset.missing.detail.reformat.main import long_counts_to_formatted_wide_df_dict
 from dero.data.summarize.subset.missing.detail.totex import missing_detail_df_dict_to_table_and_output
+from dero.data.summarize.subset.missing.summary.tables.fullsample.main import missing_full_sample_summary_panel
 
 def obs_and_id_count_and_missing_pct_table(df: pd.DataFrame, col_with_missings: str, id_col: str,
-                                           row_byvar: str, col_byvar: str,
-                                           missing_tolerance: int=0,
+                                           row_byvar: str, col_byvar: str, datevar: str,
+                                           missing_tolerance: int=0, summary_missing_tolerances: IntSequence=(0, 5, 10),
                                            sort_cols_as_numeric: bool = True, sort_rows_as_numeric: bool = True,
                                            count_format_str: str = '.0f', pct_format_str: str = '.1f',
-                                           missing_display_str: str = 'Missing',
+                                           missing_display_str: str = 'Missing', period_display_name: str='Period',
                                            extra_caption: str='', extra_below_text: str='',
+                                           table_align: str=None,
                                            outfolder: StrOrNone=None) -> lt.Table:
 
     df_dict = obs_and_id_count_and_missing_pct_df_dict(
@@ -30,8 +32,20 @@ def obs_and_id_count_and_missing_pct_table(df: pd.DataFrame, col_with_missings: 
         missing_display_str=missing_display_str
     )
 
+    summary_panel = missing_full_sample_summary_panel(
+        df,
+        id_col,
+        col_with_missings,
+        missing_tolerances=summary_missing_tolerances,
+        missing_display_str=missing_display_str,
+        datevar=datevar,
+        pct_format_str=pct_format_str,
+        period_display_name=period_display_name
+    )
+
     table = missing_detail_df_dict_to_table_and_output(
         df_dict,
+        summary_panel,
         row_byvar,
         col_byvar,
         id_col,
@@ -40,6 +54,7 @@ def obs_and_id_count_and_missing_pct_table(df: pd.DataFrame, col_with_missings: 
         missing_display_str=missing_display_str,
         extra_caption=extra_caption,
         extra_below_text=extra_below_text,
+        align=table_align,
         outfolder=outfolder
     )
 
@@ -52,7 +67,7 @@ def obs_and_id_count_and_missing_pct_df_dict(df: pd.DataFrame, col_with_missings
                                              sort_cols_as_numeric: bool = True, sort_rows_as_numeric: bool = True,
                                              count_format_str: str = '.0f', pct_format_str: str = '.1f',
                                              missing_display_str: str = 'Missing'
-                                             ) -> DfDict:
+                                             ) -> SimpleDfDict:
 
     byvars = [row_byvar, col_byvar]
 

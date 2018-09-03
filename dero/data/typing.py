@@ -1,4 +1,4 @@
-from typing import Dict, Union, Tuple, Optional, List
+from typing import Dict, Union, Tuple, Optional, List, Sequence
 import pandas as pd
 
 from dero.latex import Document
@@ -22,3 +22,4 @@ DocumentOrTablesOrNone = Union[DocumentOrTables, None]
 LatexObj = Union[Table, Figure]
 LatexObjs = List[LatexObj]
 DocumentOrLatexObjs = Union[Document, LatexObjs]
+IntSequence = Sequence[int]
