@@ -20,7 +20,8 @@ def missing_data_single_column_analysis(df: pd.DataFrame, col_with_missings: str
         df,
         id_col,
         col_with_missings,
-        outfolder=outfolder
+        outfolder=outfolder,
+        outname=f'Percentage {missing_display_str} Obs by Firm'
     )
 
     missing_pct_table = obs_and_id_count_and_missing_pct_table(

@@ -6,8 +6,11 @@ from dero.data.typing import DfDict, StrList
 
 def long_counts_to_formatted_wide_df_dict(long_df: pd.DataFrame, row_byvar: str, col_byvar: str,
                                           sort_cols_as_numeric: bool =True, sort_rows_as_numeric: bool =True,
-                                          format_strs: StrList ='.0f'
+                                          format_strs: StrList = None
                                           ) -> DfDict:
+
+    if format_strs is None:
+        format_strs = ['.0f', '.1f']
 
     output_cols = [col for col in long_df.columns if col not in [row_byvar, col_byvar]]
 
