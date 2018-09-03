@@ -1,6 +1,12 @@
 import pandas as pd
 from dero.data.typing import StrList
 
+from dero.data.summarize.subset.missing.detail.textfuncs import (
+    missing_more_than_str,
+    missing_more_than_pct_str,
+    id_count_str
+)
+
 
 def by_id_pct_long_df(df: pd.DataFrame, byvars: StrList, id_var: str,
                       count_with_missings_var: str, missing_tolerance: int = 0,
@@ -15,15 +21,18 @@ def by_id_pct_long_df(df: pd.DataFrame, byvars: StrList, id_var: str,
         missing_display_str=missing_display_str
     )
 
-    by_id_var[f'{id_var} Count'] = by_id_var[f'More than {missing_tolerance} {missing_display_str} {id_var}'] + \
+    missing_more_than_name = missing_more_than_str(missing_tolerance, missing_display_str, id_var)
+    id_count_name = id_count_str(id_var)
+
+    by_id_var[id_count_name] = by_id_var[missing_more_than_name] + \
                                    by_id_var[f'{missing_tolerance} or less {missing_display_str} {id_var} Count']
 
-    by_id_var[f'More than {missing_tolerance} {missing_display_str} {id_var} Percentage'] = \
-        (by_id_var[f'More than {missing_tolerance} {missing_display_str} {id_var}'] /
-        by_id_var[f'{id_var} Count']) * 100
+    by_id_var[missing_more_than_pct_str(missing_tolerance, missing_display_str, id_var)] = \
+        (by_id_var[missing_more_than_name] /
+        by_id_var[id_count_name]) * 100
 
     by_id_var.drop([
-        f'More than {missing_tolerance} {missing_display_str} {id_var}',
+        missing_more_than_name,
         f'{missing_tolerance} or less {missing_display_str} {id_var} Count'
     ], axis=1, inplace=True)
 
