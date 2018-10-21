@@ -581,8 +581,8 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
         ff_dir = data_path('FF')
    
     #Make sure inputs are correct
+    freq = _set_freq(freq)
     assert isinstance(df, pd.DataFrame)
-    assert freq in ('d','m')
     assert isinstance(ff_dir, str)
     assert not (fulldatevar == None and year_month == None)
     assert not (fulldatevar == None and freq == 'd')
@@ -640,16 +640,27 @@ def _load_data_by_extension_and_convert_date(filepath, freq='m'):
     extension = file_extension.lower()
     if extension == '.sas7bdat':
         df = load_sas(filepath)
-        if freq == 'd':
+        if freq != 'm':
             df['date'] = convert_sas_date_to_pandas_date(df['date']) #convert to date object
         return df
     elif extension == '.csv':
-        if freq == 'd':
+        if freq != 'm':
             return pd.read_csv(filepath, parse_dates=['date'])
         else:
             return pd.read_csv(filepath)
     else:
         raise ValueError(f'Please pass a sas7bdat or csv for FF factors, got {extension}')
+
+def _set_freq(freq: str) -> str:
+    freq = freq.lower()
+    if freq in ('w', 'week', 'weeks', 'weekly'):
+        return 'w'
+    elif freq in ('m', 'month', 'months', 'monthly'):
+        return 'm'
+    elif freq in ('d', 'day', 'days', 'daily'):
+        return 'd'
+    else:
+        raise ValueError(f'must pass w, m, or d for freq. got {freq}')
 
 def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_fac=5, retvar='RET',
               includecoef=False, includefac=False, mp=False, stderr=False, **get_ff_kwargs):

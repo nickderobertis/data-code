@@ -116,6 +116,7 @@ def _col_bad_df_dict_to_selected_orig_df_dict(df: pd.DataFrame, col_bad_df_dict:
     df_dict = {}
     for col, col_bad_df in col_bad_df_dict.items():
         df_dict[col] = expand_entity_date_selections(
+            df,
             col_bad_df,
             [col] + always_associated_cols + associated_col_dict[col],
             num_firms=num_firms,

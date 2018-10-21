@@ -1,7 +1,7 @@
 import pandas as pd
 import dero.latex.table as lt
 
-from dero.data.typing import IntSequence
+from dero.data.typing import IntSequenceOrNone, FloatSequenceOrNone
 from dero.data.summarize.subset.missing.summary.tables.fullsample.idcount import by_id_count_data_table
 from dero.data.summarize.subset.missing.summary.tables.fullsample.missingmore import missing_more_than_data_table
 from dero.data.summarize.subset.missing.summary.tables.fullsample.obs import obs_count_and_missing_data_table
@@ -9,7 +9,8 @@ from dero.data.summarize.subset.missing.summary.tables.fullsample.periods import
 from dero.latex.table.models.spacing.columntable import ColumnPadTable
 
 def missing_full_sample_summary_panel(df: pd.DataFrame, id_col: str, col_with_missings: str,
-                                      missing_tolerances: IntSequence = (0, 5, 10),
+                                      missing_tolerances: IntSequenceOrNone = (0, 5, 10),
+                                      missing_quantiles: FloatSequenceOrNone = None,
                                       missing_display_str: str = 'Missing', datevar: str = 'Date',
                                       pct_format_str: str = '.1f', period_display_name: str = 'Period') -> lt.Panel:
 
@@ -34,7 +35,9 @@ def missing_full_sample_summary_panel(df: pd.DataFrame, id_col: str, col_with_mi
         id_col,
         col_with_missings,
         missing_tolerances=missing_tolerances,
+        missing_quantiles=missing_quantiles,
         missing_display_str=missing_display_str,
+        period_display_name=period_display_name,
         pct_format_str=pct_format_str
     )
 

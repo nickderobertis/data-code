@@ -1,11 +1,12 @@
 import pandas as pd
 
 from dero.data.summarize.subset.missing.detail.reformat.towide import _long_counts_to_wide_df
-from dero.data.summarize.subset.missing.detail.reformat.numformat import _apply_formatting_to_count_df
+from dero.data.summarize.subset.missing.detail.reformat.numformat import sort_and_apply_formatting_to_df
 from dero.data.typing import DfDict, StrList
 
 def long_counts_to_formatted_wide_df_dict(long_df: pd.DataFrame, row_byvar: str, col_byvar: str,
                                           sort_cols_as_numeric: bool =True, sort_rows_as_numeric: bool =True,
+                                          sort_cols_as_portvar: bool=False, sort_rows_as_portvar: bool=False,
                                           format_strs: StrList = None
                                           ) -> DfDict:
 
@@ -26,6 +27,8 @@ def long_counts_to_formatted_wide_df_dict(long_df: pd.DataFrame, row_byvar: str,
             col_byvar,
             sort_cols_as_numeric=sort_cols_as_numeric,
             sort_rows_as_numeric=sort_rows_as_numeric,
+            sort_cols_as_portvar=sort_cols_as_portvar,
+            sort_rows_as_portvar=sort_rows_as_portvar,
             format_str=format_strs[i]
         )
 
@@ -34,6 +37,7 @@ def long_counts_to_formatted_wide_df_dict(long_df: pd.DataFrame, row_byvar: str,
 
 def long_counts_to_formatted_wide_df(long_df: pd.DataFrame, col: str, row_byvar: str, col_byvar: str,
                                      sort_cols_as_numeric: bool =True, sort_rows_as_numeric: bool =True,
+                                     sort_cols_as_portvar: bool=False, sort_rows_as_portvar: bool=False,
                                      format_str: str ='.0f'
                                      ) -> pd.DataFrame:
 
@@ -44,9 +48,11 @@ def long_counts_to_formatted_wide_df(long_df: pd.DataFrame, col: str, row_byvar:
         col_byvar
     )
 
-    return _apply_formatting_to_count_df(
+    return sort_and_apply_formatting_to_df(
         wide_df,
         sort_cols_as_numeric=sort_cols_as_numeric,
         sort_rows_as_numeric=sort_rows_as_numeric,
+        sort_cols_as_portvar=sort_cols_as_portvar,
+        sort_rows_as_portvar=sort_rows_as_portvar,
         format_str=format_str
     )

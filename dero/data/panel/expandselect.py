@@ -3,7 +3,7 @@ from dateutil.relativedelta import relativedelta
 
 from dero.data.typing import StrList
 
-def expand_entity_date_selections(df: pd.DataFrame, cols: StrList = None,
+def expand_entity_date_selections(full_df: pd.DataFrame, selections_df: pd.DataFrame, cols: StrList = None,
                                   num_firms: int = 3, expand_months: int = 3,
                                   entity_id_col: str = 'TICKER',
                                   date_col: str = 'Date',
@@ -11,7 +11,7 @@ def expand_entity_date_selections(df: pd.DataFrame, cols: StrList = None,
                                   ) -> pd.DataFrame:
 
     entity_date_df = _firm_date_range_df_from_df(
-        df,
+        selections_df,
         num_firms=num_firms,
         firm_id_col=entity_id_col,
         date_col=date_col,
@@ -25,7 +25,7 @@ def expand_entity_date_selections(df: pd.DataFrame, cols: StrList = None,
         end_datevar=end_datevar
     )
     entity_df = _select_orig_df_from_date_df(
-        df,
+        full_df,
         entity_date_df,
         firm_id_col=entity_id_col,
         date_col=date_col,
