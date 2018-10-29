@@ -6,7 +6,7 @@ from dero.data.display import display_df_dict
 from dero.data.typing import DfDictOrNone, FloatList
 
 
-def format_numbers_to_decimal_places(item, decimals=2):
+def format_numbers_to_decimal_places(item, decimals=2, coerce_ints: bool = False):
 
     if isinstance(item, (float, int)):
         if abs(item) > 999999.99:
@@ -14,7 +14,10 @@ def format_numbers_to_decimal_places(item, decimals=2):
             item = item / 1000000
             # For millions decimals, treat int as float (still have decimals, because 7.02M is better than 7M for int
             return f'{item:,.{decimals}f}M'
-        decimals = decimals if isinstance(item, float) else 0  # handle int vs. float
+        if coerce_ints:
+            decimals = 0 if int(item) == item else decimals  # checks if is int stored as type float
+        else:
+            decimals = decimals if isinstance(item, float) else 0  # uses dtype to handle int vs. float
         return f'{item:,.{decimals}f}'
     else:
         return item
