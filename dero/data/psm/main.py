@@ -13,7 +13,10 @@ def create_matched_df_and_summary(df: pd.DataFrame, treated_var: str, xvars: Str
                                   fe: StrListOrNone = None,
                                   prob_treated_var_name: StrOrNone = None,
                                   min_matching_pct: FloatOrNone = None,
-                                  control_only: bool = False, control_name: str = 'Control',
+                                  control_only: bool = False,
+                                  num_matches_per_entity: int = 1,
+                                  match_with_replacement: bool = False,
+                                  control_name: str = 'Control',
                                   treated_name: str = 'Treated', below_text: StrOrNone = None,
                                   outfolder: str = '.', caption: str = 'Propensity Score Matching',
                                   summary_as_table: bool = False
@@ -28,7 +31,9 @@ def create_matched_df_and_summary(df: pd.DataFrame, treated_var: str, xvars: Str
         fe=fe,
         prob_treated_var_name=prob_treated_var_name,
         min_matching_pct=min_matching_pct,
-        control_only=False
+        control_only=False,
+        num_matches_per_entity=num_matches_per_entity,
+        match_with_replacement=match_with_replacement
     )
 
     common_args = (
@@ -65,7 +70,7 @@ def create_matched_df_and_summary(df: pd.DataFrame, treated_var: str, xvars: Str
     )
 
     if control_only:
-        _, matched_df = treated_and_control_df_from_df(df, treated_var)
+        _, matched_df = treated_and_control_df_from_df(df, treated_var, entity_var)
 
     return matched_df, df_dict_or_table
 
@@ -75,7 +80,10 @@ def create_matched_and_predict_df(df: pd.DataFrame, treated_var: str, xvars: Str
                                   fe: StrListOrNone = None,
                                   prob_treated_var_name: StrOrNone = None,
                                   min_matching_pct: FloatOrNone = None,
-                                  control_only: bool = False) -> TwoDfTuple:
+                                  control_only: bool = False,
+                                  num_matches_per_entity: int = 1,
+                                  match_with_replacement: bool = False
+                                  ) -> TwoDfTuple:
     prob_treated_var_name = get_prob_treated_varname(treated_var, prob_treated_var_name=prob_treated_var_name)
     predict_df = predict_probability_of_treatment(
         df,
@@ -95,7 +103,9 @@ def create_matched_and_predict_df(df: pd.DataFrame, treated_var: str, xvars: Str
         time_var=time_var,
         entity_var=entity_var,
         min_matching_pct=min_matching_pct,
-        control_only=control_only
+        control_only=control_only,
+        num_matches_per_entity=num_matches_per_entity,
+        match_with_replacement=match_with_replacement
     )
 
     return matched_df, predict_df
