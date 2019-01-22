@@ -652,15 +652,12 @@ def _load_data_by_extension_and_convert_date(filepath, freq='m'):
         raise ValueError(f'Please pass a sas7bdat or csv for FF factors, got {extension}')
 
 def _set_freq(freq: str) -> str:
-    freq = freq.lower()
-    if freq in ('w', 'week', 'weeks', 'weekly'):
-        return 'w'
-    elif freq in ('m', 'month', 'months', 'monthly'):
+    compare_freq = freq.lower()
+    if compare_freq in ('m', 'month', 'months', 'monthly'):
         return 'm'
-    elif freq in ('d', 'day', 'days', 'daily'):
-        return 'd'
     else:
-        raise ValueError(f'must pass w, m, or d for freq. got {freq}')
+        # All other frequencies handled the same way
+        return freq
 
 def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_fac=5, retvar='RET',
               includecoef=False, includefac=False, mp=False, stderr=False, **get_ff_kwargs):
