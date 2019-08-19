@@ -1,6 +1,6 @@
 import pandas as pd
 from dero.data.psm.typing import DfDict, StrList, StrOrNone, StrListOrNone
-import dero.latex.table as lt
+import pyexlatex.table as lt
 from dero.data.psm.predict import explain_probability_of_treatment
 from dero.data.psm.summarize.latex import matching_latex_table_from_df_dict
 from dero.data.psm.summarize.predictions import summarize_predictions

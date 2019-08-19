@@ -1,5 +1,5 @@
 import pandas as pd
-import dero.latex.table as lt
+import pyexlatex.table as lt
 
 def by_id_count_data_table(df: pd.DataFrame, id_col: str) -> lt.DataTable:
     by_id_count_df = _by_id_count_df(df, id_col)

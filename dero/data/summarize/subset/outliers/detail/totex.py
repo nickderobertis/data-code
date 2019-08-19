@@ -1,4 +1,4 @@
-import dero.latex.table as lt
+import pyexlatex.table as lt
 
 import pandas as pd
 

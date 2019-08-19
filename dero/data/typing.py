@@ -1,9 +1,9 @@
 from typing import Dict, Union, Tuple, Optional, List, Sequence
 import pandas as pd
 
-from dero.latex import Document
-from dero.latex.table import Table
-from dero.latex.figure import Figure
+from pyexlatex import Document
+from pyexlatex.table import Table
+from pyexlatex.figure import Figure
 
 SimpleDfDict = Dict[str, pd.DataFrame]
 DfOrDfDict = Union[SimpleDfDict, pd.DataFrame]

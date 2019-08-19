@@ -3,7 +3,7 @@ import pandas as pd
 from dero.data.panel.did.dataprep import diff_df_from_panel_df
 from dero.data.panel.did.reg import diff_reg_for_each_yvar_and_produce_summary
 from dero.data.panel.did.totex import diff_reg_summary_to_latex_table_and_output
-import dero.latex.table as lt
+import pyexlatex.table as lt
 
 def diff_reg_for_each_yvar_from_panel_df_latex_table(df: pd.DataFrame, entity_var: str, time_var: str, treated_var: str,
                                                      yvars: List[str], treated_time_var: str = 'After',

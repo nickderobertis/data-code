@@ -1,5 +1,5 @@
 from typing import Optional, List
-import dero.latex.table as lt
+import pyexlatex.table as lt
 
 def diff_reg_summary_to_latex_table_and_output(summ, entity_var: str,
                                                caption: str = 'Difference-in-Difference Regressions',

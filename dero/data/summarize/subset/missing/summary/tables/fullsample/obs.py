@@ -1,5 +1,5 @@
 import pandas as pd
-import dero.latex.table as lt
+import pyexlatex.table as lt
 
 def obs_count_and_missing_data_table(df: pd.DataFrame, col_with_missings: str,
                                      missing_display_str: str='Missing', pct_format_str: str='.1f') -> lt.DataTable:

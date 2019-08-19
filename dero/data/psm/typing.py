@@ -1,5 +1,5 @@
 from typing import List, Optional, Tuple, Any, Dict, Union
-import dero.latex.table as lt
+import pyexlatex.table as lt
 import pandas as pd
 
 StrList = List[str]

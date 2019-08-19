@@ -1,7 +1,7 @@
 from dero.data.summarize.subset.outliers.typing import DfDict
 from dero.data.typing import DocumentOrTable
-import dero.latex.table as lt
-from dero.latex import Document
+import pyexlatex.table as lt
+from pyexlatex import Document
 
 def df_dict_to_table(df_dict: DfDict, as_document: bool=False,
                      author: str=None, caption: str=None) -> DocumentOrTable:

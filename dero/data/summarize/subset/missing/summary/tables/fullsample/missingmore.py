@@ -1,5 +1,5 @@
 import pandas as pd
-import dero.latex.table as lt
+import pyexlatex.table as lt
 
 from dero.data.typing import StrList, IntSequenceOrNone, FloatSequenceOrNone
 

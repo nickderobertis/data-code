@@ -1,5 +1,5 @@
 import pandas as pd
-from dero.latex import Document
+from pyexlatex import Document
 
 from dero.data.typing import (
     StrOrNone,

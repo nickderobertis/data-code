@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-from dero.latex.figure import Figure
+from pyexlatex.figure import Figure
 
 def missing_pct_by_id_figure(df: pd.DataFrame, id_col: str, col_with_missings: str,
                              outname: str='Percentage Missing Obs by Firm',

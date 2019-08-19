@@ -1,5 +1,5 @@
 import pandas as pd
-import dero.latex.table as lt
+import pyexlatex.table as lt
 
 def periods_data_table(df: pd.DataFrame, id_col: str, datevar: str,
                        period_display_name: str='Period') -> lt.DataTable:

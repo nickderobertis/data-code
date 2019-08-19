@@ -1,12 +1,12 @@
 import pandas as pd
-import dero.latex.table as lt
+import pyexlatex.table as lt
 
 from dero.data.typing import IntSequenceOrNone, FloatSequenceOrNone
 from dero.data.summarize.subset.missing.summary.tables.fullsample.idcount import by_id_count_data_table
 from dero.data.summarize.subset.missing.summary.tables.fullsample.missingmore import missing_more_than_data_table
 from dero.data.summarize.subset.missing.summary.tables.fullsample.obs import obs_count_and_missing_data_table
 from dero.data.summarize.subset.missing.summary.tables.fullsample.periods import periods_data_table
-from dero.latex.table.models.spacing.columntable import ColumnPadTable
+from pyexlatex.table.models.spacing.columntable import ColumnPadTable
 
 def missing_full_sample_summary_panel(df: pd.DataFrame, id_col: str, col_with_missings: str,
                                       missing_tolerances: IntSequenceOrNone = (0, 5, 10),

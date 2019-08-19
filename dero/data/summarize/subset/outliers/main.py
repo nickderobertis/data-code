@@ -1,6 +1,6 @@
 import pandas as pd
 
-from dero.latex import Document
+from pyexlatex import Document
 from dero.data.summarize.subset.outliers.select import outlier_summary_dicts
 from dero.data.summarize.subset.outliers.detail.totex import outlier_by_column_summary
 from dero.data.summarize.subset.outliers.summary.main import outlier_overview_summary_page_table

@@ -1,5 +1,5 @@
 import pandas as pd
-import dero.latex.table as lt
+import pyexlatex.table as lt
 
 from dero.data.typing import SimpleDfDict, StrOrNone, IntSequenceOrNone, IntOrNone, FloatSequenceOrNone, FloatOrNone
 from dero.data.summarize.subset.missing.detail.byid import by_id_pct_long_df
