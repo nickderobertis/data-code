@@ -1,4 +1,8 @@
-
+"""
+A collection of tools for working with finance data in an academic setting. Compare and summarize data sets,
+propensity score matching, analyze outliers and missing data, and create/reformat several types of data sets,
+including: difference-in-difference, Fama-French-style factors, and portfolios.
+"""
 from sas7bdat import SAS7BDAT
 import pandas as pd
 import os, datetime, warnings, sys
