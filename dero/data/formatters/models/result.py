@@ -1,9 +1,12 @@
+import math
 from typing import Union, Tuple
 from dero.data.formatters.stars import parse_stars_value
+
 
 class Result:
 
     def __init__(self, value: str):
+        self.orig_result = value
         self.str_result, self.result, self.num_stars = parse_value(value)
 
     def __repr__(self):
@@ -50,6 +53,30 @@ class Result:
         except TypeError:
             return False
 
+    def as_logit_result(self) -> 'LogitResult':
+        lr = LogitResult(self.orig_result)
+        return lr
+
+
+class LogitResult(Result):
+
+    @property
+    def odds_ratio(self) -> float:
+        return math.exp(self.result)
+
+    @property
+    def probability_relative_change(self) -> float:
+        return self.odds_ratio - 1
+
+    @property
+    def probability_relative_change_str(self) -> str:
+        rel_change = self.probability_relative_change
+        if rel_change > 0:
+            change_str = 'increase'
+        else:
+            change_str = 'decrease'
+        rel_change = abs(rel_change) * 100
+        return f'{rel_change:.1f}% {change_str}'
 
 
 def parse_value(value: str) -> Tuple[str, Union[str, float], int]:
