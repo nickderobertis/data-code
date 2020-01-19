@@ -1,7 +1,7 @@
 from typing import List, Tuple, Optional
 import pandas as pd
-from dero.reg.interact import _interaction_tuple_to_var_name
-from dero.reg import reg_for_each_yvar_and_produce_summary
+from regtools.interact import _interaction_tuple_to_var_name
+from regtools import reg_for_each_yvar_and_produce_summary
 
 
 def diff_reg_for_each_yvar_and_produce_summary(diff_df: pd.DataFrame, yvars: List[str], treated_var: str,

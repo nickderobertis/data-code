@@ -1,7 +1,7 @@
 import pandas as pd
 import dero
 
-from dero.ext_pandas.pdutils import _to_list_if_str
+from pd_utils.pdutils import _to_list_if_str
 from dero.data.ff.create.model import parse_model
 from dero.data.ff.fftypes import ListOrStr, DfListListStrTuple, GroupvarNgroupsDict, StrOrInt
 

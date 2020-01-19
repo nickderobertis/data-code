@@ -3,11 +3,10 @@ A collection of tools for working with finance data in an academic setting. Comp
 propensity score matching, analyze outliers and missing data, and create/reformat several types of data sets,
 including: difference-in-difference, Fama-French-style factors, and portfolios.
 """
-from sas7bdat import SAS7BDAT
 import pandas as pd
 import os, datetime, warnings, sys
 
-from ..ext_pandas import expand_time, cumulate, convert_sas_date_to_pandas_date, reg_by, factor_reg_by, load_sas, \
+from pd_utils import expand_time, cumulate, convert_sas_date_to_pandas_date, factor_reg_by, load_sas, \
                     long_to_wide, year_month_from_date, join_col_strings
     
 from ..compustat import convert_gvkey, load_compustat, merge_compustat

@@ -1,6 +1,6 @@
 import pandas as pd
 import statsmodels.api as sm
-from dero.reg.iter import reg_for_each_xvar_set_and_produce_summary
+from regtools.iter import reg_for_each_xvar_set_and_produce_summary
 from dero.data.psm.typing import StrList, StrListOrNone, RegResultSummaryTuple
 from dero.data.psm.names import prob_treated_varname, predict_treated_varname, accurate_prediction_name
 
