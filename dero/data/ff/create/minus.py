@@ -1,7 +1,7 @@
 import pandas as pd
 from typing import List
 
-from dero.ext_pandas.pdutils import _to_list_if_str
+from pd_utils.pdutils import _to_list_if_str
 from dero.data.ff.fftypes import (
     DictofStrsandStrLists,
     TwoStrTuple,
