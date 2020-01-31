@@ -1,7 +1,7 @@
 import pyexlatex.table as lt
-from dero.data.typing import SimpleDfDict, StrOrNone
-from dero.data.summarize.subset.missing.detail.textfuncs import num_or_pct_word, pct_of_if_necessary
-from dero.data.typing import SimpleDfDict, StrOrNone, IntSequenceOrNone, IntOrNone, FloatSequenceOrNone, FloatOrNone
+from datacode.typing import SimpleDfDict, StrOrNone
+from datacode.summarize.subset.missing.detail.textfuncs import num_or_pct_word, pct_of_if_necessary
+from datacode.typing import SimpleDfDict, StrOrNone, IntSequenceOrNone, IntOrNone, FloatSequenceOrNone, FloatOrNone
 
 def missing_detail_df_dict_to_table_and_output(df_dict: SimpleDfDict, summary_panel: lt.Panel,
                                                row_byvar, col_byvar: str,

@@ -1,5 +1,5 @@
 import pandas as pd
-from dero.data.psm.typing import StrListOrNone, TwoDfTuple
+from datacode.psm.typing import StrListOrNone, TwoDfTuple
 
 def treated_and_control_df_from_df(df: pd.DataFrame, treated_var: str, entity_var: str,
                                    keep_vars: StrListOrNone = None) -> TwoDfTuple:

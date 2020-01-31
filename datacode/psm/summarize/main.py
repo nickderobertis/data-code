@@ -1,12 +1,12 @@
 import pandas as pd
-from dero.data.psm.typing import DfDict, StrList, StrOrNone, StrListOrNone
+from datacode.psm.typing import DfDict, StrList, StrOrNone, StrListOrNone
 import pyexlatex.table as lt
-from dero.data.psm.predict import explain_probability_of_treatment
-from dero.data.psm.summarize.latex import matching_latex_table_from_df_dict
-from dero.data.psm.summarize.predictions import summarize_predictions
-from dero.data.psm.summarize.stats import matching_summary_stats
-from dero.data.psm.names import get_prob_treated_varname
-from dero.data.psm.typing import FloatOrNone
+from datacode.psm.predict import explain_probability_of_treatment
+from datacode.psm.summarize.latex import matching_latex_table_from_df_dict
+from datacode.psm.summarize.predictions import summarize_predictions
+from datacode.psm.summarize.stats import matching_summary_stats
+from datacode.psm.names import get_prob_treated_varname
+from datacode.psm.typing import FloatOrNone
 
 def create_and_output_matching_summary_latex_table(df: pd.DataFrame, matched_df: pd.DataFrame, predict_df: pd.DataFrame,
                                                    treated_var: str, xvars: StrList, entity_var: str, time_var: str,

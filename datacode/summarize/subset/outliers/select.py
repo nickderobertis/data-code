@@ -1,7 +1,7 @@
 import pandas as pd
 
-from dero.data.panel.expandselect import expand_entity_date_selections
-from dero.data.summarize.subset.outliers.typing import (
+from datacode.panel.expandselect import expand_entity_date_selections
+from datacode.summarize.subset.outliers.typing import (
     StrList,
     AssociatedColDict,
     BoolDict,

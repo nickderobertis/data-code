@@ -1,12 +1,12 @@
 import pandas as pd
 import pyexlatex.table as lt
 
-from dero.data.typing import SimpleDfDict, StrOrNone, IntSequenceOrNone, IntOrNone, FloatSequenceOrNone, FloatOrNone
-from dero.data.summarize.subset.missing.detail.byid import by_id_pct_long_df
-from dero.data.summarize.subset.missing.detail.byobs import obs_pct_long_df
-from dero.data.summarize.subset.missing.detail.reformat.main import long_counts_to_formatted_wide_df_dict
-from dero.data.summarize.subset.missing.detail.totex import missing_detail_df_dict_to_table_and_output
-from dero.data.summarize.subset.missing.summary.tables.fullsample.main import missing_full_sample_summary_panel
+from datacode.typing import SimpleDfDict, StrOrNone, IntSequenceOrNone, IntOrNone, FloatSequenceOrNone, FloatOrNone
+from datacode.summarize.subset.missing.detail.byid import by_id_pct_long_df
+from datacode.summarize.subset.missing.detail.byobs import obs_pct_long_df
+from datacode.summarize.subset.missing.detail.reformat.main import long_counts_to_formatted_wide_df_dict
+from datacode.summarize.subset.missing.detail.totex import missing_detail_df_dict_to_table_and_output
+from datacode.summarize.subset.missing.summary.tables.fullsample.main import missing_full_sample_summary_panel
 
 def obs_and_id_count_and_missing_pct_table(df: pd.DataFrame, col_with_missings: str, id_col: str,
                                            row_byvar: str, col_byvar: str, datevar: str,

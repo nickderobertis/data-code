@@ -1,6 +1,6 @@
 import pandas as pd
-from dero.data.summarize.subset.outliers.typing import StrList, FloatSequence
-from dero.data.summarize import format_numbers_to_decimal_places
+from datacode.summarize.subset.outliers.typing import StrList, FloatSequence
+from datacode.summarize import format_numbers_to_decimal_places
 
 
 def bad_df_summary_stats_df(bad_df: pd.DataFrame, outlier_cols: StrList,

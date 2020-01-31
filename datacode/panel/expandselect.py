@@ -1,7 +1,7 @@
 import pandas as pd
 from dateutil.relativedelta import relativedelta
 
-from dero.data.typing import StrList
+from datacode.typing import StrList
 
 def expand_entity_date_selections(full_df: pd.DataFrame, selections_df: pd.DataFrame, cols: StrList = None,
                                   num_firms: int = 3, expand_months: int = 3,

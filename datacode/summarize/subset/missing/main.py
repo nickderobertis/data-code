@@ -1,7 +1,7 @@
 import pandas as pd
 from pyexlatex import Document
 
-from dero.data.typing import (
+from datacode.typing import (
     StrOrNone,
     DocumentOrLatexObjs,
     IntOrNone,
@@ -9,8 +9,8 @@ from dero.data.typing import (
     IntSequenceOrNone,
     FloatSequenceOrNone
 )
-from dero.data.summarize.subset.missing.summary.graphs.pctbyid import missing_pct_by_id_figure
-from dero.data.summarize.subset.missing.detail.main import obs_and_id_count_and_missing_pct_table
+from datacode.summarize.subset.missing.summary.graphs.pctbyid import missing_pct_by_id_figure
+from datacode.summarize.subset.missing.detail.main import obs_and_id_count_and_missing_pct_table
 
 def missing_data_single_column_analysis(df: pd.DataFrame, col_with_missings: str, id_col: str,
                                         row_byvar: str, col_byvar: str, datevar: str,

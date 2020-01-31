@@ -1,7 +1,7 @@
 import re
 from typing import Tuple
 
-from dero.data.portfolio.typing import PortfolioPair, PortfolioName
+from datacode.portfolio.typing import PortfolioPair, PortfolioName
 
 
 def _differenced_port_name(difference_port: PortfolioPair =('High', 'Low')) -> str:

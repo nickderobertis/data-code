@@ -1,6 +1,6 @@
 import math
 from typing import Union, Tuple
-from dero.data.formatters.stars import parse_stars_value
+from datacode.formatters.stars import parse_stars_value
 
 
 class Result:

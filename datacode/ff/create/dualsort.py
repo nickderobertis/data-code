@@ -1,7 +1,7 @@
 import pandas as pd
 
-from dero.data.ff.create.model import parse_model
-from dero.data.ff.fftypes import StrOrInt, TwoStrTupleList, TwoStrTuple
+from datacode.ff.create.model import parse_model
+from datacode.ff.fftypes import StrOrInt, TwoStrTupleList, TwoStrTuple
 
 def create_dual_sort_variables_get_pairings(df: pd.DataFrame, factor_model: StrOrInt, size_var: str=None, value_var: str=None,
                                profitability_var: str=None, investment_var: str=None,

@@ -1,7 +1,7 @@
 import pandas as pd
 from functools import partial
-from dero.data.psm.names import predict_treated_varname, accurate_prediction_name, accuracy_pct
-from dero.data.summarize import format_numbers_to_decimal_places
+from datacode.psm.names import predict_treated_varname, accurate_prediction_name, accuracy_pct
+from datacode.summarize import format_numbers_to_decimal_places
 
 def summarize_predictions(predict_df: pd.DataFrame, treated_var: str, treated_name: str = 'Treated',
                           control_name: str = 'Control') -> pd.DataFrame:

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from dero.data.portfolio.sort import sort_portfolio_index, sort_portfolio_columns
+from datacode.portfolio.sort import sort_portfolio_index, sort_portfolio_columns
 
 def sort_and_apply_formatting_to_df(counts: pd.DataFrame,
                                   sort_cols_as_numeric: bool=True, sort_rows_as_numeric: bool=True,

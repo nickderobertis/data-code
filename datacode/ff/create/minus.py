@@ -2,14 +2,14 @@ import pandas as pd
 from typing import List
 
 from pd_utils.pdutils import _to_list_if_str
-from dero.data.ff.fftypes import (
+from datacode.ff.fftypes import (
     DictofStrsandStrLists,
     TwoStrTuple,
     ListOrStr,
     StrBoolDict,
     StrOrInt
 )
-from dero.data.ff.create.model import parse_model
+from datacode.ff.create.model import parse_model
 
 def construct_minus_variables(df: pd.DataFrame, labels: DictofStrsandStrLists, pairing: TwoStrTuple,
                               factor_model: StrOrInt=3, byvars: ListOrStr = None, datevar='Date',

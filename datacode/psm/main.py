@@ -1,11 +1,11 @@
 import pandas as pd
 
-from dero.data.psm.predict import predict_probability_of_treatment
-from dero.data.psm.match import create_matched_df_using_propensity_scores
-from dero.data.psm.summarize.main import create_matching_summary_df_dict, create_and_output_matching_summary_latex_table
-from dero.data.psm.dataprep import treated_and_control_df_from_df
-from dero.data.psm.names import get_prob_treated_varname
-from dero.data.psm.typing import StrList, StrListOrNone, DfSummaryTuple, StrOrNone, FloatOrNone, DfDict, TwoDfTuple
+from datacode.psm.predict import predict_probability_of_treatment
+from datacode.psm.match import create_matched_df_using_propensity_scores
+from datacode.psm.summarize.main import create_matching_summary_df_dict, create_and_output_matching_summary_latex_table
+from datacode.psm.dataprep import treated_and_control_df_from_df
+from datacode.psm.names import get_prob_treated_varname
+from datacode.psm.typing import StrList, StrListOrNone, DfSummaryTuple, StrOrNone, FloatOrNone, DfDict, TwoDfTuple
 
 
 def create_matched_df_and_summary(df: pd.DataFrame, treated_var: str, xvars: StrList,

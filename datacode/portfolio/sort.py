@@ -1,7 +1,7 @@
 from functools import partial
 import pandas as pd
 
-from dero.data.portfolio.name import(
+from datacode.portfolio.name import(
     _is_differenced_port_name,
     _ports_from_differenced_port_name
 )

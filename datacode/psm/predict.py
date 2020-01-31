@@ -1,8 +1,8 @@
 import pandas as pd
 import statsmodels.api as sm
 from regtools.iter import reg_for_each_xvar_set_and_produce_summary
-from dero.data.psm.typing import StrList, StrListOrNone, RegResultSummaryTuple
-from dero.data.psm.names import prob_treated_varname, predict_treated_varname, accurate_prediction_name
+from datacode.psm.typing import StrList, StrListOrNone, RegResultSummaryTuple
+from datacode.psm.names import prob_treated_varname, predict_treated_varname, accurate_prediction_name
 
 
 def explain_probability_of_treatment(df: pd.DataFrame, treated_var: str, xvars: StrList, fe: StrListOrNone = None

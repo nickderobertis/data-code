@@ -2,14 +2,14 @@ from typing import Optional
 import warnings
 import math
 import pandas as pd
-from dero.data.psm.score import (
+from datacode.psm.score import (
     merge_treated_and_control_calculate_comparison_score,
     EmptyArraysException,
     NotEnoughTimeObservationsException
 )
-from dero.data.psm.dataprep import treated_and_control_df_from_df
-from dero.data.psm.names import prob_treated_varname
-from dero.data.psm.typing import StrOrNone, FloatOrNone
+from datacode.psm.dataprep import treated_and_control_df_from_df
+from datacode.psm.names import prob_treated_varname
+from datacode.psm.typing import StrOrNone, FloatOrNone
 
 def create_matched_df_using_propensity_scores(df: pd.DataFrame,
                                               predict_df: pd.DataFrame,

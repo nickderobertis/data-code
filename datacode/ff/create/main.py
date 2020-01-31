@@ -1,7 +1,7 @@
 import pandas as pd
 
 from pd_utils.pdutils import _to_list_if_str
-from dero.data.ff.fftypes import (
+from datacode.ff.fftypes import (
     ListOrStr,
     StrOrInt,
     DictofStrsandStrLists,
@@ -10,15 +10,15 @@ from dero.data.ff.fftypes import (
     TwoStrTuple,
     StrBoolDict
 )
-from dero.data.ff.create.model import _validate_model
-from dero.data.ff.create.sort import create_ff_portfolios, _other_groupvar_portname
-from dero.data.ff.create.label import get_and_set_labels
-from dero.data.ff.create.dualsort import create_dual_sort_variables_get_pairings, _dual_sort_varname
-from dero.data.ff.create.average import portfolio_returns, market_returns
-from dero.data.ff.create.reshape import long_averages_to_wide_averages
-from dero.data.ff.create.minus import construct_minus_variables
-from dero.data.ff.create.inputs import _standardize_custom_args
-from dero.data.ff.create.mainport import combine_main_portfolios
+from datacode.ff.create.model import _validate_model
+from datacode.ff.create.sort import create_ff_portfolios, _other_groupvar_portname
+from datacode.ff.create.label import get_and_set_labels
+from datacode.ff.create.dualsort import create_dual_sort_variables_get_pairings, _dual_sort_varname
+from datacode.ff.create.average import portfolio_returns, market_returns
+from datacode.ff.create.reshape import long_averages_to_wide_averages
+from datacode.ff.create.minus import construct_minus_variables
+from datacode.ff.create.inputs import _standardize_custom_args
+from datacode.ff.create.mainport import combine_main_portfolios
 
 def create_ff_factors(df: pd.DataFrame, factor_model: StrOrInt,
                       id_var: str='PERMNO', datevar='Date', byvars: ListOrStr=None,

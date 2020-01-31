@@ -1,4 +1,4 @@
-from dero.data.ff.fftypes import (
+from datacode.ff.fftypes import (
     StrOrInt,
     DictofStrsandStrLists,
     GroupvarNgroupsDict,

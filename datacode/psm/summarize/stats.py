@@ -1,10 +1,10 @@
 from functools import partial
 import pandas as pd
 import numpy as np
-from dero.data.summarize import format_numbers_to_decimal_places
-from dero.data.formatters.stars import convert_to_stars
-from dero.data.psm.names import matched_var, t_stat_var, diff_var
-from dero.data.psm.typing import StrList
+from datacode.summarize import format_numbers_to_decimal_places
+from datacode.formatters.stars import convert_to_stars
+from datacode.psm.names import matched_var, t_stat_var, diff_var
+from datacode.psm.typing import StrList
 
 
 

@@ -1,5 +1,5 @@
 import pandas as pd
-from dero.data.psm.score import comparison_arrays_from_treated_and_control_df, comparison_score
+from datacode.psm.score import comparison_arrays_from_treated_and_control_df, comparison_score
 
 
 def yield_matched_scores(treated_df: pd.DataFrame, control_df: pd.DataFrame, match_dict: dict,

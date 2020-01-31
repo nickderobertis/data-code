@@ -2,7 +2,7 @@ import pandas as pd
 import dero
 
 from pd_utils.pdutils import _to_list_if_str
-from dero.data.ff.fftypes import ListOrStr
+from datacode.ff.fftypes import ListOrStr
 
 
 def portfolio_returns(df: pd.DataFrame, retvar: str='RET', datevar: str='Date', wtvar: str='Market Equity',

@@ -1,8 +1,8 @@
 import pandas as pd
 
-from dero.data.summarize.subset.missing.detail.reformat.towide import _long_counts_to_wide_df
-from dero.data.summarize.subset.missing.detail.reformat.numformat import sort_and_apply_formatting_to_df
-from dero.data.typing import DfDict, StrList
+from datacode.summarize.subset.missing.detail.reformat.towide import _long_counts_to_wide_df
+from datacode.summarize.subset.missing.detail.reformat.numformat import sort_and_apply_formatting_to_df
+from datacode.typing import DfDict, StrList
 
 def long_counts_to_formatted_wide_df_dict(long_df: pd.DataFrame, row_byvar: str, col_byvar: str,
                                           sort_cols_as_numeric: bool =True, sort_rows_as_numeric: bool =True,

@@ -1,8 +1,8 @@
 import pandas as pd
-from dero.data.typing import StrList
+from datacode.typing import StrList
 
-from dero.data.typing import IntOrNone
-from dero.data.summarize.subset.missing.detail.textfuncs import (
+from datacode.typing import IntOrNone
+from datacode.summarize.subset.missing.detail.textfuncs import (
     missing_more_than_str,
     missing_more_than_pct_str,
     missing_tolerance_count_str,

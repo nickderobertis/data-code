@@ -1,5 +1,5 @@
 import pandas as pd
-from dero.data.typing import StrList
+from datacode.typing import StrList
 
 
 def obs_pct_long_df(df: pd.DataFrame, byvars: StrList, obs_count_var: str,

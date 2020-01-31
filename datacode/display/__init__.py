@@ -3,7 +3,7 @@ from typing import Sequence
 import pandas as pd
 from IPython.core.display import display, HTML
 
-from dero.data.typing import DfDict
+from datacode.typing import DfDict
 
 def display_df_dict(df_dict: DfDict):
     # df_dict may either be one level deep or two levels deep.

@@ -1,10 +1,10 @@
 import pandas as pd
 import pyexlatex.table as lt
 
-from dero.data.typing import StrList, IntSequenceOrNone, FloatSequenceOrNone
+from datacode.typing import StrList, IntSequenceOrNone, FloatSequenceOrNone
 
-from dero.data.summarize.subset.missing.detail.byid import by_id_pct_long_df
-from dero.data.summarize.subset.missing.detail.textfuncs import missing_more_than_pct_str, num_or_pct
+from datacode.summarize.subset.missing.detail.byid import by_id_pct_long_df
+from datacode.summarize.subset.missing.detail.textfuncs import missing_more_than_pct_str, num_or_pct
 
 def missing_more_than_data_table(df: pd.DataFrame, id_col: str, col_with_missings: str,
                                  missing_tolerances: IntSequenceOrNone=(0, 1, 10, 50),

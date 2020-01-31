@@ -2,8 +2,8 @@ import pandas as pd
 from typing import Callable
 from functools import partial
 
-from dero.data.display import display_df_dict
-from dero.data.typing import DfDictOrNone, FloatList
+from datacode.display import display_df_dict
+from datacode.typing import DfDictOrNone, FloatList
 
 
 def format_numbers_to_decimal_places(item, decimals=2, coerce_ints: bool = False):

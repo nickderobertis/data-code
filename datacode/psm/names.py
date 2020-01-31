@@ -1,4 +1,4 @@
-from dero.data.psm.typing import StrOrNone
+from datacode.psm.typing import StrOrNone
 
 accurate_prediction_name = 'Accurate Prediction'
 diff_var = 'Diff'

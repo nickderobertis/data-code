@@ -1,11 +1,11 @@
-from dero.data.ff.fftypes import (
+from datacode.ff.fftypes import (
     DictofStrsandStrLists,
     GroupvarNgroupsDict,
     TwoStrTupleList,
     StrBoolDict,
     Tuple
 )
-from dero.data.ff.create.sort import _other_groupvar_portname
+from datacode.ff.create.sort import _other_groupvar_portname
 
 def _standardize_custom_args(custom_labels: DictofStrsandStrLists = None,
                              custom_groupvar_ngroups_dict: GroupvarNgroupsDict = None,

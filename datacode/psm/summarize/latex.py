@@ -1,4 +1,4 @@
-from dero.data.psm.typing import DfDict, StrOrNone, FloatOrNone
+from datacode.psm.typing import DfDict, StrOrNone, FloatOrNone
 import pyexlatex.table as lt
 
 def matching_latex_table_from_df_dict(df_dict: DfDict, entity_var: str, time_var: str, below_text: StrOrNone = None,

@@ -2,8 +2,8 @@ import pandas as pd
 import dero
 
 from pd_utils.pdutils import _to_list_if_str
-from dero.data.ff.create.model import parse_model
-from dero.data.ff.fftypes import ListOrStr, DfListListStrTuple, GroupvarNgroupsDict, StrOrInt
+from datacode.ff.create.model import parse_model
+from datacode.ff.fftypes import ListOrStr, DfListListStrTuple, GroupvarNgroupsDict, StrOrInt
 
 def create_ff_portfolios(df: pd.DataFrame, factor_model: StrOrInt=3, byvars: ListOrStr='Year',
                          id_var: str='Ticker', date_var: str='Date',

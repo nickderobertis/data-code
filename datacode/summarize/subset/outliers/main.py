@@ -1,17 +1,17 @@
 import pandas as pd
 
 from pyexlatex import Document
-from dero.data.summarize.subset.outliers.select import outlier_summary_dicts
-from dero.data.summarize.subset.outliers.detail.totex import outlier_by_column_summary
-from dero.data.summarize.subset.outliers.summary.main import outlier_overview_summary_page_table
-from dero.data.summarize.subset.outliers.typing import (
+from datacode.summarize.subset.outliers.select import outlier_summary_dicts
+from datacode.summarize.subset.outliers.detail.totex import outlier_by_column_summary
+from datacode.summarize.subset.outliers.summary.main import outlier_overview_summary_page_table
+from datacode.summarize.subset.outliers.typing import (
     AssociatedColDict,
     MinMaxDict,
     BoolDict,
     StrList,
     FloatSequence
 )
-from dero.data.typing import DocumentOrTables
+from datacode.typing import DocumentOrTables
 
 
 def outlier_summary_tables(df: pd.DataFrame, associated_col_dict: AssociatedColDict,

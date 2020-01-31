@@ -1,4 +1,4 @@
-from dero.data.typing import IntOrNone, FloatOrNone, Union
+from datacode.typing import IntOrNone, FloatOrNone, Union
 
 def missing_more_than_str(missing_tolerance: IntOrNone, missing_quantile: FloatOrNone,
                           missing_display_str: str, id_var: str) -> str:

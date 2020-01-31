@@ -1,8 +1,8 @@
 import pandas as pd
 
 from typing import List
-from dero.data.ff.fftypes import StrOrInt, DictofStrsandStrLists
-from dero.data.ff.create.model import parse_model
+from datacode.ff.fftypes import StrOrInt, DictofStrsandStrLists
+from datacode.ff.create.model import parse_model
 
 def get_and_set_labels(df: pd.DataFrame, factor_model: StrOrInt=3, size_var: str=None, value_var: str=None,
                profitability_var: str=None, investment_var: str=None,

@@ -3,12 +3,12 @@
 
 import pandas as pd
 
-from dero.data.ff.create.minus import (
+from datacode.ff.create.minus import (
     _get_minus_label,
     _get_low_minus_high_dict,
     _calculated_with_varname_to_orig_var
 )
-from dero.data.ff.fftypes import (
+from datacode.ff.fftypes import (
     TwoStrTupleList,
     TwoStrListTuple,
     DictofStrsandStrLists,
