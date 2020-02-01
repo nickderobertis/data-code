@@ -21,6 +21,11 @@ pytest-cov = "*"
 mypy = "*"
 pypandoc = "*"
 cruft = "*"
+pandas = "*"
+pd_utils = "*"
+matplotlib = "*"
+regtools = "*"
+pyexlatex = "*"
 
 [requires]
 python_version = "3.7"
