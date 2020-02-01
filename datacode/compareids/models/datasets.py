@@ -103,6 +103,8 @@ class DataCombination(DataItem):
         if plt is None:
             import matplotlib.pyplot as plt
 
+        # TODO: finish compare ids data combination to node
+
         #### TEMP
         import pdb
         pdb.set_trace()

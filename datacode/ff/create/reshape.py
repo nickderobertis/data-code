@@ -1,6 +1,6 @@
 import pandas as pd
 
-import dero
+import pd_utils
 from pd_utils.pdutils import _to_list_if_str
 from datacode.ff.fftypes import ListOrStr
 
@@ -15,7 +15,7 @@ def long_averages_to_wide_averages(df: pd.DataFrame, datevar: str='Date', byvars
     else:
         all_byvars = [datevar]
 
-    return dero.pandas.long_to_wide(
+    return pd_utils.long_to_wide(
         df,
         groupvars=all_byvars,
         values=retvar,

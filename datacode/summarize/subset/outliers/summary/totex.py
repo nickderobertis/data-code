@@ -1,5 +1,5 @@
-from dero.data.summarize.subset.outliers.typing import DfDict
-from dero.data.typing import DocumentOrTable
+from datacode.summarize.subset.outliers.typing import DfDict
+from datacode.typing import DocumentOrTable
 import pyexlatex.table as lt
 from pyexlatex import Document
 

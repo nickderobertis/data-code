@@ -1,5 +1,5 @@
 import pandas as pd
-import dero
+import pd_utils
 
 from pd_utils.pdutils import _to_list_if_str
 from datacode.ff.fftypes import ListOrStr
@@ -16,7 +16,7 @@ def portfolio_returns(df: pd.DataFrame, retvar: str='RET', datevar: str='Date', 
     else:
         all_byvars = [datevar, portvar]
 
-    avgs = dero.pandas.averages(
+    avgs = pd_utils.averages(
         df,
         retvar,
         byvars=all_byvars,
@@ -38,7 +38,7 @@ def market_returns(df: pd.DataFrame, retvar: str='RET', datevar: str='Date', wtv
     else:
         all_byvars = [datevar]
 
-    avgs = dero.pandas.averages(
+    avgs = pd_utils.averages(
         df[all_byvars + [retvar, wtvar]],
         retvar,
         byvars=all_byvars,
