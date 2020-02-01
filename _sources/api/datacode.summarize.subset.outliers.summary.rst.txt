@@ -1,0 +1,43 @@
+datacode.summarize.subset.outliers.summary package
+==================================================
+
+.. automodule:: datacode.summarize.subset.outliers.summary
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.summarize.subset.outliers.summary.main module
+------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.outliers.summary.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.outliers.summary.overview module
+----------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.outliers.summary.overview
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.outliers.summary.stats module
+-------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.outliers.summary.stats
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.outliers.summary.totex module
+-------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.outliers.summary.totex
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

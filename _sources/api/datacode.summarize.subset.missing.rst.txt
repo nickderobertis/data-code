@@ -1,0 +1,27 @@
+datacode.summarize.subset.missing package
+=========================================
+
+.. automodule:: datacode.summarize.subset.missing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.summarize.subset.missing.detail
+   datacode.summarize.subset.missing.summary
+
+Submodules
+----------
+
+datacode.summarize.subset.missing.main module
+---------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

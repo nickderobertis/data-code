@@ -1,0 +1,625 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datacode package &mdash; datacode 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="datacode.compareids package" href="datacode.compareids.html" />
+    <link rel="prev" title="datacode" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> datacode
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started with datacode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">This is my gallery</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">datacode</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">datacode package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.html">datacode.compareids package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.display.html">datacode.display package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.html">datacode.ff package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.formatters.html">datacode.formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.html">datacode.summarize package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-datacode.typing">datacode.typing module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">datacode</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">datacode</a> &raquo;</li>
+        
+      <li>datacode package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/datacode.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-datacode">
+<span id="datacode-package"></span><h1>datacode package<a class="headerlink" href="#module-datacode" title="Permalink to this headline">¶</a></h1>
+<p>A collection of tools for working with finance data in an academic setting. Compare and summarize data sets,
+propensity score matching, analyze outliers and missing data, and create/reformat several types of data sets,
+including: difference-in-difference, Fama-French-style factors, and portfolios.</p>
+<dl class="class">
+<dt id="datacode.GetCRSP">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">GetCRSP</code><span class="sig-paren">(</span><em class="sig-param">debug=False</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#GetCRSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.GetCRSP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="datacode.GetCRSP.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">debug=False</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#GetCRSP.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.GetCRSP.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.GetCRSP.pull_crsp">
+<code class="sig-name descname">pull_crsp</code><span class="sig-paren">(</span><em class="sig-param">df, coid='PERMNO', freq='m', get=['PRC', 'SHROUT'], date='Date', other_byvars=None, time=None, between_time=False, wide=True, abret=False, window=None, cumret=False, includefac=False, includecoef=False, drop_first=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#GetCRSP.pull_crsp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.GetCRSP.pull_crsp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pulls prices and returns from CRSP. Currently supports the monthly file merging on PERMNO.</p>
+<p>WARNING: Will overwrite variables called “Year” and “Month” if merging the monthly file</p>
+<p>coid = string, company identifier (currently supports ‘GVKEY’, ‘TICKER’, ‘PERMNO’, ‘PERMCO’, ‘NCUSIP’)
+freq = ‘m’ for monthly, ‘d’ for daily
+get = ‘PRC’, ‘RET’, ‘SHROUT’, ‘VOL’, ‘CFACPR’, ‘CFACSHR’, or a list combining any of these
+date = name of datetime column in quotes
+other_byvars = other by vars in dataset besides company identifier and date. Used for long_to_wide
+time = list of integers or None. If not None, will pull the variables for a time difference of the time</p>
+<blockquote>
+<div><p>numbers given, and put them in wide format in the output dataset. For instance time=[-12,0,12] with
+freq=’m’ and get=’RET’ would pull three returns per observation, one twelve months prior, one contemporaneous,
+and one twelve months later, naming them RET-12, RET0, and RET12. If freq=’d’ in the same example, it would be
+twelve days prior, etc.</p>
+</div></blockquote>
+<dl>
+<dt>between_time = bool. Only applicable if time is not None. True to generate periods in between given time periods, e.g.</dt><dd><p>passing time=[12,24,36] will get periods 12, 13, 14, …, 35, 36.</p>
+</dd>
+<dt>abret = 1, 3, 4, or False. If 1, 3, or 4 is passed and ‘RET’ is in get, will calculate abnormal returns according to CAPM,</dt><dd><p>3 or 4 factor model, respectively.</p>
+</dd>
+<dt>window = Integer or None. Must provide an integer if abret is not False. This is the number of prior periods to use</dt><dd><p>for estimating the loadings in factor models. For instance, if freq=’m’, window=36 would use the prior
+three years of returns to estimate the loadings.</p>
+</dd>
+<dt>cumret = ‘between’, ‘zero’, ‘first’, or False. time must not be None and RET in get for this option to matter. </dt><dd><p>When pulling returns for multiple periods, gives the option to cumulate returns. If False, will just return 
+returns for the individual periods. 
+If ‘zero’, will give returns since the original date. 
+If ‘between’, will give returns since the prior requested time period.
+If ‘first’, will give returns since the first requested time period.
+For example, if our input data was for date 1/5/2006, and in the CRSP table we had:</p>
+<blockquote>
+<div><p>permno  date       RET
+10516   1/5/2006   10%
+10516   1/6/2006   20%
+10516   1/7/2006    5%
+10516   1/8/2006   30%</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Then get_crsp(df, time=[1,3], get=’RET’, cumret=None) would return:</dt><dd><p>permno  date       RET1  RET3
+10516   1/5/2006   20%   30%</p>
+</dd>
+<dt>Then get_crsp(df, time=[1,3], get=’RET’, cumret=’between’) would return:</dt><dd><p>permno  date       RET1  RET3
+10516   1/5/2006   20%   36.5%</p>
+</dd>
+<dt>Then get_crsp(df, time=[1,3], get=’RET’, cumret=’zero’) would return:</dt><dd><p>permno  date       RET1  RET3
+10516   1/5/2006   20%   63.8%</p>
+</dd>
+</dl>
+<p>The output for cumret=’first’ would be the same as for cumret=’zero’ because the first period is period zero.
+Had time been =[-1, 1, 3], then returns would be calculated from period -1 to period 1, and period -1 to period 3.</p>
+</dd>
+</dl>
+<p>includefac = Boolean, True to include factors in output
+includecoef = Boolean, True to include factor coefficients in output
+wide = True for output data to be wide form, False for long form. Only applies when time is not None.
+drop_first = bool, set to True to drop observations for first time. Can only be used when time != None, and</p>
+<blockquote>
+<div><p>when cumret != False. This is a
+convenience function for estimating cumulative return windows. For example, if time = [-1, 1], 
+then the typical output would include both cum_RET-1 and cum_RET1. All we actually care about is the
+cumulative return over the window, which is equal to cum_RET1. drop_first=True will drop out 
+RET-1 and cum_RET-1 from the output.</p>
+</div></blockquote>
+<p>debug: bool, set to True to restrict CRSP to only PERMNOs 10516 (gvkey=001722) and 10517 (gvkey=001076)</p>
+<p>Typical usage:
+Calculating a return window with abnormal returns included:</p>
+<blockquote>
+<div><p>get_crsp(df, get=’RET’, freq=’d’, time=[-1, 1], cumret=’between’, abret=4, window=250, drop_first=True)</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.get_abret">
+<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">get_abret</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">byvars</em>, <em class="sig-param">fulldatevar='Date'</em>, <em class="sig-param">year_month=None</em>, <em class="sig-param">freq='m'</em>, <em class="sig-param">abret_fac=5</em>, <em class="sig-param">retvar='RET'</em>, <em class="sig-param">includecoef=False</em>, <em class="sig-param">includefac=False</em>, <em class="sig-param">mp=False</em>, <em class="sig-param">stderr=False</em>, <em class="sig-param">**get_ff_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#get_abret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.get_abret" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a dataframe containing a column of returns, dates, and at least one by variable and calculates
+abnormal returns for the model of choice. Returns a dataframe with the abnormal returns merged.</p>
+<p>Required inputs:
+df: pandas dataframe
+byvars: str or list of strs, column names of columns on which to form by groups</p>
+<p>Optional inputs:
+fulldatevar: str, name of column containing date variable. If provided, don’t provide year_month.
+year_month: list of strs, columns names of year and month variables, e.g. [‘Year’,’Month’]. Must</p>
+<blockquote>
+<div><p>set fulldatevar to None if year_month is provided.</p>
+</div></blockquote>
+<p>freq: ‘m’ or ‘d’, ‘m’ for monthly returns, ‘d’ for daily returns
+abret_fac: int (1, 3, 5), abnormal return model
+retvar: str, name of return variable
+includecoef: bool, set to True to get factor loadings
+includefac: bool, set to True to get factors and risk free rate
+mp: False to use single processor, True to use all processors, int to use # processors
+stderr: bool, True to include standard errors of coefficients</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.get_ff_factors">
+<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">get_ff_factors</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">fulldatevar=None</em>, <em class="sig-param">year_month=None</em>, <em class="sig-param">freq='m'</em>, <em class="sig-param">subset=None</em>, <em class="sig-param">ff_df=None</em>, <em class="sig-param">ff_dir=None</em>, <em class="sig-param">custom_ff_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#get_ff_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.get_ff_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pulls Fama-French factors and merges them to dataset</p>
+<p>df: Input dataframe
+fulldatevar: String name of date variable to merge on. Specify this OR year and month variable. Must use this</p>
+<blockquote>
+<div><p>and not year_month if pulling daily factors. If merging with monthly factors, will create month
+and year variables in the output dataset. Warning: Will overwrite any variables called Month
+and Year in the input data.</p>
+</div></blockquote>
+<p>year_month: Two element list of [‘yearvar’,’monthvar’]. Specify this OR full date variable.
+freq: ‘m’ for monthly factors, ‘d’ for daily
+subset: str or list, names of ff factors to pull. Can specify any of ‘mktrf’, ‘smb’, ‘hml’, ‘rmw’, ‘cma’, ‘umd’
+ff_df: pandas DataFrame containing factors. if passed, will ignore ff_dir and custom_ff_name
+ff_dir: folder containing FF data
+custom_ff_name: used in combination with ff_dir to select file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.get_gvkey_or_permno">
+<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">get_gvkey_or_permno</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">datevar</em>, <em class="sig-param">get='GVKEY'</em>, <em class="sig-param">other_byvars=None</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#get_gvkey_or_permno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.get_gvkey_or_permno" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a dataframe containing either GVKEY or PERMNO and merges to the CRSP linktable to get the other one.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.merge_dsenames">
+<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">merge_dsenames</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">on='TICKER'</em>, <em class="sig-param">get='PERMNO'</em>, <em class="sig-param">date='Date'</em>, <em class="sig-param">other_byvars=None</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#merge_dsenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.merge_dsenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges with dsenames file on on variable (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6), to get get variable (same list).
+Must have a Date variable in df.</p>
+<p>Default is to match on TICKER and pull PERMNO.</p>
+<p>Required inputs:
+df: pandas dataframe containing any of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)</p>
+<p>Optional inputs:
+on: str, column name to merge on, one of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)
+get: str or list, column or columns to get from dsenames, any of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)</p>
+<blockquote>
+<div><p>that aren’t already in on</p>
+</div></blockquote>
+<p>date: str, column name of date variable
+other_byvars: any other variables signifying groups in the data, prevents from collapsing those groups</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.replace_missing_csv">
+<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">replace_missing_csv</code><span class="sig-paren">(</span><em class="sig-param">csv_list</em>, <em class="sig-param">missing_rep</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#replace_missing_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.replace_missing_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces missing items in a CSV with a given missing representation string.</p>
+</dd></dl>
+
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datacode.compareids.html">datacode.compareids package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.compareids.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacode.compareids.frontends.html">datacode.compareids.frontends package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.frontends.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.frontends.html#datacode-compareids-frontends-text-summ-module">datacode.compareids.frontends.text_summ module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.compareids.models.html">datacode.compareids.models package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.models.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.models.html#datacode-compareids-models-bars-module">datacode.compareids.models.bars module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.models.html#datacode-compareids-models-base-module">datacode.compareids.models.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.models.html#datacode-compareids-models-datasets-module">datacode.compareids.models.datasets module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.models.html#datacode-compareids-models-flowchart-module">datacode.compareids.models.flowchart module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.models.html#datacode-compareids-models-interface-module">datacode.compareids.models.interface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.models.html#datacode-compareids-models-main-module">datacode.compareids.models.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.compareids.models.html#datacode-compareids-models-steps-module">datacode.compareids.models.steps module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.compareids.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.compareids.html#datacode-compareids-backend-module">datacode.compareids.backend module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.compareids.html#module-datacode.compareids.tools">datacode.compareids.tools module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.display.html">datacode.display package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.ff.html">datacode.ff package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.ff.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacode.ff.create.html">datacode.ff.create package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.average">datacode.ff.create.average module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.dualsort">datacode.ff.create.dualsort module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.inputs">datacode.ff.create.inputs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.label">datacode.ff.create.label module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.main">datacode.ff.create.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.mainport">datacode.ff.create.mainport module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.minus">datacode.ff.create.minus module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.model">datacode.ff.create.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.reshape">datacode.ff.create.reshape module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.ff.create.html#module-datacode.ff.create.sort">datacode.ff.create.sort module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.ff.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.ff.html#module-datacode.ff.fftypes">datacode.ff.fftypes module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.formatters.html">datacode.formatters package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.formatters.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacode.formatters.models.html">datacode.formatters.models package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.formatters.models.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.formatters.models.html#module-datacode.formatters.models.result">datacode.formatters.models.result module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.formatters.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.formatters.html#module-datacode.formatters.stars">datacode.formatters.stars module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.formatters.html#module-datacode.formatters.stderr">datacode.formatters.stderr module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.panel.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacode.panel.did.html">datacode.panel.did package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.panel.did.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.panel.did.html#module-datacode.panel.did.dataprep">datacode.panel.did.dataprep module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.panel.did.html#module-datacode.panel.did.main">datacode.panel.did.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.panel.did.html#module-datacode.panel.did.reg">datacode.panel.did.reg module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.panel.did.html#module-datacode.panel.did.totex">datacode.panel.did.totex module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.panel.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.panel.html#module-datacode.panel.expandselect">datacode.panel.expandselect module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.portfolio.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.portfolio.html#module-datacode.portfolio.name">datacode.portfolio.name module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.portfolio.html#module-datacode.portfolio.resample">datacode.portfolio.resample module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.portfolio.html#module-datacode.portfolio.sort">datacode.portfolio.sort module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.portfolio.html#module-datacode.portfolio.typing">datacode.portfolio.typing module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacode.psm.summarize.html">datacode.psm.summarize package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.psm.summarize.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.psm.summarize.html#module-datacode.psm.summarize.examine">datacode.psm.summarize.examine module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.psm.summarize.html#module-datacode.psm.summarize.latex">datacode.psm.summarize.latex module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.psm.summarize.html#datacode-psm-summarize-main-module">datacode.psm.summarize.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.psm.summarize.html#datacode-psm-summarize-predictions-module">datacode.psm.summarize.predictions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.psm.summarize.html#datacode-psm-summarize-stats-module">datacode.psm.summarize.stats module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#module-datacode.psm.dataprep">datacode.psm.dataprep module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#datacode-psm-main-module">datacode.psm.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#module-datacode.psm.match">datacode.psm.match module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#module-datacode.psm.names">datacode.psm.names module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#datacode-psm-predict-module">datacode.psm.predict module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#module-datacode.psm.score">datacode.psm.score module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#module-datacode.psm.typing">datacode.psm.typing module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.summarize.html">datacode.summarize package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacode.summarize.subset.html">datacode.summarize.subset package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="datacode.summarize.subset.missing.html">datacode.summarize.subset.missing package</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html">datacode.summarize.subset.missing.detail package</a><ul>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html">datacode.summarize.subset.missing.detail.reformat package</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#submodules">Submodules</a></li>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#datacode-summarize-subset-missing-detail-reformat-main-module">datacode.summarize.subset.missing.detail.reformat.main module</a></li>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#datacode-summarize-subset-missing-detail-reformat-numformat-module">datacode.summarize.subset.missing.detail.reformat.numformat module</a></li>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#datacode-summarize-subset-missing-detail-reformat-towide-module">datacode.summarize.subset.missing.detail.reformat.towide module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#submodules">Submodules</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-byid-module">datacode.summarize.subset.missing.detail.byid module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-byobs-module">datacode.summarize.subset.missing.detail.byobs module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-main-module">datacode.summarize.subset.missing.detail.main module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-textfuncs-module">datacode.summarize.subset.missing.detail.textfuncs module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-totex-module">datacode.summarize.subset.missing.detail.totex module</a></li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="datacode.summarize.subset.missing.summary.html">datacode.summarize.subset.missing.summary package</a><ul>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.summary.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l9"><a class="reference internal" href="datacode.summarize.subset.missing.summary.graphs.html">datacode.summarize.subset.missing.summary.graphs package</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.graphs.html#submodules">Submodules</a></li>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.graphs.html#datacode-summarize-subset-missing-summary-graphs-pctbyid-module">datacode.summarize.subset.missing.summary.graphs.pctbyid module</a></li>
+</ul>
+</li>
+<li class="toctree-l9"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.html">datacode.summarize.subset.missing.summary.tables package</a><ul>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l11"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html">datacode.summarize.subset.missing.summary.tables.fullsample package</a><ul>
+<li class="toctree-l12"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#submodules">Submodules</a></li>
+<li class="toctree-l12"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-idcount-module">datacode.summarize.subset.missing.summary.tables.fullsample.idcount module</a></li>
+<li class="toctree-l12"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-main-module">datacode.summarize.subset.missing.summary.tables.fullsample.main module</a></li>
+<li class="toctree-l12"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-missingmore-module">datacode.summarize.subset.missing.summary.tables.fullsample.missingmore module</a></li>
+<li class="toctree-l12"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-obs-module">datacode.summarize.subset.missing.summary.tables.fullsample.obs module</a></li>
+<li class="toctree-l12"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-periods-module">datacode.summarize.subset.missing.summary.tables.fullsample.periods module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.html#submodules">Submodules</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.html#datacode-summarize-subset-missing-main-module">datacode.summarize.subset.missing.main module</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="datacode.summarize.subset.outliers.html">datacode.summarize.subset.outliers package</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="datacode.summarize.subset.outliers.detail.html">datacode.summarize.subset.outliers.detail package</a><ul>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.outliers.detail.html#submodules">Submodules</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.outliers.detail.html#datacode-summarize-subset-outliers-detail-totex-module">datacode.summarize.subset.outliers.detail.totex module</a></li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html">datacode.summarize.subset.outliers.summary package</a><ul>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#submodules">Submodules</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#datacode-summarize-subset-outliers-summary-main-module">datacode.summarize.subset.outliers.summary.main module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#datacode-summarize-subset-outliers-summary-overview-module">datacode.summarize.subset.outliers.summary.overview module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#datacode-summarize-subset-outliers-summary-stats-module">datacode.summarize.subset.outliers.summary.stats module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#datacode-summarize-subset-outliers-summary-totex-module">datacode.summarize.subset.outliers.summary.totex module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.html#submodules">Submodules</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.html#datacode-summarize-subset-outliers-main-module">datacode.summarize.subset.outliers.main module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.html#datacode-summarize-subset-outliers-select-module">datacode.summarize.subset.outliers.select module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.html#datacode-summarize-subset-outliers-typing-module">datacode.summarize.subset.outliers.typing module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacode.typing">
+<span id="datacode-typing-module"></span><h2>datacode.typing module<a class="headerlink" href="#module-datacode.typing" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="datacode.compareids.html" class="btn btn-neutral float-right" title="datacode.compareids package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="datacode" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Nick DeRobertis
+
+    </p>
+  </div>
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-157532545-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+pyexlatex
+pd_utils
+matplotlib
+datacode
+regtools
+pandas

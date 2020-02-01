@@ -1,0 +1,14 @@
+datacode.summarize.subset.missing.summary.tables package
+========================================================
+
+.. automodule:: datacode.summarize.subset.missing.summary.tables
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.summarize.subset.missing.summary.tables.fullsample

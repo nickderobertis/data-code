@@ -1,0 +1,26 @@
+datacode.panel package
+======================
+
+.. automodule:: datacode.panel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.panel.did
+
+Submodules
+----------
+
+datacode.panel.expandselect module
+----------------------------------
+
+.. automodule:: datacode.panel.expandselect
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

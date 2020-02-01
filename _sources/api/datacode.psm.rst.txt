@@ -1,0 +1,74 @@
+datacode.psm package
+====================
+
+.. automodule:: datacode.psm
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.psm.summarize
+
+Submodules
+----------
+
+datacode.psm.dataprep module
+----------------------------
+
+.. automodule:: datacode.psm.dataprep
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.main module
+------------------------
+
+.. automodule:: datacode.psm.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.match module
+-------------------------
+
+.. automodule:: datacode.psm.match
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.names module
+-------------------------
+
+.. automodule:: datacode.psm.names
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.predict module
+---------------------------
+
+.. automodule:: datacode.psm.predict
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.score module
+-------------------------
+
+.. automodule:: datacode.psm.score
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.typing module
+--------------------------
+
+.. automodule:: datacode.psm.typing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

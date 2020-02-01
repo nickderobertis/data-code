@@ -1,0 +1,35 @@
+datacode.summarize.subset.missing.detail.reformat package
+=========================================================
+
+.. automodule:: datacode.summarize.subset.missing.detail.reformat
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.summarize.subset.missing.detail.reformat.main module
+-------------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.detail.reformat.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.detail.reformat.numformat module
+------------------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.detail.reformat.numformat
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.detail.reformat.towide module
+---------------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.detail.reformat.towide
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

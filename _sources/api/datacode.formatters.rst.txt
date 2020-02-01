@@ -1,0 +1,34 @@
+datacode.formatters package
+===========================
+
+.. automodule:: datacode.formatters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.formatters.models
+
+Submodules
+----------
+
+datacode.formatters.stars module
+--------------------------------
+
+.. automodule:: datacode.formatters.stars
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.formatters.stderr module
+---------------------------------
+
+.. automodule:: datacode.formatters.stderr
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

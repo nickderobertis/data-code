@@ -1,0 +1,35 @@
+datacode.compareids package
+===========================
+
+.. automodule:: datacode.compareids
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.compareids.frontends
+   datacode.compareids.models
+
+Submodules
+----------
+
+datacode.compareids.backend module
+----------------------------------
+
+.. automodule:: datacode.compareids.backend
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.compareids.tools module
+--------------------------------
+
+.. automodule:: datacode.compareids.tools
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

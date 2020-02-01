@@ -1,0 +1,91 @@
+datacode.ff.create package
+==========================
+
+.. automodule:: datacode.ff.create
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.ff.create.average module
+---------------------------------
+
+.. automodule:: datacode.ff.create.average
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.ff.create.dualsort module
+----------------------------------
+
+.. automodule:: datacode.ff.create.dualsort
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.ff.create.inputs module
+--------------------------------
+
+.. automodule:: datacode.ff.create.inputs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.ff.create.label module
+-------------------------------
+
+.. automodule:: datacode.ff.create.label
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.ff.create.main module
+------------------------------
+
+.. automodule:: datacode.ff.create.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.ff.create.mainport module
+----------------------------------
+
+.. automodule:: datacode.ff.create.mainport
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.ff.create.minus module
+-------------------------------
+
+.. automodule:: datacode.ff.create.minus
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.ff.create.model module
+-------------------------------
+
+.. automodule:: datacode.ff.create.model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.ff.create.reshape module
+---------------------------------
+
+.. automodule:: datacode.ff.create.reshape
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.ff.create.sort module
+------------------------------
+
+.. automodule:: datacode.ff.create.sort
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

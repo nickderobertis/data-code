@@ -1,0 +1,58 @@
+datacode.summarize.subset.missing.detail package
+================================================
+
+.. automodule:: datacode.summarize.subset.missing.detail
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.summarize.subset.missing.detail.reformat
+
+Submodules
+----------
+
+datacode.summarize.subset.missing.detail.byid module
+----------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.detail.byid
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.detail.byobs module
+-----------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.detail.byobs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.detail.main module
+----------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.detail.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.detail.textfuncs module
+---------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.detail.textfuncs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.detail.totex module
+-----------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.detail.totex
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

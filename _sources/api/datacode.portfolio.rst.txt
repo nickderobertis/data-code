@@ -1,0 +1,43 @@
+datacode.portfolio package
+==========================
+
+.. automodule:: datacode.portfolio
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.portfolio.name module
+------------------------------
+
+.. automodule:: datacode.portfolio.name
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.portfolio.resample module
+----------------------------------
+
+.. automodule:: datacode.portfolio.resample
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.portfolio.sort module
+------------------------------
+
+.. automodule:: datacode.portfolio.sort
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.portfolio.typing module
+--------------------------------
+
+.. automodule:: datacode.portfolio.typing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

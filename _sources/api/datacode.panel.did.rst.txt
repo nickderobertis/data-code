@@ -1,0 +1,43 @@
+datacode.panel.did package
+==========================
+
+.. automodule:: datacode.panel.did
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.panel.did.dataprep module
+----------------------------------
+
+.. automodule:: datacode.panel.did.dataprep
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.panel.did.main module
+------------------------------
+
+.. automodule:: datacode.panel.did.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.panel.did.reg module
+-----------------------------
+
+.. automodule:: datacode.panel.did.reg
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.panel.did.totex module
+-------------------------------
+
+.. automodule:: datacode.panel.did.totex
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

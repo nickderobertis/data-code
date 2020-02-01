@@ -1,0 +1,959 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datacode &mdash; datacode 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> datacode
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting started with datacode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">This is my gallery</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">datacode</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">datacode</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>datacode</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for datacode</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A collection of tools for working with finance data in an academic setting. Compare and summarize data sets,</span>
+<span class="sd">propensity score matching, analyze outliers and missing data, and create/reformat several types of data sets,</span>
+<span class="sd">including: difference-in-difference, Fama-French-style factors, and portfolios.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">datetime</span><span class="o">,</span> <span class="nn">warnings</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">pd_utils</span> <span class="kn">import</span> <span class="n">expand_time</span><span class="p">,</span> <span class="n">cumulate</span><span class="p">,</span> <span class="n">convert_sas_date_to_pandas_date</span><span class="p">,</span> <span class="n">factor_reg_by</span><span class="p">,</span> <span class="n">load_sas</span><span class="p">,</span> \
+                    <span class="n">long_to_wide</span><span class="p">,</span> <span class="n">year_month_from_date</span><span class="p">,</span> <span class="n">join_col_strings</span>
+    
+<span class="c1"># from ..compustat import convert_gvkey, load_compustat, merge_compustat</span>
+<span class="c1"># from ..config import data_path</span>
+
+
+<div class="viewcode-block" id="replace_missing_csv"><a class="viewcode-back" href="../api/datacode.html#datacode.replace_missing_csv">[docs]</a><span class="k">def</span> <span class="nf">replace_missing_csv</span><span class="p">(</span><span class="n">csv_list</span><span class="p">,</span> <span class="n">missing_rep</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Replaces missing items in a CSV with a given missing representation string.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">full_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">csv_list</span><span class="p">:</span>
+        <span class="n">line_list</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="n">new_line_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">line_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="c1">#if the item is missing</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">missing_rep</span>
+            <span class="n">new_line_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">full_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_line_list</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">full_list</span></div>
+
+<div class="viewcode-block" id="merge_dsenames"><a class="viewcode-back" href="../api/datacode.html#datacode.merge_dsenames">[docs]</a><span class="k">def</span> <span class="nf">merge_dsenames</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;TICKER&#39;</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> 
+                   <span class="n">other_byvars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                   <span class="n">crsp_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Merges with dsenames file on on variable (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6), to get get variable (same list).</span>
+<span class="sd">    Must have a Date variable in df.</span>
+<span class="sd">    </span>
+<span class="sd">    Default is to match on TICKER and pull PERMNO.</span>
+<span class="sd">    </span>
+<span class="sd">    Required inputs:</span>
+<span class="sd">    df: pandas dataframe containing any of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)</span>
+<span class="sd">    </span>
+<span class="sd">    Optional inputs:</span>
+<span class="sd">    on: str, column name to merge on, one of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)</span>
+<span class="sd">    get: str or list, column or columns to get from dsenames, any of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)</span>
+<span class="sd">         that aren&#39;t already in on</span>
+<span class="sd">    date: str, column name of date variable</span>
+<span class="sd">    other_byvars: any other variables signifying groups in the data, prevents from collapsing those groups</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># Set default CRSP dir</span>
+    <span class="c1"># if crsp_dir is None:</span>
+    <span class="c1">#     crsp_dir = data_path(&#39;CRSP&#39;)</span>
+
+    <span class="c1">#Make get a list</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">get</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">get</span> <span class="o">=</span> <span class="p">[</span><span class="n">get</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">get</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+    
+    <span class="c1">#Make other byvars a list</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">other_byvars</span><span class="p">:</span>
+        <span class="n">other_byvars</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other_byvars</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">other_byvars</span> <span class="o">=</span> <span class="p">[</span><span class="n">other_byvars</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other_byvars</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+    
+    <span class="k">assert</span> <span class="n">on</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">get</span> <span class="c1">#can&#39;t get what we already have</span>
+    
+    <span class="c1">#Pull from CRSP dsenames file</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;dsenames&#39;</span>
+    <span class="n">fullpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">crsp_dir</span><span class="p">,</span> <span class="n">file</span> <span class="o">+</span> <span class="s1">&#39;.sas7bdat&#39;</span><span class="p">)</span>
+    <span class="n">names_df</span> <span class="o">=</span> <span class="n">load_sas</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+    
+    <span class="c1">#Convert NCUSIP to CUSIP6</span>
+    <span class="k">if</span> <span class="n">on</span> <span class="o">==</span> <span class="s1">&#39;CUSIP6&#39;</span> <span class="ow">or</span> <span class="s1">&#39;CUSIP6&#39;</span> <span class="ow">in</span> <span class="n">get</span><span class="p">:</span>
+        <span class="n">names_df</span><span class="p">[</span><span class="s1">&#39;CUSIP6&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">names_df</span><span class="p">[</span><span class="s1">&#39;NCUSIP&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
+    
+    <span class="n">names_df</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_sas_date_to_pandas_date</span><span class="p">(</span><span class="n">names_df</span><span class="p">[</span><span class="s1">&#39;NAMEDT&#39;</span><span class="p">])</span>
+    <span class="n">names_df</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_sas_date_to_pandas_date</span><span class="p">(</span><span class="n">names_df</span><span class="p">[</span><span class="s1">&#39;NAMEENDT&#39;</span><span class="p">])</span>
+    <span class="n">names_df</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">names_df</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">())</span>
+    
+    
+    <span class="c1">#Now perform merge</span>
+    <span class="n">merged</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">on</span><span class="p">,</span> <span class="n">date</span><span class="p">]</span> <span class="o">+</span> <span class="n">other_byvars</span><span class="p">]</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">names_df</span><span class="p">[[</span><span class="s1">&#39;start&#39;</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="n">on</span><span class="p">]</span> <span class="o">+</span> <span class="n">get</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">on</span><span class="p">)</span>
+    <span class="c1">#Drop out observations not in name date range</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">merged</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">merged</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">])</span>
+    <span class="c1">#However if there is not a match, doing merged[valid] would drop the observation instead of leaving nan</span>
+    <span class="c1">#Therefore, take merged[valid] and merge back again to original</span>
+    <span class="n">new_merged</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="n">valid</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;start&#39;</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">on</span><span class="p">,</span> <span class="n">date</span><span class="p">]</span> <span class="o">+</span> <span class="n">other_byvars</span><span class="p">)</span>
+    <span class="n">new_merged</span> <span class="o">=</span> <span class="n">new_merged</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;PERMNO&#39;</span> <span class="ow">in</span> <span class="n">get</span><span class="p">:</span>
+        <span class="c1">#Dsenames has no record of which permno is the primary link when a firm has multiple share classes.</span>
+        <span class="c1">#To get this information, we must merge ccmxpf_linktable. We want to keep only primary links.</span>
+        <span class="n">dups</span> <span class="o">=</span> <span class="n">new_merged</span><span class="p">[[</span><span class="n">date</span><span class="p">,</span> <span class="n">on</span><span class="p">]</span> <span class="o">+</span> <span class="n">other_byvars</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1">#series of True or False of whether duplicated row</span>
+        <span class="k">if</span> <span class="n">dups</span><span class="o">.</span><span class="n">any</span><span class="p">():</span> <span class="c1">#this means we got more than one permno for a single period/firm/byvars</span>
+            <span class="n">duplicated</span> <span class="o">=</span> <span class="n">new_merged</span><span class="p">[</span><span class="n">dups</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span> <span class="c1">#puts index in a column for later use</span>
+            <span class="n">not_duplicated</span> <span class="o">=</span> <span class="n">new_merged</span><span class="p">[</span><span class="o">~</span><span class="n">dups</span><span class="p">]</span>
+            
+            <span class="c1">#Take duplicated, merge to ccmxpf_linktable to get gvkey, and the ones which do not have gvkeys are</span>
+            <span class="c1">#the non-primary links</span>
+            <span class="n">with_gvkey</span> <span class="o">=</span> <span class="n">get_gvkey_or_permno</span><span class="p">(</span><span class="n">duplicated</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span> <span class="c1">#default is to get gvkey with permno</span>
+            <span class="n">removed_duplicates</span> <span class="o">=</span> <span class="n">with_gvkey</span><span class="p">[</span><span class="o">~</span><span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">with_gvkey</span><span class="p">[</span><span class="s1">&#39;GVKEY&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;GVKEY&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            
+            <span class="c1">#Set index back</span>
+            <span class="n">removed_duplicates</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+            <span class="c1">#Now append back together and sort</span>
+            <span class="n">full</span> <span class="o">=</span> <span class="n">not_duplicated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">removed_duplicates</span><span class="p">)</span>
+            <span class="n">new_merged</span> <span class="o">=</span> <span class="n">full</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">new_merged</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_gvkey_or_permno"><a class="viewcode-back" href="../api/datacode.html#datacode.get_gvkey_or_permno">[docs]</a><span class="k">def</span> <span class="nf">get_gvkey_or_permno</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">datevar</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s1">&#39;GVKEY&#39;</span><span class="p">,</span> <span class="n">other_byvars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">crsp_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a dataframe containing either GVKEY or PERMNO and merges to the CRSP linktable to get the other one.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Set default CRSP dir</span>
+    <span class="c1"># if crsp_dir is None:</span>
+    <span class="c1">#     crsp_dir = data_path(&#39;CRSP&#39;)</span>
+
+    <span class="k">if</span> <span class="n">get</span> <span class="o">==</span> <span class="s1">&#39;GVKEY&#39;</span><span class="p">:</span>
+        <span class="n">rename_get</span> <span class="o">=</span> <span class="s1">&#39;gvkey&#39;</span>
+        <span class="n">l_on</span> <span class="o">=</span> <span class="s1">&#39;PERMNO&#39;</span>
+        <span class="n">r_on</span> <span class="o">=</span> <span class="s1">&#39;lpermno&#39;</span>
+    <span class="k">elif</span> <span class="n">get</span> <span class="o">==</span> <span class="s1">&#39;PERMNO&#39;</span><span class="p">:</span>
+        <span class="n">rename_get</span> <span class="o">=</span> <span class="s1">&#39;lpermno&#39;</span>
+        <span class="n">l_on</span> <span class="o">=</span> <span class="s1">&#39;GVKEY&#39;</span>
+        <span class="n">r_on</span> <span class="o">=</span> <span class="s1">&#39;gvkey&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Need get=&quot;GVKEY&quot; or &quot;PERMNO&quot;&#39;</span><span class="p">)</span>
+        
+    <span class="c1">#Make other byvars a list</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">other_byvars</span><span class="p">:</span>
+        <span class="n">other_byvars</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other_byvars</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">other_byvars</span> <span class="o">=</span> <span class="p">[</span><span class="n">other_byvars</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other_byvars</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+    
+    <span class="n">link_name</span> <span class="o">=</span> <span class="s1">&#39;ccmxpf_linktable.sas7bdat&#39;</span>
+    <span class="n">link_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">crsp_dir</span><span class="p">,</span> <span class="n">link_name</span><span class="p">)</span>
+    
+    <span class="n">link</span> <span class="o">=</span> <span class="n">load_sas</span><span class="p">(</span><span class="n">link_path</span><span class="p">)</span>
+    <span class="n">link</span><span class="p">[</span><span class="s1">&#39;linkdt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_sas_date_to_pandas_date</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="s1">&#39;linkdt&#39;</span><span class="p">])</span>
+    <span class="n">link</span><span class="p">[</span><span class="s1">&#39;linkenddt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_sas_date_to_pandas_date</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="s1">&#39;linkenddt&#39;</span><span class="p">])</span>
+    <span class="c1">#If end date is missing, that means link is still active. Make end date today.</span>
+    <span class="n">link</span><span class="p">[</span><span class="s1">&#39;linkenddt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">link</span><span class="p">[</span><span class="s1">&#39;linkenddt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">())</span>
+    
+    <span class="c1">#Remove links with no permno so that they don&#39;t match to nans in the input df</span>
+    <span class="n">link</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lpermno&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">merged</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">link</span><span class="p">[[</span><span class="s1">&#39;lpermno&#39;</span><span class="p">,</span><span class="s1">&#39;gvkey&#39;</span><span class="p">,</span> <span class="s1">&#39;linkdt&#39;</span><span class="p">,</span> <span class="s1">&#39;linkenddt&#39;</span><span class="p">,</span><span class="s1">&#39;linkprim&#39;</span><span class="p">]],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="n">l_on</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="n">r_on</span><span class="p">)</span>
+
+    <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="n">datevar</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">merged</span><span class="o">.</span><span class="n">linkdt</span><span class="p">)</span> <span class="o">&amp;</span> \
+            <span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="n">datevar</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">merged</span><span class="o">.</span><span class="n">linkenddt</span><span class="p">)</span> <span class="o">&amp;</span> \
+            <span class="p">(</span><span class="n">merged</span><span class="o">.</span><span class="n">linkprim</span> <span class="o">==</span> <span class="s1">&#39;P&#39;</span><span class="p">)</span>
+        
+    <span class="n">merged</span> <span class="o">=</span> <span class="n">merged</span><span class="p">[</span><span class="n">valid</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;linkdt&#39;</span><span class="p">,</span><span class="s1">&#39;linkenddt&#39;</span><span class="p">,</span> <span class="s1">&#39;linkprim&#39;</span><span class="p">,</span> <span class="n">r_on</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+    <span class="n">merged</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">rename_get</span><span class="p">:</span><span class="n">get</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1">#Now merge back to the original again to ensure that rows are not deleted</span>
+    <span class="n">new_merged</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merged</span><span class="p">[[</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span><span class="s1">&#39;GVKEY&#39;</span><span class="p">,</span> <span class="n">datevar</span><span class="p">]</span> <span class="o">+</span> <span class="n">other_byvars</span><span class="p">],</span>
+                          <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">l_on</span><span class="p">,</span> <span class="n">datevar</span><span class="p">]</span> <span class="o">+</span> <span class="n">other_byvars</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">new_merged</span></div>
+
+
+<div class="viewcode-block" id="GetCRSP"><a class="viewcode-back" href="../api/datacode.html#datacode.GetCRSP">[docs]</a><span class="k">class</span> <span class="nc">GetCRSP</span><span class="p">:</span>
+    
+<div class="viewcode-block" id="GetCRSP.__init__"><a class="viewcode-back" href="../api/datacode.html#datacode.GetCRSP.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">crsp_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1"># Set default CRSP dir</span>
+        <span class="c1"># if crsp_dir is None:</span>
+        <span class="c1">#     crsp_dir = data_path(&#39;CRSP&#39;)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crsp_dir</span> <span class="o">=</span> <span class="n">crsp_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loaded_m</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loaded_d</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crsp_dfs</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#container for both monthly and daily crsp df</span></div>
+        
+    
+<div class="viewcode-block" id="GetCRSP.pull_crsp"><a class="viewcode-back" href="../api/datacode.html#datacode.GetCRSP.pull_crsp">[docs]</a>    <span class="k">def</span> <span class="nf">pull_crsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">coid</span><span class="o">=</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PRC&#39;</span><span class="p">,</span><span class="s1">&#39;SHROUT&#39;</span><span class="p">],</span> <span class="n">date</span><span class="o">=</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="n">other_byvars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">between_time</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wide</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">abret</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cumret</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">includefac</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">includecoef</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                 <span class="n">drop_first</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Pulls prices and returns from CRSP. Currently supports the monthly file merging on PERMNO.</span>
+
+<span class="sd">        WARNING: Will overwrite variables called &quot;Year&quot; and &quot;Month&quot; if merging the monthly file</span>
+
+<span class="sd">        coid = string, company identifier (currently supports &#39;GVKEY&#39;, &#39;TICKER&#39;, &#39;PERMNO&#39;, &#39;PERMCO&#39;, &#39;NCUSIP&#39;)</span>
+<span class="sd">        freq = &#39;m&#39; for monthly, &#39;d&#39; for daily</span>
+<span class="sd">        get = &#39;PRC&#39;, &#39;RET&#39;, &#39;SHROUT&#39;, &#39;VOL&#39;, &#39;CFACPR&#39;, &#39;CFACSHR&#39;, or a list combining any of these</span>
+<span class="sd">        date = name of datetime column in quotes</span>
+<span class="sd">        other_byvars = other by vars in dataset besides company identifier and date. Used for long_to_wide</span>
+<span class="sd">        time = list of integers or None. If not None, will pull the variables for a time difference of the time</span>
+<span class="sd">               numbers given, and put them in wide format in the output dataset. For instance time=[-12,0,12] with</span>
+<span class="sd">               freq=&#39;m&#39; and get=&#39;RET&#39; would pull three returns per observation, one twelve months prior, one contemporaneous,</span>
+<span class="sd">               and one twelve months later, naming them RET-12, RET0, and RET12. If freq=&#39;d&#39; in the same example, it would be</span>
+<span class="sd">               twelve days prior, etc.</span>
+<span class="sd">        between_time = bool. Only applicable if time is not None. True to generate periods in between given time periods, e.g.</span>
+<span class="sd">                        passing time=[12,24,36] will get periods 12, 13, 14, ..., 35, 36.</span>
+<span class="sd">        abret = 1, 3, 4, or False. If 1, 3, or 4 is passed and &#39;RET&#39; is in get, will calculate abnormal returns according to CAPM,</span>
+<span class="sd">                3 or 4 factor model, respectively. </span>
+<span class="sd">        window = Integer or None. Must provide an integer if abret is not False. This is the number of prior periods to use</span>
+<span class="sd">                 for estimating the loadings in factor models. For instance, if freq=&#39;m&#39;, window=36 would use the prior</span>
+<span class="sd">                 three years of returns to estimate the loadings.</span>
+<span class="sd">        cumret = &#39;between&#39;, &#39;zero&#39;, &#39;first&#39;, or False. time must not be None and RET in get for this option to matter. </span>
+<span class="sd">                 When pulling returns for multiple periods, gives the option to cumulate returns. If False, will just return </span>
+<span class="sd">                 returns for the individual periods. </span>
+<span class="sd">                 If &#39;zero&#39;, will give returns since the original date. </span>
+<span class="sd">                 If &#39;between&#39;, will give returns since the prior requested time period.</span>
+<span class="sd">                 If &#39;first&#39;, will give returns since the first requested time period.</span>
+<span class="sd">                 For example, if our input data was for date 1/5/2006, and in the CRSP table we had:</span>
+<span class="sd">                     permno  date       RET</span>
+<span class="sd">                     10516   1/5/2006   10%</span>
+<span class="sd">                     10516   1/6/2006   20%</span>
+<span class="sd">                     10516   1/7/2006    5%</span>
+<span class="sd">                     10516   1/8/2006   30%</span>
+<span class="sd">                 Then get_crsp(df, time=[1,3], get=&#39;RET&#39;, cumret=None) would return:</span>
+<span class="sd">                     permno  date       RET1  RET3</span>
+<span class="sd">                     10516   1/5/2006   20%   30%</span>
+<span class="sd">                 Then get_crsp(df, time=[1,3], get=&#39;RET&#39;, cumret=&#39;between&#39;) would return:</span>
+<span class="sd">                     permno  date       RET1  RET3</span>
+<span class="sd">                     10516   1/5/2006   20%   36.5%</span>
+<span class="sd">                 Then get_crsp(df, time=[1,3], get=&#39;RET&#39;, cumret=&#39;zero&#39;) would return:</span>
+<span class="sd">                     permno  date       RET1  RET3</span>
+<span class="sd">                     10516   1/5/2006   20%   63.8%</span>
+<span class="sd">                 The output for cumret=&#39;first&#39; would be the same as for cumret=&#39;zero&#39; because the first period is period zero.</span>
+<span class="sd">                 Had time been =[-1, 1, 3], then returns would be calculated from period -1 to period 1, and period -1 to period 3. </span>
+<span class="sd">        includefac = Boolean, True to include factors in output</span>
+<span class="sd">        includecoef = Boolean, True to include factor coefficients in output</span>
+<span class="sd">        wide = True for output data to be wide form, False for long form. Only applies when time is not None.</span>
+<span class="sd">        drop_first = bool, set to True to drop observations for first time. Can only be used when time != None, and</span>
+<span class="sd">                     when cumret != False. This is a</span>
+<span class="sd">                     convenience function for estimating cumulative return windows. For example, if time = [-1, 1], </span>
+<span class="sd">                     then the typical output would include both cum_RET-1 and cum_RET1. All we actually care about is the</span>
+<span class="sd">                     cumulative return over the window, which is equal to cum_RET1. drop_first=True will drop out </span>
+<span class="sd">                     RET-1 and cum_RET-1 from the output.</span>
+<span class="sd">        debug: bool, set to True to restrict CRSP to only PERMNOs 10516 (gvkey=001722) and 10517 (gvkey=001076)</span>
+
+<span class="sd">        Typical usage:</span>
+<span class="sd">        Calculating a return window with abnormal returns included:</span>
+<span class="sd">            get_crsp(df, get=&#39;RET&#39;, freq=&#39;d&#39;, time=[-1, 1], cumret=&#39;between&#39;, abret=4, window=250, drop_first=True)</span>
+<span class="sd">        &#39;&#39;&#39;</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coid</span> <span class="o">=</span> <span class="n">coid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get</span> <span class="o">=</span> <span class="n">get</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span> <span class="o">=</span> <span class="n">other_byvars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_periods</span> <span class="o">=</span> <span class="n">between_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wide</span> <span class="o">=</span> <span class="n">wide</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="o">=</span> <span class="n">abret</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cumret</span> <span class="o">=</span> <span class="n">cumret</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">includefac</span> <span class="o">=</span> <span class="n">includefac</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">includecoef</span> <span class="o">=</span> <span class="n">includecoef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_first</span> <span class="o">=</span> <span class="n">drop_first</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Initializing pull_crsp function&#39;</span><span class="p">)</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clear_old_variables</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_inputs</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_crsp</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span> 
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_crsp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">)</span> <span class="c1">#if we&#39;re not doing anything special, just merge CRSP</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_time</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_no_time</span><span class="p">()</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_key</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">abret</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_abret</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_crsp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s1">&#39;Shift Date&#39;</span><span class="p">)</span> <span class="c1">#time but not abret        </span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumret</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_handle_cumret</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">wide</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_long_to_wide</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_long</span><span class="p">()</span></div>
+    
+    <span class="k">def</span> <span class="nf">_clear_old_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If pull_crsp is run multiple times, values of variables would still be set</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span> <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span> <span class="c1">#long_df not set yet</span>
+            <span class="k">pass</span>
+        
+        
+    
+    <span class="k">def</span> <span class="nf">_output_long</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Shift&#39;</span><span class="p">,</span><span class="s1">&#39;Shift Date&#39;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span>
+    
+    <span class="k">def</span> <span class="nf">_long_to_wide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Reshaping long to wide.&#39;</span><span class="p">)</span>
+        <span class="n">byvars</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">coid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span><span class="p">:</span> <span class="c1">#add other byvars for correct long_to_wide</span>
+            <span class="n">byvars</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span>
+<span class="c1">#         if self.freq == &#39;m&#39;:</span>
+<span class="c1">#             self.long_df.drop([&#39;Year&#39;,&#39;Month&#39;], axis=1, inplace=True)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Shift Date&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span> <span class="c1">#this is the case where time was not shifted</span>
+            <span class="c1">#Therefore need to create a colindex which is just 0 for the current time period</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="s1">&#39;Shift&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="n">widedf</span> <span class="o">=</span> <span class="n">long_to_wide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                              <span class="n">groupvars</span><span class="o">=</span><span class="n">byvars</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="s1">&#39;Shift&#39;</span><span class="p">)</span>
+        <span class="c1">#chop off zeros from contemporaneous</span>
+        <span class="k">return</span> <span class="n">widedf</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">widedf</span><span class="o">.</span><span class="n">columns</span> \
+                                      <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span><span class="p">[:</span><span class="n">name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">})</span> 
+    
+    <span class="k">def</span> <span class="nf">_handle_cumret</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Cumret detected.&#39;</span><span class="p">)</span>
+        <span class="n">cumvars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RET&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">abret</span><span class="p">:</span> <span class="n">cumvars</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;ABRET&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;cum_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cumvars</span><span class="p">]</span> <span class="c1">#get will be used in the end for pivot, need to add pivoting variables</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span> <span class="c1">#cumulate will raise a warning if time is supplied when method is not between</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span> <span class="c1">#suppress that warning</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Cumulating returns with method </span><span class="si">{}</span><span class="s1"> for time </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cumret</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
+            <span class="n">byvars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span><span class="p">:</span>
+                <span class="n">byvars</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span>
+                
+            <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="n">cumulate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">,</span> <span class="n">cumvars</span><span class="p">,</span> <span class="n">periodvar</span><span class="o">=</span><span class="s1">&#39;Shift Date&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cumret</span><span class="p">,</span>
+                               <span class="n">byvars</span><span class="o">=</span><span class="n">byvars</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">grossify</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+            
+            
+            <span class="c1">###########TEMP</span>
+<span class="c1">#             import pdb</span>
+<span class="c1">#             pdb.set_trace()</span>
+            
+            
+            
+            <span class="c1">############</span>
+            
+        <span class="c1">#Now need to remove unneeded periods</span>
+        <span class="c1"># First check if we should be getting intermediate periods, e.g. [1, 4] -&gt; [1, 2, 3, 4]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_periods</span><span class="p">:</span>
+            <span class="n">keep_time</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">keep_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_first</span><span class="p">:</span>
+            <span class="n">keep_time</span> <span class="o">=</span> <span class="n">keep_time</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="s1">&#39;Shift&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">keep_time</span><span class="p">)]</span>
+            
+    <span class="k">def</span> <span class="nf">_handle_abret</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Abret detected.&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">abret</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">abret</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="c1">#True evaluates as int</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+        
+        <span class="n">facs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mktrf&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">facs</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;hml&#39;</span><span class="p">,</span><span class="s1">&#39;smb&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">facs</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;rmw&#39;</span><span class="p">,</span> <span class="s1">&#39;cma&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Currently only supports 1, 3, and 5-factor models (mktrf, hml, smb, rmw, cma)&#39;</span><span class="p">)</span>
+        
+        <span class="n">prior_wind</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="c1">#e.g. if window = 3, prior_wind = [0, -1, -2, -3]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Creating abret window periods.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="n">expand_time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">,</span> <span class="n">datevar</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">newdate</span><span class="p">,</span> 
+                                   <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">prior_wind</span><span class="p">,</span> 
+                                   <span class="n">newdate</span><span class="o">=</span><span class="s1">&#39;Window Date&#39;</span><span class="p">,</span> <span class="n">shiftvar</span><span class="o">=</span><span class="s1">&#39;Wind&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Merging with CRSP to get abret window data as well as regular data.&#39;</span><span class="p">)</span>       
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_crsp</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s1">&#39;Window Date&#39;</span><span class="p">)</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Getting Fama-French factors, then running regressions.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="n">get_abret</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="n">fulldatevar</span><span class="o">=</span><span class="s1">&#39;Window Date&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span>
+                                 <span class="n">abret_fac</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">abret</span><span class="p">,</span> <span class="n">includecoef</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">includecoef</span><span class="p">,</span>
+                                 <span class="n">includefac</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">includefac</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Dropping unneeded observations (abret window dates).&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span>
+            <span class="c1">#keep only observations for shift dates</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="s1">&#39;Window Date&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="s1">&#39;Shift Date&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+        <span class="k">else</span><span class="p">:</span> <span class="c1">#didn&#39;t get multiple times per period</span>
+            <span class="c1">#keep only original observations</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="s1">&#39;Window Date&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;ABRET&#39;</span><span class="p">]</span> <span class="c1">#get will be used in the end for pivot, need to add pivoting variables</span>
+        
+        <span class="n">drop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Wind&#39;</span><span class="p">,</span> <span class="s1">&#39;Window Date&#39;</span><span class="p">]</span> <span class="c1">#variables to be dropped</span>
+        <span class="n">coefs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;coef_&#39;</span> <span class="o">+</span> <span class="n">fac</span> <span class="k">for</span> <span class="n">fac</span> <span class="ow">in</span> <span class="n">facs</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">includefac</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span> <span class="o">+=</span> <span class="n">facs</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;rf&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">includecoef</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span> <span class="o">+=</span> <span class="n">coefs</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;const&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+    
+    <span class="k">def</span> <span class="nf">_create_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">byvars</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">join_col_strings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">long_df</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">byvars</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_handle_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Time detected.&#39;</span><span class="p">)</span>
+        <span class="c1">#Next section only runs if time is not None</span>
+        <span class="c1">#Ensure time is of the right type</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cumret</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Cumret detected, will generate intermediate periods.&#39;</span><span class="p">)</span>
+            <span class="n">intermediate_periods</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">intermediate_periods</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intermediate_periods</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Generating periods </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="s1">&#39;+ itermediate&#39;</span> <span class="k">if</span> <span class="n">intermediate_periods</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="n">expand_time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">intermediate_periods</span><span class="o">=</span><span class="n">intermediate_periods</span><span class="p">,</span>
+                                   <span class="n">datevar</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Finished generating periods. Generating key.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">byvars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="s1">&#39;Shift Date&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newdate</span> <span class="o">=</span> <span class="s1">&#39;Shift Date&#39;</span>
+        
+    <span class="k">def</span> <span class="nf">_handle_no_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Generating key.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">byvars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newdate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span>
+    
+    <span class="k">def</span> <span class="nf">_check_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Checking inputs.&#39;</span><span class="p">)</span>
+        
+<span class="c1">#         if self.debug:</span>
+<span class="c1">#             self._log(&#39;All inputs: &#39;)</span>
+<span class="c1">#             self._log(str(self.__dict__))</span>
+
+        <span class="c1">#Check get</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">]</span>
+<span class="c1">#             for item in self.get:</span>
+<span class="c1">#                 assert item in [&#39;PRC&#39;,&#39;RET&#39;,&#39;SHROUT&#39;,&#39;VOL&#39;,&#39;CFACPR&#39;,&#39;CFACSHR&#39;]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="c1">#             assert self.get in [&#39;PRC&#39;,&#39;RET&#39;,&#39;SHROUT&#39;,&#39;VOL&#39;,&#39;CFACPR&#39;,&#39;CFACSHR&#39;]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;Get should be a list or str containing &#39;PRC&#39;,&#39;RET&#39;,&#39;SHROUT&#39;,&#39;VOL&#39;,&#39;CFACPR&#39;, or &#39;CFACSHR&#39;.&#39;&#39;&#39;</span><span class="p">)</span>
+
+        <span class="c1">#Check to make sure inputs make sense</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">))</span> <span class="c1">#can&#39;t specify window without abret</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">==</span> <span class="kc">None</span><span class="p">))</span> <span class="c1">#must specify window with abret</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">includefac</span> <span class="o">==</span> <span class="kc">True</span><span class="p">))</span> <span class="c1">#cannot include factors unless calculating abnormal returns</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">includecoef</span> <span class="o">==</span> <span class="kc">True</span><span class="p">))</span> <span class="c1">#cannot include factor coefs unless calculating abnormal returns</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">abret</span> <span class="o">!=</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;RET&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">))</span> <span class="c1">#can&#39;t calculate abnormal returns without getting returns</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cumret</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;RET&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">))</span> <span class="c1">#can&#39;t cumulate returns without getting returns</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cumret</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">==</span> <span class="kc">None</span><span class="p">))</span> <span class="c1">#can&#39;t cumulate over a single period</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">drop_first</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">==</span> <span class="kc">None</span><span class="p">))</span> <span class="c1">#can&#39;t drop first shifted time period if there are none</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">drop_first</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span> <span class="c1">#can&#39;t drop first shifted time period if there&#39;s only one</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">drop_first</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cumret</span> <span class="o">==</span> <span class="kc">False</span><span class="p">))</span> <span class="c1">#no reason to drop first shifted time period if we&#39;re not cumulating</span>
+
+
+        <span class="c1">#Check to make sure company identifier is valid</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">coid</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;GVKEY&#39;</span><span class="p">,</span><span class="s1">&#39;TICKER&#39;</span><span class="p">,</span> <span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span> <span class="s1">&#39;PERMCO&#39;</span><span class="p">,</span> <span class="s1">&#39;NCUSIP&#39;</span><span class="p">,</span> <span class="s1">&#39;CUSIP6&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coid</span> <span class="o">!=</span> <span class="s1">&#39;PERMNO&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Company ID is not PERMNO. Getting PERMNO.&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coid</span> <span class="o">==</span> <span class="s1">&#39;GVKEY&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">get_gvkey_or_permno</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span>
+                                              <span class="n">other_byvars</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span><span class="p">)</span> <span class="c1">#grabs permno from ccmxpf_linktable</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Pulled PERMNO from ccmxpf_linktable.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1">#all others go through dsenames</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">merge_dsenames</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coid</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
+                                        <span class="n">other_byvars</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span><span class="p">)</span> <span class="c1">#grabs permno</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Pulled PERMNO from dsenames.&#39;</span><span class="p">)</span>
+
+        <span class="c1">#Check to make sure no columns currently in the dataframe have the same name as columns</span>
+        <span class="c1">#we will be adding</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">col</span> <span class="o">+</span> <span class="s1">&#39;_old&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1">#Ensure other_byvars is a list</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">other_byvars</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)))</span>
+    
+    <span class="k">def</span> <span class="nf">_load_crsp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">loaded_m</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__load_crsp</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loaded_m</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">loaded_d</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__load_crsp</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loaded_d</span> <span class="o">=</span> <span class="kc">True</span>
+        
+    <span class="k">def</span> <span class="nf">__load_crsp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#Check frequency</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;msf&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;dsf&#39;</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;use m or d for frequency&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span> <span class="n">filename</span> <span class="o">+=</span> <span class="s1">&#39;_test&#39;</span> <span class="c1">#debug datasets only have permnos 10516, 10517</span>
+
+        <span class="c1">#Load in CRSP file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Loading CRSP dataframe...&#39;</span><span class="p">)</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crsp_dir</span><span class="p">,</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.sas7bdat&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crsp_dfs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="n">load_sas</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Loaded.&#39;</span><span class="p">)</span>
+
+        <span class="c1">#Change date to datetime format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Converting SAS date to Pandas format.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crsp_dfs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="s1">&#39;DATE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_sas_date_to_pandas_date</span><span class="p">(</span>
+                                                    <span class="bp">self</span><span class="o">.</span><span class="n">crsp_dfs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="s1">&#39;DATE&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Converted.&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">message</span> <span class="o">!=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="n">message</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">message</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">_merge_crsp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Merging CRSP to dataframe.&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1">#If we are using the monthly file, we need to merge on month and year</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">crsp_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crsp_dfs</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">crsp_df</span> <span class="o">=</span> <span class="n">year_month_from_date</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crsp_df</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="s1">&#39;DATE&#39;</span><span class="p">)</span>
+            <span class="n">orig_df_for_merge</span> <span class="o">=</span> <span class="n">year_month_from_date</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">)</span>
+
+            <span class="c1">#Now perform merge</span>
+            <span class="n">merged</span> <span class="o">=</span> <span class="n">orig_df_for_merge</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crsp_df</span><span class="p">[[</span><span class="s1">&#39;Month&#39;</span><span class="p">,</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">],</span>
+                                   <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span><span class="s1">&#39;Month&#39;</span><span class="p">,</span><span class="s1">&#39;Year&#39;</span><span class="p">])</span>
+            <span class="n">merged</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Month&#39;</span><span class="p">,</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">crsp_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crsp_dfs</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]</span>
+            <span class="n">merged</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crsp_df</span><span class="p">[[</span><span class="s1">&#39;DATE&#39;</span><span class="p">,</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">],</span>
+                              <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span><span class="s1">&#39;DATE&#39;</span><span class="p">],</span>
+                              <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PERMNO&#39;</span><span class="p">,</span> <span class="n">date</span><span class="p">])</span>
+            <span class="n">merged</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;DATE&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Completed merge.&#39;</span><span class="p">)</span>
+
+        <span class="c1">#Temp</span>
+        <span class="k">return</span> <span class="n">merged</span></div>
+
+    
+<div class="viewcode-block" id="get_ff_factors"><a class="viewcode-back" href="../api/datacode.html#datacode.get_ff_factors">[docs]</a><span class="k">def</span> <span class="nf">get_ff_factors</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fulldatevar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">year_month</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span>
+                   <span class="n">subset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ff_df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ff_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">custom_ff_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pulls Fama-French factors and merges them to dataset</span>
+<span class="sd">    </span>
+<span class="sd">    df: Input dataframe</span>
+<span class="sd">    fulldatevar: String name of date variable to merge on. Specify this OR year and month variable. Must use this</span>
+<span class="sd">                 and not year_month if pulling daily factors. If merging with monthly factors, will create month</span>
+<span class="sd">                 and year variables in the output dataset. Warning: Will overwrite any variables called Month</span>
+<span class="sd">                 and Year in the input data.</span>
+<span class="sd">    year_month: Two element list of [&#39;yearvar&#39;,&#39;monthvar&#39;]. Specify this OR full date variable.</span>
+<span class="sd">    freq: &#39;m&#39; for monthly factors, &#39;d&#39; for daily</span>
+<span class="sd">    subset: str or list, names of ff factors to pull. Can specify any of &#39;mktrf&#39;, &#39;smb&#39;, &#39;hml&#39;, &#39;rmw&#39;, &#39;cma&#39;, &#39;umd&#39;</span>
+<span class="sd">    ff_df: pandas DataFrame containing factors. if passed, will ignore ff_dir and custom_ff_name</span>
+<span class="sd">    ff_dir: folder containing FF data</span>
+<span class="sd">    custom_ff_name: used in combination with ff_dir to select file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Set default FF dir</span>
+    <span class="c1"># if ff_dir is None:</span>
+    <span class="c1">#     ff_dir = data_path(&#39;FF&#39;)</span>
+   
+    <span class="c1">#Make sure inputs are correct</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">_set_freq</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ff_dir</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="p">(</span><span class="n">fulldatevar</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">year_month</span> <span class="o">==</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="p">(</span><span class="n">fulldatevar</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">freq</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">subset</span><span class="p">:</span>
+        <span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mktrf&#39;</span><span class="p">,</span> <span class="s1">&#39;smb&#39;</span><span class="p">,</span> <span class="s1">&#39;hml&#39;</span><span class="p">,</span> <span class="s1">&#39;rmw&#39;</span><span class="p">,</span> <span class="s1">&#39;cma&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="n">subset</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mktrf&#39;</span><span class="p">,</span> <span class="s1">&#39;smb&#39;</span><span class="p">,</span> <span class="s1">&#39;hml&#39;</span><span class="p">,</span> <span class="s1">&#39;rmw&#39;</span><span class="p">,</span> <span class="s1">&#39;cma&#39;</span><span class="p">,</span> <span class="s1">&#39;umd&#39;</span><span class="p">]</span>
+        
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1">#don&#39;t modify original beyond converting to list</span>
+    
+    <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span> 
+        <span class="n">ff_name</span> <span class="o">=</span> <span class="s1">&#39;ff_fac_month.csv&#39;</span>
+        <span class="n">drop</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">year_month</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">left_datevars</span> <span class="o">=</span> <span class="n">year_month</span>
+            <span class="n">df_for_merge</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1">#fulldatevar specified</span>
+            <span class="n">df_for_merge</span> <span class="o">=</span> <span class="n">year_month_from_date</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">fulldatevar</span><span class="p">)</span>
+            <span class="n">left_datevars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span><span class="s1">&#39;Month&#39;</span><span class="p">]</span>
+            <span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">right_datevars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span><span class="s1">&#39;month&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">drop</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">df_for_merge</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="n">ff_name</span> <span class="o">=</span> <span class="s1">&#39;ff_fac_daily.csv&#39;</span>
+        <span class="n">left_datevars</span> <span class="o">=</span> <span class="n">fulldatevar</span>
+        <span class="n">right_datevars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span>
+        
+    <span class="n">subset</span> <span class="o">+=</span> <span class="n">right_datevars</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;rf&#39;</span><span class="p">]</span> <span class="c1">#need to pull date variables and risk free rate as well</span>
+    
+    <span class="k">if</span> <span class="n">custom_ff_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ff_name</span> <span class="o">=</span> <span class="n">custom_ff_name</span>
+
+    <span class="c1"># Use passed df. If not passed, load df.</span>
+    <span class="k">if</span> <span class="n">ff_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ff_dir</span><span class="p">,</span> <span class="n">ff_name</span><span class="p">)</span>
+        <span class="n">ff_df</span> <span class="o">=</span> <span class="n">_load_data_by_extension_and_convert_date</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+    
+    <span class="n">merged</span> <span class="o">=</span> <span class="n">df_for_merge</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">ff_df</span><span class="p">[</span><span class="n">subset</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="n">left_datevars</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="n">right_datevars</span><span class="p">)</span>
+    <span class="n">merged</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">right_datevars</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">drop</span><span class="p">:</span>
+        <span class="n">merged</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">left_datevars</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">merged</span></div>
+
+<span class="k">def</span> <span class="nf">_load_data_by_extension_and_convert_date</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">):</span>
+    <span class="n">filename</span><span class="p">,</span> <span class="n">file_extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">extension</span> <span class="o">=</span> <span class="n">file_extension</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">extension</span> <span class="o">==</span> <span class="s1">&#39;.sas7bdat&#39;</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">load_sas</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="o">!=</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_sas_date_to_pandas_date</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span> <span class="c1">#convert to date object</span>
+        <span class="k">return</span> <span class="n">df</span>
+    <span class="k">elif</span> <span class="n">extension</span> <span class="o">==</span> <span class="s1">&#39;.csv&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="o">!=</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Please pass a sas7bdat or csv for FF factors, got </span><span class="si">{extension}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_set_freq</span><span class="p">(</span><span class="n">freq</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">compare_freq</span> <span class="o">=</span> <span class="n">freq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">compare_freq</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;months&#39;</span><span class="p">,</span> <span class="s1">&#39;monthly&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;m&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># All other frequencies handled the same way</span>
+        <span class="k">return</span> <span class="n">freq</span>
+
+<div class="viewcode-block" id="get_abret"><a class="viewcode-back" href="../api/datacode.html#datacode.get_abret">[docs]</a><span class="k">def</span> <span class="nf">get_abret</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">byvars</span><span class="p">,</span> <span class="n">fulldatevar</span><span class="o">=</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="n">year_month</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">abret_fac</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">retvar</span><span class="o">=</span><span class="s1">&#39;RET&#39;</span><span class="p">,</span>
+              <span class="n">includecoef</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">includefac</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">get_ff_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a dataframe containing a column of returns, dates, and at least one by variable and calculates</span>
+<span class="sd">    abnormal returns for the model of choice. Returns a dataframe with the abnormal returns merged.</span>
+<span class="sd">    </span>
+<span class="sd">    Required inputs:</span>
+<span class="sd">    df: pandas dataframe</span>
+<span class="sd">    byvars: str or list of strs, column names of columns on which to form by groups</span>
+
+<span class="sd">    Optional inputs:</span>
+<span class="sd">    fulldatevar: str, name of column containing date variable. If provided, don&#39;t provide year_month.</span>
+<span class="sd">    year_month: list of strs, columns names of year and month variables, e.g. [&#39;Year&#39;,&#39;Month&#39;]. Must</span>
+<span class="sd">                set fulldatevar to None if year_month is provided.</span>
+<span class="sd">    freq: &#39;m&#39; or &#39;d&#39;, &#39;m&#39; for monthly returns, &#39;d&#39; for daily returns</span>
+<span class="sd">    abret_fac: int (1, 3, 5), abnormal return model</span>
+<span class="sd">    retvar: str, name of return variable</span>
+<span class="sd">    includecoef: bool, set to True to get factor loadings</span>
+<span class="sd">    includefac: bool, set to True to get factors and risk free rate</span>
+<span class="sd">    mp: False to use single processor, True to use all processors, int to use # processors</span>
+<span class="sd">    stderr: bool, True to include standard errors of coefficients</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">abret_fac</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">factors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mktrf&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">abret_fac</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">factors</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;smb&#39;</span><span class="p">,</span><span class="s1">&#39;hml&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">abret_fac</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">factors</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;rmw&#39;</span><span class="p">,</span><span class="s1">&#39;cma&#39;</span><span class="p">]</span>
+    
+    <span class="n">out</span> <span class="o">=</span> <span class="n">get_ff_factors</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">,</span> 
+        <span class="n">fulldatevar</span><span class="o">=</span><span class="n">fulldatevar</span><span class="p">,</span>
+        <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span>
+        <span class="n">subset</span><span class="o">=</span><span class="n">factors</span><span class="p">,</span>
+        <span class="n">year_month</span><span class="o">=</span><span class="n">year_month</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">get_ff_kwargs</span>
+    <span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">factor_reg_by</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">byvars</span><span class="p">,</span> <span class="n">fac</span><span class="o">=</span><span class="n">abret_fac</span><span class="p">,</span> <span class="n">retvar</span><span class="o">=</span><span class="n">retvar</span><span class="p">,</span> <span class="n">mp</span><span class="o">=</span><span class="n">mp</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">stderr</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">includefac</span><span class="p">:</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">factors</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;rf&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">includecoef</span><span class="p">:</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;const&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;coef_&#39;</span> <span class="o">+</span> <span class="n">fac</span> <span class="k">for</span> <span class="n">fac</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<span class="c1"># def load_and_merge_compustat(df, get=[&#39;sale&#39;], freq=&#39;a&#39;, gvkeyvar=&#39;gvkey&#39;, datevar=&#39;Date&#39;, debug=False,</span>
+<span class="c1">#                              comp_dir=None):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Convenience function for both loading and merging compustat to existing dataframe.</span>
+<span class="c1">#</span>
+<span class="c1">#     Required inputs:</span>
+<span class="c1">#     df: Pandas dataframe containing a date variable and gvkey</span>
+<span class="c1">#</span>
+<span class="c1">#     Optional inputs:</span>
+<span class="c1">#     get: List of strings, variable names to pull from compustat, not including those needed for</span>
+<span class="c1">#          the merge. Do not add the &#39;q&#39; or &#39;y&#39; for quarterly variables, this is done automatically.</span>
+<span class="c1">#          &#39;y&#39; variables will be converted to quarterly values by looking at changes.</span>
+<span class="c1">#     freq: string, &#39;a&#39; or &#39;q&#39; for annual or quarterly compustat (funda, fundq)</span>
+<span class="c1">#     gvkeyvar: string, name of variable containing gvkeys</span>
+<span class="c1">#     datevar: string, name of date variable in df on which to merge. Will pull the newest data</span>
+<span class="c1">#              that is before or on this date.</span>
+<span class="c1">#     debug: bool, True to restrict to only gvkeys (001076, 001722)</span>
+<span class="c1">#     comp_dir: string, directory containing compustat files</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#</span>
+    <span class="c1"># Set default FF dir</span>
+    <span class="c1"># if comp_dir is None:</span>
+    <span class="c1">#     comp_dir = data_path(&#39;Compustat&#39;)</span>
+
+    <span class="c1"># convert_gvkey(df, gvkeyvar)</span>
+    <span class="c1"># comp = load_compustat(freq, get=get, debug=debug, comp_dir=comp_dir)</span>
+    <span class="c1"># return merge_compustat(df, comp, datevar=datevar).rename(columns={&#39;gvkey&#39;:gvkeyvar})</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Nick DeRobertis
+
+    </p>
+  </div>
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-157532545-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+   
+
+</body>
+</html>

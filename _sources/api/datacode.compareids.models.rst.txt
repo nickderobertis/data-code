@@ -1,0 +1,67 @@
+datacode.compareids.models package
+==================================
+
+.. automodule:: datacode.compareids.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.compareids.models.bars module
+--------------------------------------
+
+.. automodule:: datacode.compareids.models.bars
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.compareids.models.base module
+--------------------------------------
+
+.. automodule:: datacode.compareids.models.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.compareids.models.datasets module
+------------------------------------------
+
+.. automodule:: datacode.compareids.models.datasets
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.compareids.models.flowchart module
+-------------------------------------------
+
+.. automodule:: datacode.compareids.models.flowchart
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.compareids.models.interface module
+-------------------------------------------
+
+.. automodule:: datacode.compareids.models.interface
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.compareids.models.main module
+--------------------------------------
+
+.. automodule:: datacode.compareids.models.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.compareids.models.steps module
+---------------------------------------
+
+.. automodule:: datacode.compareids.models.steps
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

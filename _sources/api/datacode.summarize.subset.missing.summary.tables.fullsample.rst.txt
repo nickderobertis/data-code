@@ -1,0 +1,51 @@
+datacode.summarize.subset.missing.summary.tables.fullsample package
+===================================================================
+
+.. automodule:: datacode.summarize.subset.missing.summary.tables.fullsample
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.summarize.subset.missing.summary.tables.fullsample.idcount module
+--------------------------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.summary.tables.fullsample.idcount
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.summary.tables.fullsample.main module
+-----------------------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.summary.tables.fullsample.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.summary.tables.fullsample.missingmore module
+------------------------------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.summary.tables.fullsample.missingmore
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.summary.tables.fullsample.obs module
+----------------------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.summary.tables.fullsample.obs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.missing.summary.tables.fullsample.periods module
+--------------------------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.summary.tables.fullsample.periods
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

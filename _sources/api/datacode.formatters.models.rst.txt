@@ -1,0 +1,19 @@
+datacode.formatters.models package
+==================================
+
+.. automodule:: datacode.formatters.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.formatters.models.result module
+----------------------------------------
+
+.. automodule:: datacode.formatters.models.result
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

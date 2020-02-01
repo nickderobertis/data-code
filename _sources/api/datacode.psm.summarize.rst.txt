@@ -1,0 +1,51 @@
+datacode.psm.summarize package
+==============================
+
+.. automodule:: datacode.psm.summarize
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.psm.summarize.examine module
+-------------------------------------
+
+.. automodule:: datacode.psm.summarize.examine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.summarize.latex module
+-----------------------------------
+
+.. automodule:: datacode.psm.summarize.latex
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.summarize.main module
+----------------------------------
+
+.. automodule:: datacode.psm.summarize.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.summarize.predictions module
+-----------------------------------------
+
+.. automodule:: datacode.psm.summarize.predictions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.psm.summarize.stats module
+-----------------------------------
+
+.. automodule:: datacode.psm.summarize.stats
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

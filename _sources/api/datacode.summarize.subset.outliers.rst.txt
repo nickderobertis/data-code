@@ -1,0 +1,43 @@
+datacode.summarize.subset.outliers package
+==========================================
+
+.. automodule:: datacode.summarize.subset.outliers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.summarize.subset.outliers.detail
+   datacode.summarize.subset.outliers.summary
+
+Submodules
+----------
+
+datacode.summarize.subset.outliers.main module
+----------------------------------------------
+
+.. automodule:: datacode.summarize.subset.outliers.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.outliers.select module
+------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.outliers.select
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.subset.outliers.typing module
+------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.outliers.typing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

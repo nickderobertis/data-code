@@ -1,0 +1,19 @@
+datacode.summarize.subset.outliers.detail package
+=================================================
+
+.. automodule:: datacode.summarize.subset.outliers.detail
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.summarize.subset.outliers.detail.totex module
+------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.outliers.detail.totex
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

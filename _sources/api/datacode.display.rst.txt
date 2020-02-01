@@ -1,0 +1,7 @@
+datacode.display package
+========================
+
+.. automodule:: datacode.display
+   :members:
+   :undoc-members:
+   :show-inheritance:

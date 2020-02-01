@@ -1,0 +1,15 @@
+datacode.summarize.subset package
+=================================
+
+.. automodule:: datacode.summarize.subset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.summarize.subset.missing
+   datacode.summarize.subset.outliers

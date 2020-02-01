@@ -1,0 +1,26 @@
+datacode.ff package
+===================
+
+.. automodule:: datacode.ff
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.ff.create
+
+Submodules
+----------
+
+datacode.ff.fftypes module
+--------------------------
+
+.. automodule:: datacode.ff.fftypes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

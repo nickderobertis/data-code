@@ -1,0 +1,33 @@
+datacode package
+================
+
+.. automodule:: datacode
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.compareids
+   datacode.display
+   datacode.ff
+   datacode.formatters
+   datacode.panel
+   datacode.portfolio
+   datacode.psm
+   datacode.summarize
+
+Submodules
+----------
+
+datacode.typing module
+----------------------
+
+.. automodule:: datacode.typing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

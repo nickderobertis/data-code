@@ -1,0 +1,19 @@
+datacode.compareids.frontends package
+=====================================
+
+.. automodule:: datacode.compareids.frontends
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.compareids.frontends.text\_summ module
+-----------------------------------------------
+
+.. automodule:: datacode.compareids.frontends.text_summ
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

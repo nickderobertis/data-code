@@ -1,0 +1,14 @@
+datacode.summarize package
+==========================
+
+.. automodule:: datacode.summarize
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.summarize.subset

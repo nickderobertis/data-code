@@ -1,0 +1,19 @@
+datacode.summarize.subset.missing.summary.graphs package
+========================================================
+
+.. automodule:: datacode.summarize.subset.missing.summary.graphs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.summarize.subset.missing.summary.graphs.pctbyid module
+---------------------------------------------------------------
+
+.. automodule:: datacode.summarize.subset.missing.summary.graphs.pctbyid
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
