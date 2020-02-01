@@ -49,8 +49,8 @@ def merge_dsenames(df, on='TICKER', get='PERMNO', date='Date',
     '''
 
     # Set default CRSP dir
-    if crsp_dir is None:
-        crsp_dir = data_path('CRSP')
+    # if crsp_dir is None:
+    #     crsp_dir = data_path('CRSP')
 
     #Make get a list
     if isinstance(get, str):
@@ -118,8 +118,8 @@ def get_gvkey_or_permno(df, datevar, get='GVKEY', other_byvars=None,
     """
 
     # Set default CRSP dir
-    if crsp_dir is None:
-        crsp_dir = data_path('CRSP')
+    # if crsp_dir is None:
+    #     crsp_dir = data_path('CRSP')
 
     if get == 'GVKEY':
         rename_get = 'gvkey'
@@ -172,8 +172,8 @@ class GetCRSP:
     def __init__(self, debug=False, crsp_dir=None):
 
         # Set default CRSP dir
-        if crsp_dir is None:
-            crsp_dir = data_path('CRSP')
+        # if crsp_dir is None:
+        #     crsp_dir = data_path('CRSP')
 
         self.debug = debug
         self.crsp_dir = crsp_dir
@@ -580,8 +580,8 @@ def get_ff_factors(df, fulldatevar=None, year_month=None, freq='m',
     """
 
     # Set default FF dir
-    if ff_dir is None:
-        ff_dir = data_path('FF')
+    # if ff_dir is None:
+    #     ff_dir = data_path('FF')
    
     #Make sure inputs are correct
     freq = _set_freq(freq)
@@ -709,30 +709,30 @@ def get_abret(df, byvars, fulldatevar='Date', year_month=None, freq='m', abret_f
         
     return out
 
-def load_and_merge_compustat(df, get=['sale'], freq='a', gvkeyvar='gvkey', datevar='Date', debug=False,
-                             comp_dir=None):
-    """
-    Convenience function for both loading and merging compustat to existing dataframe.
-    
-    Required inputs:
-    df: Pandas dataframe containing a date variable and gvkey
-    
-    Optional inputs:
-    get: List of strings, variable names to pull from compustat, not including those needed for
-         the merge. Do not add the 'q' or 'y' for quarterly variables, this is done automatically.
-         'y' variables will be converted to quarterly values by looking at changes.
-    freq: string, 'a' or 'q' for annual or quarterly compustat (funda, fundq)
-    gvkeyvar: string, name of variable containing gvkeys
-    datevar: string, name of date variable in df on which to merge. Will pull the newest data
-             that is before or on this date.
-    debug: bool, True to restrict to only gvkeys (001076, 001722)
-    comp_dir: string, directory containing compustat files
-    """
-
+# def load_and_merge_compustat(df, get=['sale'], freq='a', gvkeyvar='gvkey', datevar='Date', debug=False,
+#                              comp_dir=None):
+#     """
+#     Convenience function for both loading and merging compustat to existing dataframe.
+#
+#     Required inputs:
+#     df: Pandas dataframe containing a date variable and gvkey
+#
+#     Optional inputs:
+#     get: List of strings, variable names to pull from compustat, not including those needed for
+#          the merge. Do not add the 'q' or 'y' for quarterly variables, this is done automatically.
+#          'y' variables will be converted to quarterly values by looking at changes.
+#     freq: string, 'a' or 'q' for annual or quarterly compustat (funda, fundq)
+#     gvkeyvar: string, name of variable containing gvkeys
+#     datevar: string, name of date variable in df on which to merge. Will pull the newest data
+#              that is before or on this date.
+#     debug: bool, True to restrict to only gvkeys (001076, 001722)
+#     comp_dir: string, directory containing compustat files
+#     """
+#
     # Set default FF dir
-    if comp_dir is None:
-        comp_dir = data_path('Compustat')
+    # if comp_dir is None:
+    #     comp_dir = data_path('Compustat')
 
-    convert_gvkey(df, gvkeyvar)
-    comp = load_compustat(freq, get=get, debug=debug, comp_dir=comp_dir)
-    return merge_compustat(df, comp, datevar=datevar).rename(columns={'gvkey':gvkeyvar})
+    # convert_gvkey(df, gvkeyvar)
+    # comp = load_compustat(freq, get=get, debug=debug, comp_dir=comp_dir)
+    # return merge_compustat(df, comp, datevar=datevar).rename(columns={'gvkey':gvkeyvar})
