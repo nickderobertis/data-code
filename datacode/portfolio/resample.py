@@ -8,7 +8,7 @@ def collect_portfolios_through_time(df: pd.DataFrame, portvar: str, id_var: str,
                                     datevar: str = 'Date', portfolio_datevar: str = 'Portfolio Date'
                                     ) -> pd.DataFrame:
     output_df = pd.DataFrame()
-    # TODO [$5e34f078cb9e8c0007c9d167]: collect portfolios through time make more efficient
+    # TODO [#4]: collect portfolios through time make more efficient
     for port_date in df[portfolio_datevar].unique():
         port_assignments = df.loc[
             df[portfolio_datevar] == port_date,

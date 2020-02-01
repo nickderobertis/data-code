@@ -9,7 +9,7 @@ import numpy
 
 import datacode
 
-# TODO [$5e34f078cb9e8c0007c9d168]: remove mock test once others are fixed
+# TODO [#5]: remove mock test once others are fixed
 def test_mock():
     pass
 
@@ -92,7 +92,7 @@ class DataFrameTest:
     df_gvkey_num = df_gvkey_str.copy()
     df_gvkey_num['GVKEY'] = df_gvkey_num['GVKEY'].astype('float64')
 
-# TODO [$5e34f078cb9e8c0007c9d169]: decouple get CRSP from data paths before getting these tests working
+# TODO [#6]: decouple get CRSP from data paths before getting these tests working
     
 # class TestMergeDSENames(DataFrameTest):
 #
@@ -138,7 +138,7 @@ class DataFrameTest:
 #
 #         assert_frame_equal(expect_df, dse)
 
-# TODO [$5e34f078cb9e8c0007c9d16a]: decouple get CRSP from data paths before getting get gvkey or permno tests working
+# TODO [#7]: decouple get CRSP from data paths before getting get gvkey or permno tests working
 # class TestGetGvkeyOrPermno(DataFrameTest):
 #
 #     def test_get_gvkey_with_nan(self):
@@ -164,7 +164,7 @@ class DataFrameTest:
 #         assert_frame_equal(expect_df, ggop)
         
 
-# TODO [$5e34f078cb9e8c0007c9d16b]: decouple get FF from data paths before getting these tests working
+# TODO [#8]: decouple get FF from data paths before getting these tests working
 
 # class TestGetAbret(DataFrameTest):
 #
@@ -230,7 +230,7 @@ class DataFrameTest:
 #
 #         assert_frame_equal(expect_df, ga)
 
-# TODO [$5e34f078cb9e8c0007c9d16c]: decouple get CRSP from data paths before getting these tests working
+# TODO [#9]: decouple get CRSP from data paths before getting these tests working
 
 # class TestGetCRSP:
 #
@@ -490,7 +490,7 @@ class DataFrameTest:
 #
 #         assert_frame_equal(expect_df, gc, check_dtype=False)
 
-# TODO [$5e34f078cb9e8c0007c9d16d]: decouple get Compustat from data paths before getting these tests working
+# TODO [#10]: decouple get Compustat from data paths before getting these tests working
 # class TestLoadAndMergeCompustat(DataFrameTest):
 #
 #     def test_freq_a(self):
