@@ -9,8 +9,8 @@ import os, datetime, warnings, sys
 from pd_utils import expand_time, cumulate, convert_sas_date_to_pandas_date, factor_reg_by, load_sas, \
                     long_to_wide, year_month_from_date, join_col_strings
     
-from ..compustat import convert_gvkey, load_compustat, merge_compustat
-from ..config import data_path
+# from ..compustat import convert_gvkey, load_compustat, merge_compustat
+# from ..config import data_path
 
 
 def replace_missing_csv(csv_list, missing_rep):

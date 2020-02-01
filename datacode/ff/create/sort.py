@@ -1,5 +1,5 @@
 import pandas as pd
-import dero
+import pd_utils
 
 from pd_utils.pdutils import _to_list_if_str
 from datacode.ff.create.model import parse_model
@@ -104,7 +104,7 @@ def _create_portfolio(df: pd.DataFrame, groupvar: str='Market Equity', ngroups=2
     )
 
     # create one portfolio per byvars per id_var
-    unique_ports = dero.pandas.portfolio(
+    unique_ports = pd_utils.portfolio(
         df_for_port_sort.dropna(subset=[groupvar]),
         groupvar,
         ngroups=ngroups,

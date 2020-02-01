@@ -41,8 +41,9 @@ class BarText:
         :rtype:
         """
 
-        # TODO: handle when labels are so large that they overlap due to not enough x shift. E.g.
-        # MatchComparisonBarData(100000000, 100000, 100000, name='Unbalanced')
+        # TODO: handle when labels are so large that they overlap due to not enough x shift.
+        #
+        # E.g. `MatchComparisonBarData(100000000, 100000, 100000, name='Unbalanced')`
 
         # Testing shows it takes about 51 numbers to fill a bar
         max_digits_total_bar = 51

@@ -1,14 +1,14 @@
 import pandas as pd
 
-from dero.data.summarize.subset.outliers.summary.overview import bad_df_summary_df
-from dero.data.summarize.subset.outliers.summary.stats import full_df_summary_stats_df
-from dero.data.summarize.subset.outliers.select import drop_outliers_by_cutoffs
-from dero.data.summarize.subset.outliers.summary.totex import df_dict_to_table
-from dero.data.summarize.subset.outliers.typing import (
+from datacode.summarize.subset.outliers.summary.overview import bad_df_summary_df
+from datacode.summarize.subset.outliers.summary.stats import full_df_summary_stats_df
+from datacode.summarize.subset.outliers.select import drop_outliers_by_cutoffs
+from datacode.summarize.subset.outliers.summary.totex import df_dict_to_table
+from datacode.summarize.subset.outliers.typing import (
     MinMaxDict,
     FloatSequence
 )
-from dero.data.typing import DocumentOrTables
+from datacode.typing import DocumentOrTables
 
 
 def outlier_overview_summary_page_table(df: pd.DataFrame, bad_df: pd.DataFrame,
