@@ -59,6 +59,11 @@ PACKAGE_INSTALL_REQUIRES = [
     # e.g.
     # 'package',
     # 'otherpackage>=1,<2'
+    'pandas',
+    'pd_utils',
+    'matplotlib',
+    'regtools',
+    'pyexlatex',
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
