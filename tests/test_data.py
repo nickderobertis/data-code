@@ -9,6 +9,10 @@ import numpy
 
 import datacode
 
+# TODO: remove mock test once others are fixed
+def test_mock():
+    pass
+
 
 class DataFrameTest:
     
