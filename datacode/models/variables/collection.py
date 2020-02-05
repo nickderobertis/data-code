@@ -8,7 +8,7 @@ class VariableCollection:
 
     _default_attr = 'obj'
 
-    def __init__(self, *variables, name='variables', default_attr='obj',
+    def __init__(self, *variables: Sequence[Variable], name: str = 'variables', default_attr: str = 'obj',
                  name_map: Optional[Dict[str, Union[Sequence[str], Callable]]] = None):
         if name_map is None:
             name_map = {}
