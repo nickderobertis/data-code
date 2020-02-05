@@ -40,11 +40,12 @@ def describe_df(df: pd.DataFrame, disp: bool=True, format_func: Callable=format_
         percentiles = [0.01, 0.05, 0.1, 0.25, .75, .9, .95, 0.99]
 
     summaries_dict = {}
-    for dtype, count in df.get_dtype_counts().iteritems():
-        summary: pd.DataFrame = df.describe(include=dtype, percentiles=percentiles).T
-        if 'int' in dtype:
+    for dtype, count in df.dtypes.value_counts().iteritems():
+        dtype_str = str(dtype)
+        summary: pd.DataFrame = df.describe(include=dtype_str, percentiles=percentiles).T
+        if 'int' in dtype_str:
             summary = summary.astype(int)  # describe is always float for int dtype, cast output format back to int
-        summary_name = f'{dtype} Variables'
+        summary_name = f'{dtype_str} Variables'
         summaries_dict[summary_name] = summary
 
     full_format_func = partial(format_func, **format_kwargs)
