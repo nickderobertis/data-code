@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datacode.summarize.subset.missing.detail.byid &mdash; datacode 0.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../../" src="../../../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../_static/clipboard.min.js"></script>
+        <script type="text/javascript" src="../../../../../../_static/copybutton.js"></script>
+        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+    
+    <script type="text/javascript" src="../../../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/sphinx_paramlinks.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../../index.html" class="icon icon-home" alt="Documentation Home"> datacode
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../tutorial.html">Getting started with datacode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../auto_examples/index.html">This is my gallery</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../api/modules.html">datacode</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">datacode</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../../../../datacode.html">datacode</a> &raquo;</li>
+        
+          <li><a href="../../../../summarize.html">datacode.summarize</a> &raquo;</li>
+        
+      <li>datacode.summarize.subset.missing.detail.byid</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for datacode.summarize.subset.missing.detail.byid</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">datacode.typing</span> <span class="kn">import</span> <span class="n">StrList</span>
+
+<span class="kn">from</span> <span class="nn">datacode.typing</span> <span class="kn">import</span> <span class="n">IntOrNone</span>
+<span class="kn">from</span> <span class="nn">datacode.summarize.subset.missing.detail.textfuncs</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">missing_more_than_str</span><span class="p">,</span>
+    <span class="n">missing_more_than_pct_str</span><span class="p">,</span>
+    <span class="n">missing_tolerance_count_str</span><span class="p">,</span>
+    <span class="n">id_count_str</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="by_id_pct_long_df"><a class="viewcode-back" href="../../../../../../api/datacode.summarize.subset.missing.detail.html#datacode.summarize.subset.missing.detail.byid.by_id_pct_long_df">[docs]</a><span class="k">def</span> <span class="nf">by_id_pct_long_df</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">byvars</span><span class="p">:</span> <span class="n">StrList</span><span class="p">,</span> <span class="n">id_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                      <span class="n">count_with_missings_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">missing_tolerance</span><span class="p">:</span> <span class="n">IntOrNone</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                      <span class="n">missing_quantile</span><span class="p">:</span> <span class="n">IntOrNone</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">missing_display_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Missing&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+
+    <span class="n">by_id_var</span> <span class="o">=</span> <span class="n">_by_id_count_long_df</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">,</span>
+        <span class="n">byvars</span><span class="p">,</span>
+        <span class="n">id_var</span><span class="p">,</span>
+        <span class="n">count_with_missings_var</span><span class="p">,</span>
+        <span class="n">missing_tolerance</span><span class="o">=</span><span class="n">missing_tolerance</span><span class="p">,</span>
+        <span class="n">missing_quantile</span><span class="o">=</span><span class="n">missing_quantile</span><span class="p">,</span>
+        <span class="n">missing_display_str</span><span class="o">=</span><span class="n">missing_display_str</span>
+    <span class="p">)</span>
+
+    <span class="n">name_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">missing_tolerance</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">,</span> <span class="n">missing_display_str</span><span class="p">,</span> <span class="n">id_var</span><span class="p">)</span>
+    <span class="n">missing_more_than_name</span> <span class="o">=</span> <span class="n">missing_more_than_str</span><span class="p">(</span><span class="o">*</span><span class="n">name_args</span><span class="p">)</span>
+    <span class="n">missing_tolerance_count_name</span> <span class="o">=</span> <span class="n">missing_tolerance_count_str</span><span class="p">(</span><span class="o">*</span><span class="n">name_args</span><span class="p">)</span>
+    <span class="n">id_count_name</span> <span class="o">=</span> <span class="n">id_count_str</span><span class="p">(</span><span class="n">id_var</span><span class="p">)</span>
+
+    <span class="n">by_id_var</span><span class="p">[</span><span class="n">id_count_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">by_id_var</span><span class="p">[</span><span class="n">missing_more_than_name</span><span class="p">]</span> <span class="o">+</span> \
+                                   <span class="n">by_id_var</span><span class="p">[</span><span class="n">missing_tolerance_count_name</span><span class="p">]</span>
+
+    <span class="n">by_id_var</span><span class="p">[</span><span class="n">missing_more_than_pct_str</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">,</span> <span class="n">missing_display_str</span><span class="p">,</span> <span class="n">id_var</span><span class="p">)]</span> <span class="o">=</span> \
+        <span class="p">(</span><span class="n">by_id_var</span><span class="p">[</span><span class="n">missing_more_than_name</span><span class="p">]</span> <span class="o">/</span>
+        <span class="n">by_id_var</span><span class="p">[</span><span class="n">id_count_name</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="n">by_id_var</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+        <span class="n">missing_more_than_name</span><span class="p">,</span>
+        <span class="n">missing_tolerance_count_name</span>
+    <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">by_id_var</span></div>
+
+
+<span class="k">def</span> <span class="nf">_by_id_count_long_df</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">byvars</span><span class="p">:</span> <span class="n">StrList</span><span class="p">,</span> <span class="n">id_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                         <span class="n">count_with_missings_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">missing_tolerance</span><span class="p">:</span> <span class="n">IntOrNone</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                         <span class="n">missing_quantile</span><span class="p">:</span> <span class="n">IntOrNone</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="n">missing_display_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Missing&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Note: uses missing_quantile if specified, else uses missing_tolerance</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df:</span>
+<span class="sd">        byvars:</span>
+<span class="sd">        id_var:</span>
+<span class="sd">        count_with_missings_var:</span>
+<span class="sd">        missing_tolerance:</span>
+<span class="sd">        missing_quantile:</span>
+<span class="sd">        missing_display_str:</span>
+
+<span class="sd">    Returns:</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: if missing_tolerance and missing_quantile are both None</span>
+<span class="sd">        ValueError: if columns _one or _pct are in df</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="s1">&#39;_one&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">or</span> <span class="s1">&#39;_pct&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;will override column _one and _pct in df&#39;</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;_one&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># temporary variable for counting without missing</span>
+    <span class="n">by_firm_counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">id_var</span><span class="p">]</span> <span class="o">+</span> <span class="n">byvars</span><span class="p">)[[</span><span class="s1">&#39;_one&#39;</span><span class="p">,</span> <span class="n">count_with_missings_var</span><span class="p">]]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;_one&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">missing_quantile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">by_firm_counts</span><span class="p">[</span><span class="s1">&#39;_pct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">by_firm_counts</span><span class="p">[</span><span class="n">count_with_missings_var</span><span class="p">]</span> <span class="o">/</span> <span class="n">by_firm_counts</span><span class="p">[</span><span class="s1">&#39;_one&#39;</span><span class="p">]</span>  <span class="c1"># percentage coverage</span>
+        <span class="n">minimum_allowed_coverage</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">missing_quantile</span><span class="p">)</span>
+        <span class="n">missing_df</span> <span class="o">=</span> <span class="n">by_firm_counts</span><span class="p">[</span><span class="n">by_firm_counts</span><span class="p">[</span><span class="s1">&#39;_pct&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">minimum_allowed_coverage</span><span class="p">]</span>
+        <span class="n">full_df</span> <span class="o">=</span> <span class="n">by_firm_counts</span><span class="p">[</span><span class="n">by_firm_counts</span><span class="p">[</span><span class="s1">&#39;_pct&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">minimum_allowed_coverage</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">missing_tolerance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">missing_df</span> <span class="o">=</span> <span class="n">by_firm_counts</span><span class="p">[</span><span class="n">by_firm_counts</span><span class="p">[</span><span class="n">count_with_missings_var</span><span class="p">]</span> <span class="o">+</span> <span class="n">missing_tolerance</span> <span class="o">&lt;</span> <span class="n">by_firm_counts</span><span class="p">[</span><span class="s1">&#39;_one&#39;</span><span class="p">]]</span>
+        <span class="n">full_df</span> <span class="o">=</span> <span class="n">by_firm_counts</span><span class="p">[</span><span class="n">by_firm_counts</span><span class="p">[</span><span class="n">count_with_missings_var</span><span class="p">]</span> <span class="o">+</span> <span class="n">missing_tolerance</span> <span class="o">&gt;=</span> <span class="n">by_firm_counts</span><span class="p">[</span><span class="s1">&#39;_one&#39;</span><span class="p">]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;pass one of missing_tolerance and missing_quantile. got both as None&#39;</span><span class="p">)</span>
+
+    <span class="n">name_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">missing_tolerance</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">,</span> <span class="n">missing_display_str</span><span class="p">,</span> <span class="n">id_var</span><span class="p">)</span>
+
+    <span class="n">missing_counts</span> <span class="o">=</span> <span class="n">missing_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">byvars</span><span class="p">)[</span><span class="n">id_var</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">missing_counts</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">missing_more_than_str</span><span class="p">(</span><span class="o">*</span><span class="n">name_args</span><span class="p">)</span>
+
+    <span class="n">full_counts</span> <span class="o">=</span> <span class="n">full_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">byvars</span><span class="p">)[</span><span class="n">id_var</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">full_counts</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">missing_tolerance_count_str</span><span class="p">(</span><span class="o">*</span><span class="n">name_args</span><span class="p">)</span>
+
+    <span class="n">by_id_var</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">missing_counts</span><span class="p">,</span> <span class="n">full_counts</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">by_id_var</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Nick DeRobertis
+
+    </p>
+  </div>
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-157532545-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+   
+
+</body>
+</html>

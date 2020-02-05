@@ -1,0 +1,27 @@
+datacode.models.logic.merge package
+===================================
+
+.. automodule:: datacode.models.logic.merge
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.models.logic.merge.display module
+------------------------------------------
+
+.. automodule:: datacode.models.logic.merge.display
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.logic.merge.summarize module
+--------------------------------------------
+
+.. automodule:: datacode.models.logic.merge.summarize
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

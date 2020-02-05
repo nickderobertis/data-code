@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize.subset.outliers.summary package &mdash; datacode 0.1.0 documentation</title>
+  <title>datacode.summarize.subset.outliers.summary package &mdash; datacode 0.2.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.2.0
               </div>
             
           
@@ -106,6 +106,7 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.display.html">datacode.display package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.ff.html">datacode.ff package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.formatters.html">datacode.formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.html">datacode.models package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
@@ -193,22 +194,72 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="datacode-summarize-subset-outliers-summary-package">
-<h1>datacode.summarize.subset.outliers.summary package<a class="headerlink" href="#datacode-summarize-subset-outliers-summary-package" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-datacode.summarize.subset.outliers.summary">
+<span id="datacode-summarize-subset-outliers-summary-package"></span><h1>datacode.summarize.subset.outliers.summary package<a class="headerlink" href="#module-datacode.summarize.subset.outliers.summary" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="datacode-summarize-subset-outliers-summary-main-module">
-<h2>datacode.summarize.subset.outliers.summary.main module<a class="headerlink" href="#datacode-summarize-subset-outliers-summary-main-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.outliers.summary.main">
+<span id="datacode-summarize-subset-outliers-summary-main-module"></span><h2>datacode.summarize.subset.outliers.summary.main module<a class="headerlink" href="#module-datacode.summarize.subset.outliers.summary.main" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.outliers.summary.main.outlier_overview_summary_page_table">
+<code class="sig-prename descclassname">datacode.summarize.subset.outliers.summary.main.</code><code class="sig-name descname">outlier_overview_summary_page_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">bad_df</em>, <em class="sig-param">min_max_dict</em>, <em class="sig-param">bad_column_name='_bad_column'</em>, <em class="sig-param">firm_id_col='TICKER'</em>, <em class="sig-param">outdir=None</em>, <em class="sig-param">as_document=True</em>, <em class="sig-param">author=None</em>, <em class="sig-param">caption='Outlier Overview and Summary Statistics'</em>, <em class="sig-param">quants=(0.01</em>, <em class="sig-param">0.1</em>, <em class="sig-param">0.5</em>, <em class="sig-param">0.9</em>, <em class="sig-param">0.99)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/outliers/summary/main.html#outlier_overview_summary_page_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.outliers.summary.main.outlier_overview_summary_page_table" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Document</span></code>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-summarize-subset-outliers-summary-overview-module">
-<h2>datacode.summarize.subset.outliers.summary.overview module<a class="headerlink" href="#datacode-summarize-subset-outliers-summary-overview-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.outliers.summary.overview">
+<span id="datacode-summarize-subset-outliers-summary-overview-module"></span><h2>datacode.summarize.subset.outliers.summary.overview module<a class="headerlink" href="#module-datacode.summarize.subset.outliers.summary.overview" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.outliers.summary.overview.bad_df_summary_df">
+<code class="sig-prename descclassname">datacode.summarize.subset.outliers.summary.overview.</code><code class="sig-name descname">bad_df_summary_df</code><span class="sig-paren">(</span><em class="sig-param">bad_df</em>, <em class="sig-param">min_max_dict</em>, <em class="sig-param">firm_id_col='TICKER'</em>, <em class="sig-param">bad_column_name='_bad_column'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/outliers/summary/overview.html#bad_df_summary_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.outliers.summary.overview.bad_df_summary_df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-summarize-subset-outliers-summary-stats-module">
-<h2>datacode.summarize.subset.outliers.summary.stats module<a class="headerlink" href="#datacode-summarize-subset-outliers-summary-stats-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.outliers.summary.stats">
+<span id="datacode-summarize-subset-outliers-summary-stats-module"></span><h2>datacode.summarize.subset.outliers.summary.stats module<a class="headerlink" href="#module-datacode.summarize.subset.outliers.summary.stats" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.outliers.summary.stats.bad_df_summary_stats_df">
+<code class="sig-prename descclassname">datacode.summarize.subset.outliers.summary.stats.</code><code class="sig-name descname">bad_df_summary_stats_df</code><span class="sig-paren">(</span><em class="sig-param">bad_df</em>, <em class="sig-param">outlier_cols</em>, <em class="sig-param">bad_column_name='_bad_column'</em>, <em class="sig-param">quants=(0.01</em>, <em class="sig-param">0.1</em>, <em class="sig-param">0.5</em>, <em class="sig-param">0.9</em>, <em class="sig-param">0.99)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/outliers/summary/stats.html#bad_df_summary_stats_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.outliers.summary.stats.bad_df_summary_stats_df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.summarize.subset.outliers.summary.stats.full_df_summary_stats_df">
+<code class="sig-prename descclassname">datacode.summarize.subset.outliers.summary.stats.</code><code class="sig-name descname">full_df_summary_stats_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">outlier_cols</em>, <em class="sig-param">quants=(0.01</em>, <em class="sig-param">0.1</em>, <em class="sig-param">0.5</em>, <em class="sig-param">0.9</em>, <em class="sig-param">0.99)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/outliers/summary/stats.html#full_df_summary_stats_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.outliers.summary.stats.full_df_summary_stats_df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-summarize-subset-outliers-summary-totex-module">
-<h2>datacode.summarize.subset.outliers.summary.totex module<a class="headerlink" href="#datacode-summarize-subset-outliers-summary-totex-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.outliers.summary.totex">
+<span id="datacode-summarize-subset-outliers-summary-totex-module"></span><h2>datacode.summarize.subset.outliers.summary.totex module<a class="headerlink" href="#module-datacode.summarize.subset.outliers.summary.totex" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.outliers.summary.totex.df_dict_to_table">
+<code class="sig-prename descclassname">datacode.summarize.subset.outliers.summary.totex.</code><code class="sig-name descname">df_dict_to_table</code><span class="sig-paren">(</span><em class="sig-param">df_dict</em>, <em class="sig-param">as_document=False</em>, <em class="sig-param">author=None</em>, <em class="sig-param">caption=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/outliers/summary/totex.html#df_dict_to_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.outliers.summary.totex.df_dict_to_table" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Document</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 

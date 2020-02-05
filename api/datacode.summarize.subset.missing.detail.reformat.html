@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize.subset.missing.detail.reformat package &mdash; datacode 0.1.0 documentation</title>
+  <title>datacode.summarize.subset.missing.detail.reformat package &mdash; datacode 0.2.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.2.0
               </div>
             
           
@@ -107,6 +107,7 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.display.html">datacode.display package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.ff.html">datacode.ff package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.formatters.html">datacode.formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.html">datacode.models package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
@@ -196,19 +197,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="datacode-summarize-subset-missing-detail-reformat-package">
-<h1>datacode.summarize.subset.missing.detail.reformat package<a class="headerlink" href="#datacode-summarize-subset-missing-detail-reformat-package" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-datacode.summarize.subset.missing.detail.reformat">
+<span id="datacode-summarize-subset-missing-detail-reformat-package"></span><h1>datacode.summarize.subset.missing.detail.reformat package<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail.reformat" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="datacode-summarize-subset-missing-detail-reformat-main-module">
-<h2>datacode.summarize.subset.missing.detail.reformat.main module<a class="headerlink" href="#datacode-summarize-subset-missing-detail-reformat-main-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.missing.detail.reformat.main">
+<span id="datacode-summarize-subset-missing-detail-reformat-main-module"></span><h2>datacode.summarize.subset.missing.detail.reformat.main module<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail.reformat.main" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.reformat.main.long_counts_to_formatted_wide_df">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.reformat.main.</code><code class="sig-name descname">long_counts_to_formatted_wide_df</code><span class="sig-paren">(</span><em class="sig-param">long_df</em>, <em class="sig-param">col</em>, <em class="sig-param">row_byvar</em>, <em class="sig-param">col_byvar</em>, <em class="sig-param">sort_cols_as_numeric=True</em>, <em class="sig-param">sort_rows_as_numeric=True</em>, <em class="sig-param">sort_cols_as_portvar=False</em>, <em class="sig-param">sort_rows_as_portvar=False</em>, <em class="sig-param">format_str='.0f'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/reformat/main.html#long_counts_to_formatted_wide_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.reformat.main.long_counts_to_formatted_wide_df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.reformat.main.long_counts_to_formatted_wide_df_dict">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.reformat.main.</code><code class="sig-name descname">long_counts_to_formatted_wide_df_dict</code><span class="sig-paren">(</span><em class="sig-param">long_df</em>, <em class="sig-param">row_byvar</em>, <em class="sig-param">col_byvar</em>, <em class="sig-param">sort_cols_as_numeric=True</em>, <em class="sig-param">sort_rows_as_numeric=True</em>, <em class="sig-param">sort_cols_as_portvar=False</em>, <em class="sig-param">sort_rows_as_portvar=False</em>, <em class="sig-param">format_strs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/reformat/main.html#long_counts_to_formatted_wide_df_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.reformat.main.long_counts_to_formatted_wide_df_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-summarize-subset-missing-detail-reformat-numformat-module">
-<h2>datacode.summarize.subset.missing.detail.reformat.numformat module<a class="headerlink" href="#datacode-summarize-subset-missing-detail-reformat-numformat-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.missing.detail.reformat.numformat">
+<span id="datacode-summarize-subset-missing-detail-reformat-numformat-module"></span><h2>datacode.summarize.subset.missing.detail.reformat.numformat module<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail.reformat.numformat" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.reformat.numformat.sort_and_apply_formatting_to_df">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.reformat.numformat.</code><code class="sig-name descname">sort_and_apply_formatting_to_df</code><span class="sig-paren">(</span><em class="sig-param">counts</em>, <em class="sig-param">sort_cols_as_numeric=True</em>, <em class="sig-param">sort_rows_as_numeric=True</em>, <em class="sig-param">sort_cols_as_portvar=False</em>, <em class="sig-param">sort_rows_as_portvar=False</em>, <em class="sig-param">format_str='.0f'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/reformat/numformat.html#sort_and_apply_formatting_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.reformat.numformat.sort_and_apply_formatting_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-summarize-subset-missing-detail-reformat-towide-module">
-<h2>datacode.summarize.subset.missing.detail.reformat.towide module<a class="headerlink" href="#datacode-summarize-subset-missing-detail-reformat-towide-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.missing.detail.reformat.towide">
+<span id="datacode-summarize-subset-missing-detail-reformat-towide-module"></span><h2>datacode.summarize.subset.missing.detail.reformat.towide module<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail.reformat.towide" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

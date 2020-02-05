@@ -1,0 +1,14 @@
+datacode.models.logic package
+=============================
+
+.. automodule:: datacode.models.logic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.models.logic.merge

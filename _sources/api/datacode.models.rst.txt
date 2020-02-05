@@ -1,0 +1,50 @@
+datacode.models package
+=======================
+
+.. automodule:: datacode.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.models.logic
+
+Submodules
+----------
+
+datacode.models.merge module
+----------------------------
+
+.. automodule:: datacode.models.merge
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.pipeline module
+-------------------------------
+
+.. automodule:: datacode.models.pipeline
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.source module
+-----------------------------
+
+.. automodule:: datacode.models.source
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.type module
+---------------------------
+
+.. automodule:: datacode.models.type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

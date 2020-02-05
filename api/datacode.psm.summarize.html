@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.psm.summarize package &mdash; datacode 0.1.0 documentation</title>
+  <title>datacode.psm.summarize package &mdash; datacode 0.2.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.2.0
               </div>
             
           
@@ -107,6 +107,7 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.display.html">datacode.display package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.ff.html">datacode.ff package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.formatters.html">datacode.formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.html">datacode.models package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
@@ -224,11 +225,41 @@
 <div class="section" id="datacode-psm-summarize-main-module">
 <h2>datacode.psm.summarize.main module<a class="headerlink" href="#datacode-psm-summarize-main-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="datacode-psm-summarize-predictions-module">
-<h2>datacode.psm.summarize.predictions module<a class="headerlink" href="#datacode-psm-summarize-predictions-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.psm.summarize.predictions">
+<span id="datacode-psm-summarize-predictions-module"></span><h2>datacode.psm.summarize.predictions module<a class="headerlink" href="#module-datacode.psm.summarize.predictions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.psm.summarize.predictions.summarize_predictions">
+<code class="sig-prename descclassname">datacode.psm.summarize.predictions.</code><code class="sig-name descname">summarize_predictions</code><span class="sig-paren">(</span><em class="sig-param">predict_df</em>, <em class="sig-param">treated_var</em>, <em class="sig-param">treated_name='Treated'</em>, <em class="sig-param">control_name='Control'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/summarize/predictions.html#summarize_predictions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.summarize.predictions.summarize_predictions" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-psm-summarize-stats-module">
-<h2>datacode.psm.summarize.stats module<a class="headerlink" href="#datacode-psm-summarize-stats-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.psm.summarize.stats">
+<span id="datacode-psm-summarize-stats-module"></span><h2>datacode.psm.summarize.stats module<a class="headerlink" href="#module-datacode.psm.summarize.stats" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.psm.summarize.stats.matching_summary_stats">
+<code class="sig-prename descclassname">datacode.psm.summarize.stats.</code><code class="sig-name descname">matching_summary_stats</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">matched_df</em>, <em class="sig-param">treated_var</em>, <em class="sig-param">describe_vars</em>, <em class="sig-param">entity_var</em>, <em class="sig-param">control_name='Control'</em>, <em class="sig-param">treated_name='Treated'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/summarize/stats.html#matching_summary_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.summarize.stats.matching_summary_stats" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.psm.summarize.stats.mean_and_diff_df_by_treatment">
+<code class="sig-prename descclassname">datacode.psm.summarize.stats.</code><code class="sig-name descname">mean_and_diff_df_by_treatment</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">treated_var</em>, <em class="sig-param">describe_vars</em>, <em class="sig-param">entity_var</em>, <em class="sig-param">num_decimals=2</em>, <em class="sig-param">coerce_ints=True</em>, <em class="sig-param">control_name='Control'</em>, <em class="sig-param">treated_name='Treated'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/summarize/stats.html#mean_and_diff_df_by_treatment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.summarize.stats.mean_and_diff_df_by_treatment" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 

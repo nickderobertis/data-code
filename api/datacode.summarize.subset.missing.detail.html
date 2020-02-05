@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize.subset.missing.detail package &mdash; datacode 0.1.0 documentation</title>
+  <title>datacode.summarize.subset.missing.detail package &mdash; datacode 0.2.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.2.0
               </div>
             
           
@@ -107,6 +107,7 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.display.html">datacode.display package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.ff.html">datacode.ff package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.formatters.html">datacode.formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.html">datacode.models package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
@@ -194,17 +195,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="datacode-summarize-subset-missing-detail-package">
-<h1>datacode.summarize.subset.missing.detail package<a class="headerlink" href="#datacode-summarize-subset-missing-detail-package" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-datacode.summarize.subset.missing.detail">
+<span id="datacode-summarize-subset-missing-detail-package"></span><h1>datacode.summarize.subset.missing.detail package<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html">datacode.summarize.subset.missing.detail.reformat package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#datacode-summarize-subset-missing-detail-reformat-main-module">datacode.summarize.subset.missing.detail.reformat.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#datacode-summarize-subset-missing-detail-reformat-numformat-module">datacode.summarize.subset.missing.detail.reformat.numformat module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#datacode-summarize-subset-missing-detail-reformat-towide-module">datacode.summarize.subset.missing.detail.reformat.towide module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#module-datacode.summarize.subset.missing.detail.reformat.main">datacode.summarize.subset.missing.detail.reformat.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#module-datacode.summarize.subset.missing.detail.reformat.numformat">datacode.summarize.subset.missing.detail.reformat.numformat module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#module-datacode.summarize.subset.missing.detail.reformat.towide">datacode.summarize.subset.missing.detail.reformat.towide module</a></li>
 </ul>
 </li>
 </ul>
@@ -213,20 +214,148 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="datacode-summarize-subset-missing-detail-byid-module">
-<h2>datacode.summarize.subset.missing.detail.byid module<a class="headerlink" href="#datacode-summarize-subset-missing-detail-byid-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.missing.detail.byid">
+<span id="datacode-summarize-subset-missing-detail-byid-module"></span><h2>datacode.summarize.subset.missing.detail.byid module<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail.byid" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.byid.by_id_pct_long_df">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.byid.</code><code class="sig-name descname">by_id_pct_long_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">byvars</em>, <em class="sig-param">id_var</em>, <em class="sig-param">count_with_missings_var</em>, <em class="sig-param">missing_tolerance=0</em>, <em class="sig-param">missing_quantile=None</em>, <em class="sig-param">missing_display_str='Missing'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/byid.html#by_id_pct_long_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.byid.by_id_pct_long_df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-summarize-subset-missing-detail-byobs-module">
-<h2>datacode.summarize.subset.missing.detail.byobs module<a class="headerlink" href="#datacode-summarize-subset-missing-detail-byobs-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.missing.detail.byobs">
+<span id="datacode-summarize-subset-missing-detail-byobs-module"></span><h2>datacode.summarize.subset.missing.detail.byobs module<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail.byobs" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.byobs.obs_pct_long_df">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.byobs.</code><code class="sig-name descname">obs_pct_long_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">byvars</em>, <em class="sig-param">obs_count_var</em>, <em class="sig-param">count_with_missings_var</em>, <em class="sig-param">missing_display_str='Missing'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/byobs.html#obs_pct_long_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.byobs.obs_pct_long_df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Args:</dt><dd><p>df:
+byvars:
+obs_count_var: should never be missing. may be id var, or may have to create a column
+count_with_missings_var:</p>
+</dd>
+</dl>
+<p>Returns:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-summarize-subset-missing-detail-main-module">
-<h2>datacode.summarize.subset.missing.detail.main module<a class="headerlink" href="#datacode-summarize-subset-missing-detail-main-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.missing.detail.main">
+<span id="datacode-summarize-subset-missing-detail-main-module"></span><h2>datacode.summarize.subset.missing.detail.main module<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail.main" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.main.obs_and_id_count_and_missing_pct_df_dict">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.main.</code><code class="sig-name descname">obs_and_id_count_and_missing_pct_df_dict</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">col_with_missings</em>, <em class="sig-param">id_col</em>, <em class="sig-param">row_byvar</em>, <em class="sig-param">col_byvar</em>, <em class="sig-param">missing_tolerance=0</em>, <em class="sig-param">missing_quantile=None</em>, <em class="sig-param">sort_cols_as_numeric=True</em>, <em class="sig-param">sort_rows_as_numeric=True</em>, <em class="sig-param">sort_cols_as_portvar=False</em>, <em class="sig-param">sort_rows_as_portvar=False</em>, <em class="sig-param">count_format_str='.0f'</em>, <em class="sig-param">pct_format_str='.1f'</em>, <em class="sig-param">missing_display_str='Missing'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/main.html#obs_and_id_count_and_missing_pct_df_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.main.obs_and_id_count_and_missing_pct_df_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.main.obs_and_id_count_and_missing_pct_table">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.main.</code><code class="sig-name descname">obs_and_id_count_and_missing_pct_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">col_with_missings</em>, <em class="sig-param">id_col</em>, <em class="sig-param">row_byvar</em>, <em class="sig-param">col_byvar</em>, <em class="sig-param">datevar</em>, <em class="sig-param">missing_tolerance=0</em>, <em class="sig-param">missing_quantile=None</em>, <em class="sig-param">summary_missing_tolerances=(0</em>, <em class="sig-param">5</em>, <em class="sig-param">10)</em>, <em class="sig-param">summary_missing_quantiles=None</em>, <em class="sig-param">sort_cols_as_numeric=True</em>, <em class="sig-param">sort_rows_as_numeric=True</em>, <em class="sig-param">sort_cols_as_portvar=False</em>, <em class="sig-param">sort_rows_as_portvar=False</em>, <em class="sig-param">count_format_str='.0f'</em>, <em class="sig-param">pct_format_str='.1f'</em>, <em class="sig-param">missing_display_str='Missing'</em>, <em class="sig-param">period_display_name='Period'</em>, <em class="sig-param">extra_caption=''</em>, <em class="sig-param">extra_below_text=''</em>, <em class="sig-param">table_align=None</em>, <em class="sig-param">outfolder=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/main.html#obs_and_id_count_and_missing_pct_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.main.obs_and_id_count_and_missing_pct_table" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-summarize-subset-missing-detail-textfuncs-module">
-<h2>datacode.summarize.subset.missing.detail.textfuncs module<a class="headerlink" href="#datacode-summarize-subset-missing-detail-textfuncs-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.missing.detail.textfuncs">
+<span id="datacode-summarize-subset-missing-detail-textfuncs-module"></span><h2>datacode.summarize.subset.missing.detail.textfuncs module<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail.textfuncs" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.textfuncs.id_count_str">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.textfuncs.</code><code class="sig-name descname">id_count_str</code><span class="sig-paren">(</span><em class="sig-param">id_var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/textfuncs.html#id_count_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.textfuncs.id_count_str" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.textfuncs.missing_more_than_pct_str">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.textfuncs.</code><code class="sig-name descname">missing_more_than_pct_str</code><span class="sig-paren">(</span><em class="sig-param">missing_tolerance</em>, <em class="sig-param">missing_quantile</em>, <em class="sig-param">missing_display_str</em>, <em class="sig-param">id_var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/textfuncs.html#missing_more_than_pct_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.textfuncs.missing_more_than_pct_str" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.textfuncs.missing_more_than_str">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.textfuncs.</code><code class="sig-name descname">missing_more_than_str</code><span class="sig-paren">(</span><em class="sig-param">missing_tolerance</em>, <em class="sig-param">missing_quantile</em>, <em class="sig-param">missing_display_str</em>, <em class="sig-param">id_var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/textfuncs.html#missing_more_than_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.textfuncs.missing_more_than_str" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.textfuncs.missing_tolerance_count_str">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.textfuncs.</code><code class="sig-name descname">missing_tolerance_count_str</code><span class="sig-paren">(</span><em class="sig-param">missing_tolerance</em>, <em class="sig-param">missing_quantile</em>, <em class="sig-param">missing_display_str</em>, <em class="sig-param">id_var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/textfuncs.html#missing_tolerance_count_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.textfuncs.missing_tolerance_count_str" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.textfuncs.num_or_pct">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.textfuncs.</code><code class="sig-name descname">num_or_pct</code><span class="sig-paren">(</span><em class="sig-param">missing_tolerance</em>, <em class="sig-param">missing_quantile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/textfuncs.html#num_or_pct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.textfuncs.num_or_pct" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.textfuncs.num_or_pct_word">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.textfuncs.</code><code class="sig-name descname">num_or_pct_word</code><span class="sig-paren">(</span><em class="sig-param">missing_tolerance</em>, <em class="sig-param">missing_quantile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/textfuncs.html#num_or_pct_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.textfuncs.num_or_pct_word" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.textfuncs.pct_of_if_necessary">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.textfuncs.</code><code class="sig-name descname">pct_of_if_necessary</code><span class="sig-paren">(</span><em class="sig-param">missing_tolerance</em>, <em class="sig-param">missing_quantile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/textfuncs.html#pct_of_if_necessary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.textfuncs.pct_of_if_necessary" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="datacode-summarize-subset-missing-detail-totex-module">
-<h2>datacode.summarize.subset.missing.detail.totex module<a class="headerlink" href="#datacode-summarize-subset-missing-detail-totex-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.summarize.subset.missing.detail.totex">
+<span id="datacode-summarize-subset-missing-detail-totex-module"></span><h2>datacode.summarize.subset.missing.detail.totex module<a class="headerlink" href="#module-datacode.summarize.subset.missing.detail.totex" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.summarize.subset.missing.detail.totex.missing_detail_df_dict_to_table_and_output">
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.detail.totex.</code><code class="sig-name descname">missing_detail_df_dict_to_table_and_output</code><span class="sig-paren">(</span><em class="sig-param">df_dict</em>, <em class="sig-param">summary_panel</em>, <em class="sig-param">row_byvar</em>, <em class="sig-param">col_byvar</em>, <em class="sig-param">id_var</em>, <em class="sig-param">count_with_missings_var</em>, <em class="sig-param">missing_tolerance=0</em>, <em class="sig-param">missing_quantile=None</em>, <em class="sig-param">summary_missing_tolerances=(0</em>, <em class="sig-param">5</em>, <em class="sig-param">10)</em>, <em class="sig-param">summary_missing_quantiles=None</em>, <em class="sig-param">missing_display_str='Missing'</em>, <em class="sig-param">period_display_name='Period'</em>, <em class="sig-param">extra_caption=''</em>, <em class="sig-param">extra_below_text=''</em>, <em class="sig-param">align=None</em>, <em class="sig-param">outfolder=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/detail/totex.html#missing_detail_df_dict_to_table_and_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.detail.totex.missing_detail_df_dict_to_table_and_output" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
