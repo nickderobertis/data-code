@@ -27,7 +27,7 @@ class VariableCollection:
     @default_attr.setter
     def default_attr(self, default_attr):
         self._default_attr = default_attr
-        # TODO: could make variable collection initialization more efficient
+        # TODO [$5e3a9766f01238000767dc2c]: could make variable collection initialization more efficient
         #
         # Currently calling self._set_variables_and_collections() before self._create_variable_map()
         # as variables need to have the custom name attributes created. But then still calling after to
