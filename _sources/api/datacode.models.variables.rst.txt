@@ -1,0 +1,51 @@
+datacode.models.variables package
+=================================
+
+.. automodule:: datacode.models.variables
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.models.variables.collection module
+-------------------------------------------
+
+.. automodule:: datacode.models.variables.collection
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.variables.dtypes module
+---------------------------------------
+
+.. automodule:: datacode.models.variables.dtypes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.variables.tools module
+--------------------------------------
+
+.. automodule:: datacode.models.variables.tools
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.variables.typing module
+---------------------------------------
+
+.. automodule:: datacode.models.variables.typing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.variables.variable module
+-----------------------------------------
+
+.. automodule:: datacode.models.variables.variable
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

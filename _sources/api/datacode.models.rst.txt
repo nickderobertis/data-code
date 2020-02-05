@@ -12,6 +12,7 @@ Subpackages
 .. toctree::
 
    datacode.models.logic
+   datacode.models.variables
 
 Submodules
 ----------
