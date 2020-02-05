@@ -1,10 +1,10 @@
 from functools import partial
-from typing import Sequence, Callable
+from typing import Sequence, Callable, Optional
 
 
 class Variable:
 
-    def __init__(self, name, display_name=None):
+    def __init__(self, name: str, display_name: Optional[str]=None):
         self.name = name
 
         if display_name is None:
