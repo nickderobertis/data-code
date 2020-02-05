@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize &mdash; datacode 0.3.0 documentation</title>
+  <title>datacode.summarize &mdash; datacode 0.3.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.3.0
+                0.3.1
               </div>
             
           
@@ -207,11 +207,12 @@
         <span class="n">percentiles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="o">.</span><span class="mi">75</span><span class="p">,</span> <span class="o">.</span><span class="mi">9</span><span class="p">,</span> <span class="o">.</span><span class="mi">95</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">]</span>
 
     <span class="n">summaries_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">get_dtype_counts</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
-        <span class="n">summary</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">percentiles</span><span class="o">=</span><span class="n">percentiles</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-        <span class="k">if</span> <span class="s1">&#39;int&#39;</span> <span class="ow">in</span> <span class="n">dtype</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="n">dtype_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">summary</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="n">dtype_str</span><span class="p">,</span> <span class="n">percentiles</span><span class="o">=</span><span class="n">percentiles</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">if</span> <span class="s1">&#39;int&#39;</span> <span class="ow">in</span> <span class="n">dtype_str</span><span class="p">:</span>
             <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># describe is always float for int dtype, cast output format back to int</span>
-        <span class="n">summary_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{dtype}</span><span class="s1"> Variables&#39;</span>
+        <span class="n">summary_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{dtype_str}</span><span class="s1"> Variables&#39;</span>
         <span class="n">summaries_dict</span><span class="p">[</span><span class="n">summary_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span>
 
     <span class="n">full_format_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">format_func</span><span class="p">,</span> <span class="o">**</span><span class="n">format_kwargs</span><span class="p">)</span>
