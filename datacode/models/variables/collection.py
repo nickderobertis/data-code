@@ -1,3 +1,5 @@
+from typing import Callable, Sequence, Union, Dict, Optional
+
 from datacode.models.variables.tools import _get_obj_or_attr
 from .variable import Variable
 
@@ -6,7 +8,11 @@ class VariableCollection:
 
     _default_attr = 'obj'
 
-    def __init__(self, *variables, name='variables', default_attr='obj'):
+    def __init__(self, *variables, name='variables', default_attr='obj',
+                 name_map: Optional[Dict[str, Union[Sequence[str], Callable]]] = None):
+        if name_map is None:
+            name_map = {}
+        self.name_map = name_map
         self.items: [Variable, VariableCollection] = list(variables)
         self.default_attr = default_attr
         self.name = name
@@ -21,6 +27,12 @@ class VariableCollection:
     @default_attr.setter
     def default_attr(self, default_attr):
         self._default_attr = default_attr
+        # TODO: could make variable collection initialization more efficient
+        #
+        # Currently calling self._set_variables_and_collections() before self._create_variable_map()
+        # as variables need to have the custom name attributes created. But then still calling after to
+        # set the variables attributes correctly. Could reorganize this.
+        self._set_variables_and_collections()
         self.variable_map = self._create_variable_map()
         self._set_variables_and_collections()
         self._set_default_attr_in_nested_collections()
@@ -54,6 +66,17 @@ class VariableCollection:
         self._delete_from_map(variable.name)
         return
 
+    def _add_names_to_variables(self):
+        for item in self.variables:
+            for attr, seq_or_func in self.name_map.items():
+                if callable(seq_or_func):
+                    # Got function
+                    item._set_attr_for_name_func(attr, name_func=seq_or_func)
+                elif isinstance(seq_or_func, Sequence):
+                    item._set_attr_for_names(attr, names=seq_or_func)
+                else:
+                    raise ValueError(f'expected sequence of names or function for {attr}, got {seq_or_func}')
+
     def _add_item_to_map(self, item):
         self.variable_map.update({
             item.name: _get_obj_or_attr(item, self.default_attr)
@@ -80,6 +103,7 @@ class VariableCollection:
 
     def _set_variables_and_collections(self):
         self.variables = [item for item in self.items if isinstance(item, Variable)]
+        self._add_names_to_variables()
         self.variable_attrs = [_get_obj_or_attr(item, self.default_attr) for item in self.variables]
         self.collections = [item for item in self.items if isinstance(item, VariableCollection)]
 
