@@ -64,6 +64,7 @@ PACKAGE_INSTALL_REQUIRES = [
     'matplotlib',
     'regtools',
     'pyexlatex',
+    'pyfileconf',
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
