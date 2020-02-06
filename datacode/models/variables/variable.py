@@ -4,8 +4,9 @@ from typing import Sequence, Callable, Optional
 
 class Variable:
 
-    def __init__(self, name: str, display_name: Optional[str]=None):
+    def __init__(self, name: str, display_name: Optional[str]=None, dtype: Optional[str] = None):
         self.name = name
+        self.dtype = dtype
 
         if display_name is None:
             display_name = _from_var_name_to_display_name(name)
