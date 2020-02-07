@@ -1,6 +1,8 @@
+from copy import deepcopy
 from typing import Callable, Sequence, Union, Dict, Optional
 
 from datacode.models.variables.tools import _get_obj_or_attr
+from .transform import Transform, AppliedTransform
 from .variable import Variable
 
 
@@ -9,11 +11,15 @@ class VariableCollection:
     _default_attr = 'obj'
 
     def __init__(self, *variables: Variable, name: str = 'variables', default_attr: str = 'obj',
-                 name_map: Optional[Dict[str, Union[Sequence[str], Callable]]] = None):
-        if name_map is None:
-            name_map = {}
-        self.name_map = name_map
-        self.items: [Variable, VariableCollection] = list(variables)
+                 transforms: Optional[Sequence[Transform]] = None,
+                 default_transforms: Optional[Sequence[AppliedTransform]] = None):
+        if transforms is None:
+            transforms = []
+        if default_transforms is None:
+            default_transforms = []
+        self.transforms = transforms
+        self.default_transforms = default_transforms
+        self.items: [Variable, VariableCollection] = deepcopy(list(variables))
         self.default_attr = default_attr
         self.name = name
 
@@ -59,23 +65,22 @@ class VariableCollection:
 
     def remove(self, item: Variable):
         self.items.remove(item)
-        self._delete_from_map(item.name)
+        self._delete_from_map(item.key)
 
     def pop(self, i):
         variable = self.items.pop(i)
-        self._delete_from_map(variable.name)
+        self._delete_from_map(variable.key)
         return
 
-    def _add_names_to_variables(self):
+    def _add_transforms_to_variables(self):
         for item in self.variables:
-            for attr, seq_or_func in self.name_map.items():
-                if callable(seq_or_func):
-                    # Got function
-                    item._set_attr_for_name_func(attr, name_func=seq_or_func)
-                elif isinstance(seq_or_func, Sequence):
-                    item._set_attr_for_names(attr, names=seq_or_func)
-                else:
-                    raise ValueError(f'expected sequence of names or function for {attr}, got {seq_or_func}')
+            for transform in self.transforms:
+                item._add_transform(transform)
+
+            item.applied_transforms = []  # reset so that are not applied multiple times
+            for applied_transform in self.default_transforms:
+                item.applied_transforms.append(applied_transform)
+                item._set_name_by_transforms()
 
     def _add_item_to_map(self, item):
         self.variable_map.update({
@@ -103,8 +108,7 @@ class VariableCollection:
 
     def _set_variables_and_collections(self):
         self.variables = [item for item in self.items if isinstance(item, Variable)]
-        self._add_names_to_variables()
-        self.variable_attrs = [_get_obj_or_attr(item, self.default_attr) for item in self.variables]
+        self._add_transforms_to_variables()
         self.collections = [item for item in self.items if isinstance(item, VariableCollection)]
 
     def _set_default_attr_in_nested_collections(self):
@@ -163,7 +167,7 @@ def _create_variable_tuples(variables, output='obj', tups=None):
             tups.append((variable_or_collection.name, variable_or_collection))
         elif isinstance(variable_or_collection, Variable):
             # Add single variable
-            tups.append((variable_or_collection.name, _get_obj_or_attr(variable_or_collection, output)))
+            tups.append((variable_or_collection.key, _get_obj_or_attr(variable_or_collection, output)))
         else:
             raise ValueError(f'must pass iterable of Variable or VariableCollection. {variable_or_collection} has type {type(variable_or_collection)}')
 
@@ -214,7 +218,7 @@ def _definition_dict_tuple_or_str_to_variable(value):
         return Variable.from_display_name(value)
     elif isinstance(value, tuple):
         # if tuple is passed, it is tuple of name, display name
-        return Variable(name=value[0], display_name=value[1])
+        return Variable(key=value[0], name=value[1])
     elif isinstance(value, Variable):
         # variable itself was in data, just return it
         return value
