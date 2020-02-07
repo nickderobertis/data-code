@@ -12,3 +12,15 @@ Subpackages
 .. toctree::
 
    datacode.models.logic.merge
+
+Submodules
+----------
+
+datacode.models.logic.partial module
+------------------------------------
+
+.. automodule:: datacode.models.logic.partial
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

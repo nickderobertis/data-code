@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.logic.merge &mdash; datacode 0.4.0 documentation</title>
+  <title>datacode.models.logic.partial &mdash; datacode 0.4.0 documentation</title>
   
 
   
@@ -149,7 +149,7 @@
         
           <li><a href="../../../datacode.html">datacode</a> &raquo;</li>
         
-      <li>datacode.models.logic.merge</li>
+      <li>datacode.models.logic.partial</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -164,20 +164,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.models.logic.merge</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+  <h1>Source code for datacode.models.logic.partial</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">itertools</span>
 
-<span class="k">def</span> <span class="nf">_how_merge_df</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">other_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">other_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="n">how</span><span class="p">)</span>
 
-<div class="viewcode-block" id="outer_merge_df"><a class="viewcode-back" href="../../../../api/datacode.models.logic.merge.html#datacode.models.logic.merge.outer_merge_df">[docs]</a><span class="k">def</span> <span class="nf">outer_merge_df</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">other_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ids</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_how_merge_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">other_df</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="partial"><a class="viewcode-back" href="../../../../api/datacode.models.logic.html#datacode.models.logic.partial.partial">[docs]</a><span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">keywords</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A version of functools.partial that allows specifying positional arguments out of order using ellipses.</span>
 
-<div class="viewcode-block" id="left_merge_df"><a class="viewcode-back" href="../../../../api/datacode.models.logic.merge.html#datacode.models.logic.merge.left_merge_df">[docs]</a><span class="k">def</span> <span class="nf">left_merge_df</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">other_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ids</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_how_merge_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">other_df</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span></div>
+<span class="sd">    See: https://stackoverflow.com/a/11173903</span>
 
-<div class="viewcode-block" id="right_merge_df"><a class="viewcode-back" href="../../../../api/datacode.models.logic.merge.html#datacode.models.logic.merge.right_merge_df">[docs]</a><span class="k">def</span> <span class="nf">right_merge_df</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">other_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ids</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_how_merge_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">other_df</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span></div>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; print partial(pow, ..., 2, 3)(5) # (5^2)%3</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; print partial(pow, 2, ..., 3)(5) # (2^5)%3</span>
+<span class="sd">        2</span>
+<span class="sd">        &gt;&gt;&gt; print partial(pow, 2, 3, ...)(5) # (2^3)%5</span>
+<span class="sd">        3</span>
+<span class="sd">        &gt;&gt;&gt; print partial(pow, 2, 3)(5) # (2^3)%5</span>
+<span class="sd">        3</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">newfunc</span><span class="p">(</span><span class="o">*</span><span class="n">fargs</span><span class="p">,</span> <span class="o">**</span><span class="n">fkeywords</span><span class="p">):</span>
+        <span class="n">newkeywords</span> <span class="o">=</span> <span class="n">keywords</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">newkeywords</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fkeywords</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">newfunc</span><span class="o">.</span><span class="n">leftmost_args</span> <span class="o">+</span> <span class="n">fargs</span> <span class="o">+</span> <span class="n">newfunc</span><span class="o">.</span><span class="n">rightmost_args</span><span class="p">),</span> <span class="o">**</span><span class="n">newkeywords</span><span class="p">)</span>
+    <span class="n">newfunc</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">newfunc</span><span class="o">.</span><span class="n">leftmost_args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">takewhile</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span> <span class="o">!=</span> <span class="bp">Ellipsis</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
+    <span class="n">newfunc</span><span class="o">.</span><span class="n">rightmost_args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">newfunc</span><span class="o">.</span><span class="n">keywords</span> <span class="o">=</span> <span class="n">keywords</span>
+    <span class="k">return</span> <span class="n">newfunc</span></div>
 </pre></div>
 
            </div>

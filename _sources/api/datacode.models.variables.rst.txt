@@ -33,6 +33,14 @@ datacode.models.variables.tools module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.variables.transform module
+------------------------------------------
+
+.. automodule:: datacode.models.variables.transform
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.variables.typing module
 ---------------------------------------
 

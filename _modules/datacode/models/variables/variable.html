@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.variable &mdash; datacode 0.3.1 documentation</title>
+  <title>datacode.models.variables.variable &mdash; datacode 0.4.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.3.1
+                0.4.0
               </div>
             
           
@@ -165,24 +165,38 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.models.variables.variable</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">datacode.models.variables.transform</span> <span class="kn">import</span> <span class="n">Transform</span><span class="p">,</span> <span class="n">AppliedTransform</span>
 
 
 <div class="viewcode-block" id="Variable"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.variable.Variable">[docs]</a><span class="k">class</span> <span class="nc">Variable</span><span class="p">:</span>
 
-<div class="viewcode-block" id="Variable.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.variable.Variable.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">display_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<div class="viewcode-block" id="Variable.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.variable.Variable.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">available_transforms</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Transform</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">applied_transforms</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">AppliedTransform</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">available_transforms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">available_transforms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">applied_transforms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">applied_transforms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">available_transforms</span> <span class="o">=</span> <span class="n">available_transforms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">applied_transforms</span> <span class="o">=</span> <span class="n">applied_transforms</span>
 
-        <span class="k">if</span> <span class="n">display_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">display_name</span> <span class="o">=</span> <span class="n">_from_var_name_to_display_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span> <span class="o">=</span> <span class="n">display_name</span></div>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">_from_var_name_to_display_name</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_orig_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_from_transforms</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Variable(name=</span><span class="si">{self.name}</span><span class="s1">, display_name=</span><span class="si">{self.display_name}</span><span class="s1">)&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Variable(key=</span><span class="si">{self.key}</span><span class="s1">, name=</span><span class="si">{self.name}</span><span class="s1">, applied_transforms=</span><span class="si">{self.applied_transforms}</span><span class="s1">)&#39;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="n">compare_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;display_name&#39;</span><span class="p">)</span>
+        <span class="n">compare_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;applied_transforms&#39;</span><span class="p">)</span>
         <span class="c1"># If any comparison attribute is missing in the other object, not equal</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">compare_attrs</span><span class="p">]):</span>
             <span class="k">return</span> <span class="kc">False</span>
@@ -190,26 +204,51 @@
         <span class="k">return</span> <span class="nb">all</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="o">==</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">compare_attrs</span><span class="p">])</span>
 
 <div class="viewcode-block" id="Variable.to_tuple"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.variable.Variable.to_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
 <div class="viewcode-block" id="Variable.from_display_name"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.variable.Variable.from_display_name">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_display_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">display_name</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">_from_display_name_to_var_name</span><span class="p">(</span><span class="n">display_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">display_name</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_add_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">out_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span>
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
-            <span class="n">out_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{name}</span><span class="s1">&#39;</span>
-        <span class="k">return</span> <span class="n">out_str</span>
+    <span class="k">def</span> <span class="nf">_add_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Transform</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">available_transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_transform_attr</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_name_by_transforms</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_set_attr_for_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-        <span class="n">new_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_names</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">new_name</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_update_from_transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds attributes for current available_transforms</span>
 
-    <span class="k">def</span> <span class="nf">_set_attr_for_name_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
-        <span class="n">self_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">name_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span><span class="p">)</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">self_func</span><span class="p">)</span></div>
+<span class="sd">        Notes:</span>
+<span class="sd">            Does not remove any previous attributes for previous available_transforms</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Add attributes for available transforms</span>
+        <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_transforms</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_transform_attr</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+
+        <span class="c1"># Apply name changes from applied transforms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_name_by_transforms</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_set_name_by_transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply name changes from applied transforms</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig_name</span>
+        <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">name_func</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">_add_transform_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Transform</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">transform_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">transform_value</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">applied_transform</span> <span class="o">=</span> <span class="n">AppliedTransform</span><span class="o">.</span><span class="n">from_transform</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">transform_value</span><span class="o">.</span><span class="n">applied_transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">applied_transform</span><span class="p">)</span>
+            <span class="n">transform_value</span><span class="o">.</span><span class="n">_set_name_by_transforms</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">transform_value</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">transform_func</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_from_var_name_to_display_name</span><span class="p">(</span><span class="n">var_name</span><span class="p">):</span>

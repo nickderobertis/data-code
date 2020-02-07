@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables package &mdash; datacode 0.3.1 documentation</title>
+  <title>datacode.models.variables package &mdash; datacode 0.4.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.3.1
+                0.4.0
               </div>
             
           
@@ -214,11 +214,11 @@ as new variables. Manages naming the variable across transformations.</p>
 
 <dl class="class">
 <dt id="datacode.models.variables.collection.VariableCollection">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.variables.collection.</code><code class="sig-name descname">VariableCollection</code><span class="sig-paren">(</span><em class="sig-param">*variables</em>, <em class="sig-param">name='variables'</em>, <em class="sig-param">default_attr='obj'</em>, <em class="sig-param">name_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/collection.html#VariableCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.collection.VariableCollection" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.variables.collection.</code><code class="sig-name descname">VariableCollection</code><span class="sig-paren">(</span><em class="sig-param">*variables</em>, <em class="sig-param">name='variables'</em>, <em class="sig-param">default_attr='obj'</em>, <em class="sig-param">transforms=None</em>, <em class="sig-param">default_transforms=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/collection.html#VariableCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.collection.VariableCollection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="datacode.models.variables.collection.VariableCollection.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*variables</em>, <em class="sig-param">name='variables'</em>, <em class="sig-param">default_attr='obj'</em>, <em class="sig-param">name_map=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/collection.html#VariableCollection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.collection.VariableCollection.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*variables</em>, <em class="sig-param">name='variables'</em>, <em class="sig-param">default_attr='obj'</em>, <em class="sig-param">transforms=None</em>, <em class="sig-param">default_transforms=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/collection.html#VariableCollection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.collection.VariableCollection.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -295,11 +295,66 @@ as new variables. Manages naming the variable across transformations.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="datacode-models-variables-dtypes-module">
-<h2>datacode.models.variables.dtypes module<a class="headerlink" href="#datacode-models-variables-dtypes-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-datacode.models.variables.dtypes">
+<span id="datacode-models-variables-dtypes-module"></span><h2>datacode.models.variables.dtypes module<a class="headerlink" href="#module-datacode.models.variables.dtypes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacode.models.variables.dtypes.NoQuotes">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.variables.dtypes.</code><code class="sig-name descname">NoQuotes</code><span class="sig-paren">(</span><em class="sig-param">disp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/dtypes.html#NoQuotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.dtypes.NoQuotes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>When printing, prints as a str would except no quotes</p>
+<dl class="method">
+<dt id="datacode.models.variables.dtypes.NoQuotes.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">disp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/dtypes.html#NoQuotes.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.dtypes.NoQuotes.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.models.variables.dtypes.variable_lookup_dtype_dict">
+<code class="sig-prename descclassname">datacode.models.variables.dtypes.</code><code class="sig-name descname">variable_lookup_dtype_dict</code><span class="sig-paren">(</span><em class="sig-param">prefix_variable_dict</em>, <em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/dtypes.html#variable_lookup_dtype_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.dtypes.variable_lookup_dtype_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference internal" href="#datacode.models.variables.dtypes.NoQuotes" title="datacode.models.variables.dtypes.NoQuotes"><code class="xref py py-class docutils literal notranslate"><span class="pre">NoQuotes</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-datacode.models.variables.tools">
 <span id="datacode-models-variables-tools-module"></span><h2>datacode.models.variables.tools module<a class="headerlink" href="#module-datacode.models.variables.tools" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacode.models.variables.transform">
+<span id="datacode-models-variables-transform-module"></span><h2>datacode.models.variables.transform module<a class="headerlink" href="#module-datacode.models.variables.transform" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacode.models.variables.transform.AppliedTransform">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.variables.transform.</code><code class="sig-name descname">AppliedTransform</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">*args</em>, <em class="sig-param">name_func=None</em>, <em class="sig-param">data_func=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/transform.html#AppliedTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.transform.AppliedTransform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacode.models.variables.transform.Transform" title="datacode.models.variables.transform.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.variables.transform.Transform</span></code></a></p>
+<dl class="method">
+<dt id="datacode.models.variables.transform.AppliedTransform.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">*args</em>, <em class="sig-param">name_func=None</em>, <em class="sig-param">data_func=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/transform.html#AppliedTransform.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.transform.AppliedTransform.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.variables.transform.AppliedTransform.from_transform">
+<em class="property">classmethod </em><code class="sig-name descname">from_transform</code><span class="sig-paren">(</span><em class="sig-param">transform</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/transform.html#AppliedTransform.from_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.transform.AppliedTransform.from_transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="datacode.models.variables.transform.Transform">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.variables.transform.</code><code class="sig-name descname">Transform</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">name_func=None</em>, <em class="sig-param">data_func=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/transform.html#Transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.transform.Transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="datacode.models.variables.transform.Transform.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">name_func=None</em>, <em class="sig-param">data_func=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/transform.html#Transform.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.transform.Transform.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-datacode.models.variables.typing">
 <span id="datacode-models-variables-typing-module"></span><h2>datacode.models.variables.typing module<a class="headerlink" href="#module-datacode.models.variables.typing" title="Permalink to this headline">¶</a></h2>
@@ -308,11 +363,11 @@ as new variables. Manages naming the variable across transformations.</p>
 <span id="datacode-models-variables-variable-module"></span><h2>datacode.models.variables.variable module<a class="headerlink" href="#module-datacode.models.variables.variable" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="datacode.models.variables.variable.Variable">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.variables.variable.</code><code class="sig-name descname">Variable</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">display_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/variable.html#Variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.variable.Variable" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.variables.variable.</code><code class="sig-name descname">Variable</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">name=None</em>, <em class="sig-param">dtype=None</em>, <em class="sig-param">available_transforms=None</em>, <em class="sig-param">applied_transforms=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/variable.html#Variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.variable.Variable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="datacode.models.variables.variable.Variable.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">display_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/variable.html#Variable.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.variable.Variable.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">name=None</em>, <em class="sig-param">dtype=None</em>, <em class="sig-param">available_transforms=None</em>, <em class="sig-param">applied_transforms=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/variable.html#Variable.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.variable.Variable.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 

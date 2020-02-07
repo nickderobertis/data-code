@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.logic package &mdash; datacode 0.3.1 documentation</title>
+  <title>datacode.models.logic package &mdash; datacode 0.4.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.3.1
+                0.4.0
               </div>
             
           
@@ -205,6 +205,32 @@
 </li>
 </ul>
 </div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacode.models.logic.partial">
+<span id="datacode-models-logic-partial-module"></span><h2>datacode.models.logic.partial module<a class="headerlink" href="#module-datacode.models.logic.partial" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacode.models.logic.partial.partial">
+<code class="sig-prename descclassname">datacode.models.logic.partial.</code><code class="sig-name descname">partial</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*args</em>, <em class="sig-param">**keywords</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/logic/partial.html#partial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.logic.partial.partial" title="Permalink to this definition">¶</a></dt>
+<dd><p>A version of functools.partial that allows specifying positional arguments out of order using ellipses.</p>
+<p>See: <a class="reference external" href="https://stackoverflow.com/a/11173903">https://stackoverflow.com/a/11173903</a></p>
+<dl>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">partial</span><span class="p">(</span><span class="nb">pow</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># (5^2)%3</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">partial</span><span class="p">(</span><span class="nb">pow</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">)(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># (2^5)%3</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">partial</span><span class="p">(</span><span class="nb">pow</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">...</span><span class="p">)(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># (2^3)%5</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">partial</span><span class="p">(</span><span class="nb">pow</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># (2^3)%5</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
