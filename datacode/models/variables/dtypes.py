@@ -1,7 +1,7 @@
 from typing import Dict
 import pandas as pd
 
-from dero.ext_pandas.optimize.dftypes import df_types_dict
+from pd_utils.optimize.dftypes import df_types_dict
 
 from datacode.models.variables.typing import PrefixVariableCollectionDict
 from datacode.models.variables.collection import VariableCollection

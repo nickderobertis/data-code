@@ -1,21 +1,35 @@
+from copy import deepcopy
 from functools import partial
 from typing import Sequence, Callable, Optional
+
+from datacode.models.variables.transform import Transform, AppliedTransform
 
 
 class Variable:
 
-    def __init__(self, name: str, display_name: Optional[str]=None):
-        self.name = name
+    def __init__(self, key: str, name: Optional[str]=None, dtype: Optional[str] = None,
+                 available_transforms: Optional[Sequence[Transform]] = None,
+                 applied_transforms: Optional[Sequence[AppliedTransform]] = None):
+        if available_transforms is None:
+            available_transforms = []
+        if applied_transforms is None:
+            applied_transforms = []
+        self.key = key
+        self.dtype = dtype
+        self.available_transforms = available_transforms
+        self.applied_transforms = applied_transforms
 
-        if display_name is None:
-            display_name = _from_var_name_to_display_name(name)
-        self.display_name = display_name
+        if name is None:
+            name = _from_var_name_to_display_name(key)
+        self.name = name
+        self._orig_name = name
+        self._update_from_transforms()
 
     def __repr__(self):
-        return f'Variable(name={self.name}, display_name={self.display_name})'
+        return f'Variable(key={self.key}, name={self.name}, applied_transforms={self.applied_transforms})'
 
     def __eq__(self, other):
-        compare_attrs = ('name', 'display_name')
+        compare_attrs = ('key', 'applied_transforms')
         # If any comparison attribute is missing in the other object, not equal
         if any([not hasattr(other, attr) for attr in compare_attrs]):
             return False
@@ -23,26 +37,51 @@ class Variable:
         return all([getattr(self, attr) == getattr(other, attr) for attr in compare_attrs])
 
     def to_tuple(self):
-        return self.name, self.display_name
+        return self.key, self.name
 
     @classmethod
     def from_display_name(cls, display_name):
         name = _from_display_name_to_var_name(display_name)
         return cls(name, display_name)
 
-    def _add_names(self, names: Sequence[str]) -> str:
-        out_str = self.display_name
-        for name in names:
-            out_str += f' {name}'
-        return out_str
+    def _add_transform(self, transform: Transform):
+        self.available_transforms.append(transform)
+        self._add_transform_attr(transform)
+        self._set_name_by_transforms()
 
-    def _set_attr_for_names(self, attr: str, names: Sequence[str]):
-        new_name = self._add_names(names)
-        setattr(self, attr, new_name)
+    def _update_from_transforms(self):
+        """
+        Adds attributes for current available_transforms
 
-    def _set_attr_for_name_func(self, attr: str, name_func: Callable):
-        self_func = partial(name_func, self.display_name)
-        setattr(self, attr, self_func)
+        Notes:
+            Does not remove any previous attributes for previous available_transforms
+        """
+
+        # Add attributes for available transforms
+        for transform in self.available_transforms:
+            if not hasattr(self, transform.key):
+                self._add_transform_attr(transform)
+
+        # Apply name changes from applied transforms
+        self._set_name_by_transforms()
+
+    def _set_name_by_transforms(self):
+        """
+        Apply name changes from applied transforms
+        """
+        name = self._orig_name
+        for transform in self.applied_transforms:
+            name = transform.name_func(name)
+        self.name = name
+
+    def _add_transform_attr(self, transform: Transform):
+        def transform_func(*args, **kwargs):
+            transform_value = deepcopy(self)
+            applied_transform = AppliedTransform.from_transform(transform, *args, **kwargs)
+            transform_value.applied_transforms.append(applied_transform)
+            transform_value._set_name_by_transforms()
+            return transform_value
+        setattr(self, transform.key, transform_func)
 
 
 def _from_var_name_to_display_name(var_name):

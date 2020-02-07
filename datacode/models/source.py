@@ -4,20 +4,22 @@ from functools import partial
 import os
 import warnings
 import datetime
-from typing import Callable, TYPE_CHECKING, List
+from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence
 
 from pd_utils.optimize.load import read_file as read_file_into_df
 
 from datacode.models.type import DataType
+from datacode.models.variables import Variable
 
 if TYPE_CHECKING:
     from datacode.models.pipeline import DataPipeline
 
 class DataSource:
 
-    def __init__(self, location: str =None, df: pd.DataFrame =None, pipeline: 'DataPipeline' =None,
-                 name: str =None, data_type: str =None, tags: List[str]=None,
-                 loader_func: Callable =None, loader_func_kwargs: dict=None):
+    def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
+                 pipeline: Optional['DataPipeline'] = None, variables: Optional[Sequence[Variable]] = None,
+                 name: Optional[str] = None, data_type: Optional[str] = None, tags: Optional[List[str]] = None,
+                 loader_func: Optional[Callable] = None, loader_func_kwargs: Optional[Dict[str, Any]] = None):
 
         if loader_func_kwargs is None:
             loader_func_kwargs = {}
@@ -29,6 +31,7 @@ class DataSource:
         self.tags = tags # TODO: better handling for tags
         self.loader_func = loader_func
         self.pipeline = pipeline
+        self.variables = variables
         self.loader_func_kwargs = loader_func_kwargs
         self._df = df
         self.name_type = f'{name} {self.data_type}'
