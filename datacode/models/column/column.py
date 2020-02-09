@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Sequence
 
 from datacode.models.column.index import ColumnIndex
 from datacode.models.variables import Variable
@@ -6,6 +6,6 @@ from datacode.models.variables import Variable
 
 class Column:
 
-    def __init__(self, variable: Variable, index: Optional[ColumnIndex] = None):
+    def __init__(self, variable: Variable, indices: Optional[Sequence[ColumnIndex]] = None):
         self.variable = variable
-        self.index = index
+        self.indices = indices
