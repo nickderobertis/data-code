@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models package &mdash; datacode 0.4.0 documentation</title>
+  <title>datacode.models package &mdash; datacode 0.5.0 documentation</title>
   
 
   
@@ -22,13 +22,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script type="text/javascript" src="../_static/clipboard.min.js"></script>
-        <script type="text/javascript" src="../_static/copybutton.js"></script>
-        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -43,7 +43,7 @@
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="datacode.models.logic package" href="datacode.models.logic.html" />
+    <link rel="next" title="datacode.models.column package" href="datacode.models.column.html" />
     <link rel="prev" title="datacode.formatters.models package" href="datacode.formatters.models.html" /> 
 </head>
 
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.5.0
               </div>
             
           
@@ -115,6 +115,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.load">datacode.load module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.typing">datacode.typing module</a></li>
 </ul>
 </li>
@@ -195,6 +196,12 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="datacode.models.column.html">datacode.models.column package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.column.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.column.html#module-datacode.models.column.column">datacode.models.column.column module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.column.html#module-datacode.models.column.index">datacode.models.column.index module</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="datacode.models.logic.html">datacode.models.logic package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.logic.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="datacode.models.logic.merge.html">datacode.models.logic.merge package</a><ul>
@@ -224,6 +231,101 @@
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacode.models.index">
+<span id="datacode-models-index-module"></span><h2>datacode.models.index module<a class="headerlink" href="#module-datacode.models.index" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacode.models.index.Index">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.index.</code><code class="sig-name descname">Index</code><span class="sig-paren">(</span><em class="sig-param">key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/index.html#Index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.index.Index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="datacode.models.index.Index.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/index.html#Index.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.index.Index.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacode.models.loader">
+<span id="datacode-models-loader-module"></span><h2>datacode.models.loader module<a class="headerlink" href="#module-datacode.models.loader" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacode.models.loader.DataLoader">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.loader.</code><code class="sig-name descname">DataLoader</code><span class="sig-paren">(</span><em class="sig-param">source</em>, <em class="sig-param">read_file_kwargs=None</em>, <em class="sig-param">optimize_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">source</em>, <em class="sig-param">read_file_kwargs=None</em>, <em class="sig-param">optimize_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.apply_transforms">
+<code class="sig-name descname">apply_transforms</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.apply_transforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.apply_transforms" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.load">
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.load" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.optimize_df_size">
+<code class="sig-name descname">optimize_df_size</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.optimize_df_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.optimize_df_size" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.post_transform_clean_up">
+<code class="sig-name descname">post_transform_clean_up</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.post_transform_clean_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.post_transform_clean_up" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.pre_transform_clean_up">
+<code class="sig-name descname">pre_transform_clean_up</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.pre_transform_clean_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.pre_transform_clean_up" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.read_file_into_df">
+<code class="sig-name descname">read_file_into_df</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.read_file_into_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.read_file_into_df" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.rename_columns">
+<code class="sig-name descname">rename_columns</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.rename_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.rename_columns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-datacode.models.merge">
 <span id="datacode-models-merge-module"></span><h2>datacode.models.merge module<a class="headerlink" href="#module-datacode.models.merge" title="Permalink to this headline">¶</a></h2>
@@ -396,11 +498,11 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 <span id="datacode-models-source-module"></span><h2>datacode.models.source module<a class="headerlink" href="#module-datacode.models.source" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="datacode.models.source.DataSource">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.source.</code><code class="sig-name descname">DataSource</code><span class="sig-paren">(</span><em class="sig-param">location=None</em>, <em class="sig-param">df=None</em>, <em class="sig-param">pipeline=None</em>, <em class="sig-param">variables=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">data_type=None</em>, <em class="sig-param">tags=None</em>, <em class="sig-param">loader_func=None</em>, <em class="sig-param">loader_func_kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.source.</code><code class="sig-name descname">DataSource</code><span class="sig-paren">(</span><em class="sig-param">location=None</em>, <em class="sig-param">df=None</em>, <em class="sig-param">pipeline=None</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">data_type=None</em>, <em class="sig-param">tags=None</em>, <em class="sig-param">loader_class=None</em>, <em class="sig-param">read_file_kwargs=None</em>, <em class="sig-param">optimize_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="datacode.models.source.DataSource.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">location=None</em>, <em class="sig-param">df=None</em>, <em class="sig-param">pipeline=None</em>, <em class="sig-param">variables=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">data_type=None</em>, <em class="sig-param">tags=None</em>, <em class="sig-param">loader_func=None</em>, <em class="sig-param">loader_func_kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">location=None</em>, <em class="sig-param">df=None</em>, <em class="sig-param">pipeline=None</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">data_type=None</em>, <em class="sig-param">tags=None</em>, <em class="sig-param">loader_class=None</em>, <em class="sig-param">read_file_kwargs=None</em>, <em class="sig-param">optimize_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -457,7 +559,7 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="datacode.models.logic.html" class="btn btn-neutral float-right" title="datacode.models.logic package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="datacode.models.column.html" class="btn btn-neutral float-right" title="datacode.models.column package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="datacode.formatters.models.html" class="btn btn-neutral float-left" title="datacode.formatters.models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

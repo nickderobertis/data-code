@@ -11,11 +11,28 @@ Subpackages
 
 .. toctree::
 
+   datacode.models.column
    datacode.models.logic
    datacode.models.variables
 
 Submodules
 ----------
+
+datacode.models.index module
+----------------------------
+
+.. automodule:: datacode.models.index
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.loader module
+-----------------------------
+
+.. automodule:: datacode.models.loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 datacode.models.merge module
 ----------------------------

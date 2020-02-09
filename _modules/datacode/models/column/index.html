@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.panel.did.dataprep &mdash; datacode 0.5.0 documentation</title>
+  <title>datacode.models.column.index &mdash; datacode 0.5.0 documentation</title>
   
 
   
@@ -147,7 +147,7 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.panel.did.dataprep</li>
+      <li>datacode.models.column.index</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -162,19 +162,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.panel.did.dataprep</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+  <h1>Source code for datacode.models.column.index</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
 
-<div class="viewcode-block" id="diff_df_from_panel_df"><a class="viewcode-back" href="../../../../api/datacode.panel.did.html#datacode.panel.did.dataprep.diff_df_from_panel_df">[docs]</a><span class="k">def</span> <span class="nf">diff_df_from_panel_df</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">entity_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">time_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">treated_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                          <span class="n">treated_time_var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;After&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="n">entity_var</span><span class="p">,</span> <span class="n">time_var</span><span class="p">])</span>
-    <span class="n">first_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">entity_var</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
-    <span class="n">first_df</span><span class="p">[</span><span class="n">treated_time_var</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">last_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">entity_var</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
-    <span class="n">last_df</span><span class="p">[</span><span class="n">treated_time_var</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">diff_df</span> <span class="o">=</span> <span class="n">first_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_df</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">datacode.models.index</span> <span class="kn">import</span> <span class="n">Index</span>
+<span class="kn">from</span> <span class="nn">datacode.models.variables</span> <span class="kn">import</span> <span class="n">Variable</span>
 
-    <span class="k">return</span> <span class="n">diff_df</span></div>
+
+<div class="viewcode-block" id="ColumnIndex"><a class="viewcode-back" href="../../../../api/datacode.models.column.html#datacode.models.column.index.ColumnIndex">[docs]</a><span class="k">class</span> <span class="nc">ColumnIndex</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ColumnIndex.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.column.html#datacode.models.column.index.ColumnIndex.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Variable</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span></div></div>
 </pre></div>
 
            </div>

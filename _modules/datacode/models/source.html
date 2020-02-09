@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.4.0 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.5.0 documentation</title>
   
 
   
@@ -22,13 +22,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="../../../_static/clipboard.min.js"></script>
-        <script type="text/javascript" src="../../../_static/copybutton.js"></script>
-        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.5.0
               </div>
             
           
@@ -147,8 +147,6 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-          <li><a href="../../datacode.html">datacode</a> &raquo;</li>
-        
       <li>datacode.models.source</li>
     
     
@@ -171,12 +169,13 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">pd_utils.optimize.load</span> <span class="kn">import</span> <span class="n">read_file</span> <span class="k">as</span> <span class="n">read_file_into_df</span>
 
+<span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
+<span class="kn">from</span> <span class="nn">datacode.models.loader</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 <span class="kn">from</span> <span class="nn">datacode.models.type</span> <span class="kn">import</span> <span class="n">DataType</span>
-<span class="kn">from</span> <span class="nn">datacode.models.variables</span> <span class="kn">import</span> <span class="n">Variable</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">datacode.models.pipeline</span> <span class="kn">import</span> <span class="n">DataPipeline</span>
@@ -184,22 +183,26 @@
 <div class="viewcode-block" id="DataSource"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource">[docs]</a><span class="k">class</span> <span class="nc">DataSource</span><span class="p">:</span>
 
 <div class="viewcode-block" id="DataSource.__init__"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">pipeline</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;DataPipeline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Variable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">pipeline</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;DataPipeline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Column</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">loader_func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">loader_func_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                 <span class="n">loader_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DataLoader</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">read_file_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">optimize_size</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 
-        <span class="k">if</span> <span class="n">loader_func_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">loader_func_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">read_file_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">loader_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loader_class</span> <span class="o">=</span> <span class="n">DataLoader</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_inputs</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">data_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span> <span class="c1"># TODO: better handling for tags</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loader_func</span> <span class="o">=</span> <span class="n">loader_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span> <span class="o">=</span> <span class="n">loader_class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">pipeline</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loader_func_kwargs</span> <span class="o">=</span> <span class="n">loader_func_kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span> <span class="o">=</span> <span class="n">optimize_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">df</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name_type</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{name}</span><span class="s1"> </span><span class="si">{self.data_type}</span><span class="s1">&#39;</span></div>
 
@@ -232,7 +235,7 @@
     <span class="k">def</span> <span class="nf">_load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_touch_pipeline</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;data_loader&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_set_data_loader</span><span class="p">(</span><span class="n">data_loader</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_func</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_func_kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">()</span>
 
 <div class="viewcode-block" id="DataSource.output"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">to_csv_kwargs</span><span class="p">):</span>
@@ -242,7 +245,7 @@
         <span class="k">pass</span>
         <span class="c1"># assert not (filepath is None) and (df is None)</span>
 
-    <span class="k">def</span> <span class="nf">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">:</span> <span class="s1">&#39;DataPipeline&#39;</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">loader_func_kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">DataLoader</span><span class="p">],</span> <span class="n">pipeline</span><span class="p">:</span> <span class="s1">&#39;DataPipeline&#39;</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">read_file_kwargs</span><span class="p">):</span>
         <span class="n">run_pipeline</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># if a source in the pipeline to create this data source was modified more recently than this data source</span>
@@ -260,26 +263,17 @@
                 <span class="n">run_pipeline</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="c1"># otherwise, don&#39;t need to worry about pipeline, continue handling</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># no location or pipeline, so accessing df will return empty dataframe</span>
-            <span class="n">loader</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">data_loader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># TODO [#7]: determine filetype and use proper loader</span>
-                <span class="n">loader</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">read_file_into_df</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="o">**</span><span class="n">loader_func_kwargs</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">loader</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">data_loader</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="o">**</span><span class="n">loader_func_kwargs</span><span class="p">)</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="n">data_loader_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">read_file_kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span><span class="p">)</span>
 
         <span class="c1"># If necessary, run pipeline before loading</span>
         <span class="c1"># Still necessary to use loader as may be transforming the data</span>
         <span class="k">if</span> <span class="n">run_pipeline</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">run_pipeline_then_load</span><span class="p">(</span><span class="n">pipeline</span><span class="p">):</span>
                 <span class="n">pipeline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span> <span class="c1"># outputs to file</span>
-                <span class="k">return</span> <span class="n">loader</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">run_pipeline_then_load</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">loader</span>
-
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span>
 
     <span class="k">def</span> <span class="nf">_touch_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

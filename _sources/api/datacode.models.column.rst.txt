@@ -1,0 +1,27 @@
+datacode.models.column package
+==============================
+
+.. automodule:: datacode.models.column
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.models.column.column module
+------------------------------------
+
+.. automodule:: datacode.models.column.column
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.column.index module
+-----------------------------------
+
+.. automodule:: datacode.models.column.index
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

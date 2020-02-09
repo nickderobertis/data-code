@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; datacode 0.4.0 documentation</title>
+  <title>Index &mdash; datacode 0.5.0 documentation</title>
   
 
   
@@ -23,13 +23,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="_static/clipboard.min.js"></script>
-        <script type="text/javascript" src="_static/copybutton.js"></script>
-        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.5.0
               </div>
             
           
@@ -195,7 +195,15 @@
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.__init__">__init__() (datacode.formatters.models.result.Result method)</a>
 
       <ul>
-        <li><a href="api/datacode.html#datacode.GetCRSP.__init__">(datacode.GetCRSP method)</a>
+        <li><a href="api/datacode.html#datacode.load.GetCRSP.__init__">(datacode.load.GetCRSP method)</a>
+</li>
+        <li><a href="api/datacode.models.column.html#datacode.models.column.column.Column.__init__">(datacode.models.column.column.Column method)</a>
+</li>
+        <li><a href="api/datacode.models.column.html#datacode.models.column.index.ColumnIndex.__init__">(datacode.models.column.index.ColumnIndex method)</a>
+</li>
+        <li><a href="api/datacode.models.html#datacode.models.index.Index.__init__">(datacode.models.index.Index method)</a>
+</li>
+        <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.__init__">(datacode.models.loader.DataLoader method)</a>
 </li>
         <li><a href="api/datacode.models.html#datacode.models.merge.DataMerge.__init__">(datacode.models.merge.DataMerge method)</a>
 </li>
@@ -228,9 +236,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection.append">append() (datacode.models.variables.collection.VariableCollection method)</a>
 </li>
+      <li><a href="api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform">AppliedTransform (class in datacode.models.variables.transform)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform">AppliedTransform (class in datacode.models.variables.transform)</a>
+      <li><a href="api/datacode.models.variables.html#datacode.models.variables.transform.Transform.apply_transform_to_source">apply_transform_to_source() (datacode.models.variables.transform.Transform method)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.apply_transforms">apply_transforms() (datacode.models.loader.DataLoader method)</a>
 </li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.as_logit_result">as_logit_result() (datacode.formatters.models.result.Result method)</a>
 </li>
@@ -258,6 +270,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.portfolio.html#datacode.portfolio.resample.collect_portfolios_through_time">collect_portfolios_through_time() (in module datacode.portfolio.resample)</a>
 </li>
+      <li><a href="api/datacode.models.column.html#datacode.models.column.column.Column">Column (class in datacode.models.column.column)</a>
+</li>
+      <li><a href="api/datacode.models.column.html#datacode.models.column.index.ColumnIndex">ColumnIndex (class in datacode.models.column.index)</a>
+</li>
       <li><a href="api/datacode.ff.create.html#datacode.ff.create.mainport.combine_main_portfolios">combine_main_portfolios() (in module datacode.ff.create.mainport)</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.score.comparison_arrays_from_treated_and_control_df">comparison_arrays_from_treated_and_control_df() (in module datacode.psm.score)</a>
@@ -272,6 +288,8 @@
 </li>
       <li><a href="api/datacode.formatters.html#datacode.formatters.stderr.convert_to_stderr_format">convert_to_stderr_format() (in module datacode.formatters.stderr)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.html#datacode.models.merge.MergeOptions.copy">copy() (datacode.models.merge.MergeOptions method)</a>
 
       <ul>
@@ -280,8 +298,6 @@
         <li><a href="api/datacode.models.html#datacode.models.source.DataSource.copy">(datacode.models.source.DataSource method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.ff.create.html#datacode.ff.create.dualsort.create_dual_sort_variables_get_pairings">create_dual_sort_variables_get_pairings() (in module datacode.ff.create.dualsort)</a>
 </li>
       <li><a href="api/datacode.ff.create.html#datacode.ff.create.main.create_ff_factors">create_ff_factors() (in module datacode.ff.create.main)</a>
@@ -350,7 +366,19 @@
 </li>
       <li><a href="api/datacode.formatters.html#module-datacode.formatters.stderr">datacode.formatters.stderr (module)</a>
 </li>
+      <li><a href="api/datacode.html#module-datacode.load">datacode.load (module)</a>
+</li>
       <li><a href="api/datacode.models.html#module-datacode.models">datacode.models (module)</a>
+</li>
+      <li><a href="api/datacode.models.column.html#module-datacode.models.column">datacode.models.column (module)</a>
+</li>
+      <li><a href="api/datacode.models.column.html#module-datacode.models.column.column">datacode.models.column.column (module)</a>
+</li>
+      <li><a href="api/datacode.models.column.html#module-datacode.models.column.index">datacode.models.column.index (module)</a>
+</li>
+      <li><a href="api/datacode.models.html#module-datacode.models.index">datacode.models.index (module)</a>
+</li>
+      <li><a href="api/datacode.models.html#module-datacode.models.loader">datacode.models.loader (module)</a>
 </li>
       <li><a href="api/datacode.models.logic.html#module-datacode.models.logic">datacode.models.logic (module)</a>
 </li>
@@ -416,14 +444,14 @@
 </li>
       <li><a href="api/datacode.psm.html#module-datacode.psm.names">datacode.psm.names (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.psm.html#module-datacode.psm.score">datacode.psm.score (module)</a>
 </li>
       <li><a href="api/datacode.psm.summarize.html#module-datacode.psm.summarize">datacode.psm.summarize (module)</a>
 </li>
       <li><a href="api/datacode.psm.summarize.html#module-datacode.psm.summarize.examine">datacode.psm.summarize.examine (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.psm.summarize.html#module-datacode.psm.summarize.latex">datacode.psm.summarize.latex (module)</a>
 </li>
       <li><a href="api/datacode.psm.summarize.html#module-datacode.psm.summarize.predictions">datacode.psm.summarize.predictions (module)</a>
@@ -503,6 +531,8 @@
       <li><a href="api/datacode.summarize.subset.outliers.html#module-datacode.summarize.subset.outliers.typing">datacode.summarize.subset.outliers.typing (module)</a>
 </li>
       <li><a href="api/datacode.html#module-datacode.typing">datacode.typing (module)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader">DataLoader (class in datacode.models.loader)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.merge.DataMerge">DataMerge (class in datacode.models.merge)</a>
 </li>
@@ -586,21 +616,21 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datacode.html#datacode.get_abret">get_abret() (in module datacode)</a>
+      <li><a href="api/datacode.html#datacode.load.get_abret">get_abret() (in module datacode.load)</a>
 </li>
       <li><a href="api/datacode.ff.create.html#datacode.ff.create.label.get_and_set_labels">get_and_set_labels() (in module datacode.ff.create.label)</a>
 </li>
-      <li><a href="api/datacode.html#datacode.get_ff_factors">get_ff_factors() (in module datacode)</a>
+      <li><a href="api/datacode.html#datacode.load.get_ff_factors">get_ff_factors() (in module datacode.load)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datacode.html#datacode.get_gvkey_or_permno">get_gvkey_or_permno() (in module datacode)</a>
+      <li><a href="api/datacode.html#datacode.load.get_gvkey_or_permno">get_gvkey_or_permno() (in module datacode.load)</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.names.get_prob_treated_varname">get_prob_treated_varname() (in module datacode.psm.names)</a>
 </li>
       <li><a href="api/datacode.models.logic.merge.html#datacode.models.logic.merge.summarize.get_summary_of_df">get_summary_of_df() (in module datacode.models.logic.merge.summarize)</a>
 </li>
-      <li><a href="api/datacode.html#datacode.GetCRSP">GetCRSP (class in datacode)</a>
+      <li><a href="api/datacode.html#datacode.load.GetCRSP">GetCRSP (class in datacode.load)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -610,12 +640,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.summarize.subset.missing.detail.html#datacode.summarize.subset.missing.detail.textfuncs.id_count_str">id_count_str() (in module datacode.summarize.subset.missing.detail.textfuncs)</a>
 </li>
-      <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.is_negative">is_negative() (datacode.formatters.models.result.Result property)</a>
+      <li><a href="api/datacode.models.html#datacode.models.index.Index">Index (class in datacode.models.index)</a>
 </li>
-      <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.is_positive">is_positive() (datacode.formatters.models.result.Result property)</a>
+      <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.is_negative">is_negative() (datacode.formatters.models.result.Result property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.is_positive">is_positive() (datacode.formatters.models.result.Result property)</a>
+</li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.is_significant">is_significant() (datacode.formatters.models.result.Result property)</a>
 </li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.is_significant_at">is_significant_at() (datacode.formatters.models.result.Result method)</a>
@@ -640,6 +672,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.load">load() (datacode.models.loader.DataLoader method)</a>
+</li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.LogitResult">LogitResult (class in datacode.formatters.models.result)</a>
 </li>
       <li><a href="api/datacode.ff.create.html#datacode.ff.create.reshape.long_averages_to_wide_averages">long_averages_to_wide_averages() (in module datacode.ff.create.reshape)</a>
@@ -664,7 +698,7 @@
 </li>
       <li><a href="api/datacode.models.html#datacode.models.merge.DataMerge.merge">merge() (datacode.models.merge.DataMerge method)</a>
 </li>
-      <li><a href="api/datacode.html#datacode.merge_dsenames">merge_dsenames() (in module datacode)</a>
+      <li><a href="api/datacode.html#datacode.load.merge_dsenames">merge_dsenames() (in module datacode.load)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.merge_options_list">merge_options_list() (datacode.models.pipeline.DataPipeline property)</a>
 </li>
@@ -732,6 +766,8 @@
 </li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.LogitResult.odds_ratio">odds_ratio() (datacode.formatters.models.result.LogitResult property)</a>
 </li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.optimize_df_size">optimize_df_size() (datacode.models.loader.DataLoader method)</a>
+</li>
       <li><a href="api/datacode.models.logic.merge.html#datacode.models.logic.merge.outer_merge_df">outer_merge_df() (in module datacode.models.logic.merge)</a>
 </li>
   </ul></td>
@@ -772,11 +808,15 @@
 </li>
       <li><a href="api/datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode.summarize.subset.missing.summary.tables.fullsample.periods.periods_data_table">periods_data_table() (in module datacode.summarize.subset.missing.summary.tables.fullsample.periods)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection.pop">pop() (datacode.models.variables.collection.VariableCollection method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.ff.create.html#datacode.ff.create.average.portfolio_returns">portfolio_returns() (in module datacode.ff.create.average)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.post_transform_clean_up">post_transform_clean_up() (datacode.models.loader.DataLoader method)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.pre_transform_clean_up">pre_transform_clean_up() (datacode.models.loader.DataLoader method)</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.names.predict_treated_varname">predict_treated_varname() (in module datacode.psm.names)</a>
 </li>
@@ -786,7 +826,7 @@
 </li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.LogitResult.probability_relative_change_str">probability_relative_change_str() (datacode.formatters.models.result.LogitResult property)</a>
 </li>
-      <li><a href="api/datacode.html#datacode.GetCRSP.pull_crsp">pull_crsp() (datacode.GetCRSP method)</a>
+      <li><a href="api/datacode.html#datacode.load.GetCRSP.pull_crsp">pull_crsp() (datacode.load.GetCRSP method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -794,12 +834,16 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.read_file_into_df">read_file_into_df() (datacode.models.loader.DataLoader method)</a>
+</li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection.remove">remove() (datacode.models.variables.collection.VariableCollection method)</a>
 </li>
-      <li><a href="api/datacode.html#datacode.replace_missing_csv">replace_missing_csv() (in module datacode)</a>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.rename_columns">rename_columns() (datacode.models.loader.DataLoader method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.html#datacode.load.replace_missing_csv">replace_missing_csv() (in module datacode.load)</a>
+</li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result">Result (class in datacode.formatters.models.result)</a>
 </li>
       <li><a href="api/datacode.models.logic.merge.html#datacode.models.logic.merge.right_merge_df">right_merge_df() (in module datacode.models.logic.merge)</a>

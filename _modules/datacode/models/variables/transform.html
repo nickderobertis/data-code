@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.transform &mdash; datacode 0.4.0 documentation</title>
+  <title>datacode.models.variables.transform &mdash; datacode 0.5.0 documentation</title>
   
 
   
@@ -22,13 +22,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
-        <script type="text/javascript" src="../../../../_static/clipboard.min.js"></script>
-        <script type="text/javascript" src="../../../../_static/copybutton.js"></script>
-        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.5.0
               </div>
             
           
@@ -147,8 +147,6 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-          <li><a href="../../../datacode.html">datacode</a> &raquo;</li>
-        
       <li>datacode.models.variables.transform</li>
     
     
@@ -165,34 +163,87 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.models.variables.transform</h1><div class="highlight"><pre>
-<span></span>
-<span class="kn">from</span> <span class="nn">datacode.models.variables.typing</span> <span class="kn">import</span> <span class="n">StrFunc</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
+    <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
+
+<span class="kn">from</span> <span class="nn">datacode.models.variables.typing</span> <span class="kn">import</span> <span class="n">StrFunc</span><span class="p">,</span> <span class="n">ValueFunc</span>
 <span class="kn">from</span> <span class="nn">datacode.models.logic.partial</span> <span class="kn">import</span> <span class="n">partial</span>
 
 
 <div class="viewcode-block" id="Transform"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.Transform">[docs]</a><span class="k">class</span> <span class="nc">Transform</span><span class="p">:</span>
 
-<div class="viewcode-block" id="Transform.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.Transform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Transform.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.Transform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data_func</span><span class="p">:</span> <span class="n">ValueFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">data_func_target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;series&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name_func</span> <span class="o">=</span> <span class="n">name_func</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="o">=</span> <span class="n">data_func</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="o">=</span> <span class="n">data_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data_func_target</span><span class="p">(</span><span class="n">data_func_target</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_validate_data_func_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_func_target</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">data_func_target</span> <span class="o">=</span> <span class="n">data_func_target</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">cell_values</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;cell&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">)</span>
+        <span class="n">series_values</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;series&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span>
+        <span class="n">df_values</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;df&#39;</span><span class="p">,</span> <span class="s1">&#39;dataframe&#39;</span><span class="p">)</span>
+        <span class="n">source_values</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ds&#39;</span><span class="p">,</span> <span class="s1">&#39;datasource&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_func_target</span> <span class="ow">in</span> <span class="n">cell_values</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;cell&#39;</span>
+        <span class="k">if</span> <span class="n">data_func_target</span> <span class="ow">in</span> <span class="n">series_values</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;series&#39;</span>
+        <span class="k">if</span> <span class="n">data_func_target</span> <span class="ow">in</span> <span class="n">df_values</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;dataframe&#39;</span>
+        <span class="k">if</span> <span class="n">data_func_target</span> <span class="ow">in</span> <span class="n">source_values</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;source&#39;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not pass appropriate data_func_target to Transform </span><span class="si">{self}</span><span class="s1">, got </span><span class="si">{data_func_target}</span><span class="s1"> &#39;</span>
+                         <span class="sa">f</span><span class="s1">&#39;which should be one of cell, series, dataframe, or source&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Transform.apply_transform_to_source"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.Transform.apply_transform_to_source">[docs]</a>    <span class="k">def</span> <span class="nf">apply_transform_to_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="s1">&#39;Column&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">source</span>
+        <span class="n">data_func_with_col</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
+        <span class="n">variable</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">variable</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">==</span> <span class="s1">&#39;cell&#39;</span><span class="p">:</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">data_func_with_col</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">==</span> <span class="s1">&#39;series&#39;</span><span class="p">:</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_func_with_col</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">==</span> <span class="s1">&#39;dataframe&#39;</span><span class="p">:</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">data_func_with_col</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">==</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">data_func_with_col</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not pass appropriate data_func_target to Transform </span><span class="si">{self}</span><span class="s1">, got &#39;</span>
+                             <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{self.data_func_target}</span><span class="s1"> which should be one of cell, series, dataframe, or source&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">source</span></div></div>
+
 
 
 <div class="viewcode-block" id="AppliedTransform"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform">[docs]</a><span class="k">class</span> <span class="nc">AppliedTransform</span><span class="p">(</span><span class="n">Transform</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Works like Transform but allows passing of arg and kwargs in advance, similar to functools.partial</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AppliedTransform.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">name_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">name_func</span><span class="o">=</span><span class="n">name_func</span><span class="p">,</span> <span class="n">data_func</span><span class="o">=</span><span class="n">data_func</span><span class="p">)</span>
+<div class="viewcode-block" id="AppliedTransform.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">name_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">data_func_target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">name_func</span><span class="o">=</span><span class="n">name_func</span><span class="p">,</span> <span class="n">data_func</span><span class="o">=</span><span class="n">data_func</span><span class="p">,</span> <span class="n">data_func_target</span><span class="o">=</span><span class="n">data_func_target</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_func</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AppliedTransform.from_transform"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform.from_transform">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_transform</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Transform</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">name_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">name_func</span><span class="p">,</span> <span class="n">data_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+            <span class="n">name_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">name_func</span><span class="p">,</span>
+            <span class="n">data_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span>
+            <span class="n">data_func_target</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">data_func_target</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">obj</span></div></div>
 </pre></div>
 

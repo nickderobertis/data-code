@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.formatters.stars &mdash; datacode 0.5.0 documentation</title>
+  <title>datacode.models.index &mdash; datacode 0.5.0 documentation</title>
   
 
   
@@ -147,7 +147,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.formatters.stars</li>
+      <li>datacode.models.index</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -162,34 +162,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.formatters.stars</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">import</span> <span class="nn">re</span>
+  <h1>Source code for datacode.models.index</h1><div class="highlight"><pre>
+<span></span>
 
-<span class="n">RESULT_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([^\*]+)(\**)&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Index"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.index.Index">[docs]</a><span class="k">class</span> <span class="nc">Index</span><span class="p">:</span>
 
-<div class="viewcode-block" id="convert_to_stars"><a class="viewcode-back" href="../../../api/datacode.formatters.html#datacode.formatters.stars.convert_to_stars">[docs]</a><span class="k">def</span> <span class="nf">convert_to_stars</span><span class="p">(</span><span class="n">t_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t_value</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mf">1.645</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
-    <span class="k">elif</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mf">1.96</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;*&#39;</span>
-    <span class="k">elif</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mf">2.576</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;**&#39;</span>
-    <span class="k">elif</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mf">2.576</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;***&#39;</span>
-    <span class="k">else</span><span class="p">:</span> <span class="c1"># covers nan</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
-
-
-<div class="viewcode-block" id="parse_stars_value"><a class="viewcode-back" href="../../../api/datacode.formatters.html#datacode.formatters.stars.parse_stars_value">[docs]</a><span class="k">def</span> <span class="nf">parse_stars_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-    <span class="n">match</span> <span class="o">=</span> <span class="n">RESULT_PATTERN</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
-
-    <span class="n">result</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">stars</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">stars</span></div>
+<div class="viewcode-block" id="Index.__init__"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.index.Index.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span></div></div>
 </pre></div>
 
            </div>

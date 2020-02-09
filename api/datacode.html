@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode package &mdash; datacode 0.4.0 documentation</title>
+  <title>datacode package &mdash; datacode 0.5.0 documentation</title>
   
 
   
@@ -22,13 +22,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script type="text/javascript" src="../_static/clipboard.min.js"></script>
-        <script type="text/javascript" src="../_static/copybutton.js"></script>
-        <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.5.0
               </div>
             
           
@@ -115,6 +115,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-datacode.load">datacode.load module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-datacode.typing">datacode.typing module</a></li>
 </ul>
 </li>
@@ -189,165 +190,6 @@
             
   <div class="section" id="module-datacode">
 <span id="datacode-package"></span><h1>datacode package<a class="headerlink" href="#module-datacode" title="Permalink to this headline">¶</a></h1>
-<p>A collection of tools for working with finance data in an academic setting. Compare and summarize data sets,
-propensity score matching, analyze outliers and missing data, and create/reformat several types of data sets,
-including: difference-in-difference, Fama-French-style factors, and portfolios.</p>
-<dl class="class">
-<dt id="datacode.GetCRSP">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">GetCRSP</code><span class="sig-paren">(</span><em class="sig-param">debug=False</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#GetCRSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.GetCRSP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="datacode.GetCRSP.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">debug=False</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#GetCRSP.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.GetCRSP.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.GetCRSP.pull_crsp">
-<code class="sig-name descname">pull_crsp</code><span class="sig-paren">(</span><em class="sig-param">df, coid='PERMNO', freq='m', get=['PRC', 'SHROUT'], date='Date', other_byvars=None, time=None, between_time=False, wide=True, abret=False, window=None, cumret=False, includefac=False, includecoef=False, drop_first=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#GetCRSP.pull_crsp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.GetCRSP.pull_crsp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Pulls prices and returns from CRSP. Currently supports the monthly file merging on PERMNO.</p>
-<p>WARNING: Will overwrite variables called “Year” and “Month” if merging the monthly file</p>
-<p>coid = string, company identifier (currently supports ‘GVKEY’, ‘TICKER’, ‘PERMNO’, ‘PERMCO’, ‘NCUSIP’)
-freq = ‘m’ for monthly, ‘d’ for daily
-get = ‘PRC’, ‘RET’, ‘SHROUT’, ‘VOL’, ‘CFACPR’, ‘CFACSHR’, or a list combining any of these
-date = name of datetime column in quotes
-other_byvars = other by vars in dataset besides company identifier and date. Used for long_to_wide
-time = list of integers or None. If not None, will pull the variables for a time difference of the time</p>
-<blockquote>
-<div><p>numbers given, and put them in wide format in the output dataset. For instance time=[-12,0,12] with
-freq=’m’ and get=’RET’ would pull three returns per observation, one twelve months prior, one contemporaneous,
-and one twelve months later, naming them RET-12, RET0, and RET12. If freq=’d’ in the same example, it would be
-twelve days prior, etc.</p>
-</div></blockquote>
-<dl>
-<dt>between_time = bool. Only applicable if time is not None. True to generate periods in between given time periods, e.g.</dt><dd><p>passing time=[12,24,36] will get periods 12, 13, 14, …, 35, 36.</p>
-</dd>
-<dt>abret = 1, 3, 4, or False. If 1, 3, or 4 is passed and ‘RET’ is in get, will calculate abnormal returns according to CAPM,</dt><dd><p>3 or 4 factor model, respectively.</p>
-</dd>
-<dt>window = Integer or None. Must provide an integer if abret is not False. This is the number of prior periods to use</dt><dd><p>for estimating the loadings in factor models. For instance, if freq=’m’, window=36 would use the prior
-three years of returns to estimate the loadings.</p>
-</dd>
-<dt>cumret = ‘between’, ‘zero’, ‘first’, or False. time must not be None and RET in get for this option to matter. </dt><dd><p>When pulling returns for multiple periods, gives the option to cumulate returns. If False, will just return 
-returns for the individual periods. 
-If ‘zero’, will give returns since the original date. 
-If ‘between’, will give returns since the prior requested time period.
-If ‘first’, will give returns since the first requested time period.
-For example, if our input data was for date 1/5/2006, and in the CRSP table we had:</p>
-<blockquote>
-<div><p>permno  date       RET
-10516   1/5/2006   10%
-10516   1/6/2006   20%
-10516   1/7/2006    5%
-10516   1/8/2006   30%</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Then get_crsp(df, time=[1,3], get=’RET’, cumret=None) would return:</dt><dd><p>permno  date       RET1  RET3
-10516   1/5/2006   20%   30%</p>
-</dd>
-<dt>Then get_crsp(df, time=[1,3], get=’RET’, cumret=’between’) would return:</dt><dd><p>permno  date       RET1  RET3
-10516   1/5/2006   20%   36.5%</p>
-</dd>
-<dt>Then get_crsp(df, time=[1,3], get=’RET’, cumret=’zero’) would return:</dt><dd><p>permno  date       RET1  RET3
-10516   1/5/2006   20%   63.8%</p>
-</dd>
-</dl>
-<p>The output for cumret=’first’ would be the same as for cumret=’zero’ because the first period is period zero.
-Had time been =[-1, 1, 3], then returns would be calculated from period -1 to period 1, and period -1 to period 3.</p>
-</dd>
-</dl>
-<p>includefac = Boolean, True to include factors in output
-includecoef = Boolean, True to include factor coefficients in output
-wide = True for output data to be wide form, False for long form. Only applies when time is not None.
-drop_first = bool, set to True to drop observations for first time. Can only be used when time != None, and</p>
-<blockquote>
-<div><p>when cumret != False. This is a
-convenience function for estimating cumulative return windows. For example, if time = [-1, 1], 
-then the typical output would include both cum_RET-1 and cum_RET1. All we actually care about is the
-cumulative return over the window, which is equal to cum_RET1. drop_first=True will drop out 
-RET-1 and cum_RET-1 from the output.</p>
-</div></blockquote>
-<p>debug: bool, set to True to restrict CRSP to only PERMNOs 10516 (gvkey=001722) and 10517 (gvkey=001076)</p>
-<p>Typical usage:
-Calculating a return window with abnormal returns included:</p>
-<blockquote>
-<div><p>get_crsp(df, get=’RET’, freq=’d’, time=[-1, 1], cumret=’between’, abret=4, window=250, drop_first=True)</p>
-</div></blockquote>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="datacode.get_abret">
-<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">get_abret</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">byvars</em>, <em class="sig-param">fulldatevar='Date'</em>, <em class="sig-param">year_month=None</em>, <em class="sig-param">freq='m'</em>, <em class="sig-param">abret_fac=5</em>, <em class="sig-param">retvar='RET'</em>, <em class="sig-param">includecoef=False</em>, <em class="sig-param">includefac=False</em>, <em class="sig-param">mp=False</em>, <em class="sig-param">stderr=False</em>, <em class="sig-param">**get_ff_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#get_abret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.get_abret" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes a dataframe containing a column of returns, dates, and at least one by variable and calculates
-abnormal returns for the model of choice. Returns a dataframe with the abnormal returns merged.</p>
-<p>Required inputs:
-df: pandas dataframe
-byvars: str or list of strs, column names of columns on which to form by groups</p>
-<p>Optional inputs:
-fulldatevar: str, name of column containing date variable. If provided, don’t provide year_month.
-year_month: list of strs, columns names of year and month variables, e.g. [‘Year’,’Month’]. Must</p>
-<blockquote>
-<div><p>set fulldatevar to None if year_month is provided.</p>
-</div></blockquote>
-<p>freq: ‘m’ or ‘d’, ‘m’ for monthly returns, ‘d’ for daily returns
-abret_fac: int (1, 3, 5), abnormal return model
-retvar: str, name of return variable
-includecoef: bool, set to True to get factor loadings
-includefac: bool, set to True to get factors and risk free rate
-mp: False to use single processor, True to use all processors, int to use # processors
-stderr: bool, True to include standard errors of coefficients</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="datacode.get_ff_factors">
-<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">get_ff_factors</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">fulldatevar=None</em>, <em class="sig-param">year_month=None</em>, <em class="sig-param">freq='m'</em>, <em class="sig-param">subset=None</em>, <em class="sig-param">ff_df=None</em>, <em class="sig-param">ff_dir=None</em>, <em class="sig-param">custom_ff_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#get_ff_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.get_ff_factors" title="Permalink to this definition">¶</a></dt>
-<dd><p>Pulls Fama-French factors and merges them to dataset</p>
-<p>df: Input dataframe
-fulldatevar: String name of date variable to merge on. Specify this OR year and month variable. Must use this</p>
-<blockquote>
-<div><p>and not year_month if pulling daily factors. If merging with monthly factors, will create month
-and year variables in the output dataset. Warning: Will overwrite any variables called Month
-and Year in the input data.</p>
-</div></blockquote>
-<p>year_month: Two element list of [‘yearvar’,’monthvar’]. Specify this OR full date variable.
-freq: ‘m’ for monthly factors, ‘d’ for daily
-subset: str or list, names of ff factors to pull. Can specify any of ‘mktrf’, ‘smb’, ‘hml’, ‘rmw’, ‘cma’, ‘umd’
-ff_df: pandas DataFrame containing factors. if passed, will ignore ff_dir and custom_ff_name
-ff_dir: folder containing FF data
-custom_ff_name: used in combination with ff_dir to select file</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="datacode.get_gvkey_or_permno">
-<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">get_gvkey_or_permno</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">datevar</em>, <em class="sig-param">get='GVKEY'</em>, <em class="sig-param">other_byvars=None</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#get_gvkey_or_permno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.get_gvkey_or_permno" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes a dataframe containing either GVKEY or PERMNO and merges to the CRSP linktable to get the other one.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="datacode.merge_dsenames">
-<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">merge_dsenames</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">on='TICKER'</em>, <em class="sig-param">get='PERMNO'</em>, <em class="sig-param">date='Date'</em>, <em class="sig-param">other_byvars=None</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#merge_dsenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.merge_dsenames" title="Permalink to this definition">¶</a></dt>
-<dd><p>Merges with dsenames file on on variable (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6), to get get variable (same list).
-Must have a Date variable in df.</p>
-<p>Default is to match on TICKER and pull PERMNO.</p>
-<p>Required inputs:
-df: pandas dataframe containing any of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)</p>
-<p>Optional inputs:
-on: str, column name to merge on, one of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)
-get: str or list, column or columns to get from dsenames, any of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)</p>
-<blockquote>
-<div><p>that aren’t already in on</p>
-</div></blockquote>
-<p>date: str, column name of date variable
-other_byvars: any other variables signifying groups in the data, prevents from collapsing those groups</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="datacode.replace_missing_csv">
-<code class="sig-prename descclassname">datacode.</code><code class="sig-name descname">replace_missing_csv</code><span class="sig-paren">(</span><em class="sig-param">csv_list</em>, <em class="sig-param">missing_rep</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode.html#replace_missing_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.replace_missing_csv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Replaces missing items in a CSV with a given missing representation string.</p>
-</dd></dl>
-
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -416,6 +258,12 @@ other_byvars: any other variables signifying groups in the data, prevents from c
 </li>
 <li class="toctree-l1"><a class="reference internal" href="datacode.models.html">datacode.models package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacode.models.column.html">datacode.models.column package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.column.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.column.html#module-datacode.models.column.column">datacode.models.column.column module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.column.html#module-datacode.models.column.index">datacode.models.column.index module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.models.logic.html">datacode.models.logic package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="datacode.models.logic.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="datacode.models.logic.merge.html">datacode.models.logic.merge package</a><ul>
@@ -443,6 +291,8 @@ other_byvars: any other variables signifying groups in the data, prevents from c
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.html#module-datacode.models.index">datacode.models.index module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.html#module-datacode.models.loader">datacode.models.loader module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.html#module-datacode.models.merge">datacode.models.merge module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.html#module-datacode.models.pipeline">datacode.models.pipeline module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.html#module-datacode.models.source">datacode.models.source module</a></li>
@@ -589,6 +439,168 @@ other_byvars: any other variables signifying groups in the data, prevents from c
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacode.load">
+<span id="datacode-load-module"></span><h2>datacode.load module<a class="headerlink" href="#module-datacode.load" title="Permalink to this headline">¶</a></h2>
+<p>A collection of tools for working with finance data in an academic setting. Compare and summarize data sets,
+propensity score matching, analyze outliers and missing data, and create/reformat several types of data sets,
+including: difference-in-difference, Fama-French-style factors, and portfolios.</p>
+<dl class="class">
+<dt id="datacode.load.GetCRSP">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">GetCRSP</code><span class="sig-paren">(</span><em class="sig-param">debug=False</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#GetCRSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.GetCRSP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="datacode.load.GetCRSP.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">debug=False</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#GetCRSP.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.GetCRSP.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.load.GetCRSP.pull_crsp">
+<code class="sig-name descname">pull_crsp</code><span class="sig-paren">(</span><em class="sig-param">df, coid='PERMNO', freq='m', get=['PRC', 'SHROUT'], date='Date', other_byvars=None, time=None, between_time=False, wide=True, abret=False, window=None, cumret=False, includefac=False, includecoef=False, drop_first=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#GetCRSP.pull_crsp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.GetCRSP.pull_crsp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pulls prices and returns from CRSP. Currently supports the monthly file merging on PERMNO.</p>
+<p>WARNING: Will overwrite variables called “Year” and “Month” if merging the monthly file</p>
+<p>coid = string, company identifier (currently supports ‘GVKEY’, ‘TICKER’, ‘PERMNO’, ‘PERMCO’, ‘NCUSIP’)
+freq = ‘m’ for monthly, ‘d’ for daily
+get = ‘PRC’, ‘RET’, ‘SHROUT’, ‘VOL’, ‘CFACPR’, ‘CFACSHR’, or a list combining any of these
+date = name of datetime column in quotes
+other_byvars = other by vars in dataset besides company identifier and date. Used for long_to_wide
+time = list of integers or None. If not None, will pull the variables for a time difference of the time</p>
+<blockquote>
+<div><p>numbers given, and put them in wide format in the output dataset. For instance time=[-12,0,12] with
+freq=’m’ and get=’RET’ would pull three returns per observation, one twelve months prior, one contemporaneous,
+and one twelve months later, naming them RET-12, RET0, and RET12. If freq=’d’ in the same example, it would be
+twelve days prior, etc.</p>
+</div></blockquote>
+<dl>
+<dt>between_time = bool. Only applicable if time is not None. True to generate periods in between given time periods, e.g.</dt><dd><p>passing time=[12,24,36] will get periods 12, 13, 14, …, 35, 36.</p>
+</dd>
+<dt>abret = 1, 3, 4, or False. If 1, 3, or 4 is passed and ‘RET’ is in get, will calculate abnormal returns according to CAPM,</dt><dd><p>3 or 4 factor model, respectively.</p>
+</dd>
+<dt>window = Integer or None. Must provide an integer if abret is not False. This is the number of prior periods to use</dt><dd><p>for estimating the loadings in factor models. For instance, if freq=’m’, window=36 would use the prior
+three years of returns to estimate the loadings.</p>
+</dd>
+<dt>cumret = ‘between’, ‘zero’, ‘first’, or False. time must not be None and RET in get for this option to matter. </dt><dd><p>When pulling returns for multiple periods, gives the option to cumulate returns. If False, will just return 
+returns for the individual periods. 
+If ‘zero’, will give returns since the original date. 
+If ‘between’, will give returns since the prior requested time period.
+If ‘first’, will give returns since the first requested time period.
+For example, if our input data was for date 1/5/2006, and in the CRSP table we had:</p>
+<blockquote>
+<div><p>permno  date       RET
+10516   1/5/2006   10%
+10516   1/6/2006   20%
+10516   1/7/2006    5%
+10516   1/8/2006   30%</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Then get_crsp(df, time=[1,3], get=’RET’, cumret=None) would return:</dt><dd><p>permno  date       RET1  RET3
+10516   1/5/2006   20%   30%</p>
+</dd>
+<dt>Then get_crsp(df, time=[1,3], get=’RET’, cumret=’between’) would return:</dt><dd><p>permno  date       RET1  RET3
+10516   1/5/2006   20%   36.5%</p>
+</dd>
+<dt>Then get_crsp(df, time=[1,3], get=’RET’, cumret=’zero’) would return:</dt><dd><p>permno  date       RET1  RET3
+10516   1/5/2006   20%   63.8%</p>
+</dd>
+</dl>
+<p>The output for cumret=’first’ would be the same as for cumret=’zero’ because the first period is period zero.
+Had time been =[-1, 1, 3], then returns would be calculated from period -1 to period 1, and period -1 to period 3.</p>
+</dd>
+</dl>
+<p>includefac = Boolean, True to include factors in output
+includecoef = Boolean, True to include factor coefficients in output
+wide = True for output data to be wide form, False for long form. Only applies when time is not None.
+drop_first = bool, set to True to drop observations for first time. Can only be used when time != None, and</p>
+<blockquote>
+<div><p>when cumret != False. This is a
+convenience function for estimating cumulative return windows. For example, if time = [-1, 1], 
+then the typical output would include both cum_RET-1 and cum_RET1. All we actually care about is the
+cumulative return over the window, which is equal to cum_RET1. drop_first=True will drop out 
+RET-1 and cum_RET-1 from the output.</p>
+</div></blockquote>
+<p>debug: bool, set to True to restrict CRSP to only PERMNOs 10516 (gvkey=001722) and 10517 (gvkey=001076)</p>
+<p>Typical usage:
+Calculating a return window with abnormal returns included:</p>
+<blockquote>
+<div><p>get_crsp(df, get=’RET’, freq=’d’, time=[-1, 1], cumret=’between’, abret=4, window=250, drop_first=True)</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.load.get_abret">
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">get_abret</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">byvars</em>, <em class="sig-param">fulldatevar='Date'</em>, <em class="sig-param">year_month=None</em>, <em class="sig-param">freq='m'</em>, <em class="sig-param">abret_fac=5</em>, <em class="sig-param">retvar='RET'</em>, <em class="sig-param">includecoef=False</em>, <em class="sig-param">includefac=False</em>, <em class="sig-param">mp=False</em>, <em class="sig-param">stderr=False</em>, <em class="sig-param">**get_ff_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#get_abret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.get_abret" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a dataframe containing a column of returns, dates, and at least one by variable and calculates
+abnormal returns for the model of choice. Returns a dataframe with the abnormal returns merged.</p>
+<p>Required inputs:
+df: pandas dataframe
+byvars: str or list of strs, column names of columns on which to form by groups</p>
+<p>Optional inputs:
+fulldatevar: str, name of column containing date variable. If provided, don’t provide year_month.
+year_month: list of strs, columns names of year and month variables, e.g. [‘Year’,’Month’]. Must</p>
+<blockquote>
+<div><p>set fulldatevar to None if year_month is provided.</p>
+</div></blockquote>
+<p>freq: ‘m’ or ‘d’, ‘m’ for monthly returns, ‘d’ for daily returns
+abret_fac: int (1, 3, 5), abnormal return model
+retvar: str, name of return variable
+includecoef: bool, set to True to get factor loadings
+includefac: bool, set to True to get factors and risk free rate
+mp: False to use single processor, True to use all processors, int to use # processors
+stderr: bool, True to include standard errors of coefficients</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.load.get_ff_factors">
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">get_ff_factors</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">fulldatevar=None</em>, <em class="sig-param">year_month=None</em>, <em class="sig-param">freq='m'</em>, <em class="sig-param">subset=None</em>, <em class="sig-param">ff_df=None</em>, <em class="sig-param">ff_dir=None</em>, <em class="sig-param">custom_ff_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#get_ff_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.get_ff_factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pulls Fama-French factors and merges them to dataset</p>
+<p>df: Input dataframe
+fulldatevar: String name of date variable to merge on. Specify this OR year and month variable. Must use this</p>
+<blockquote>
+<div><p>and not year_month if pulling daily factors. If merging with monthly factors, will create month
+and year variables in the output dataset. Warning: Will overwrite any variables called Month
+and Year in the input data.</p>
+</div></blockquote>
+<p>year_month: Two element list of [‘yearvar’,’monthvar’]. Specify this OR full date variable.
+freq: ‘m’ for monthly factors, ‘d’ for daily
+subset: str or list, names of ff factors to pull. Can specify any of ‘mktrf’, ‘smb’, ‘hml’, ‘rmw’, ‘cma’, ‘umd’
+ff_df: pandas DataFrame containing factors. if passed, will ignore ff_dir and custom_ff_name
+ff_dir: folder containing FF data
+custom_ff_name: used in combination with ff_dir to select file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.load.get_gvkey_or_permno">
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">get_gvkey_or_permno</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">datevar</em>, <em class="sig-param">get='GVKEY'</em>, <em class="sig-param">other_byvars=None</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#get_gvkey_or_permno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.get_gvkey_or_permno" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a dataframe containing either GVKEY or PERMNO and merges to the CRSP linktable to get the other one.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.load.merge_dsenames">
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">merge_dsenames</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">on='TICKER'</em>, <em class="sig-param">get='PERMNO'</em>, <em class="sig-param">date='Date'</em>, <em class="sig-param">other_byvars=None</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#merge_dsenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.merge_dsenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges with dsenames file on on variable (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6), to get get variable (same list).
+Must have a Date variable in df.</p>
+<p>Default is to match on TICKER and pull PERMNO.</p>
+<p>Required inputs:
+df: pandas dataframe containing any of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)</p>
+<p>Optional inputs:
+on: str, column name to merge on, one of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)
+get: str or list, column or columns to get from dsenames, any of (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6)</p>
+<blockquote>
+<div><p>that aren’t already in on</p>
+</div></blockquote>
+<p>date: str, column name of date variable
+other_byvars: any other variables signifying groups in the data, prevents from collapsing those groups</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacode.load.replace_missing_csv">
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">replace_missing_csv</code><span class="sig-paren">(</span><em class="sig-param">csv_list</em>, <em class="sig-param">missing_rep</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#replace_missing_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.replace_missing_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces missing items in a CSV with a given missing representation string.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-datacode.typing">
 <span id="datacode-typing-module"></span><h2>datacode.typing module<a class="headerlink" href="#module-datacode.typing" title="Permalink to this headline">¶</a></h2>
