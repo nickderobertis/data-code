@@ -5,6 +5,7 @@ from typing import Optional, Tuple
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
+from datacode.models.column.column import Column
 from datacode.models.source import DataSource
 from datacode.models.variables import Variable
 from tests.utils import GENERATED_PATH
@@ -46,6 +47,13 @@ class SourceTest:
         c = Variable('c', 'C', dtype='categorical')
         return a, b, c
 
+    def create_columns(self) -> Tuple[Column, Column, Column]:
+        a, b, c = self.create_variables()
+        ac = Column(a)
+        bc = Column(b)
+        cc = Column(c)
+        return ac, bc, cc
+
 
 class TestCreateSource(SourceTest):
 
@@ -58,7 +66,7 @@ class TestCreateSource(SourceTest):
         ds = self.create_source(df=None)
         assert_frame_equal(ds.df, self.test_df)
 
-    def test_create_source_with_variables(self):
-        all_vars = self.create_variables()
-        ds = self.create_source(location=None, variables=all_vars)
-        assert ds.variables == all_vars
+    def test_create_source_with_columns(self):
+        all_cols = self.create_columns()
+        ds = self.create_source(location=None, columns=all_cols)
+        assert ds.columns == all_cols
