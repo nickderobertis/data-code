@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.5.0 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.5.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.5.0
+                0.5.1
               </div>
             
           
@@ -195,12 +195,18 @@
         <span class="k">return</span> <span class="n">df</span></div>
 
 <div class="viewcode-block" id="DataLoader.read_file_into_df"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.read_file_into_df">[docs]</a>    <span class="k">def</span> <span class="nf">read_file_into_df</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="n">read_file_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">read_file_config</span><span class="p">[</span><span class="s1">&#39;usecols&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">read_file_config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">read_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">read_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="o">**</span><span class="n">read_file_config</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataLoader.optimize_df_size"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.optimize_df_size">[docs]</a>    <span class="k">def</span> <span class="nf">optimize_df_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="c1"># TODO: implement df size optimization</span>
+        <span class="c1"># TODO [#17]: implement df size optimization</span>
         <span class="c1">#</span>
         <span class="c1"># Needs to be after adding data types to variables. Then can use data types to optimize</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;implement df size optimization&#39;</span><span class="p">)</span></div>
@@ -209,9 +215,9 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">rename_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">orig_name</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">variable</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">variable</span>
-            <span class="n">rename_dict</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">rename_dict</span><span class="p">[</span><span class="n">orig_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
         <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">rename_dict</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataLoader.apply_transforms"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.apply_transforms">[docs]</a>    <span class="k">def</span> <span class="nf">apply_transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -222,7 +228,7 @@
         <span class="n">temp_source</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
         <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
         <span class="n">temp_source</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_temp_source_for_transform&#39;</span>
-        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">column</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">:</span>
                 <span class="n">temp_source</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">apply_transform_to_source</span><span class="p">(</span><span class="n">temp_source</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span></div>
