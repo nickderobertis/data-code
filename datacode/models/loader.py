@@ -35,7 +35,7 @@ class DataLoader:
         return read_file(self.source.location, **self.read_file_kwargs)
 
     def optimize_df_size(self, df: pd.DataFrame) -> pd.DataFrame:
-        # TODO: implement df size optimization
+        # TODO [$5e404efc1e51440007d597e4]: implement df size optimization
         #
         # Needs to be after adding data types to variables. Then can use data types to optimize
         raise NotImplementedError('implement df size optimization')
