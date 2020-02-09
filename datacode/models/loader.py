@@ -30,9 +30,15 @@ class DataLoader:
         return df
 
     def read_file_into_df(self) -> pd.DataFrame:
+        read_file_config = dict()
+        if self.source.columns:
+            read_file_config['usecols'] = list(self.source.columns.keys())
+
+        read_file_config.update(self.read_file_kwargs)
+
         if self.source.location is None:
             return pd.DataFrame()
-        return read_file(self.source.location, **self.read_file_kwargs)
+        return read_file(self.source.location, **read_file_config)
 
     def optimize_df_size(self, df: pd.DataFrame) -> pd.DataFrame:
         # TODO [#17]: implement df size optimization
@@ -44,9 +50,9 @@ class DataLoader:
         if not self.source.columns:
             return
         rename_dict = {}
-        for column in self.source.columns:
+        for orig_name, column in self.source.columns.items():
             variable = column.variable
-            rename_dict[variable.key] = variable.name
+            rename_dict[orig_name] = variable.name
         df.rename(columns=rename_dict, inplace=True)
 
     def apply_transforms(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -57,7 +63,7 @@ class DataLoader:
         temp_source = deepcopy(self.source)
         temp_source.df = df
         temp_source.name = '_temp_source_for_transform'
-        for column in self.source.columns:
+        for column in self.source.columns.values():
             for transform in column.variable.applied_transforms:
                 temp_source = transform.apply_transform_to_source(temp_source, column)
         return temp_source.df

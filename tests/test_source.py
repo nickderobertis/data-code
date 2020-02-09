@@ -1,6 +1,6 @@
 import os
 import shutil
-from typing import Optional, Tuple, Any, Callable
+from typing import Optional, Tuple, Any, Callable, Dict
 
 import pandas as pd
 from pandas.testing import assert_frame_equal
@@ -31,7 +31,7 @@ def transform_dataframe_data_func(col: Column, df: pd.DataFrame) -> pd.DataFrame
 def transform_source_data_func(col: Column, source: DataSource) -> DataSource:
     # Extra unnecessary logic to access source.columns to test looking up columns
     cols = source.columns
-    for this_col in cols:
+    for orig_name, this_col in cols.items():
         if not this_col.variable.key == col.variable.key:
             continue
         source.df[this_col.variable.name] = source.df[this_col.variable.name] + 1
@@ -54,6 +54,14 @@ class SourceTest:
             (5, 6, 'e')
         ],
         columns=['A', 'B', 'C']
+    )
+    expect_loaded_df_rename_only_a_b = pd.DataFrame(
+        [
+            (1, 2,),
+            (3, 4,),
+            (5, 6,)
+        ],
+        columns=['A', 'B']
     )
     expect_loaded_df_with_transform = pd.DataFrame(
         [
@@ -117,12 +125,16 @@ class SourceTest:
         c = Variable('c', 'C', dtype='categorical')
         return a, b, c
 
-    def create_columns(self, transform_data: str = '') -> Tuple[Column, Column, Column]:
+    def create_columns(self, transform_data: str = '') -> Dict[str, Column]:
         a, b, c = self.create_variables(transform_data=transform_data)
         ac = Column(a)
         bc = Column(b)
         cc = Column(c)
-        return ac, bc, cc
+        return dict(
+            a=ac,
+            b=bc,
+            c=cc,
+        )
 
 
 class TestCreateSource(SourceTest):
@@ -149,6 +161,13 @@ class TestLoadSource(SourceTest):
         all_cols = self.create_columns()
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, self.expect_loaded_df_rename_only)
+
+    def test_load_with_columns_subset(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        all_cols.pop('c')
+        ds = self.create_source(df=None, columns=all_cols)
+        assert_frame_equal(ds.df, self.expect_loaded_df_rename_only_a_b)
 
     def test_load_with_columns_and_transform_cell(self):
         self.create_csv()

@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 class DataSource:
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
-                 pipeline: Optional['DataPipeline'] = None, columns: Optional[Sequence[Column]] = None,
+                 pipeline: Optional['DataPipeline'] = None, columns: Optional[Dict[str, Column]] = None,
                  name: Optional[str] = None, data_type: Optional[str] = None, tags: Optional[List[str]] = None,
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
                  optimize_size: bool = False):
