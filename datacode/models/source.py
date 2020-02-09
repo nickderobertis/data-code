@@ -4,11 +4,12 @@ from functools import partial
 import os
 import warnings
 import datetime
-from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence
+from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence, Type
 
 from pd_utils.optimize.load import read_file as read_file_into_df
 
 from datacode.models.column.column import Column
+from datacode.models.loader import DataLoader
 from datacode.models.type import DataType
 
 if TYPE_CHECKING:
@@ -19,20 +20,24 @@ class DataSource:
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
                  pipeline: Optional['DataPipeline'] = None, columns: Optional[Sequence[Column]] = None,
                  name: Optional[str] = None, data_type: Optional[str] = None, tags: Optional[List[str]] = None,
-                 loader_func: Optional[Callable] = None, loader_func_kwargs: Optional[Dict[str, Any]] = None):
+                 loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
+                 optimize_size: bool = False):
 
-        if loader_func_kwargs is None:
-            loader_func_kwargs = {}
+        if read_file_kwargs is None:
+            read_file_kwargs = {}
+        if loader_class is None:
+            loader_class = DataLoader
 
         self._check_inputs(location, df)
         self.location = location
         self.name = name
         self.data_type = data_type
         self.tags = tags # TODO: better handling for tags
-        self.loader_func = loader_func
+        self.loader_class = loader_class
         self.pipeline = pipeline
         self.columns = columns
-        self.loader_func_kwargs = loader_func_kwargs
+        self.read_file_kwargs = read_file_kwargs
+        self.optimize_size = optimize_size
         self._df = df
         self.name_type = f'{name} {self.data_type}'
 
@@ -65,7 +70,7 @@ class DataSource:
     def _load(self):
         self._touch_pipeline()
         if not hasattr(self, 'data_loader'):
-            self._set_data_loader(data_loader=self.loader_func, pipeline=self.pipeline, **self.loader_func_kwargs)
+            self._set_data_loader(self.loader_class, pipeline=self.pipeline, **self.read_file_kwargs)
         return self.data_loader()
 
     def output(self, **to_csv_kwargs):
@@ -75,7 +80,7 @@ class DataSource:
         pass
         # assert not (filepath is None) and (df is None)
 
-    def _set_data_loader(self, data_loader: Callable =None, pipeline: 'DataPipeline' =None, **loader_func_kwargs):
+    def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: 'DataPipeline' =None, **read_file_kwargs):
         run_pipeline = False
         if pipeline is not None:
             # if a source in the pipeline to create this data source was modified more recently than this data source
@@ -93,26 +98,17 @@ class DataSource:
                 run_pipeline = True
             # otherwise, don't need to worry about pipeline, continue handling
 
-        if self.location is None:
-            # no location or pipeline, so accessing df will return empty dataframe
-            loader = pd.DataFrame
-        else:
-            if data_loader is None:
-                # TODO [#7]: determine filetype and use proper loader
-                loader = partial(read_file_into_df, self.location, **loader_func_kwargs)
-            else:
-                loader = partial(data_loader, self.location, **loader_func_kwargs)
+        loader = data_loader_class(self, read_file_kwargs, self.optimize_size)
 
         # If necessary, run pipeline before loading
         # Still necessary to use loader as may be transforming the data
         if run_pipeline:
             def run_pipeline_then_load(pipeline):
                 pipeline.execute() # outputs to file
-                return loader()
+                return loader.load()
             self.data_loader = partial(run_pipeline_then_load, self.pipeline)
         else:
-            self.data_loader = loader
-
+            self.data_loader = loader.load
 
     def _touch_pipeline(self):
         """
