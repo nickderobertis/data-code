@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.5.2 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.5.3 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.5.2
+                0.5.3
               </div>
             
           
@@ -236,7 +236,15 @@
         <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
         <span class="n">temp_source</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_temp_source_for_transform&#39;</span>
         <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">col_pre_applied_transform_keys</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">column</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="n">col_pre_applied_transform_keys</span><span class="p">:</span>
+                    <span class="c1"># Transformation was already applied in the saved data source, skip this transformation</span>
+                    <span class="c1"># remove from applied transformations, because same transformation may be applied multiple times.</span>
+                    <span class="c1"># If desired transformation happens twice, and it is only once in the source column, will still</span>
+                    <span class="c1"># need to apply it once</span>
+                    <span class="n">col_pre_applied_transform_keys</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+                    <span class="k">continue</span>
                 <span class="n">temp_source</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">apply_transform_to_source</span><span class="p">(</span><span class="n">temp_source</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span></div>
 
