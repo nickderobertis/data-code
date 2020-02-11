@@ -1,19 +1,24 @@
 from copy import deepcopy
-from functools import partial
-from typing import Sequence, Callable, Optional
+from typing import Sequence, Optional, Union
 
+from datacode.models.dtypes.base import DataType
+from datacode.models.dtypes.convert import convert_str_to_data_type_if_necessary
 from datacode.models.variables.transform import Transform, AppliedTransform
 
 
 class Variable:
 
-    def __init__(self, key: str, name: Optional[str]=None, dtype: Optional[str] = None,
+    def __init__(self, key: str, name: Optional[str]=None, dtype: Optional[Union[str, DataType]] = None,
                  available_transforms: Optional[Sequence[Transform]] = None,
                  applied_transforms: Optional[Sequence[AppliedTransform]] = None):
         if available_transforms is None:
             available_transforms = []
+
         if applied_transforms is None:
             applied_transforms = []
+
+        dtype = convert_str_to_data_type_if_necessary(dtype)
+
         self.key = key
         self.dtype = dtype
         self.available_transforms = available_transforms

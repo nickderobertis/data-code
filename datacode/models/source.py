@@ -40,7 +40,7 @@ class DataSource:
         self.read_file_kwargs = read_file_kwargs
         self.optimize_size = optimize_size
         self._df = df
-        self.name_type = f'{name} {self.data_type}'
+        self.name_type = f'{name}'
 
     @property
     def df(self):
