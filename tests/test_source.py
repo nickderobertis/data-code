@@ -165,8 +165,9 @@ class TestLoadSource(SourceTest):
     def test_load_with_columns_subset(self):
         self.create_csv()
         all_cols = self.create_columns()
-        all_cols.pop('c')
-        ds = self.create_source(df=None, columns=all_cols)
+        all_vars = self.create_variables()
+        var_subset = [var for var in all_vars if var.key != 'c']
+        ds = self.create_source(df=None, columns=all_cols, load_variables=var_subset)
         assert_frame_equal(ds.df, self.expect_loaded_df_rename_only_a_b)
 
     def test_load_with_columns_and_transform_cell(self):
