@@ -71,7 +71,15 @@ class DataLoader:
         temp_source.df = df
         temp_source.name = '_temp_source_for_transform'
         for column in self.source.columns.values():
+            col_pre_applied_transform_keys = deepcopy(column.applied_transform_keys)
             for transform in column.variable.applied_transforms:
+                if transform.key in col_pre_applied_transform_keys:
+                    # Transformation was already applied in the saved data source, skip this transformation
+                    # remove from applied transformations, because same transformation may be applied multiple times.
+                    # If desired transformation happens twice, and it is only once in the source column, will still
+                    # need to apply it once
+                    col_pre_applied_transform_keys.remove(transform.key)
+                    continue
                 temp_source = transform.apply_transform_to_source(temp_source, column)
         return temp_source.df
 
