@@ -12,6 +12,7 @@ Subpackages
 .. toctree::
 
    datacode.models.column
+   datacode.models.dtypes
    datacode.models.logic
    datacode.models.variables
 
@@ -54,14 +55,6 @@ datacode.models.source module
 -----------------------------
 
 .. automodule:: datacode.models.source
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-datacode.models.type module
----------------------------
-
-.. automodule:: datacode.models.type
    :members:
    :undoc-members:
    :show-inheritance:

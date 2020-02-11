@@ -1,0 +1,99 @@
+datacode.models.dtypes package
+==============================
+
+.. automodule:: datacode.models.dtypes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.models.dtypes.base module
+----------------------------------
+
+.. automodule:: datacode.models.dtypes.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.bit\_size module
+---------------------------------------
+
+.. automodule:: datacode.models.dtypes.bit_size
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.bool\_type module
+----------------------------------------
+
+.. automodule:: datacode.models.dtypes.bool_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.convert module
+-------------------------------------
+
+.. automodule:: datacode.models.dtypes.convert
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.datetime\_type module
+--------------------------------------------
+
+.. automodule:: datacode.models.dtypes.datetime_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.float\_type module
+-----------------------------------------
+
+.. automodule:: datacode.models.dtypes.float_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.int\_type module
+---------------------------------------
+
+.. automodule:: datacode.models.dtypes.int_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.manager module
+-------------------------------------
+
+.. automodule:: datacode.models.dtypes.manager
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.obj\_type module
+---------------------------------------
+
+.. automodule:: datacode.models.dtypes.obj_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.str\_type module
+---------------------------------------
+
+.. automodule:: datacode.models.dtypes.str_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.dtypes.timedelta\_type module
+---------------------------------------------
+
+.. automodule:: datacode.models.dtypes.timedelta_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
