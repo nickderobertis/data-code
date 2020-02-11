@@ -71,6 +71,14 @@ class SourceTest:
         ],
         columns=['A_1', 'B_1', 'C']
     )
+    expect_loaded_df_with_transform_and_a_pre_transformed = pd.DataFrame(
+        [
+            (1, 3, 'd'),
+            (3, 5, 'd'),
+            (5, 7, 'e')
+        ],
+        columns=['A_1', 'B_1', 'C']
+    )
     transform_name_func = lambda x: f'{x}_1'
     transform_cell = Transform('add_one_cell', transform_name_func, transform_cell_data_func, data_func_target='cell')
     transform_series = Transform('add_one_series', transform_name_func, transform_series_data_func, data_func_target='series')
@@ -193,3 +201,11 @@ class TestLoadSource(SourceTest):
         all_cols = self.create_columns(transform_data='source')
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, self.expect_loaded_df_with_transform)
+
+    def test_load_with_columns_transforms_and_pre_applied_transforms(self):
+        self.create_csv()
+        all_cols = self.create_columns(transform_data='cell')
+        a, b, c = self.create_variables(transform_data='cell')
+        all_cols['a'] = Column(a, applied_transform_keys=['add_one_cell'])
+        ds = self.create_source(df=None, columns=all_cols)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_transform_and_a_pre_transformed)
