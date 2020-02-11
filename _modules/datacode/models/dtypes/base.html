@@ -193,7 +193,7 @@
 
 <div class="viewcode-block" id="DataType.from_str"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.base.DataType.from_str">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_str</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">categorical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="c1"># TODO: eliminate repeated from_str methods in dtypes</span>
+        <span class="c1"># TODO [$5e4334653a95050008b3c2d0]: eliminate repeated from_str methods in dtypes</span>
         <span class="c1">#</span>
         <span class="c1"># Currently the same from_str method is in the subclasses because they have a different __init__</span>
         <span class="c1"># Only int and float have different from_str methods, and both of those are the same. Create</span>
