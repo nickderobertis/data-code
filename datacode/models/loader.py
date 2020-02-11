@@ -31,8 +31,15 @@ class DataLoader:
 
     def read_file_into_df(self) -> pd.DataFrame:
         read_file_config = dict()
-        if self.source.columns:
-            read_file_config['usecols'] = list(self.source.columns.keys())
+        if self.source.load_variables and self.source.columns:
+            variable_keys = [var.key for var in self.source.load_variables]
+            usecols = []
+            for var_key in variable_keys:
+                for col_key, col in self.source.columns.items():
+                    if col.variable.key == var_key:
+                        # Got column matching the desired variable
+                        usecols.append(col_key)  # add the original column name in the dataset to usecols
+            read_file_config['usecols'] = usecols
 
         read_file_config.update(self.read_file_kwargs)
 

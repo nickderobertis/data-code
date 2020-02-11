@@ -8,6 +8,7 @@ from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence,
 
 from pd_utils.optimize.load import read_file as read_file_into_df
 
+from datacode.models.variables.variable import Variable
 from datacode.models.column.column import Column
 from datacode.models.loader import DataLoader
 from datacode.models.type import DataType
@@ -19,6 +20,7 @@ class DataSource:
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
                  pipeline: Optional['DataPipeline'] = None, columns: Optional[Dict[str, Column]] = None,
+                 load_variables: Optional[Sequence[Variable]] = None,
                  name: Optional[str] = None, data_type: Optional[str] = None, tags: Optional[List[str]] = None,
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
                  optimize_size: bool = False):
@@ -36,6 +38,7 @@ class DataSource:
         self.loader_class = loader_class
         self.pipeline = pipeline
         self.columns = columns
+        self.load_variables = load_variables
         self.read_file_kwargs = read_file_kwargs
         self.optimize_size = optimize_size
         self._df = df
