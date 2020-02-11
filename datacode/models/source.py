@@ -11,7 +11,6 @@ from pd_utils.optimize.load import read_file as read_file_into_df
 from datacode.models.variables.variable import Variable
 from datacode.models.column.column import Column
 from datacode.models.loader import DataLoader
-from datacode.models.type import DataType
 
 if TYPE_CHECKING:
     from datacode.models.pipeline import DataPipeline
@@ -21,7 +20,7 @@ class DataSource:
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
                  pipeline: Optional['DataPipeline'] = None, columns: Optional[Dict[str, Column]] = None,
                  load_variables: Optional[Sequence[Variable]] = None,
-                 name: Optional[str] = None, data_type: Optional[str] = None, tags: Optional[List[str]] = None,
+                 name: Optional[str] = None, tags: Optional[List[str]] = None,
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
                  optimize_size: bool = False):
 
@@ -33,7 +32,6 @@ class DataSource:
         self._check_inputs(location, df)
         self.location = location
         self.name = name
-        self.data_type = data_type
         self.tags = tags # TODO: better handling for tags
         self.loader_class = loader_class
         self.pipeline = pipeline
@@ -53,14 +51,6 @@ class DataSource:
     @df.setter
     def df(self, df):
         self._df = df
-
-    @property
-    def data_type(self):
-        return self._type
-
-    @data_type.setter
-    def data_type(self, dtype):
-        self._type = DataType(dtype)
 
     @property
     def last_modified(self):
