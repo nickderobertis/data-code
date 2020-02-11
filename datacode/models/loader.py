@@ -30,7 +30,12 @@ class DataLoader:
         return df
 
     def read_file_into_df(self) -> pd.DataFrame:
+        if self.source.location is None:
+            return pd.DataFrame()
+
         read_file_config = dict()
+
+        # Set which columns to load
         if self.source.load_variables and self.source.columns:
             variable_keys = [var.key for var in self.source.load_variables]
             usecols = []
@@ -41,10 +46,20 @@ class DataLoader:
                         usecols.append(col_key)  # add the original column name in the dataset to usecols
             read_file_config['usecols'] = usecols
 
+        # Set the data types of the columns
+        if self.source.columns:
+            dtypes = {}
+            for col_key, col in self.source.columns.items():
+                if col.dtype is not None:
+                    if col.dtype.categorical:
+                        dtypes[col_key] = 'category'
+                    else:
+                        dtypes[col_key] = col.dtype.pd_class
+            if dtypes:
+                read_file_config['dtype'] = dtypes
+
         read_file_config.update(self.read_file_kwargs)
 
-        if self.source.location is None:
-            return pd.DataFrame()
         return read_file(self.source.location, **read_file_config)
 
     def optimize_df_size(self, df: pd.DataFrame) -> pd.DataFrame:

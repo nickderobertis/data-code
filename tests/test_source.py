@@ -6,6 +6,7 @@ import pandas as pd
 from pandas.testing import assert_frame_equal
 
 from datacode.models.column.column import Column
+from datacode.models.dtypes.str_type import StringType
 from datacode.models.source import DataSource
 from datacode.models.variables import Variable
 from datacode.models.variables.transform import Transform
@@ -53,7 +54,7 @@ class SourceTest:
             (3, 4, 'd'),
             (5, 6, 'e')
         ],
-        columns=['A', 'B', 'C']
+        columns=['A', 'B', 'C'],
     )
     expect_loaded_df_rename_only_a_b = pd.DataFrame(
         [
@@ -79,6 +80,8 @@ class SourceTest:
         ],
         columns=['A_1', 'B_1', 'C']
     )
+    expect_loaded_df_categorical = expect_loaded_df_rename_only.copy()
+    expect_loaded_df_categorical['C'] = expect_loaded_df_categorical['C'].astype('category')
     transform_name_func = lambda x: f'{x}_1'
     transform_cell = Transform('add_one_cell', transform_name_func, transform_cell_data_func, data_func_target='cell')
     transform_series = Transform('add_one_series', transform_name_func, transform_series_data_func, data_func_target='series')
@@ -130,7 +133,7 @@ class SourceTest:
 
         a = Variable('a', 'A', dtype='int', **transform_dict)
         b = Variable('b', 'B', dtype='int', **transform_dict)
-        c = Variable('c', 'C', dtype='categorical')
+        c = Variable('c', 'C', dtype='str')
         return a, b, c
 
     def create_columns(self, transform_data: str = '') -> Dict[str, Column]:
@@ -209,3 +212,11 @@ class TestLoadSource(SourceTest):
         all_cols['a'] = Column(a, applied_transform_keys=['add_one_cell'])
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, self.expect_loaded_df_with_transform_and_a_pre_transformed)
+
+    def test_load_with_categorical(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        a, b, c = self.create_variables()
+        all_cols['c'] = Column(c, dtype=StringType(categorical=True))
+        ds = self.create_source(df=None, columns=all_cols)
+        assert_frame_equal(ds.df, self.expect_loaded_df_categorical)
