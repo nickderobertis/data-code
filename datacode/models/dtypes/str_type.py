@@ -6,7 +6,7 @@ class StringType(DataType):
     names = ('str', 'string', 'character', 'str_')
 
     def __init__(self, categorical: bool = False, ordered: bool = False):
-        # TODO [$5e4334653a95050008b3c2d1]: add all string methods as available transforms
+        # TODO [#23]: add all string methods as available transforms
         super().__init__(
             str,
             pd_class=object,

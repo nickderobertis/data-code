@@ -28,7 +28,7 @@ class DataType:
 
     @classmethod
     def from_str(cls, dtype: str, categorical: bool = False, ordered: bool = False):
-        # TODO [$5e4334653a95050008b3c2d0]: eliminate repeated from_str methods in dtypes
+        # TODO [#22]: eliminate repeated from_str methods in dtypes
         #
         # Currently the same from_str method is in the subclasses because they have a different __init__
         # Only int and float have different from_str methods, and both of those are the same. Create
