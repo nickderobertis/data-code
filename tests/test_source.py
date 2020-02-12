@@ -13,29 +13,29 @@ from datacode.models.variables.transform import Transform
 from tests.utils import GENERATED_PATH
 
 
-def transform_cell_data_func(col: Column, cell: Any) -> Any:
+def transform_cell_data_func(col: Column, variable: Variable, cell: Any) -> Any:
     if isinstance(cell, str):
         return cell
 
     return cell + 1
 
 
-def transform_series_data_func(col: Column, series: pd.Series) -> pd.Series:
+def transform_series_data_func(col: Column, variable: Variable, series: pd.Series) -> pd.Series:
     return series + 1
 
 
-def transform_dataframe_data_func(col: Column, df: pd.DataFrame) -> pd.DataFrame:
-    df[col.variable.name] = df[col.variable.name] + 1
+def transform_dataframe_data_func(col: Column, variable: Variable, df: pd.DataFrame) -> pd.DataFrame:
+    df[variable.name] = df[variable.name] + 1
     return df
 
 
-def transform_source_data_func(col: Column, source: DataSource) -> DataSource:
+def transform_source_data_func(col: Column, variable: Variable, source: DataSource) -> DataSource:
     # Extra unnecessary logic to access source.columns to test looking up columns
     cols = source.columns
     for orig_name, this_col in cols.items():
         if not this_col.variable.key == col.variable.key:
             continue
-        source.df[this_col.variable.name] = source.df[this_col.variable.name] + 1
+        source.df[variable.name] = source.df[variable.name] + 1
     return source
 
 
@@ -121,13 +121,14 @@ class SourceTest:
             df = self.test_df
         df.to_csv(self.csv_path, index=False, **to_csv_kwargs)
 
-    def create_variables(self, transform_data: str = '') -> Tuple[Variable, Variable, Variable]:
+    def create_variables(self, transform_data: str = '', apply_transforms: bool = True) -> Tuple[Variable, Variable, Variable]:
         if transform_data:
             transform = self.get_transform(transform_data)
             transform_dict = dict(
                 available_transforms=[transform],
-                applied_transforms=[transform],
             )
+            if apply_transforms:
+                transform_dict['applied_transforms'] = [transform]
         else:
             transform_dict = {}
 
@@ -136,8 +137,8 @@ class SourceTest:
         c = Variable('c', 'C', dtype='str')
         return a, b, c
 
-    def create_columns(self, transform_data: str = '') -> Dict[str, Column]:
-        a, b, c = self.create_variables(transform_data=transform_data)
+    def create_columns(self, transform_data: str = '', apply_transforms: bool = True) -> Dict[str, Column]:
+        a, b, c = self.create_variables(transform_data=transform_data, apply_transforms=apply_transforms)
         ac = Column(a)
         bc = Column(b)
         cc = Column(c)
@@ -180,6 +181,18 @@ class TestLoadSource(SourceTest):
         var_subset = [var for var in all_vars if var.key != 'c']
         ds = self.create_source(df=None, columns=all_cols, load_variables=var_subset)
         assert_frame_equal(ds.df, self.expect_loaded_df_rename_only_a_b)
+
+    def test_with_with_columns_and_load_variables_with_transforms(self):
+        self.create_csv()
+        all_cols = self.create_columns(transform_data='cell', apply_transforms=False)
+        a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
+        load_variables = [
+            a.add_one_cell(),
+            b.add_one_cell(),
+            c
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_transform)
 
     def test_load_with_columns_and_transform_cell(self):
         self.create_csv()
