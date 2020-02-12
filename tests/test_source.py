@@ -116,10 +116,10 @@ class SourceTest:
             raise ValueError(
                 f'could not look up func_type {func_type}, should be one of cell, series, dataframe, source')
 
-    def create_csv(self, df: Optional[pd.DataFrame] = None):
+    def create_csv(self, df: Optional[pd.DataFrame] = None, **to_csv_kwargs):
         if df is None:
             df = self.test_df
-        df.to_csv(self.csv_path, index=False)
+        df.to_csv(self.csv_path, index=False, **to_csv_kwargs)
 
     def create_variables(self, transform_data: str = '') -> Tuple[Variable, Variable, Variable]:
         if transform_data:
@@ -220,6 +220,22 @@ class TestLoadSource(SourceTest):
         all_cols['c'] = Column(c, dtype=StringType(categorical=True))
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, self.expect_loaded_df_categorical)
+
+    def test_load_with_datetime(self):
+        test_df = self.expect_loaded_df_rename_only.copy()
+        test_df['d'] = pd.to_datetime('1/1/2000')
+        self.create_csv(df=test_df)
+
+        expect_df = test_df.copy()
+        expect_df.rename(columns={'d': 'Date'}, inplace=True)
+
+        date_var = Variable('date', dtype='datetime')
+        date_col = Column(date_var)
+        all_cols = self.create_columns()
+        all_cols['d'] = date_col
+
+        ds = self.create_source(df=None, columns=all_cols)
+        assert_frame_equal(ds.df, expect_df)
 
 
 class TestDunders(SourceTest):

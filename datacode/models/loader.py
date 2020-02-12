@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING, Any, Dict, Optional
 import pandas as pd
 from pd_utils.optimize.load import read_file
 
+from datacode.models.dtypes.datetime_type import DatetimeType
+
 if TYPE_CHECKING:
     from datacode.models.source import DataSource
 
@@ -49,14 +51,20 @@ class DataLoader:
         # Set the data types of the columns
         if self.source.columns:
             dtypes = {}
+            datetime_dtypes = []  # pandas requires separate handling for datetime
             for col_key, col in self.source.columns.items():
                 if col.dtype is not None:
                     if col.dtype.categorical:
                         dtypes[col_key] = 'category'
+                    elif col.dtype == DatetimeType():
+                        # Track datetime separately
+                        datetime_dtypes.append(col_key)
                     else:
                         dtypes[col_key] = col.dtype.pd_class
             if dtypes:
                 read_file_config['dtype'] = dtypes
+            if datetime_dtypes:
+                read_file_config['parse_dates'] = datetime_dtypes
 
         read_file_config.update(self.read_file_kwargs)
 
