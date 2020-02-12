@@ -16,9 +16,13 @@ TRANSFORMS = [
 
 class VariableTest:
 
-    def create_variables(self) -> Tuple[Variable, Variable]:
-        v = Variable(*VAR1_ARGS)
-        v2 = Variable(*VAR2_ARGS)
+    def create_variables(self, **kwargs) -> Tuple[Variable, Variable]:
+        config_dict = dict(
+
+        )
+        config_dict.update(**kwargs)
+        v = Variable(*VAR1_ARGS, **config_dict)
+        v2 = Variable(*VAR2_ARGS, **config_dict)
         return v, v2
 
     def create_variable_collection(self, **kwargs) -> Tuple[VariableCollection, Variable, Variable]:
@@ -44,6 +48,12 @@ class TestVariable(VariableTest):
         assert v2.key == VAR2_ARGS[0]
         assert v2.symbol == Symbol('TM')
         assert v2.to_tuple() == VAR2_ARGS
+
+    def test_set_description(self):
+        desc = 'my desc'
+        v, v2 = self.create_variables(description=desc)
+        assert v.description == desc
+        assert v2.description == desc
 
 
 class TestVariableCollection(VariableTest):

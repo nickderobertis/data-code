@@ -12,7 +12,8 @@ class Variable:
     def __init__(self, key: str, name: Optional[str]=None, symbol: Optional[Union[str, Symbol]] = None,
                  dtype: Optional[Union[str, DataType]] = None,
                  available_transforms: Optional[Sequence[Transform]] = None,
-                 applied_transforms: Optional[Sequence[AppliedTransform]] = None):
+                 applied_transforms: Optional[Sequence[AppliedTransform]] = None,
+                 description: str = ''):
         if symbol is None:
             symbol = var_key_to_symbol_str(key)
         symbol = to_symbol_if_necessary(symbol)
@@ -30,6 +31,7 @@ class Variable:
         self.symbol = symbol
         self.available_transforms = available_transforms
         self.applied_transforms = applied_transforms
+        self.description = description
 
         if name is None:
             name = _from_var_name_to_display_name(key)
