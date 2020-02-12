@@ -2,10 +2,11 @@ from typing import Tuple
 
 from datacode.models.variables import Variable, VariableCollection
 from datacode.models.variables.transform import Transform, AppliedTransform
+from datacode.models.symbols import Symbol
 from tests.input_funcs import lag
 
 VAR1_ARGS = ('stuff', 'My Stuff')
-VAR2_ARGS = ('thing', 'My Thing')
+VAR2_ARGS = ('thing_me', 'My Thing')
 VC_NAME = 'my_collection'
 TRANSFORMS = [
     Transform('port', name_func=lambda x: f'{x} Port Var'),
@@ -15,9 +16,13 @@ TRANSFORMS = [
 
 class VariableTest:
 
-    def create_variables(self) -> Tuple[Variable, Variable]:
-        v = Variable(*VAR1_ARGS)
-        v2 = Variable(*VAR2_ARGS)
+    def create_variables(self, **kwargs) -> Tuple[Variable, Variable]:
+        config_dict = dict(
+
+        )
+        config_dict.update(**kwargs)
+        v = Variable(*VAR1_ARGS, **config_dict)
+        v2 = Variable(*VAR2_ARGS, **config_dict)
         return v, v2
 
     def create_variable_collection(self, **kwargs) -> Tuple[VariableCollection, Variable, Variable]:
@@ -38,9 +43,17 @@ class TestVariable(VariableTest):
         assert v.name == VAR1_ARGS[1]
         assert v.key == VAR1_ARGS[0]
         assert v.to_tuple() == VAR1_ARGS
+        assert v.symbol == Symbol(r'\text{Stuff}')
         assert v2.name == VAR2_ARGS[1]
         assert v2.key == VAR2_ARGS[0]
+        assert v2.symbol == Symbol('TM')
         assert v2.to_tuple() == VAR2_ARGS
+
+    def test_set_description(self):
+        desc = 'my desc'
+        v, v2 = self.create_variables(description=desc)
+        assert v.description == desc
+        assert v2.description == desc
 
 
 class TestVariableCollection(VariableTest):
@@ -50,7 +63,7 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff == v
-        assert vc.thing == v2
+        assert vc.thing_me == v2
 
     def test_create_variable_collection_with_transforms(self):
         vc, v, v2 = self.create_variable_collection(
@@ -59,11 +72,11 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff == v
-        assert vc.thing == v2
+        assert vc.thing_me == v2
         assert vc.stuff.port().name == VAR1_ARGS[1] + ' Port Var'
-        assert vc.thing.port().name == VAR2_ARGS[1] + ' Port Var'
+        assert vc.thing_me.port().name == VAR2_ARGS[1] + ' Port Var'
         assert vc.stuff.lag(1).name == VAR1_ARGS[1] + '_{t - 1}'
-        assert vc.thing.lag(1).name == VAR2_ARGS[1] + '_{t - 1}'
+        assert vc.thing_me.lag(1).name == VAR2_ARGS[1] + '_{t - 1}'
 
     def test_create_variable_collection_with_default_attr(self):
         vc, v, v2 = self.create_variable_collection(
@@ -72,7 +85,7 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff == VAR1_ARGS[1]
-        assert vc.thing == VAR2_ARGS[1]
+        assert vc.thing_me == VAR2_ARGS[1]
 
     def test_create_variable_collection_with_default_transform_no_args(self):
         vc, v, v2 = self.create_variable_collection(
@@ -82,7 +95,7 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff.name == VAR1_ARGS[1] + ' Port Var'
-        assert vc.thing.name == VAR2_ARGS[1] + ' Port Var'
+        assert vc.thing_me.name == VAR2_ARGS[1] + ' Port Var'
 
     def test_create_variable_collection_with_default_transform_with_args(self):
         vc, v, v2 = self.create_variable_collection(
@@ -92,7 +105,7 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff.name == VAR1_ARGS[1] + '_{t - 5}'
-        assert vc.thing.name == VAR2_ARGS[1] + '_{t - 5}'
+        assert vc.thing_me.name == VAR2_ARGS[1] + '_{t - 5}'
 
     def test_create_variable_collection_with_multiple_default_transforms(self):
         vc, v, v2 = self.create_variable_collection(
@@ -105,7 +118,7 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff.name == VAR1_ARGS[1] + ' Port Var_{t - 5}'
-        assert vc.thing.name == VAR2_ARGS[1] + ' Port Var_{t - 5}'
+        assert vc.thing_me.name == VAR2_ARGS[1] + ' Port Var_{t - 5}'
 
     def test_create_variable_collection_with_default_attr_and_default_transform(self):
         vc, v, v2 = self.create_variable_collection(
@@ -116,7 +129,7 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff == VAR1_ARGS[1] + ' Port Var'
-        assert vc.thing == VAR2_ARGS[1] + ' Port Var'
+        assert vc.thing_me == VAR2_ARGS[1] + ' Port Var'
 
     def test_create_multiple_variable_collections_no_overlap(self):
         vc, v, v2 = self.create_variable_collection()
@@ -131,11 +144,11 @@ class TestVariableCollection(VariableTest):
         assert vc.name == VC_NAME
         assert vc2.name == VC_NAME
         assert vc.stuff == v
-        assert vc.thing == v2
+        assert vc.thing_me == v2
         assert not vc.stuff.applied_transforms
-        assert not vc.thing.applied_transforms
+        assert not vc.thing_me.applied_transforms
         assert vc2.stuff.name == VAR1_ARGS[1] + ' Port Var'
-        assert vc2.thing.name == VAR2_ARGS[1] + ' Port Var'
+        assert vc2.thing_me.name == VAR2_ARGS[1] + ' Port Var'
         assert vc2.stuff.applied_transforms
-        assert vc2.thing.applied_transforms
+        assert vc2.thing_me.applied_transforms
 

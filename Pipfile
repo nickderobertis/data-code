@@ -27,6 +27,7 @@ matplotlib = "*"
 regtools = "*"
 pyexlatex = "*"
 pyfileconf = "*"
+sympy = "*"
 
 [requires]
 python_version = "3.7"

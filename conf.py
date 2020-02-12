@@ -17,7 +17,7 @@ REPO_MAINTAINERS = [
 ]
 
 # Package version in the format (major, minor, release)
-PACKAGE_VERSION_TUPLE = (0, 6, 3)
+PACKAGE_VERSION_TUPLE = (0, 7, 0)
 
 # Short description of the package
 PACKAGE_SHORT_DESCRIPTION = "High-level tools to analyze, summarize, and transform data"
@@ -65,6 +65,7 @@ PACKAGE_INSTALL_REQUIRES = [
     'regtools',
     'pyexlatex',
     'pyfileconf',
+    'sympy',
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
