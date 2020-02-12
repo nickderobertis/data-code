@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.6.3 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.7.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.6.3
+                0.7.0
               </div>
             
           
@@ -261,7 +261,7 @@
             <span class="k">return</span> <span class="n">df</span>
 
         <span class="c1"># Create temporary source so that transform can have access to df and all columns with one object</span>
-        <span class="c1"># TODO: don&#39;t copy df, use same df</span>
+        <span class="c1"># TODO [#28]: don&#39;t copy df, use same df</span>
         <span class="n">temp_source</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
         <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
         <span class="n">temp_source</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_temp_source_for_transform&#39;</span>

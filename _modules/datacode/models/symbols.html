@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.psm.dataprep &mdash; datacode 0.7.0 documentation</title>
+  <title>datacode.models.symbols &mdash; datacode 0.7.0 documentation</title>
   
 
   
@@ -147,7 +147,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.psm.dataprep</li>
+      <li>datacode.models.symbols</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -162,27 +162,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.psm.dataprep</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">datacode.psm.typing</span> <span class="kn">import</span> <span class="n">StrListOrNone</span><span class="p">,</span> <span class="n">TwoDfTuple</span>
+  <h1>Source code for datacode.models.symbols</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
-<div class="viewcode-block" id="treated_and_control_df_from_df"><a class="viewcode-back" href="../../../api/datacode.psm.html#datacode.psm.dataprep.treated_and_control_df_from_df">[docs]</a><span class="k">def</span> <span class="nf">treated_and_control_df_from_df</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">treated_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">entity_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                                   <span class="n">keep_vars</span><span class="p">:</span> <span class="n">StrListOrNone</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TwoDfTuple</span><span class="p">:</span>
-    <span class="n">rows_with_treatment</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">treated_var</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="c1"># Cannot simply take where treatment is zero as control, as some entities may be treated for only a portion of the</span>
-    <span class="c1"># sample. If this is the case, would end up with the entity in both dfs. Must set control as those entities</span>
-    <span class="c1"># that are never treated</span>
-    <span class="n">treated_entities</span> <span class="o">=</span> <span class="n">rows_with_treatment</span><span class="p">[</span><span class="n">entity_var</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-    <span class="n">treated_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">entity_var</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">treated_entities</span><span class="p">)]</span>
-    <span class="n">control_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="n">entity_var</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">treated_entities</span><span class="p">)]</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
 
 
-    <span class="k">if</span> <span class="n">keep_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">treated_df</span> <span class="o">=</span> <span class="n">treated_df</span><span class="p">[</span><span class="n">keep_vars</span><span class="p">]</span>
-        <span class="n">control_df</span> <span class="o">=</span> <span class="n">control_df</span><span class="p">[</span><span class="n">keep_vars</span><span class="p">]</span>
+<div class="viewcode-block" id="to_symbol_if_necessary"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.symbols.to_symbol_if_necessary">[docs]</a><span class="k">def</span> <span class="nf">to_symbol_if_necessary</span><span class="p">(</span><span class="n">sym</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Symbol</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sym</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sym</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sym</span>
 
-    <span class="k">return</span> <span class="n">treated_df</span><span class="p">,</span> <span class="n">control_df</span></div>
+    <span class="k">return</span> <span class="n">str_to_symbol</span><span class="p">(</span><span class="n">sym</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="str_to_symbol"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.symbols.str_to_symbol">[docs]</a><span class="k">def</span> <span class="nf">str_to_symbol</span><span class="p">(</span><span class="n">sym</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Symbol</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">Symbol</span><span class="p">(</span><span class="n">sym</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="var_key_to_symbol_str"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.symbols.var_key_to_symbol_str">[docs]</a><span class="k">def</span> <span class="nf">var_key_to_symbol_str</span><span class="p">(</span><span class="n">var_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">var_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">rf</span><span class="s1">&#39;\text{{{parts[0].title()}}}&#39;</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">part</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;got invalid var_key </span><span class="si">{var_key}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
