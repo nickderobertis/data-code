@@ -220,3 +220,10 @@ class TestLoadSource(SourceTest):
         all_cols['c'] = Column(c, dtype=StringType(categorical=True))
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, self.expect_loaded_df_categorical)
+
+
+class TestDunders(SourceTest):
+
+    def test_str(self):
+        source = self.create_source(location=None)
+        print(source)
