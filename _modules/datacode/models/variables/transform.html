@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.transform &mdash; datacode 0.6.2 documentation</title>
+  <title>datacode.models.variables.transform &mdash; datacode 0.6.3 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.6.2
+                0.6.3
               </div>
             
           
@@ -168,6 +168,7 @@
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
     <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
+    <span class="kn">from</span> <span class="nn">datacode.models.variables.variable</span> <span class="kn">import</span> <span class="n">Variable</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.variables.typing</span> <span class="kn">import</span> <span class="n">StrFunc</span><span class="p">,</span> <span class="n">ValueFunc</span>
 <span class="kn">from</span> <span class="nn">datacode.models.logic.partial</span> <span class="kn">import</span> <span class="n">partial</span>
@@ -199,11 +200,10 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not pass appropriate data_func_target to Transform </span><span class="si">{self}</span><span class="s1">, got </span><span class="si">{data_func_target}</span><span class="s1"> &#39;</span>
                          <span class="sa">f</span><span class="s1">&#39;which should be one of cell, series, dataframe, or source&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Transform.apply_transform_to_source"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.Transform.apply_transform_to_source">[docs]</a>    <span class="k">def</span> <span class="nf">apply_transform_to_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="s1">&#39;Column&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="Transform.apply_transform_to_source"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.Transform.apply_transform_to_source">[docs]</a>    <span class="k">def</span> <span class="nf">apply_transform_to_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="s1">&#39;Column&#39;</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="s1">&#39;Variable&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">source</span>
-        <span class="n">data_func_with_col</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
-        <span class="n">variable</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">variable</span>
+        <span class="n">data_func_with_col</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">variable</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">==</span> <span class="s1">&#39;cell&#39;</span><span class="p">:</span>
             <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">data_func_with_col</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">==</span> <span class="s1">&#39;series&#39;</span><span class="p">:</span>
@@ -233,7 +233,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_func</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AppliedTransform.from_transform"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform.from_transform">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_transform</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Transform</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
