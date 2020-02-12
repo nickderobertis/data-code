@@ -1,7 +1,7 @@
-pyexlatex
-pd_utils
-pandas
 matplotlib
-regtools
-datacode
 pyfileconf
+pandas
+pyexlatex
+regtools
+pd_utils
+datacode
