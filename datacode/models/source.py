@@ -121,4 +121,4 @@ class DataSource:
         return deepcopy(self)
 
     def __repr__(self):
-        return f'<DataSource(name={self.name}, type={self.data_type.name})>'
+        return f'<DataSource(name={self.name}, columns={self.columns})>'
