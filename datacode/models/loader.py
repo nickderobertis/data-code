@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional, List
 
 import pandas as pd
 from pd_utils.optimize.load import read_file
@@ -8,6 +8,8 @@ from datacode.models.dtypes.datetime_type import DatetimeType
 
 if TYPE_CHECKING:
     from datacode.models.source import DataSource
+    from datacode.models.variables.variable import Variable
+    from datacode.models.column.column import Column
 
 
 class DataLoader:
@@ -79,9 +81,13 @@ class DataLoader:
     def rename_columns(self, df: pd.DataFrame):
         if not self.source.columns:
             return
+
+        variables = self._get_variables()
+        col_name_by_key = self._get_col_key_by_var_key()
+
         rename_dict = {}
-        for orig_name, column in self.source.columns.items():
-            variable = column.variable
+        for variable in variables:
+            orig_name = col_name_by_key[variable.key]
             rename_dict[orig_name] = variable.name
         df.rename(columns=rename_dict, inplace=True)
 
@@ -90,12 +96,20 @@ class DataLoader:
             return df
 
         # Create temporary source so that transform can have access to df and all columns with one object
+        # TODO: don't copy df, use same df
         temp_source = deepcopy(self.source)
         temp_source.df = df
         temp_source.name = '_temp_source_for_transform'
-        for column in self.source.columns.values():
+
+        variables = self._get_variables()
+        col_by_key = self._get_col_by_var_key()
+
+        for var in variables:
+            # if var_key == 'prc':
+            #     breakpoint()
+            column = col_by_key[var.key]
             col_pre_applied_transform_keys = deepcopy(column.applied_transform_keys)
-            for transform in column.variable.applied_transforms:
+            for transform in var.applied_transforms:
                 if transform.key in col_pre_applied_transform_keys:
                     # Transformation was already applied in the saved data source, skip this transformation
                     # remove from applied transformations, because same transformation may be applied multiple times.
@@ -103,7 +117,7 @@ class DataLoader:
                     # need to apply it once
                     col_pre_applied_transform_keys.remove(transform.key)
                     continue
-                temp_source = transform.apply_transform_to_source(temp_source, column)
+                temp_source = transform.apply_transform_to_source(temp_source, column, var)
         return temp_source.df
 
     def pre_transform_clean_up(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -111,3 +125,16 @@ class DataLoader:
 
     def post_transform_clean_up(self, df: pd.DataFrame) -> pd.DataFrame:
         return df
+
+    def _get_variables(self) -> List['Variable']:
+        if self.source.load_variables:
+            variables = self.source.load_variables
+        else:
+            variables = [col.variable for col in self.source.columns.values()]
+        return variables
+
+    def _get_col_by_var_key(self) -> Dict[str, 'Column']:
+        return {col.variable.key: col for col in self.source.columns.values()}
+
+    def _get_col_key_by_var_key(self) -> Dict[str, str]:
+        return {col.variable.key: col_key for col_key, col in self.source.columns.items()}
