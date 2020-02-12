@@ -35,4 +35,20 @@ class DataType:
         # mixin or intermediate classes to eliminate repeated code.
         raise NotImplementedError('must implement from_str in subclass of DataType')
 
+    def __eq__(self, other):
+
+        check_attrs = [
+            'py_class',
+            'pd_class',
+            'categorical',
+            'ordered'
+        ]
+
+        for attr in check_attrs:
+            try:
+                result = getattr(self, attr) == getattr(other, attr)
+                return result
+            except AttributeError as e:
+                return False
+
 
