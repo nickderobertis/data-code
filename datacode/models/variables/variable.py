@@ -3,6 +3,7 @@ from typing import Sequence, Optional, Union
 
 from datacode.models.dtypes.base import DataType
 from datacode.models.dtypes.convert import convert_str_to_data_type_if_necessary
+from datacode.models.variables.expression import Expression
 from datacode.models.variables.transform import Transform, AppliedTransform
 from datacode.models.symbols import Symbol, var_key_to_symbol_str, to_symbol_if_necessary
 
@@ -13,7 +14,7 @@ class Variable:
                  dtype: Optional[Union[str, DataType]] = None,
                  available_transforms: Optional[Sequence[Transform]] = None,
                  applied_transforms: Optional[Sequence[AppliedTransform]] = None,
-                 description: str = ''):
+                 description: str = '', calculation: Optional[Expression] = None):
         if symbol is None:
             symbol = var_key_to_symbol_str(key)
         symbol = to_symbol_if_necessary(symbol)
@@ -32,6 +33,7 @@ class Variable:
         self.available_transforms = available_transforms
         self.applied_transforms = applied_transforms
         self.description = description
+        self.calculation = calculation
 
         if name is None:
             name = _from_var_name_to_display_name(key)
