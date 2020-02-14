@@ -1,3 +1,4 @@
+import operator
 from typing import TYPE_CHECKING, Sequence, Callable, Optional, Union
 
 from sympy import Expr, lambdify, latex
@@ -61,44 +62,34 @@ class Expression:
             return False
 
     def __add__(self, other):
-        from datacode.models.variables.variable import Variable
-
-        if self.expr is None:
-            raise ValueError(f'cannot add expression which does not have .expr, got {self}')
-
-        if isinstance(other, Variable):
-            sympy_expr = self.expr + other.symbol
-            expr = Expression.from_sympy_expr([*self.variables, other], sympy_expr)
-            return expr
-
-        if isinstance(other, Expression):
-            if other.expr is None:
-                raise ValueError(f'cannot add expression which does not have .expr, got {other}')
-            sympy_expr = self.expr + other.expr
-            expr = Expression.from_sympy_expr([*self.variables, *other.variables], sympy_expr)
-            return expr
-
-        raise ValueError(f'Cannot add {other} of type {type(other)} to {self}, must be Variable or Expression')
+        return self._create_expression_from_other_and_operator(other, operator.add, 'add')
 
     def __sub__(self, other):
+        return self._create_expression_from_other_and_operator(other, operator.sub, 'subtract', preposition='from')
+
+    def _create_expression_from_other_and_operator(self, other, op_func: Callable, operator_name: str,
+                                                   preposition: str = 'to') -> 'Expression':
         from datacode.models.variables.variable import Variable
 
         if self.expr is None:
-            raise ValueError(f'cannot subtract expression which does not have .expr, got {self}')
+            raise ValueError(f'cannot {operator_name} expression which does not have .expr, got {self}')
 
         if isinstance(other, Variable):
-            sympy_expr = self.expr - other.symbol
+            sympy_expr = op_func(self.expr, other.symbol)
             expr = Expression.from_sympy_expr([*self.variables, other], sympy_expr)
             return expr
 
         if isinstance(other, Expression):
             if other.expr is None:
-                raise ValueError(f'cannot subtract expression which does not have .expr, got {other}')
-            sympy_expr = self.expr - other.expr
+                raise ValueError(f'cannot {operator_name} expression which does not have .expr, got {other}')
+            sympy_expr = op_func(self.expr, other.expr)
             expr = Expression.from_sympy_expr([*self.variables, *other.variables], sympy_expr)
             return expr
 
-        raise ValueError(f'Cannot subtract {other} of type {type(other)} from {self}, must be Variable or Expression')
+        raise ValueError(f'Cannot {operator_name} {other} of type {type(other)} {preposition} {self}, '
+                         f'must be Variable or Expression')
+
+
 
 
 def _functions_are_equal(func: Callable, func2: Callable) -> bool:

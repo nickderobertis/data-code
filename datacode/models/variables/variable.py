@@ -1,5 +1,6 @@
+import operator
 from copy import deepcopy
-from typing import Sequence, Optional, Union
+from typing import Sequence, Optional, Union, Callable
 
 from datacode.models.dtypes.base import DataType
 from datacode.models.dtypes.convert import convert_str_to_data_type_if_necessary
@@ -53,34 +54,27 @@ class Variable:
         return all([getattr(self, attr) == getattr(other, attr) for attr in compare_attrs])
 
     def __add__(self, other) -> Expression:
-        if isinstance(other, Variable):
-            sympy_expr = self.symbol + other.symbol
-            expr = Expression.from_sympy_expr([self, other], sympy_expr)
-            return expr
-
-        if isinstance(other, Expression):
-            if other.expr is None:
-                raise ValueError(f'cannot add expression which does not have .expr, got {other}')
-            sympy_expr = self.symbol + other.expr
-            expr = Expression.from_sympy_expr([self, *other.variables], sympy_expr)
-            return expr
-
-        raise ValueError(f'Cannot add {other} of type {type(other)} to {self}, must be Variable or Expression')
+        return self._create_expression_from_other_and_operator(other, operator.add, 'add')
 
     def __sub__(self, other):
+        return self._create_expression_from_other_and_operator(other, operator.sub, 'subtract', preposition='from')
+
+    def _create_expression_from_other_and_operator(self, other, op_func: Callable, operator_name: str,
+                                                   preposition: str = 'to') -> 'Expression':
         if isinstance(other, Variable):
-            sympy_expr = self.symbol - other.symbol
+            sympy_expr = op_func(self.symbol, other.symbol)
             expr = Expression.from_sympy_expr([self, other], sympy_expr)
             return expr
 
         if isinstance(other, Expression):
             if other.expr is None:
-                raise ValueError(f'cannot subtract expression which does not have .expr, got {other}')
-            sympy_expr = self.symbol - other.expr
+                raise ValueError(f'cannot {operator_name} expression which does not have .expr, got {other}')
+            sympy_expr = op_func(self.symbol, other.expr)
             expr = Expression.from_sympy_expr([self, *other.variables], sympy_expr)
             return expr
 
-        raise ValueError(f'Cannot subtract {other} of type {type(other)} from {self}, must be Variable or Expression')
+        raise ValueError(f'Cannot {operator_name} {other} of type {type(other)} {preposition} {self}, '
+                         f'must be Variable or Expression')
 
 
     def to_tuple(self):
