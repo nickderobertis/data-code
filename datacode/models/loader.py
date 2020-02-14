@@ -82,11 +82,9 @@ class DataLoader:
         if not self.source.columns:
             return
 
-        col_name_by_key = self._get_col_key_by_var_key()
-
         rename_dict = {}
         for variable in self.source.load_variables:
-            orig_name = col_name_by_key[variable.key]
+            orig_name = self.source.col_key_for(var_key=variable.key)
             rename_dict[orig_name] = variable.name
         df.rename(columns=rename_dict, inplace=True)
 
@@ -100,10 +98,8 @@ class DataLoader:
         temp_source.df = df
         temp_source.name = '_temp_source_for_transform'
 
-        col_by_key = self._get_col_by_var_key()
-
         for var in self.source.load_variables:
-            column = col_by_key[var.key]
+            column = self.source.col_for(var_key=var.key)
             col_pre_applied_transform_keys = deepcopy(column.applied_transform_keys)
             for transform in var.applied_transforms:
                 if transform.key in col_pre_applied_transform_keys:
@@ -121,9 +117,3 @@ class DataLoader:
 
     def post_transform_clean_up(self, df: pd.DataFrame) -> pd.DataFrame:
         return df
-
-    def _get_col_by_var_key(self) -> Dict[str, 'Column']:
-        return {col.variable.key: col for col in self.source.columns.values()}
-
-    def _get_col_key_by_var_key(self) -> Dict[str, str]:
-        return {col.variable.key: col_key for col_key, col in self.source.columns.items()}
