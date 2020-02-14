@@ -59,6 +59,15 @@ class Variable:
     def __sub__(self, other):
         return self._create_expression_from_other_and_operator(other, operator.sub, 'subtract', preposition='from')
 
+    def __mul__(self, other):
+        return self._create_expression_from_other_and_operator(other, operator.mul, 'multiply', preposition='by')
+
+    def __truediv__(self, other):
+        return self._create_expression_from_other_and_operator(other, operator.truediv, 'divide', preposition='by')
+
+    def __pow__(self, other):
+        return self._create_expression_from_other_and_operator(other, operator.pow, 'exponentiate', preposition='by')
+
     def _create_expression_from_other_and_operator(self, other, op_func: Callable, operator_name: str,
                                                    preposition: str = 'to') -> 'Expression':
         if isinstance(other, Variable):
