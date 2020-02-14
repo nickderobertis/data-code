@@ -148,10 +148,10 @@ class DataLoader:
                 # Actually do calculation
                 new_series = variable.calculation.func(calc_with_cols)
                 new_series.name = variable.name
-                # TODO [$5e471317cfd3770007e51f56]: determine how to set index for columns from calculated variables
+                # TODO [#34]: determine how to set index for columns from calculated variables
                 new_col = Column(variable, dtype=str(new_series.dtype), series=new_series)
                 temp_source.df[variable.name] = new_series
-                # TODO [$5e471317cfd3770007e51f57]: better way of storing calculated columns than uuid in columns dictionary
+                # TODO [#35]: better way of storing calculated columns than uuid in columns dictionary
                 #
                 # The dictionary of columns has keys as names in the original source and values as columns.
                 # A calculated column is not in the original source, so uuid was used for now just to ensure
