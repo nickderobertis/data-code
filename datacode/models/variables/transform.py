@@ -1,4 +1,5 @@
-from typing import Optional, TYPE_CHECKING
+from copy import deepcopy
+from typing import Optional, TYPE_CHECKING, Sequence
 
 if TYPE_CHECKING:
     from datacode.models.source import DataSource
@@ -35,7 +36,54 @@ class Transform:
         raise ValueError(f'Did not pass appropriate data_func_target to Transform {self}, got {data_func_target} '
                          f'which should be one of cell, series, dataframe, or source')
 
-    def apply_transform_to_source(self, source: 'DataSource', column: 'Column', variable: 'Variable') -> 'DataSource':
+    def apply_to_source(self, source: 'DataSource', preserve_original: bool = True,
+                        subset: Optional[Sequence['Variable']] = None) -> 'DataSource':
+        """
+        Applies transformation to entire data source
+
+        :param source:
+        :param preserve_original: True to copy the source before applying transformations. False will decrease
+        memory usage but will cause the original source to be partially modified
+        :param subset: Variables to apply the transformation to. Defaults to all variables.
+        :return:
+        """
+        if preserve_original:
+            source = deepcopy(source)
+
+        if subset:
+            variables = subset
+        else:
+            variables = source.load_variables
+
+        rename_dict = {}
+        for selected_var in variables:
+            col = source.col_for(var_key=selected_var.key)
+            var = col.variable  # Don't use passed variable directly besides key as may be different instance
+
+            # Apply data transformation
+            source = self._apply_transform_for_column_and_variable_to_source(source, col, var)
+
+            # Update variable
+            orig_name = var.name
+            var._add_applied_transform(self)
+            new_name = var.name
+
+            # Update column name
+            if orig_name != new_name:
+                rename_dict[orig_name] = new_name
+
+        if rename_dict:
+            source.df.rename(columns=rename_dict, inplace=True)
+
+        return source
+
+    def _apply_transform_for_column_and_variable_to_source(self, source: 'DataSource', column: 'Column',
+                                                           variable: 'Variable') -> 'DataSource':
+        source = self._apply_data_transform_to_column_and_variable_in_source(source, column, variable)
+        return source
+
+    def _apply_data_transform_to_column_and_variable_in_source(self, source: 'DataSource', column: 'Column',
+                                                               variable: 'Variable') -> 'DataSource':
         if self.data_func is None:
             return source
         data_func_with_col = partial(self.data_func, column, variable)
