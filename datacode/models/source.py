@@ -28,6 +28,8 @@ class DataSource:
             read_file_kwargs = {}
         if loader_class is None:
             loader_class = DataLoader
+        if load_variables is None and columns is not None:
+            load_variables = [col.variable for col in columns.values()]
 
         self._check_inputs(location, df)
         self.location = location

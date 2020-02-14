@@ -235,14 +235,14 @@ class TestLoadSource(SourceTest):
         assert_frame_equal(ds.df, self.expect_loaded_df_categorical)
 
     def test_load_with_datetime(self):
-        test_df = self.expect_loaded_df_rename_only.copy()
+        test_df = self.test_df.copy()
         test_df['d'] = pd.to_datetime('1/1/2000')
         self.create_csv(df=test_df)
 
-        expect_df = test_df.copy()
-        expect_df.rename(columns={'d': 'Date'}, inplace=True)
+        expect_df = self.expect_loaded_df_rename_only.copy()
+        expect_df['Date'] = pd.to_datetime('1/1/2000')
 
-        date_var = Variable('date', dtype='datetime')
+        date_var = Variable('Date', dtype='datetime')
         date_col = Column(date_var)
         all_cols = self.create_columns()
         all_cols['d'] = date_col
