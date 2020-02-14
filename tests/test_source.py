@@ -1,6 +1,6 @@
 import os
 import shutil
-from typing import Optional, Tuple, Any, Callable, Dict
+from typing import Optional, Tuple, Any, Callable, Dict, Sequence
 
 import pandas as pd
 from pandas.testing import assert_frame_equal
@@ -9,6 +9,7 @@ from datacode.models.column.column import Column
 from datacode.models.dtypes.str_type import StringType
 from datacode.models.source import DataSource
 from datacode.models.variables import Variable
+from datacode.models.variables.expression import Expression
 from datacode.models.variables.transform import Transform
 from tests.utils import GENERATED_PATH
 
@@ -37,6 +38,10 @@ def transform_source_data_func(col: Column, variable: Variable, source: DataSour
             continue
         source.df[variable.name] = source.df[variable.name] + 1
     return source
+
+
+def expression_series_func(cols: Sequence[Column]) -> pd.Series:
+    return cols[0].series + cols[1].series
 
 
 class SourceTest:
@@ -87,6 +92,38 @@ class SourceTest:
             (5, 7, 'e')
         ],
         columns=['A_1', 'B_1', 'C']
+    )
+    expect_loaded_df_with_calculated = pd.DataFrame(
+        [
+            (1, 2, 'd', 3),
+            (3, 4, 'd', 7),
+            (5, 6, 'e', 11)
+        ],
+        columns=['A', 'B', 'C', 'D'],
+    )
+    expect_loaded_df_with_calculated_transformed = pd.DataFrame(
+        [
+            (1, 2, 'd', 4),
+            (3, 4, 'd', 8),
+            (5, 6, 'e', 12)
+        ],
+        columns=['A', 'B', 'C', 'D_1'],
+    )
+    expect_loaded_df_with_calculate_on_transformed_before_transform = pd.DataFrame(
+        [
+            (2, 3, 'd', 3),
+            (4, 5, 'd', 7),
+            (6, 7, 'e', 11)
+        ],
+        columns=['A_1', 'B_1', 'C', 'D'],
+    )
+    expect_loaded_df_with_calculate_on_transformed_after_transform = pd.DataFrame(
+        [
+            (2, 3, 'd', 5),
+            (4, 5, 'd', 9),
+            (6, 7, 'e', 13)
+        ],
+        columns=['A_1', 'B_1', 'C', 'D'],
     )
     expect_loaded_df_categorical = expect_loaded_df_rename_only.copy()
     expect_loaded_df_categorical['C'] = expect_loaded_df_categorical['C'].astype('category')
@@ -257,6 +294,48 @@ class TestLoadSource(SourceTest):
 
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, expect_df)
+
+    def test_load_with_calculated_variable(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        a, b, c = self.create_variables()
+        d = Variable('d', 'D', calculation=a + b)
+        ds = self.create_source(df=None, columns=all_cols, load_variables=[a, b, c, d])
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_calculated)
+
+    def test_load_with_calculated_variable_from_func(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        a, b, c = self.create_variables()
+        expr = Expression([a, b], func=expression_series_func, summary='Add em up')
+        d = Variable('d', 'D', calculation=expr)
+        ds = self.create_source(df=None, columns=all_cols, load_variables=[a, b, c, d])
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_calculated)
+
+    def test_load_with_calculated_transformed_variable(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        a, b, c = self.create_variables()
+        tran = self.get_transform('cell')
+        d = Variable('d', 'D', calculation=a + b, available_transforms=[tran])
+        ds = self.create_source(df=None, columns=all_cols, load_variables=[a, b, c, d.add_one_cell()])
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_calculated_transformed)
+
+    def test_load_with_calculate_on_transformed_after_transform(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        a, b, c = self.create_variables(transform_data='cell')
+        d = Variable('d', 'D', calculation=a + b)
+        ds = self.create_source(df=None, columns=all_cols, load_variables=[a, b, c, d])
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_calculate_on_transformed_after_transform)
+
+    def test_load_with_calculate_on_transformed_before_transform(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
+        d = Variable('d', 'D', calculation=a + b)
+        ds = self.create_source(df=None, columns=all_cols, load_variables=[a.add_one_cell(), b.add_one_cell(), c, d])
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_calculate_on_transformed_before_transform)
 
 
 class TestDunders(SourceTest):

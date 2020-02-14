@@ -140,5 +140,9 @@ class DataSource:
         if var_key is not None:
             return col_key_by_var_key[var_key]
 
+    @property
+    def col_var_keys(self) -> List[str]:
+        return [col.variable.key for col in self.columns.values()]
+
     def __repr__(self):
         return f'<DataSource(name={self.name}, columns={self.columns})>'
