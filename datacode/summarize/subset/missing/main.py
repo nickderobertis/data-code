@@ -1,3 +1,5 @@
+from typing import Sequence, Optional
+
 import pandas as pd
 from pyexlatex import Document
 
@@ -24,7 +26,7 @@ def missing_data_single_column_analysis(df: pd.DataFrame, col_with_missings: str
                                         extra_caption: str='', table_extra_below_text: str='',
                                         table_align: str=None,
                                         outfolder: StrOrNone=None, as_document: bool=True,
-                                        document_title: StrOrNone=None, author: StrOrNone=None,
+                                        document_title: StrOrNone=None, authors: Optional[Sequence[str]] = None,
                                         ) -> DocumentOrLatexObjs:
 
     missing_pct_fig = missing_pct_by_id_figure(
@@ -32,7 +34,7 @@ def missing_data_single_column_analysis(df: pd.DataFrame, col_with_missings: str
         id_col,
         col_with_missings,
         outfolder=outfolder,
-        outname=f'Percentage {missing_display_str} Obs by Firm'
+        outname=f'Percentage {missing_display_str} Obs by Firm for {col_with_missings}'
     )
 
     missing_pct_table = obs_and_id_count_and_missing_pct_table(
@@ -72,12 +74,13 @@ def missing_data_single_column_analysis(df: pd.DataFrame, col_with_missings: str
     doc = Document(
         [missing_pct_fig, missing_pct_table],
         title=document_title,
-        author=author
+        authors=authors
     )
 
-    doc.to_pdf_and_move(
-        outname=document_title,
-        outfolder=outfolder
-    )
+    if outfolder:
+        doc.to_pdf(
+            outname=document_title,
+            outfolder=outfolder
+        )
 
     return doc
