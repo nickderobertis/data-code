@@ -48,3 +48,40 @@ class Expression:
 
         if self.expr is not None:
             return latex(self.expr)
+
+    def __eq__(self, other):
+        same = True
+        try:
+            same = same and self.variables == other.variables
+            same = same and _functions_are_equal(self.func, other.func)
+            same = same and self.expr == other.expr
+            same = same and self.summary == other.summary
+            return same
+        except AttributeError:
+            return False
+
+    def __add__(self, other):
+        from datacode.models.variables.variable import Variable
+
+        if self.expr is None:
+            raise ValueError(f'cannot add expression which does not have .expr, got {self}')
+
+        if isinstance(other, Variable):
+            sympy_expr = self.expr + other.symbol
+            expr = Expression.from_sympy_expr([*self.variables, other], sympy_expr)
+            return expr
+
+        if isinstance(other, Expression):
+            if other.expr is None:
+                raise ValueError(f'cannot add expression which does not have .expr, got {other}')
+            sympy_expr = self.expr + other.expr
+            expr = Expression.from_sympy_expr([*self.variables, *other.variables], sympy_expr)
+            return expr
+
+        raise ValueError(f'Cannot add {other} of type {type(other)} to {self}, must be Variable or Expression')
+
+
+def _functions_are_equal(func: Callable, func2: Callable) -> bool:
+    return func.__code__.co_code == func2.__code__.co_code
+
+

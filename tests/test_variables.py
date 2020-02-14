@@ -7,6 +7,7 @@ from tests.input_funcs import lag
 
 VAR1_ARGS = ('stuff', 'My Stuff')
 VAR2_ARGS = ('thing_me', 'My Thing')
+VAR3_ARGS = ('other', 'My Other')
 VC_NAME = 'my_collection'
 TRANSFORMS = [
     Transform('port', name_func=lambda x: f'{x} Port Var'),
