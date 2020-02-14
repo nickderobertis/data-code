@@ -36,6 +36,11 @@ class Transform:
                          f'which should be one of cell, series, dataframe, or source')
 
     def apply_transform_to_source(self, source: 'DataSource', column: 'Column', variable: 'Variable') -> 'DataSource':
+        source = self._apply_data_transform_to_source(source, column, variable)
+        return source
+
+    def _apply_data_transform_to_source(self, source: 'DataSource', column: 'Column',
+                                        variable: 'Variable') -> 'DataSource':
         if self.data_func is None:
             return source
         data_func_with_col = partial(self.data_func, column, variable)
