@@ -8,6 +8,7 @@ from datacode.models.merge import DataMerge
 from datacode.models.variables.variable import Variable
 from datacode.models.variables.transform import Transform, AppliedTransform
 from datacode.models.variables.collection import VariableCollection
+from datacode.models.variables.expression import Expression
 from datacode.summarize import describe_df
 
 from datacode.models.dtypes.base import DataType
