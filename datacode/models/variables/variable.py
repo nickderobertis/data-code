@@ -67,6 +67,22 @@ class Variable:
 
         raise ValueError(f'Cannot add {other} of type {type(other)} to {self}, must be Variable or Expression')
 
+    def __sub__(self, other):
+        if isinstance(other, Variable):
+            sympy_expr = self.symbol - other.symbol
+            expr = Expression.from_sympy_expr([self, other], sympy_expr)
+            return expr
+
+        if isinstance(other, Expression):
+            if other.expr is None:
+                raise ValueError(f'cannot subtract expression which does not have .expr, got {other}')
+            sympy_expr = self.symbol - other.expr
+            expr = Expression.from_sympy_expr([self, *other.variables], sympy_expr)
+            return expr
+
+        raise ValueError(f'Cannot subtract {other} of type {type(other)} from {self}, must be Variable or Expression')
+
+
     def to_tuple(self):
         return self.key, self.name
 

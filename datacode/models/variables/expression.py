@@ -80,6 +80,26 @@ class Expression:
 
         raise ValueError(f'Cannot add {other} of type {type(other)} to {self}, must be Variable or Expression')
 
+    def __sub__(self, other):
+        from datacode.models.variables.variable import Variable
+
+        if self.expr is None:
+            raise ValueError(f'cannot subtract expression which does not have .expr, got {self}')
+
+        if isinstance(other, Variable):
+            sympy_expr = self.expr - other.symbol
+            expr = Expression.from_sympy_expr([*self.variables, other], sympy_expr)
+            return expr
+
+        if isinstance(other, Expression):
+            if other.expr is None:
+                raise ValueError(f'cannot subtract expression which does not have .expr, got {other}')
+            sympy_expr = self.expr - other.expr
+            expr = Expression.from_sympy_expr([*self.variables, *other.variables], sympy_expr)
+            return expr
+
+        raise ValueError(f'Cannot subtract {other} of type {type(other)} from {self}, must be Variable or Expression')
+
 
 def _functions_are_equal(func: Callable, func2: Callable) -> bool:
     return func.__code__.co_code == func2.__code__.co_code

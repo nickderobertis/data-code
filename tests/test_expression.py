@@ -10,6 +10,8 @@ class ExpressionTest(VariableTest):
     v3 = Variable(*VAR3_ARGS)
     expect_add = Expression.from_sympy_expr([v, v2], v.symbol + v2.symbol)
     expect_add_multiple = Expression.from_sympy_expr([v, v2, v3], v.symbol + v2.symbol + v3.symbol)
+    expect_subtract = Expression.from_sympy_expr([v, v2], v.symbol - v2.symbol)
+    expect_subtract_multiple = Expression.from_sympy_expr([v, v2, v3], v.symbol - v2.symbol - v3.symbol)
     add_calc_v = Variable('calc', calculation=expect_add)
 
 
@@ -20,3 +22,10 @@ class TestCreateFromVariables(ExpressionTest):
 
     def test_create_from_add_multiple(self):
         assert self.v + self.v2 + self.v3 == self.expect_add_multiple
+
+    def test_create_from_subtract(self):
+        assert self.v - self.v2 == self.expect_subtract
+
+    def test_create_from_subtract_multiple(self):
+        assert self.v - self.v2 - self.v3 == self.expect_subtract_multiple
+
