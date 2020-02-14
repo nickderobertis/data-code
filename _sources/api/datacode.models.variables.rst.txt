@@ -17,6 +17,14 @@ datacode.models.variables.collection module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.variables.expression module
+-------------------------------------------
+
+.. automodule:: datacode.models.variables.expression
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.variables.tools module
 --------------------------------------
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.column.column &mdash; datacode 0.7.1 documentation</title>
+  <title>datacode.models.column.column &mdash; datacode 0.8.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.7.1
+                0.8.0
               </div>
             
           
@@ -165,6 +165,8 @@
   <h1>Source code for datacode.models.column.column</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
 <span class="kn">from</span> <span class="nn">datacode.models.column.index</span> <span class="kn">import</span> <span class="n">ColumnIndex</span>
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.convert</span> <span class="kn">import</span> <span class="n">convert_str_to_data_type_if_necessary</span>
@@ -175,7 +177,8 @@
 
 <div class="viewcode-block" id="Column.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.column.html#datacode.models.column.column.Column.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Variable</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">ColumnIndex</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">applied_transform_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                 <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">series</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">applied_transform_keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">applied_transform_keys</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -187,7 +190,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">variable</span> <span class="o">=</span> <span class="n">variable</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">indices</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">applied_transform_keys</span> <span class="o">=</span> <span class="n">applied_transform_keys</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">series</span></div></div>
 </pre></div>
 
            </div>

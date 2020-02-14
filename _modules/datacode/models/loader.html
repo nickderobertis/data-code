@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.7.1 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.8.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.7.1
+                0.8.0
               </div>
             
           
@@ -163,10 +163,12 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.models.loader</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span></span><span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
 <span class="kn">from</span> <span class="nn">pd_utils.optimize.load</span> <span class="kn">import</span> <span class="n">read_file</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.datetime_type</span> <span class="kn">import</span> <span class="n">DatetimeType</span>
@@ -174,8 +176,6 @@
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
     <span class="kn">from</span> <span class="nn">datacode.models.variables.variable</span> <span class="kn">import</span> <span class="n">Variable</span>
-    <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
-
 
 <div class="viewcode-block" id="DataLoader"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader">[docs]</a><span class="k">class</span> <span class="nc">DataLoader</span><span class="p">:</span>
 
@@ -192,9 +192,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_df_size</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assign_series_to_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">try_to_calculate_variables</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_transform_clean_up</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_transforms</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_transform_clean_up</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">try_to_calculate_variables</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assign_series_to_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">df</span></div>
 
@@ -237,6 +241,18 @@
 
         <span class="k">return</span> <span class="n">read_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="o">**</span><span class="n">read_file_config</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="DataLoader.assign_series_to_columns"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.assign_series_to_columns">[docs]</a>    <span class="k">def</span> <span class="nf">assign_series_to_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_var_keys</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{var}</span><span class="s1"> but not calculated and not &#39;</span>
+                                     <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">]</span></div>
+
 <div class="viewcode-block" id="DataLoader.optimize_df_size"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.optimize_df_size">[docs]</a>    <span class="k">def</span> <span class="nf">optimize_df_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="c1"># TODO [#17]: implement df size optimization</span>
         <span class="c1">#</span>
@@ -249,9 +265,67 @@
 
         <span class="n">rename_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_var_keys</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{variable}</span><span class="s1"> but not calculated and not &#39;</span>
+                                     <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">continue</span>
             <span class="n">orig_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_key_for</span><span class="p">(</span><span class="n">var_key</span><span class="o">=</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
             <span class="n">rename_dict</span><span class="p">[</span><span class="n">orig_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
         <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">rename_dict</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataLoader.try_to_calculate_variables"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.try_to_calculate_variables">[docs]</a>    <span class="k">def</span> <span class="nf">try_to_calculate_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span>
+
+        <span class="c1"># Create temporary source so that transform can have access to df and all columns with one object</span>
+        <span class="n">temp_source</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="n">temp_source</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_temp_source_for_transform&#39;</span>
+
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_var_keys</span><span class="p">:</span>
+                <span class="c1"># Variable already exists in the data, either from original source or previously calculated</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{variable}</span><span class="s1"> but not calculated and not &#39;</span>
+                                 <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">required_variables</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">variables</span>
+            <span class="n">has_all_required_variables</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">calc_with_cols</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">req_var</span> <span class="ow">in</span> <span class="n">required_variables</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">has_all_required_variables</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">req_var</span><span class="p">)</span>
+                <span class="n">calc_with_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+                <span class="n">col_pre_applied_transform_keys</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">req_var</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">:</span>
+                    <span class="c1"># Need to make sure all the same transforms have been applied to</span>
+                    <span class="c1"># the column before the calculation</span>
+                    <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="n">col_pre_applied_transform_keys</span><span class="p">:</span>
+                        <span class="n">col_pre_applied_transform_keys</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">has_all_required_variables</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">has_all_required_variables</span><span class="p">:</span>
+                <span class="c1"># Actually do calculation</span>
+                <span class="n">new_series</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">calc_with_cols</span><span class="p">)</span>
+                <span class="n">new_series</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
+                <span class="c1"># TODO: determine how to set index for columns from calculated variables</span>
+                <span class="n">new_col</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">new_series</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="n">series</span><span class="o">=</span><span class="n">new_series</span><span class="p">)</span>
+                <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_series</span>
+                <span class="c1"># TODO: better way of storing calculated columns than uuid in columns dictionary</span>
+                <span class="c1">#</span>
+                <span class="c1"># The dictionary of columns has keys as names in the original source and values as columns.</span>
+                <span class="c1"># A calculated column is not in the original source, so uuid was used for now just to ensure</span>
+                <span class="c1"># that these columns can be in the dictionary, but they should be tracked separately.</span>
+                <span class="n">temp_source</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()]</span> <span class="o">=</span> <span class="n">new_col</span>
+                <span class="n">temp_source</span> <span class="o">=</span> <span class="n">_apply_transforms_to_var</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">new_col</span><span class="p">,</span> <span class="n">temp_source</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()]</span> <span class="o">=</span> <span class="n">new_col</span>
+
+        <span class="k">return</span> <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span></div>
 
 <div class="viewcode-block" id="DataLoader.apply_transforms"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.apply_transforms">[docs]</a>    <span class="k">def</span> <span class="nf">apply_transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -264,17 +338,13 @@
         <span class="n">temp_source</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_temp_source_for_transform&#39;</span>
 
         <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_var_keys</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{var}</span><span class="s1"> but not calculated and not &#39;</span>
+                                     <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">continue</span>
             <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var_key</span><span class="o">=</span><span class="n">var</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
-            <span class="n">col_pre_applied_transform_keys</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">var</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="n">col_pre_applied_transform_keys</span><span class="p">:</span>
-                    <span class="c1"># Transformation was already applied in the saved data source, skip this transformation</span>
-                    <span class="c1"># remove from applied transformations, because same transformation may be applied multiple times.</span>
-                    <span class="c1"># If desired transformation happens twice, and it is only once in the source column, will still</span>
-                    <span class="c1"># need to apply it once</span>
-                    <span class="n">col_pre_applied_transform_keys</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
-                    <span class="k">continue</span>
-                <span class="n">temp_source</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">_apply_transform_for_column_and_variable_to_source</span><span class="p">(</span><span class="n">temp_source</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+            <span class="n">temp_source</span> <span class="o">=</span> <span class="n">_apply_transforms_to_var</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">temp_source</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span></div>
 
 <div class="viewcode-block" id="DataLoader.pre_transform_clean_up"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.pre_transform_clean_up">[docs]</a>    <span class="k">def</span> <span class="nf">pre_transform_clean_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -282,6 +352,21 @@
 
 <div class="viewcode-block" id="DataLoader.post_transform_clean_up"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.post_transform_clean_up">[docs]</a>    <span class="k">def</span> <span class="nf">post_transform_clean_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">df</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">_apply_transforms_to_var</span><span class="p">(</span><span class="n">var</span><span class="p">:</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="n">Column</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">:</span>
+    <span class="n">col_pre_applied_transform_keys</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">var</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="n">col_pre_applied_transform_keys</span><span class="p">:</span>
+            <span class="c1"># Transformation was already applied in the saved data source, skip this transformation</span>
+            <span class="c1"># remove from applied transformations, because same transformation may be applied multiple times.</span>
+            <span class="c1"># If desired transformation happens twice, and it is only once in the source column, will still</span>
+            <span class="c1"># need to apply it once</span>
+            <span class="n">col_pre_applied_transform_keys</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">_apply_transform_for_column_and_variable_to_source</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+        <span class="n">column</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">source</span>
 </pre></div>
 
            </div>

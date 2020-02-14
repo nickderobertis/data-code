@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; datacode 0.7.1 documentation</title>
+  <title>Index &mdash; datacode 0.8.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.7.1
+                0.8.0
               </div>
             
           
@@ -235,6 +235,8 @@
 </li>
         <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableDefaultCollection.__init__">(datacode.models.variables.collection.VariableDefaultCollection method)</a>
 </li>
+        <li><a href="api/datacode.models.variables.html#datacode.models.variables.expression.Expression.__init__">(datacode.models.variables.expression.Expression method)</a>
+</li>
         <li><a href="api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform.__init__">(datacode.models.variables.transform.AppliedTransform method)</a>
 </li>
         <li><a href="api/datacode.models.variables.html#datacode.models.variables.transform.Transform.__init__">(datacode.models.variables.transform.Transform method)</a>
@@ -252,13 +254,15 @@
 </li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform">AppliedTransform (class in datacode.models.variables.transform)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.transform.Transform.apply_to_source">apply_to_source() (datacode.models.variables.transform.Transform method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.apply_transforms">apply_transforms() (datacode.models.loader.DataLoader method)</a>
 </li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.as_logit_result">as_logit_result() (datacode.formatters.models.result.Result method)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.assign_series_to_columns">assign_series_to_columns() (datacode.models.loader.DataLoader method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -287,6 +291,8 @@
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource.col_for">col_for() (datacode.models.source.DataSource method)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource.col_key_for">col_key_for() (datacode.models.source.DataSource method)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.source.DataSource.col_var_keys">col_var_keys() (datacode.models.source.DataSource property)</a>
 </li>
       <li><a href="api/datacode.portfolio.html#datacode.portfolio.resample.collect_portfolios_through_time">collect_portfolios_through_time() (in module datacode.portfolio.resample)</a>
 </li>
@@ -447,6 +453,8 @@
       <li><a href="api/datacode.models.variables.html#module-datacode.models.variables">datacode.models.variables (module)</a>
 </li>
       <li><a href="api/datacode.models.variables.html#module-datacode.models.variables.collection">datacode.models.variables.collection (module)</a>
+</li>
+      <li><a href="api/datacode.models.variables.html#module-datacode.models.variables.expression">datacode.models.variables.expression (module)</a>
 </li>
       <li><a href="api/datacode.models.variables.html#module-datacode.models.variables.tools">datacode.models.variables.tools (module)</a>
 </li>
@@ -632,9 +640,13 @@
 </li>
       <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.execute">execute() (datacode.models.pipeline.DataPipeline method)</a>
 </li>
+      <li><a href="api/datacode.panel.html#datacode.panel.expandselect.expand_entity_date_selections">expand_entity_date_selections() (in module datacode.panel.expandselect)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datacode.panel.html#datacode.panel.expandselect.expand_entity_date_selections">expand_entity_date_selections() (in module datacode.panel.expandselect)</a>
+      <li><a href="api/datacode.models.variables.html#datacode.models.variables.expression.Expression.explanation">explanation() (datacode.models.variables.expression.Expression property)</a>
+</li>
+      <li><a href="api/datacode.models.variables.html#datacode.models.variables.expression.Expression">Expression (class in datacode.models.variables.expression)</a>
 </li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection.extend">extend() (datacode.models.variables.collection.VariableCollection method)</a>
 </li>
@@ -672,6 +684,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.variables.html#datacode.models.variables.expression.Expression.from_sympy_expr">from_sympy_expr() (datacode.models.variables.expression.Expression class method)</a>
+</li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.transform.AppliedTransform.from_transform">from_transform() (datacode.models.variables.transform.AppliedTransform class method)</a>
 </li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection.from_variable_definition_dict">from_variable_definition_dict() (datacode.models.variables.collection.VariableCollection class method)</a>
@@ -983,6 +997,8 @@
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.transform.Transform">Transform (class in datacode.models.variables.transform)</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.dataprep.treated_and_control_df_from_df">treated_and_control_df_from_df() (in module datacode.psm.dataprep)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.try_to_calculate_variables">try_to_calculate_variables() (datacode.models.loader.DataLoader method)</a>
 </li>
   </ul></td>
 </tr></table>

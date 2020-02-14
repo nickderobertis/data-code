@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.7.1 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.8.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.7.1
+                0.8.0
               </div>
             
           
@@ -304,6 +304,10 @@
             <span class="k">return</span> <span class="n">col_key_by_var_key</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">var_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">col_key_by_var_key</span><span class="p">[</span><span class="n">var_key</span><span class="p">]</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">col_var_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataSource(name=</span><span class="si">{self.name}</span><span class="s1">, columns=</span><span class="si">{self.columns}</span><span class="s1">)&gt;&#39;</span></div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models package &mdash; datacode 0.7.1 documentation</title>
+  <title>datacode.models package &mdash; datacode 0.8.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.7.1
+                0.8.0
               </div>
             
           
@@ -234,6 +234,7 @@
 <li class="toctree-l1"><a class="reference internal" href="datacode.models.variables.html">datacode.models.variables package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.collection">datacode.models.variables.collection module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.expression">datacode.models.variables.expression module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.tools">datacode.models.variables.tools module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.transform">datacode.models.variables.transform module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.typing">datacode.models.variables.typing module</a></li>
@@ -282,6 +283,11 @@
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.assign_series_to_columns">
+<code class="sig-name descname">assign_series_to_columns</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.assign_series_to_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.assign_series_to_columns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="datacode.models.loader.DataLoader.load">
@@ -336,6 +342,11 @@
 <dl class="method">
 <dt id="datacode.models.loader.DataLoader.rename_columns">
 <code class="sig-name descname">rename_columns</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.rename_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.rename_columns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.try_to_calculate_variables">
+<code class="sig-name descname">try_to_calculate_variables</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.try_to_calculate_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.try_to_calculate_variables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -536,6 +547,16 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="datacode.models.column.html#datacode.models.column.column.Column" title="datacode.models.column.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.source.DataSource.col_var_keys">
+<em class="property">property </em><code class="sig-name descname">col_var_keys</code><a class="headerlink" href="#datacode.models.source.DataSource.col_var_keys" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
