@@ -103,8 +103,6 @@ class DataLoader:
         col_by_key = self._get_col_by_var_key()
 
         for var in self.source.load_variables:
-            # if var_key == 'prc':
-            #     breakpoint()
             column = col_by_key[var.key]
             col_pre_applied_transform_keys = deepcopy(column.applied_transform_keys)
             for transform in var.applied_transforms:
@@ -115,7 +113,7 @@ class DataLoader:
                     # need to apply it once
                     col_pre_applied_transform_keys.remove(transform.key)
                     continue
-                temp_source = transform.apply_transform_to_source(temp_source, column, var)
+                temp_source = transform._apply_transform_for_column_and_variable_to_source(temp_source, column, var)
         return temp_source.df
 
     def pre_transform_clean_up(self, df: pd.DataFrame) -> pd.DataFrame:

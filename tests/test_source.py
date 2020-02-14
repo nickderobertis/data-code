@@ -72,6 +72,14 @@ class SourceTest:
         ],
         columns=['A_1', 'B_1', 'C']
     )
+    expect_loaded_df_with_transform_only_a_b = pd.DataFrame(
+        [
+            (2, 3,),
+            (4, 5,),
+            (6, 7,)
+        ],
+        columns=['A_1', 'B_1']
+    )
     expect_loaded_df_with_transform_and_a_pre_transformed = pd.DataFrame(
         [
             (1, 3, 'd'),
@@ -256,3 +264,19 @@ class TestDunders(SourceTest):
     def test_str(self):
         source = self.create_source(location=None)
         print(source)
+
+
+class TestTransform(SourceTest):
+
+    def test_transform_existing_source(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        a, b, c = self.create_variables()
+        orig_ds = self.create_source(df=None, columns=all_cols, load_variables=[a, b])
+        all_ds = []
+        all_ds.append(self.transform_cell.apply_to_source(orig_ds))
+        all_ds.append(self.transform_series.apply_to_source(orig_ds))
+        all_ds.append(self.transform_dataframe.apply_to_source(orig_ds))
+        all_ds.append(self.transform_source.apply_to_source(orig_ds))
+        for ds in all_ds:
+            assert_frame_equal(ds.df, self.expect_loaded_df_with_transform_only_a_b)

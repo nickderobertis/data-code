@@ -63,6 +63,10 @@ class Variable:
         self._add_transform_attr(transform)
         self._set_name_by_transforms()
 
+    def _add_applied_transform(self, transform: Transform):
+        self.applied_transforms.append(transform)
+        self._add_transform(transform)
+
     def _update_from_transforms(self):
         """
         Adds attributes for current available_transforms
