@@ -122,14 +122,14 @@ class DataSource:
     def copy(self):
         return deepcopy(self)
 
-    def col_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None):
+    def col_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None) -> Column:
         if variable is None and var_key is None:
             raise ValueError('must pass variable or variable key')
         col_by_var_key = {col.variable.key: col for col in self.columns.values()}
         if variable is not None:
             return col_by_var_key[variable.key]
         if var_key is not None:
-            return col_by_var_key[variable]
+            return col_by_var_key[var_key]
 
     def __repr__(self):
         return f'<DataSource(name={self.name}, columns={self.columns})>'
