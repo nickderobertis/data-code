@@ -24,7 +24,8 @@ def missing_pct_by_id_figure(df: pd.DataFrame, id_col: str, col_with_missings: s
     figure = Figure.from_dict_of_names_and_filepaths(
         {outname: source_outpath},
         figure_name=outname,
-        landscape=True
+        landscape=True,
+        position_str_name_dict={outname: r'[t]{0.9\linewidth}'}
     )
 
     figure.to_pdf_and_move(
@@ -42,7 +43,7 @@ def _missing_pct_by_id_plot(df: pd.DataFrame, id_col: str, col_with_missings: st
         col_with_missings
     )
 
-    ax = id_pct_missing_series.plot('hist', bins=50, figsize=(14, 6))
+    ax = id_pct_missing_series.plot(kind='hist', bins=50, figsize=(14, 6))
     fig = ax.get_figure()
 
     return fig
