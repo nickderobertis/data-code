@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.7.0 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.7.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.7.0
+                0.7.1
               </div>
             
           
@@ -247,12 +247,9 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="n">variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_variables</span><span class="p">()</span>
-        <span class="n">col_name_by_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_col_key_by_var_key</span><span class="p">()</span>
-
         <span class="n">rename_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
-            <span class="n">orig_name</span> <span class="o">=</span> <span class="n">col_name_by_key</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+            <span class="n">orig_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_key_for</span><span class="p">(</span><span class="n">var_key</span><span class="o">=</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
             <span class="n">rename_dict</span><span class="p">[</span><span class="n">orig_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
         <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">rename_dict</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
@@ -266,13 +263,8 @@
         <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
         <span class="n">temp_source</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_temp_source_for_transform&#39;</span>
 
-        <span class="n">variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_variables</span><span class="p">()</span>
-        <span class="n">col_by_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_col_by_var_key</span><span class="p">()</span>
-
-        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
-            <span class="c1"># if var_key == &#39;prc&#39;:</span>
-            <span class="c1">#     breakpoint()</span>
-            <span class="n">column</span> <span class="o">=</span> <span class="n">col_by_key</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var_key</span><span class="o">=</span><span class="n">var</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
             <span class="n">col_pre_applied_transform_keys</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">var</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="n">col_pre_applied_transform_keys</span><span class="p">:</span>
@@ -282,27 +274,14 @@
                     <span class="c1"># need to apply it once</span>
                     <span class="n">col_pre_applied_transform_keys</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
                     <span class="k">continue</span>
-                <span class="n">temp_source</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">apply_transform_to_source</span><span class="p">(</span><span class="n">temp_source</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+                <span class="n">temp_source</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">_apply_transform_for_column_and_variable_to_source</span><span class="p">(</span><span class="n">temp_source</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span></div>
 
 <div class="viewcode-block" id="DataLoader.pre_transform_clean_up"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.pre_transform_clean_up">[docs]</a>    <span class="k">def</span> <span class="nf">pre_transform_clean_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
 <div class="viewcode-block" id="DataLoader.post_transform_clean_up"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.post_transform_clean_up">[docs]</a>    <span class="k">def</span> <span class="nf">post_transform_clean_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">df</span></div>
-
-    <span class="k">def</span> <span class="nf">_get_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Variable&#39;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
-            <span class="n">variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
-        <span class="k">return</span> <span class="n">variables</span>
-
-    <span class="k">def</span> <span class="nf">_get_col_by_var_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;Column&#39;</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">:</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">()}</span>
-
-    <span class="k">def</span> <span class="nf">_get_col_key_by_var_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">:</span> <span class="n">col_key</span> <span class="k">for</span> <span class="n">col_key</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+        <span class="k">return</span> <span class="n">df</span></div></div>
 </pre></div>
 
            </div>

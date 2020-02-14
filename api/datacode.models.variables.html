@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables package &mdash; datacode 0.7.0 documentation</title>
+  <title>datacode.models.variables package &mdash; datacode 0.7.1 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.7.0
+                0.7.1
               </div>
             
           
@@ -330,13 +330,22 @@ as new variables. Manages naming the variable across transformations.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="datacode.models.variables.transform.Transform.apply_transform_to_source">
-<code class="sig-name descname">apply_transform_to_source</code><span class="sig-paren">(</span><em class="sig-param">source</em>, <em class="sig-param">column</em>, <em class="sig-param">variable</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/transform.html#Transform.apply_transform_to_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.transform.Transform.apply_transform_to_source" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="datacode.models.html#datacode.models.source.DataSource" title="datacode.models.source.DataSource">DataSource</a></p>
+<dt id="datacode.models.variables.transform.Transform.apply_to_source">
+<code class="sig-name descname">apply_to_source</code><span class="sig-paren">(</span><em class="sig-param">source</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">subset=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/variables/transform.html#Transform.apply_to_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.variables.transform.Transform.apply_to_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies transformation to entire data source</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.models.variables.transform.Transform.apply_to_source.params.source"></span><strong>source</strong><a class="paramlink headerlink reference internal" href="#datacode.models.variables.transform.Transform.apply_to_source.params.source">¶</a> (<a class="reference internal" href="datacode.models.html#datacode.models.source.DataSource" title="datacode.models.source.DataSource"><em>DataSource</em></a>) – </p></li>
+<li><p><span class="target" id="datacode.models.variables.transform.Transform.apply_to_source.params.preserve_original"></span><strong>preserve_original</strong><a class="paramlink headerlink reference internal" href="#datacode.models.variables.transform.Transform.apply_to_source.params.preserve_original">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – True to copy the source before applying transformations. False will decrease</p></li>
+</ul>
 </dd>
 </dl>
+<p>memory usage but will cause the original source to be partially modified
+:type _sphinx_paramlinks_datacode.models.variables.transform.Transform.apply_to_source.subset: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ForwardRef" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardRef</span></code></a>]]
+:param _sphinx_paramlinks_datacode.models.variables.transform.Transform.apply_to_source.subset: Variables to apply the transformation to. Defaults to all variables.
+:rtype: DataSource
+:return:</p>
 </dd></dl>
 
 </dd></dl>

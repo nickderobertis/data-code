@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize.subset.missing.main &mdash; datacode 0.7.0 documentation</title>
+  <title>datacode.summarize.subset.missing.main &mdash; datacode 0.7.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.7.0
+                0.7.1
               </div>
             
           
@@ -165,7 +165,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.summarize.subset.missing.main</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pyexlatex</span> <span class="kn">import</span> <span class="n">Document</span>
 
 <span class="kn">from</span> <span class="nn">datacode.typing</span> <span class="kn">import</span> <span class="p">(</span>
@@ -191,7 +193,7 @@
                                         <span class="n">extra_caption</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">table_extra_below_text</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
                                         <span class="n">table_align</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                         <span class="n">outfolder</span><span class="p">:</span> <span class="n">StrOrNone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_document</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                        <span class="n">document_title</span><span class="p">:</span> <span class="n">StrOrNone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">author</span><span class="p">:</span> <span class="n">StrOrNone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="n">document_title</span><span class="p">:</span> <span class="n">StrOrNone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">authors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DocumentOrLatexObjs</span><span class="p">:</span>
 
     <span class="n">missing_pct_fig</span> <span class="o">=</span> <span class="n">missing_pct_by_id_figure</span><span class="p">(</span>
@@ -199,7 +201,7 @@
         <span class="n">id_col</span><span class="p">,</span>
         <span class="n">col_with_missings</span><span class="p">,</span>
         <span class="n">outfolder</span><span class="o">=</span><span class="n">outfolder</span><span class="p">,</span>
-        <span class="n">outname</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Percentage </span><span class="si">{missing_display_str}</span><span class="s1"> Obs by Firm&#39;</span>
+        <span class="n">outname</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Percentage </span><span class="si">{missing_display_str}</span><span class="s1"> Obs by Firm for </span><span class="si">{col_with_missings}</span><span class="s1">&#39;</span>
     <span class="p">)</span>
 
     <span class="n">missing_pct_table</span> <span class="o">=</span> <span class="n">obs_and_id_count_and_missing_pct_table</span><span class="p">(</span>
@@ -239,13 +241,14 @@
     <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span>
         <span class="p">[</span><span class="n">missing_pct_fig</span><span class="p">,</span> <span class="n">missing_pct_table</span><span class="p">],</span>
         <span class="n">title</span><span class="o">=</span><span class="n">document_title</span><span class="p">,</span>
-        <span class="n">author</span><span class="o">=</span><span class="n">author</span>
+        <span class="n">authors</span><span class="o">=</span><span class="n">authors</span>
     <span class="p">)</span>
 
-    <span class="n">doc</span><span class="o">.</span><span class="n">to_pdf_and_move</span><span class="p">(</span>
-        <span class="n">outname</span><span class="o">=</span><span class="n">document_title</span><span class="p">,</span>
-        <span class="n">outfolder</span><span class="o">=</span><span class="n">outfolder</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">outfolder</span><span class="p">:</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">to_pdf</span><span class="p">(</span>
+            <span class="n">outname</span><span class="o">=</span><span class="n">document_title</span><span class="p">,</span>
+            <span class="n">outfolder</span><span class="o">=</span><span class="n">outfolder</span>
+        <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">doc</span></div>
 </pre></div>

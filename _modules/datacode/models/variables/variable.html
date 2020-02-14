@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.variable &mdash; datacode 0.7.0 documentation</title>
+  <title>datacode.models.variables.variable &mdash; datacode 0.7.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.7.0
+                0.7.1
               </div>
             
           
@@ -227,6 +227,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">available_transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_transform_attr</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_name_by_transforms</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_add_applied_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Transform</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">applied_transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_transform</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_update_from_transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
