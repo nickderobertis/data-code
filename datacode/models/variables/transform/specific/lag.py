@@ -2,6 +2,8 @@ import re
 from typing import Tuple, TYPE_CHECKING, List
 
 import pandas as pd
+from sympy import Symbol
+
 from datacode.models.variables.transform.transform import Transform
 from pd_utils.filldata import add_missing_group_rows
 
@@ -13,6 +15,7 @@ if TYPE_CHECKING:
     from datacode.models.source import DataSource
 
 LAG_NAME_PATTERN = re.compile(r'(.+)\$_{t - (\d+)}\$')
+LAG_SYMBOL_PATTERN = re.compile(r'(.+)_{t - (\d+)}')
 
 
 def varname_to_lagged_varname(varname: str, num_lags: int = 1) -> str:
@@ -45,6 +48,36 @@ def lag_varname_to_varname_and_lag(varname: str) -> Tuple[str, int]:
     return base_varname, lag_num
 
 
+def var_symbol_to_lagged_var_symbol(varname: str, num_lags: int = 1) -> str:
+    if num_lags == 0:
+        # No lag string necessary
+        return varname
+
+    try:
+        base_var, existing_lags = lag_var_symbol_to_var_symbol_and_lag(varname)
+    except VariableIsNotLaggedVariableException:
+        # Variable is not already lagged, so just add lag portion to str
+        return _var_symbol_to_lagged_var_symbol(varname, num_lags)
+
+    # Variable was lagged originally, need to add an additional number of lags and apply to base name
+    total_lags = existing_lags + num_lags
+    return _var_symbol_to_lagged_var_symbol(base_var, total_lags)
+
+
+def _var_symbol_to_lagged_var_symbol(varname: str, num_lags: int = 1) -> str:
+    return varname + f"_{{t - {num_lags}}}"
+
+
+def lag_var_symbol_to_var_symbol_and_lag(varname: str) -> Tuple[str, int]:
+    match = LAG_SYMBOL_PATTERN.match(varname)
+    if match is None:
+        raise VariableIsNotLaggedVariableException(f'could not parse {varname} as a lagged name')
+
+    base_varname = match.group(1)
+    lag_num = int(match.group(2))
+    return base_varname, lag_num
+
+
 def _create_lagged_variable_panel(df: pd.DataFrame, col: str, by_vars: List[str], num_lags: int = 1):
     """
     Note: inplace
@@ -69,6 +102,12 @@ class DidNotFindSingleTimeIndexException(Exception):
 
 def create_lags_transform_name_func(name: str, num_lags: int = 1, **kwargs) -> str:
     return varname_to_lagged_varname(name, num_lags=num_lags)
+
+
+def create_lags_transform_symbol_func(sym: Symbol, num_lags: int = 1, **kwargs) -> str:
+    sym_str = str(sym)
+    new_sym_str = var_symbol_to_lagged_var_symbol(sym_str, num_lags=num_lags)
+    return Symbol(new_sym_str)
 
 
 def create_lags_transform_data_func(col: 'Column', variable: 'Variable', source: 'DataSource',
@@ -136,5 +175,6 @@ lag_transform = Transform(
     'lag',
     name_func=create_lags_transform_name_func,
     data_func=create_lags_transform_data_func,
+    symbol_func=create_lags_transform_symbol_func,
     data_func_target='source'
 )

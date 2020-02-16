@@ -81,7 +81,7 @@ class VariableCollection:
             item.applied_transforms = []  # reset so that are not applied multiple times
             for applied_transform in self.default_transforms:
                 item.applied_transforms.append(applied_transform)
-                item._set_name_by_transforms()
+                item._set_name_and_symbol_by_transforms()
 
     def _add_item_to_map(self, item):
         self.variable_map.update({
