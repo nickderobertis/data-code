@@ -88,6 +88,9 @@ class TestLag(SpecificTransformsTest):
         ]
         ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
         assert_frame_equal(ds.df, self.expect_loaded_df_with_lags)
+        assert str(vc.a.lag().symbol) == r'\text{A}_{t - 1}'
+        assert str(vc.b.lag().symbol) == r'\text{B}_{t - 1}'
+        assert str(vc.c.symbol) == r'\text{C}'
 
     def test_two_lags_no_indices(self):
         vc, a, b, c = self.create_variable_collection()
@@ -100,6 +103,24 @@ class TestLag(SpecificTransformsTest):
         ]
         ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
         assert_frame_equal(ds.df, self.expect_loaded_df_with_two_lags)
+        assert str(vc.a.lag(2).symbol) == r'\text{A}_{t - 2}'
+        assert str(vc.b.lag(2).symbol) == r'\text{B}_{t - 2}'
+        assert str(vc.c.symbol) == r'\text{C}'
+
+    def test_two_separate_lags_no_indices(self):
+        vc, a, b, c = self.create_variable_collection()
+        self.create_csv()
+        all_cols = self.create_columns()
+        load_variables = [
+            vc.a.lag().lag(),
+            vc.b.lag().lag(),
+            c
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_two_lags)
+        assert str(vc.a.lag().lag().symbol) == r'\text{A}_{t - 2}'
+        assert str(vc.b.lag().lag().symbol) == r'\text{B}_{t - 2}'
+        assert str(vc.c.symbol) == r'\text{C}'
 
     def test_lags_with_by_index(self):
         vc, a, b, c = self.create_variable_collection()
