@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models package &mdash; datacode 0.9.2 documentation</title>
+  <title>datacode.models package &mdash; datacode 0.9.3 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.9.2
+                0.9.3
               </div>
             
           
@@ -237,6 +237,7 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.models.variables.transform.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="datacode.models.variables.transform.specific.html">datacode.models.variables.transform.specific package</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="datacode.models.variables.transform.specific.html#submodules">Submodules</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.models.variables.transform.specific.html#module-datacode.models.variables.transform.specific.change">datacode.models.variables.transform.specific.change module</a></li>
 <li class="toctree-l6"><a class="reference internal" href="datacode.models.variables.transform.specific.html#module-datacode.models.variables.transform.specific.lag">datacode.models.variables.transform.specific.lag module</a></li>
 </ul>
 </li>
@@ -589,13 +590,33 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 
 <dl class="method">
 <dt id="datacode.models.source.DataSource.copy">
-<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.copy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.copy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="datacode.models.source.DataSource.df">
 <em class="property">property </em><code class="sig-name descname">df</code><a class="headerlink" href="#datacode.models.source.DataSource.df" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.source.DataSource.index_cols">
+<em class="property">property </em><code class="sig-name descname">index_cols</code><a class="headerlink" href="#datacode.models.source.DataSource.index_cols" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="datacode.models.column.html#datacode.models.column.column.Column" title="datacode.models.column.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.source.DataSource.index_vars">
+<em class="property">property </em><code class="sig-name descname">index_vars</code><a class="headerlink" href="#datacode.models.source.DataSource.index_vars" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="datacode.models.variables.html#datacode.models.variables.variable.Variable" title="datacode.models.variables.variable.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="datacode.models.source.DataSource.last_modified">

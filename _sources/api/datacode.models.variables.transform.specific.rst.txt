@@ -9,6 +9,14 @@ datacode.models.variables.transform.specific package
 Submodules
 ----------
 
+datacode.models.variables.transform.specific.change module
+----------------------------------------------------------
+
+.. automodule:: datacode.models.variables.transform.specific.change
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.variables.transform.specific.lag module
 -------------------------------------------------------
 
