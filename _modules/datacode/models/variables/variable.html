@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.variable &mdash; datacode 0.9.1 documentation</title>
+  <title>datacode.models.variables.variable &mdash; datacode 0.9.2 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.9.1
+                0.9.2
               </div>
             
           
@@ -205,6 +205,7 @@
             <span class="n">name</span> <span class="o">=</span> <span class="n">_from_var_name_to_display_name</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_orig_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_orig_symbol</span> <span class="o">=</span> <span class="n">symbol</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_from_transforms</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -262,7 +263,7 @@
     <span class="k">def</span> <span class="nf">_add_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Transform</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">available_transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_transform_attr</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_name_by_transforms</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_name_and_symbol_by_transforms</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_add_applied_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Transform</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">applied_transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
@@ -278,27 +279,30 @@
 
         <span class="c1"># Add attributes for available transforms</span>
         <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_transforms</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_add_transform_attr</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_transform_attr</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
 
         <span class="c1"># Apply name changes from applied transforms</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_name_by_transforms</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_name_and_symbol_by_transforms</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_set_name_by_transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_set_name_and_symbol_by_transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply name changes from applied transforms</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig_name</span>
+        <span class="n">sym</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig_symbol</span>
         <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">name_func</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">sym</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">symbol_func</span><span class="p">(</span><span class="n">sym</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span> <span class="o">=</span> <span class="n">sym</span>
 
     <span class="k">def</span> <span class="nf">_add_transform_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Transform</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">transform_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">transform_value</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="n">applied_transform</span> <span class="o">=</span> <span class="n">AppliedTransform</span><span class="o">.</span><span class="n">from_transform</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="n">transform_value</span><span class="o">.</span><span class="n">applied_transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">applied_transform</span><span class="p">)</span>
-            <span class="n">transform_value</span><span class="o">.</span><span class="n">_set_name_by_transforms</span><span class="p">()</span>
+            <span class="n">transform_value</span><span class="o">.</span><span class="n">_update_from_transforms</span><span class="p">()</span>
+            <span class="n">transform_value</span><span class="o">.</span><span class="n">_set_name_and_symbol_by_transforms</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">transform_value</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">transform_func</span><span class="p">)</span></div>
 

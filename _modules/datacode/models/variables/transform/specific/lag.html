@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.transform.specific.lag &mdash; datacode 0.9.1 documentation</title>
+  <title>datacode.models.variables.transform.specific.lag &mdash; datacode 0.9.2 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.9.1
+                0.9.2
               </div>
             
           
@@ -167,6 +167,8 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
+
 <span class="kn">from</span> <span class="nn">datacode.models.variables.transform.transform</span> <span class="kn">import</span> <span class="n">Transform</span>
 <span class="kn">from</span> <span class="nn">pd_utils.filldata</span> <span class="kn">import</span> <span class="n">add_missing_group_rows</span>
 
@@ -178,6 +180,7 @@
     <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
 
 <span class="n">LAG_NAME_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(.+)\$_{t - (\d+)}\$&#39;</span><span class="p">)</span>
+<span class="n">LAG_SYMBOL_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(.+)_{t - (\d+)}&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="varname_to_lagged_varname"><a class="viewcode-back" href="../../../../../../api/datacode.models.variables.transform.specific.html#datacode.models.variables.transform.specific.lag.varname_to_lagged_varname">[docs]</a><span class="k">def</span> <span class="nf">varname_to_lagged_varname</span><span class="p">(</span><span class="n">varname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_lags</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -210,6 +213,36 @@
     <span class="k">return</span> <span class="n">base_varname</span><span class="p">,</span> <span class="n">lag_num</span></div>
 
 
+<div class="viewcode-block" id="var_symbol_to_lagged_var_symbol"><a class="viewcode-back" href="../../../../../../api/datacode.models.variables.transform.specific.html#datacode.models.variables.transform.specific.lag.var_symbol_to_lagged_var_symbol">[docs]</a><span class="k">def</span> <span class="nf">var_symbol_to_lagged_var_symbol</span><span class="p">(</span><span class="n">varname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_lags</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">num_lags</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># No lag string necessary</span>
+        <span class="k">return</span> <span class="n">varname</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">base_var</span><span class="p">,</span> <span class="n">existing_lags</span> <span class="o">=</span> <span class="n">lag_var_symbol_to_var_symbol_and_lag</span><span class="p">(</span><span class="n">varname</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">VariableIsNotLaggedVariableException</span><span class="p">:</span>
+        <span class="c1"># Variable is not already lagged, so just add lag portion to str</span>
+        <span class="k">return</span> <span class="n">_var_symbol_to_lagged_var_symbol</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">num_lags</span><span class="p">)</span>
+
+    <span class="c1"># Variable was lagged originally, need to add an additional number of lags and apply to base name</span>
+    <span class="n">total_lags</span> <span class="o">=</span> <span class="n">existing_lags</span> <span class="o">+</span> <span class="n">num_lags</span>
+    <span class="k">return</span> <span class="n">_var_symbol_to_lagged_var_symbol</span><span class="p">(</span><span class="n">base_var</span><span class="p">,</span> <span class="n">total_lags</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_var_symbol_to_lagged_var_symbol</span><span class="p">(</span><span class="n">varname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_lags</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">varname</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_{{t - </span><span class="si">{num_lags}</span><span class="s2">}}&quot;</span>
+
+
+<div class="viewcode-block" id="lag_var_symbol_to_var_symbol_and_lag"><a class="viewcode-back" href="../../../../../../api/datacode.models.variables.transform.specific.html#datacode.models.variables.transform.specific.lag.lag_var_symbol_to_var_symbol_and_lag">[docs]</a><span class="k">def</span> <span class="nf">lag_var_symbol_to_var_symbol_and_lag</span><span class="p">(</span><span class="n">varname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">LAG_SYMBOL_PATTERN</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">varname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VariableIsNotLaggedVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not parse </span><span class="si">{varname}</span><span class="s1"> as a lagged name&#39;</span><span class="p">)</span>
+
+    <span class="n">base_varname</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">lag_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">base_varname</span><span class="p">,</span> <span class="n">lag_num</span></div>
+
+
 <span class="k">def</span> <span class="nf">_create_lagged_variable_panel</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">by_vars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">num_lags</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Note: inplace</span>
@@ -234,6 +267,12 @@
 
 <div class="viewcode-block" id="create_lags_transform_name_func"><a class="viewcode-back" href="../../../../../../api/datacode.models.variables.transform.specific.html#datacode.models.variables.transform.specific.lag.create_lags_transform_name_func">[docs]</a><span class="k">def</span> <span class="nf">create_lags_transform_name_func</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_lags</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">varname_to_lagged_varname</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">num_lags</span><span class="o">=</span><span class="n">num_lags</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_lags_transform_symbol_func"><a class="viewcode-back" href="../../../../../../api/datacode.models.variables.transform.specific.html#datacode.models.variables.transform.specific.lag.create_lags_transform_symbol_func">[docs]</a><span class="k">def</span> <span class="nf">create_lags_transform_symbol_func</span><span class="p">(</span><span class="n">sym</span><span class="p">:</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">num_lags</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">sym_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sym</span><span class="p">)</span>
+    <span class="n">new_sym_str</span> <span class="o">=</span> <span class="n">var_symbol_to_lagged_var_symbol</span><span class="p">(</span><span class="n">sym_str</span><span class="p">,</span> <span class="n">num_lags</span><span class="o">=</span><span class="n">num_lags</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Symbol</span><span class="p">(</span><span class="n">new_sym_str</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="create_lags_transform_data_func"><a class="viewcode-back" href="../../../../../../api/datacode.models.variables.transform.specific.html#datacode.models.variables.transform.specific.lag.create_lags_transform_data_func">[docs]</a><span class="k">def</span> <span class="nf">create_lags_transform_data_func</span><span class="p">(</span><span class="n">col</span><span class="p">:</span> <span class="s1">&#39;Column&#39;</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span>
@@ -301,6 +340,7 @@
     <span class="s1">&#39;lag&#39;</span><span class="p">,</span>
     <span class="n">name_func</span><span class="o">=</span><span class="n">create_lags_transform_name_func</span><span class="p">,</span>
     <span class="n">data_func</span><span class="o">=</span><span class="n">create_lags_transform_data_func</span><span class="p">,</span>
+    <span class="n">symbol_func</span><span class="o">=</span><span class="n">create_lags_transform_symbol_func</span><span class="p">,</span>
     <span class="n">data_func_target</span><span class="o">=</span><span class="s1">&#39;source&#39;</span>
 <span class="p">)</span>
 </pre></div>

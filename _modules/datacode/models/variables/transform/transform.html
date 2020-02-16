@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.transform.transform &mdash; datacode 0.9.1 documentation</title>
+  <title>datacode.models.variables.transform.transform &mdash; datacode 0.9.2 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.9.1
+                0.9.2
               </div>
             
           
@@ -165,6 +165,9 @@
   <h1>Source code for datacode.models.variables.transform.transform</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
+
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">datacode.models.variables.variable</span> <span class="kn">import</span> <span class="n">Variable</span>
     <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
@@ -172,16 +175,28 @@
 
 <span class="kn">from</span> <span class="nn">datacode.models.logic.partial</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">datacode.models.variables.compare</span> <span class="kn">import</span> <span class="n">functions_are_equal</span>
-<span class="kn">from</span> <span class="nn">datacode.models.variables.typing</span> <span class="kn">import</span> <span class="n">StrFunc</span><span class="p">,</span> <span class="n">ValueFunc</span>
+<span class="kn">from</span> <span class="nn">datacode.models.variables.typing</span> <span class="kn">import</span> <span class="n">StrFunc</span><span class="p">,</span> <span class="n">ValueFunc</span><span class="p">,</span> <span class="n">SymbolFunc</span>
 
 
 <div class="viewcode-block" id="Transform"><a class="viewcode-back" href="../../../../../api/datacode.models.variables.transform.html#datacode.models.variables.transform.transform.Transform">[docs]</a><span class="k">class</span> <span class="nc">Transform</span><span class="p">:</span>
 
 <div class="viewcode-block" id="Transform.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.variables.transform.html#datacode.models.variables.transform.transform.Transform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data_func</span><span class="p">:</span> <span class="n">ValueFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">symbol_func</span><span class="p">:</span> <span class="n">SymbolFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">data_func_target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;series&#39;</span><span class="p">):</span>
+        <span class="c1"># If name func passed but not symbol func, convert name func to symbol func</span>
+        <span class="k">if</span> <span class="n">name_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">symbol_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">sym_func_from_name_func</span><span class="p">(</span><span class="n">sym</span><span class="p">:</span> <span class="n">Symbol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Symbol</span><span class="p">:</span>
+                <span class="n">symbol_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sym</span><span class="p">)</span>
+                <span class="n">new_symbol_str</span> <span class="o">=</span> <span class="n">name_func</span><span class="p">(</span><span class="n">symbol_str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">new_symbol</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="n">new_symbol_str</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">new_symbol</span>
+            <span class="n">symbol_func</span> <span class="o">=</span> <span class="n">sym_func_from_name_func</span>
+
+
         <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name_func</span> <span class="o">=</span> <span class="n">name_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="o">=</span> <span class="n">data_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symbol_func</span> <span class="o">=</span> <span class="n">symbol_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data_func_target</span><span class="p">(</span><span class="n">data_func_target</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_validate_data_func_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_func_target</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -283,13 +298,22 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="AppliedTransform.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.variables.transform.html#datacode.models.variables.transform.transform.AppliedTransform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">name_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">symbol_func</span><span class="p">:</span> <span class="n">SymbolFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">data_func_target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">name_func</span><span class="o">=</span><span class="n">name_func</span><span class="p">,</span> <span class="n">data_func</span><span class="o">=</span><span class="n">data_func</span><span class="p">,</span> <span class="n">data_func_target</span><span class="o">=</span><span class="n">data_func_target</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">key</span><span class="p">,</span>
+            <span class="n">name_func</span><span class="o">=</span><span class="n">name_func</span><span class="p">,</span>
+            <span class="n">symbol_func</span><span class="o">=</span><span class="n">symbol_func</span><span class="p">,</span>
+            <span class="n">data_func</span><span class="o">=</span><span class="n">data_func</span><span class="p">,</span>
+            <span class="n">data_func_target</span><span class="o">=</span><span class="n">data_func_target</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_func</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">symbol_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol_func</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -299,6 +323,7 @@
             <span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
             <span class="o">*</span><span class="n">args</span><span class="p">,</span>
             <span class="n">name_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">name_func</span><span class="p">,</span>
+            <span class="n">symbol_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">symbol_func</span><span class="p">,</span>
             <span class="n">data_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span>
             <span class="n">data_func_target</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">data_func_target</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
