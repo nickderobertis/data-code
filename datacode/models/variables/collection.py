@@ -3,6 +3,7 @@ from typing import Callable, Sequence, Union, Dict, Optional
 
 from datacode.models.variables.tools import _get_obj_or_attr
 from datacode.models.variables.transform.transform import Transform, AppliedTransform
+from datacode.models.variables.transform.specific import DEFAULT_TRANSFORMS
 from .variable import Variable
 
 
@@ -11,7 +12,7 @@ class VariableCollection:
     _default_attr = 'obj'
 
     def __init__(self, *variables: Variable, name: str = 'variables', default_attr: str = 'obj',
-                 transforms: Optional[Sequence[Transform]] = None,
+                 transforms: Optional[Sequence[Transform]] = DEFAULT_TRANSFORMS,
                  default_transforms: Optional[Sequence[AppliedTransform]] = None):
         if transforms is None:
             transforms = []
