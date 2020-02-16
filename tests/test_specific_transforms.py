@@ -64,6 +64,34 @@ class SpecificTransformsTest(SourceTest):
         columns=['A$_{t - 1}$', 'B$_{t - 1}$', 'C'],
     )
     expect_lag_df_with_ids_and_dates['Date'] = full_date_index
+    expect_loaded_df_with_change = pd.DataFrame(
+        [
+            (np.nan, np.nan, 'd'),
+            (2, 2, 'd'),
+            (2, 2, 'e')
+        ],
+        columns=['A Change', 'B Change', 'C'],
+    )
+    expect_loaded_df_with_dual_change = pd.DataFrame(
+        [
+            (np.nan, np.nan, 'd'),
+            (np.nan, np.nan, 'd'),
+            (0, 0, 'e')
+        ],
+        columns=['A Change Change', 'B Change Change', 'C'],
+    )
+    expect_change_df_with_ids_and_dates = pd.DataFrame(
+        [
+            (np.nan, np.nan, 'd'),
+            (1, 2, 'd'),
+            (1, 2, 'd'),
+            (np.nan, np.nan, 'e'),
+            (np.nan, np.nan, 'e'),
+            (1, 2, 'e'),
+        ],
+        columns=['A Change', 'B Change', 'C'],
+    )
+    expect_change_df_with_ids_and_dates['Date'] = full_date_index
 
     def create_variable_collection(self, **kwargs) -> Tuple[VariableCollection, Variable, Variable, Variable]:
         config_dict = dict(
@@ -164,3 +192,57 @@ class TestLag(SpecificTransformsTest):
         assert_frame_equal(ds.df, self.expect_lag_df_with_ids_and_dates)
 
 
+class TestChange(SpecificTransformsTest):
+
+    def test_change_with_defaults_no_indices(self):
+        vc, a, b, c = self.create_variable_collection()
+        self.create_csv()
+        all_cols = self.create_columns()
+        load_variables = [
+            vc.a.change(),
+            vc.b.change(),
+            c
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_change)
+        assert str(vc.a.change().symbol) == r'\delta \text{A}'
+        assert str(vc.b.change().symbol) == r'\delta \text{B}'
+        assert str(vc.c.symbol) == r'\text{C}'
+
+    def test_two_separate_changes_no_indices(self):
+        vc, a, b, c = self.create_variable_collection()
+        self.create_csv()
+        all_cols = self.create_columns()
+        load_variables = [
+            vc.a.change().change(),
+            vc.b.change().change(),
+            c
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_dual_change)
+        assert str(vc.a.change().change().symbol) == r'\delta \delta \text{A}'
+        assert str(vc.b.change().change().symbol) == r'\delta \delta \text{B}'
+        assert str(vc.c.symbol) == r'\text{C}'
+
+    def test_change_with_by_index_and_time_index_with_gaps(self):
+        vc, a, b, c = self.create_variable_collection()
+        d = Variable('d', 'Date', dtype='datetime')
+        self.create_csv(df=self.test_df_with_ids_and_dates)
+        by_colindex = ColumnIndex(self.by_index, [c])
+        time_colindex = ColumnIndex(self.time_index, [d])
+        by_time_colindex = [by_colindex, time_colindex]
+        ac = Column(a, 'a', by_time_colindex)
+        bc = Column(b, 'b', by_time_colindex)
+        cc = Column(c, 'c')
+        dd = Column(d, 'date')
+        all_cols = [
+            ac, bc, cc, dd
+        ]
+        load_variables = [
+            vc.a.change(fill_method=None),
+            vc.b.change(fill_method=None),
+            c,
+            d
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_equal(ds.df, self.expect_change_df_with_ids_and_dates)
