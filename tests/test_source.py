@@ -10,7 +10,7 @@ from datacode.models.dtypes.str_type import StringType
 from datacode.models.source import DataSource
 from datacode.models.variables import Variable
 from datacode.models.variables.expression import Expression
-from datacode.models.variables.transform import Transform
+from datacode import Transform
 from tests.utils import GENERATED_PATH
 
 

@@ -1,15 +1,13 @@
 from copy import deepcopy
-from typing import Optional, TYPE_CHECKING, Sequence
-
-from datacode.models.variables.compare import functions_are_equal
-
+from typing import Optional, Sequence, TYPE_CHECKING
 if TYPE_CHECKING:
-    from datacode.models.source import DataSource
-    from datacode.models.column.column import Column
     from datacode.models.variables.variable import Variable
+    from datacode.models.column.column import Column
+    from datacode.models.source import DataSource
 
-from datacode.models.variables.typing import StrFunc, ValueFunc
 from datacode.models.logic.partial import partial
+from datacode.models.variables.compare import functions_are_equal
+from datacode.models.variables.typing import StrFunc, ValueFunc
 
 
 class Transform:
@@ -112,7 +110,6 @@ class Transform:
             return same
         except AttributeError:
             return False
-
 
 
 class AppliedTransform(Transform):

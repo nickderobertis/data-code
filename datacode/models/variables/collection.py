@@ -2,7 +2,7 @@ from copy import deepcopy
 from typing import Callable, Sequence, Union, Dict, Optional
 
 from datacode.models.variables.tools import _get_obj_or_attr
-from .transform import Transform, AppliedTransform
+from datacode.models.variables.transform.transform import Transform, AppliedTransform
 from .variable import Variable
 
 

@@ -1,7 +1,7 @@
 from typing import Tuple
 
 from datacode.models.variables import Variable, VariableCollection
-from datacode.models.variables.transform import Transform, AppliedTransform
+from datacode import Transform, AppliedTransform
 from datacode.models.symbols import Symbol
 from tests.input_funcs import lag
 

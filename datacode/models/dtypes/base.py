@@ -1,6 +1,6 @@
 from typing import Type, Optional, Sequence
 
-from datacode.models.variables.transform import Transform
+from datacode.models.variables.transform.transform import Transform
 
 
 class DataType:
