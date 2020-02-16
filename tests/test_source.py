@@ -1,6 +1,6 @@
 import os
 import shutil
-from typing import Optional, Tuple, Any, Callable, Dict, Sequence
+from typing import Optional, Tuple, Any, Callable, Dict, Sequence, List
 
 import pandas as pd
 from pandas.testing import assert_frame_equal
@@ -33,7 +33,7 @@ def transform_dataframe_data_func(col: Column, variable: Variable, df: pd.DataFr
 def transform_source_data_func(col: Column, variable: Variable, source: DataSource) -> DataSource:
     # Extra unnecessary logic to access source.columns to test looking up columns
     cols = source.columns
-    for orig_name, this_col in cols.items():
+    for this_col in cols:
         if not this_col.variable.key == col.variable.key:
             continue
         source.df[variable.name] = source.df[variable.name] + 1
@@ -182,16 +182,16 @@ class SourceTest:
         c = Variable('c', 'C', dtype='str')
         return a, b, c
 
-    def create_columns(self, transform_data: str = '', apply_transforms: bool = True) -> Dict[str, Column]:
+    def create_columns(self, transform_data: str = '', apply_transforms: bool = True) -> List[Column]:
         a, b, c = self.create_variables(transform_data=transform_data, apply_transforms=apply_transforms)
-        ac = Column(a)
-        bc = Column(b)
-        cc = Column(c)
-        return dict(
-            a=ac,
-            b=bc,
-            c=cc,
-        )
+        ac = Column(a, 'a')
+        bc = Column(b, 'b')
+        cc = Column(c, 'c')
+        return [
+            ac,
+            bc,
+            cc
+        ]
 
 
 class TestCreateSource(SourceTest):
@@ -267,7 +267,7 @@ class TestLoadSource(SourceTest):
         self.create_csv()
         all_cols = self.create_columns(transform_data='cell')
         a, b, c = self.create_variables(transform_data='cell')
-        all_cols['a'] = Column(a, applied_transform_keys=['add_one_cell'])
+        all_cols.append(Column(a, 'a', applied_transform_keys=['add_one_cell']))
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, self.expect_loaded_df_with_transform_and_a_pre_transformed)
 
@@ -275,7 +275,7 @@ class TestLoadSource(SourceTest):
         self.create_csv()
         all_cols = self.create_columns()
         a, b, c = self.create_variables()
-        all_cols['c'] = Column(c, dtype=StringType(categorical=True))
+        all_cols.append(Column(c, 'c', dtype=StringType(categorical=True)))
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, self.expect_loaded_df_categorical)
 
@@ -288,9 +288,9 @@ class TestLoadSource(SourceTest):
         expect_df['Date'] = pd.to_datetime('1/1/2000')
 
         date_var = Variable('Date', dtype='datetime')
-        date_col = Column(date_var)
+        date_col = Column(date_var, 'd')
         all_cols = self.create_columns()
-        all_cols['d'] = date_col
+        all_cols.append(date_col)
 
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, expect_df)

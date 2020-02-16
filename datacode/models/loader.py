@@ -48,25 +48,25 @@ class DataLoader:
             variable_keys = [var.key for var in self.source.load_variables]
             usecols = []
             for var_key in variable_keys:
-                for col_key, col in self.source.columns.items():
+                for col in self.source.columns:
                     if col.variable.key == var_key:
                         # Got column matching the desired variable
-                        usecols.append(col_key)  # add the original column name in the dataset to usecols
+                        usecols.append(col.load_key)  # add the original column name in the dataset to usecols
             read_file_config['usecols'] = usecols
 
         # Set the data types of the columns
         if self.source.columns:
             dtypes = {}
             datetime_dtypes = []  # pandas requires separate handling for datetime
-            for col_key, col in self.source.columns.items():
+            for col in self.source.columns:
                 if col.dtype is not None:
                     if col.dtype.categorical:
-                        dtypes[col_key] = 'category'
+                        dtypes[col.load_key] = 'category'
                     elif col.dtype == DatetimeType():
                         # Track datetime separately
-                        datetime_dtypes.append(col_key)
+                        datetime_dtypes.append(col.load_key)
                     else:
-                        dtypes[col_key] = col.dtype.pd_class
+                        dtypes[col.load_key] = col.dtype.pd_class
             if dtypes:
                 read_file_config['dtype'] = dtypes
             if datetime_dtypes:
@@ -151,14 +151,9 @@ class DataLoader:
                 # TODO [#34]: determine how to set index for columns from calculated variables
                 new_col = Column(variable, dtype=str(new_series.dtype), series=new_series)
                 temp_source.df[variable.name] = new_series
-                # TODO [#35]: better way of storing calculated columns than uuid in columns dictionary
-                #
-                # The dictionary of columns has keys as names in the original source and values as columns.
-                # A calculated column is not in the original source, so uuid was used for now just to ensure
-                # that these columns can be in the dictionary, but they should be tracked separately.
-                temp_source.columns[uuid.uuid4()] = new_col
+                temp_source.columns.append(new_col)
                 temp_source = _apply_transforms_to_var(variable, new_col, temp_source)
-                self.source.columns[uuid.uuid4()] = new_col
+                self.source.columns.append(new_col)
 
         return temp_source.df
 
