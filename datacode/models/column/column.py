@@ -35,7 +35,7 @@ class Column:
                f'applied_transform_keys={self.applied_transform_keys}, dtype={self.dtype}>'
 
     @property
-    def index_variables(self) -> List[Variable]:
+    def index_vars(self) -> List[Variable]:
         if self.indices is None:
             return []
 
