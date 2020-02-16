@@ -40,6 +40,7 @@ class Variable:
             name = _from_var_name_to_display_name(key)
         self.name = name
         self._orig_name = name
+        self._orig_symbol = symbol
         self._update_from_transforms()
 
     def __repr__(self):
@@ -97,7 +98,7 @@ class Variable:
     def _add_transform(self, transform: Transform):
         self.available_transforms.append(transform)
         self._add_transform_attr(transform)
-        self._set_name_by_transforms()
+        self._set_name_and_symbol_by_transforms()
 
     def _add_applied_transform(self, transform: Transform):
         self.applied_transforms.append(transform)
@@ -113,27 +114,30 @@ class Variable:
 
         # Add attributes for available transforms
         for transform in self.available_transforms:
-            if not hasattr(self, transform.key):
-                self._add_transform_attr(transform)
+            self._add_transform_attr(transform)
 
         # Apply name changes from applied transforms
-        self._set_name_by_transforms()
+        self._set_name_and_symbol_by_transforms()
 
-    def _set_name_by_transforms(self):
+    def _set_name_and_symbol_by_transforms(self):
         """
         Apply name changes from applied transforms
         """
         name = self._orig_name
+        sym = self._orig_symbol
         for transform in self.applied_transforms:
             name = transform.name_func(name)
+            sym = transform.symbol_func(sym)
         self.name = name
+        self.symbol = sym
 
     def _add_transform_attr(self, transform: Transform):
         def transform_func(*args, **kwargs):
             transform_value = deepcopy(self)
             applied_transform = AppliedTransform.from_transform(transform, *args, **kwargs)
             transform_value.applied_transforms.append(applied_transform)
-            transform_value._set_name_by_transforms()
+            transform_value._update_from_transforms()
+            transform_value._set_name_and_symbol_by_transforms()
             return transform_value
         setattr(self, transform.key, transform_func)
 

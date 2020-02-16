@@ -127,16 +127,19 @@ class DataLoader:
                     raise ValueError(f'passed variable {variable} but not calculated and not '
                                      f'in columns {self.source.columns}')
                 continue
-            orig_name = self.source.col_key_for(variable, orig_only=True)
-            rename_dict[orig_name] = variable.name
+            col = self.source.col_for(variable, orig_only=True)
+            rename_dict[col.load_key] = variable.name
+            col.variable = variable
         for variable in self.source._vars_for_calculate:
             try:
-                orig_name = self.source.col_key_for(variable, for_calculate_only=True)
-                rename_dict[orig_name] = variable.name
+                col = self.source.col_for(variable, for_calculate_only=True)
+                rename_dict[col.load_key] = variable.name
+                col.variable = variable
             except NoColumnForVariableException:
                 # Must be using a pre-existing column rather than a newly generated column, need to rename that instead
-                orig_name = self.source.col_key_for(variable, orig_only=True)
-                rename_dict[orig_name] = variable.name
+                col = self.source.col_for(variable, orig_only=True)
+                rename_dict[col.load_key] = variable.name
+                col.variable = variable
         df.rename(columns=rename_dict, inplace=True)
 
     def try_to_calculate_variables(self, df: pd.DataFrame):
@@ -236,4 +239,5 @@ def _apply_transforms_to_var(var: 'Variable', column: Column, source: 'DataSourc
             continue
         source = transform._apply_transform_for_column_and_variable_to_source(source, column, var)
         column.applied_transform_keys.append(transform.key)
+        column.variable = var  # overwrite untransformed variable with transformed variable
     return source

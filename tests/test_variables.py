@@ -75,9 +75,15 @@ class TestVariableCollection(VariableTest):
         assert vc.stuff == v
         assert vc.thing_me == v2
         assert vc.stuff.port().name == VAR1_ARGS[1] + ' Port Var'
+        assert vc.stuff.port().port().name == VAR1_ARGS[1] + ' Port Var Port Var'
+        assert str(vc.stuff.port().symbol) == r'\text{Stuff} Port Var'
+        assert str(vc.stuff.port().port().symbol) == r'\text{Stuff} Port Var Port Var'
         assert vc.thing_me.port().name == VAR2_ARGS[1] + ' Port Var'
+        assert str(vc.thing_me.port().symbol) == 'TM Port Var'
         assert vc.stuff.lag(1).name == VAR1_ARGS[1] + '_{t - 1}'
+        assert str(vc.stuff.lag(1).symbol) == r'\text{Stuff}_{t - 1}'
         assert vc.thing_me.lag(1).name == VAR2_ARGS[1] + '_{t - 1}'
+        assert str(vc.thing_me.lag(1).symbol) == 'TM_{t - 1}'
 
     def test_create_variable_collection_with_default_attr(self):
         vc, v, v2 = self.create_variable_collection(
@@ -96,7 +102,9 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff.name == VAR1_ARGS[1] + ' Port Var'
+        assert str(vc.stuff.symbol) == r'\text{Stuff} Port Var'
         assert vc.thing_me.name == VAR2_ARGS[1] + ' Port Var'
+        assert str(vc.thing_me.symbol) == 'TM Port Var'
 
     def test_create_variable_collection_with_default_transform_with_args(self):
         vc, v, v2 = self.create_variable_collection(
@@ -106,7 +114,9 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff.name == VAR1_ARGS[1] + '_{t - 5}'
+        assert str(vc.stuff.symbol) == r'\text{Stuff}_{t - 5}'
         assert vc.thing_me.name == VAR2_ARGS[1] + '_{t - 5}'
+        assert str(vc.thing_me.symbol) == 'TM_{t - 5}'
 
     def test_create_variable_collection_with_multiple_default_transforms(self):
         vc, v, v2 = self.create_variable_collection(
@@ -119,7 +129,9 @@ class TestVariableCollection(VariableTest):
 
         assert vc.name == VC_NAME
         assert vc.stuff.name == VAR1_ARGS[1] + ' Port Var_{t - 5}'
+        assert str(vc.stuff.symbol) == r'\text{Stuff} Port Var_{t - 5}'
         assert vc.thing_me.name == VAR2_ARGS[1] + ' Port Var_{t - 5}'
+        assert str(vc.thing_me.symbol) == 'TM Port Var_{t - 5}'
 
     def test_create_variable_collection_with_default_attr_and_default_transform(self):
         vc, v, v2 = self.create_variable_collection(
