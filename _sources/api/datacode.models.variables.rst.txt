@@ -6,6 +6,13 @@ datacode.models.variables package
    :undoc-members:
    :show-inheritance:
 
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.models.variables.transform
+
 Submodules
 ----------
 
@@ -37,14 +44,6 @@ datacode.models.variables.tools module
 --------------------------------------
 
 .. automodule:: datacode.models.variables.tools
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-datacode.models.variables.transform module
-------------------------------------------
-
-.. automodule:: datacode.models.variables.transform
    :members:
    :undoc-members:
    :show-inheritance:
