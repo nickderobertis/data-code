@@ -268,10 +268,10 @@
         },
         "datacode": {
             "hashes": [
-                "sha256:4a7c9f8db4fc216f55d596ef05862782086d987863df26b78a6d63d5c5fce337",
-                "sha256:6dfc9f53afcd171d1891ebffd28574810041958bfb85e8d92e997abf656067b0"
+                "sha256:9b3371ed78dd247c23c3f6e19227eb62902a53b0a63c8114325e0a20fd435751",
+                "sha256:bdbf13a1ab05d04b7517c3faf2a490fc3bc443c7081d477394fe49a132369088"
             ],
-            "version": "==0.7.0"
+            "version": "==0.9.0"
         },
         "decorator": {
             "hashes": [
@@ -342,10 +342,10 @@
         },
         "gitdb2": {
             "hashes": [
-                "sha256:1b6df1433567a51a4a9c1a5a0de977aa351a405cc56d7d35f3388bad1f630350",
-                "sha256:96bbb507d765a7f51eb802554a9cfe194a174582f772e0d89f4e87288c288b7b"
+                "sha256:0a84c85d07166cefaf10fa4b728a8a1b847a7f0d081e2fbe083185462158c126",
+                "sha256:51380b9d8b977b42ac9fc3a8e17af90a56ffc573ca9c6b79f99033b04f29f457"
             ],
-            "version": "==2.0.6"
+            "version": "==3.0.0"
         },
         "gitpython": {
             "hashes": [
@@ -694,11 +694,11 @@
         },
         "pd-utils": {
             "hashes": [
-                "sha256:78c349031f2d954ee00601bfb0a825c6a54efca3e44a2a449767c40c851081f4",
-                "sha256:a83a46304c1d9ca0a0e9b5435d5629f785727d32dade7818da5c16ee466b4b88"
+                "sha256:0159b8ac4fd5c564cf12d5bbb1f9dccd616e4fa2eef95318f1de717f8c10017b",
+                "sha256:4e647500b5bfd192deb0b683ae3890e7b70f0f00b46bea36aa43bd0d98b95735"
             ],
             "index": "pypi",
-            "version": "==0.1.0"
+            "version": "==0.1.1"
         },
         "pexpect": {
             "hashes": [
