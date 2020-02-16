@@ -1,8 +1,10 @@
 import operator
-from typing import TYPE_CHECKING, Sequence, Callable, Optional, Union
+from typing import TYPE_CHECKING, Sequence, Callable, Optional
 
 from sympy import Expr, lambdify, latex
 import pandas as pd
+
+from datacode.models.variables.compare import functions_are_equal
 
 if TYPE_CHECKING:
     from datacode.models.variables.variable import Variable
@@ -54,7 +56,7 @@ class Expression:
         same = True
         try:
             same = same and self.variables == other.variables
-            same = same and _functions_are_equal(self.func, other.func)
+            same = same and functions_are_equal(self.func, other.func)
             same = same and self.expr == other.expr
             same = same and self.summary == other.summary
             return same
@@ -97,11 +99,3 @@ class Expression:
 
         raise ValueError(f'Cannot {operator_name} {other} of type {type(other)} {preposition} {self}, '
                          f'must be Variable or Expression')
-
-
-
-
-def _functions_are_equal(func: Callable, func2: Callable) -> bool:
-    return func.__code__.co_code == func2.__code__.co_code
-
-
