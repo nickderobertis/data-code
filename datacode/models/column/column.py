@@ -29,3 +29,7 @@ class Column:
         self.applied_transform_keys = applied_transform_keys
         self.dtype = dtype
         self.series = series
+
+    def __repr__(self):
+        return f'<Column(variable={self.variable}, load_key={self.load_key}, indices={self.indices}, ' \
+               f'applied_transform_keys={self.applied_transform_keys}, dtype={self.dtype}>'

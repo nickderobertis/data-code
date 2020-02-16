@@ -33,6 +33,19 @@ class DataSource:
         if columns is not None and not isinstance(columns, list):
             columns = list(columns)
 
+        # Handle setup for loading columns needed only for calculations
+        vars_for_drop = []
+        if load_variables is not None:
+            vars_for_calculate = []
+            for var in load_variables:
+                if var.calculation is not None:
+                    vars_for_calculate.extend(var.calculation.variables)
+            for var in vars_for_calculate:
+                current_var_keys = [load_var.key for load_var in load_variables]
+                if var.key not in current_var_keys:
+                    load_variables.append(var)
+                    vars_for_drop.append(var)
+
         self._check_inputs(location, df)
         self.location = location
         self.name = name
@@ -45,6 +58,7 @@ class DataSource:
         self.optimize_size = optimize_size
         self._df = df
         self.name_type = f'{name}'
+        self._drop_variables = vars_for_drop
 
     @property
     def df(self):

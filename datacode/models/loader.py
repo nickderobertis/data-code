@@ -34,6 +34,7 @@ class DataLoader:
         df = self.post_transform_clean_up(df)
         df = self.try_to_calculate_variables(df)
         self.assign_series_to_columns(df)
+        self.drop_variables(df)
 
         return df
 
@@ -45,11 +46,10 @@ class DataLoader:
 
         # Set which columns to load
         if self.source.load_variables and self.source.columns:
-            variable_keys = [var.key for var in self.source.load_variables]
             usecols = []
-            for var_key in variable_keys:
+            for var in self.source.load_variables:
                 for col in self.source.columns:
-                    if col.variable.key == var_key:
+                    if col.variable.key == var.key:
                         # Got column matching the desired variable
                         usecols.append(col.load_key)  # add the original column name in the dataset to usecols
             read_file_config['usecols'] = usecols
@@ -176,6 +176,11 @@ class DataLoader:
             column = self.source.col_for(var_key=var.key)
             temp_source = _apply_transforms_to_var(var, column, temp_source)
         return temp_source.df
+
+    def drop_variables(self, df: pd.DataFrame):
+        if self.source._drop_variables:
+            drop_names = [var.name for var in self.source._drop_variables]
+            df.drop(drop_names, axis=1, inplace=True)
 
     def pre_transform_clean_up(self, df: pd.DataFrame) -> pd.DataFrame:
         return df
