@@ -1,4 +1,4 @@
-from typing import Optional, Sequence, Union
+from typing import Optional, Sequence, Union, List
 
 import pandas as pd
 
@@ -33,3 +33,15 @@ class Column:
     def __repr__(self):
         return f'<Column(variable={self.variable}, load_key={self.load_key}, indices={self.indices}, ' \
                f'applied_transform_keys={self.applied_transform_keys}, dtype={self.dtype}>'
+
+    @property
+    def index_vars(self) -> List[Variable]:
+        if self.indices is None:
+            return []
+
+        index_vars = []
+        for col_idx in self.indices:
+            for var in col_idx.variables:
+                if var not in index_vars:
+                    index_vars.append(var)
+        return index_vars
