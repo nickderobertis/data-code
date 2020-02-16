@@ -163,8 +163,32 @@ class DataSource:
         if _is_item_view(self.pipeline):
             self.pipeline = self.pipeline.item
 
-    def copy(self):
-        return deepcopy(self)
+    def copy(self, **kwargs):
+        if not kwargs:
+            return deepcopy(self)
+
+        copy_keys = [
+            'location',
+            'pipeline',
+            'columns',
+            'load_variables',
+            'name',
+            'tags',
+            'loader_class',
+            'read_file_kwargs',
+            'optimize_size'
+        ]
+
+        config_dict = {attr: deepcopy(getattr(self, attr)) for attr in copy_keys}
+
+        # Handle df only if not passed as do not want load df unnecessarily
+        if 'df' not in kwargs:
+            config_dict['df'] = self.df
+
+        config_dict.update(kwargs)
+
+        klass = type(self)
+        return klass(**config_dict)
 
     def untransformed_col_for(self, variable: Variable) -> Column:
         possible_cols = [col for col in self.columns if col.variable.key == variable.key]
@@ -233,6 +257,35 @@ class DataSource:
     @property
     def col_var_keys(self) -> List[str]:
         return [col.variable.key for col in self.columns]
+
+    @property
+    def index_cols(self) -> List[Column]:
+        if self.columns is None:
+            return []
+
+        index_vars = self.index_vars
+
+        index_cols = []
+        for col in self.columns:
+            if col.variable in index_vars:
+                index_cols.append(col)
+
+        return index_cols
+
+    @property
+    def index_vars(self) -> List[Variable]:
+        if self.columns is None:
+            return []
+
+        index_vars = []
+        for col in self.columns:
+            if col.indices:
+                for col_idx in col.indices:
+                    for var in col_idx.variables:
+                        if var not in index_vars:
+                            index_vars.append(var)
+        return index_vars
+
 
     def __repr__(self):
         return f'<DataSource(name={self.name}, columns={self.columns})>'
