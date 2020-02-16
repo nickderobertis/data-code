@@ -33,14 +33,56 @@ class DataSource:
         if columns is not None and not isinstance(columns, list):
             columns = list(columns)
 
+        # Handle setup for loading columns needed only for calculations
+        extra_cols_for_calcs = []
+        extra_vars_for_calcs = []
+        if load_variables is not None and columns is not None:
+            vars_for_calculate = []
+            for var in load_variables:
+                if var.calculation is not None:
+                    vars_for_calculate.extend(var.calculation.variables)
+            for var in vars_for_calculate:
+                all_vars = load_variables + extra_vars_for_calcs
+                current_var_keys = [load_var.key for load_var in all_vars]
+                if var not in all_vars:
+                    # TODO: don't trigger extra columns when the extra columns are just the untransformed columns
+                    #
+                    # We are adding extra columns here for calculated variables which require variables not
+                    # included in `load_variables`. Currently, it will load extra variables even if
+                    # the calculation could just be done before variable transforms. For example, the
+                    # test `TestLoadSource.test_load_with_calculate_on_transformed_before_transform` should be able
+                    # to complete without adding any extra columns
+                    if var.key in current_var_keys:
+                        # This is a variable that is already being loaded but with a different transformation
+                        # Need to create an extra column for it for later loading handling
+                        existing_col = [col for col in columns if col.variable.key == var.key][0]
+                        new_col = deepcopy(existing_col)
+                        new_col.variable = var
+                        extra_cols_for_calcs.append(new_col)
+                    extra_vars_for_calcs.append(var)
+
+        if columns is not None:
+            all_columns = columns + extra_cols_for_calcs
+        else:
+            all_columns = columns
+
+        if load_variables is not None:
+            all_load_vars = load_variables + extra_vars_for_calcs
+        else:
+            all_load_vars = load_variables
+
         self._check_inputs(location, df)
         self.location = location
         self.name = name
         self.tags = tags # TODO: better handling for tags
         self.loader_class = loader_class
         self.pipeline = pipeline
-        self.columns: Optional[List[Column]] = columns
-        self.load_variables = load_variables
+        self._orig_columns: Optional[List[Column]] = columns
+        self._columns_for_calculate = extra_cols_for_calcs
+        self.columns: Optional[List[Column]] = all_columns
+        self._orig_load_variables = load_variables
+        self._vars_for_calculate = extra_vars_for_calcs
+        self.load_variables = all_load_vars
         self.read_file_kwargs = read_file_kwargs
         self.optimize_size = optimize_size
         self._df = df
@@ -124,23 +166,69 @@ class DataSource:
     def copy(self):
         return deepcopy(self)
 
-    def col_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None) -> Column:
-        if variable is None and var_key is None:
-            raise ValueError('must pass variable or variable key')
-        col_by_var_key = {col.variable.key: col for col in self.columns}
-        if variable is not None:
-            return col_by_var_key[variable.key]
-        if var_key is not None:
-            return col_by_var_key[var_key]
+    def untransformed_col_for(self, variable: Variable) -> Column:
+        possible_cols = [col for col in self.columns if col.variable.key == variable.key]
+        var_applied_transform_keys = [transform.key for transform in variable.applied_transforms]
+        for col in possible_cols:
+            if not col.applied_transform_keys:
+                # Matches key and no transformations, this is the correct col
+                return col
+            # Check for subset of transformations
+            for i, var_transform_key in enumerate(var_applied_transform_keys):
+                if i + 1 >= len(col.applied_transform_keys):
+                    # More transforms applied to var than in col, must be the matching col
+                    return col
+                if col.applied_transform_keys[i] != var_applied_transform_keys[i]:
+                    # Mismatching transform between column and variable, must be incorrect column
+                    break
+        raise NoColumnForVariableException(f'could not find untransformed col for {variable} in {self.columns}')
 
-    def col_key_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None) -> Column:
+    def col_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None,
+                orig_only: bool = False, for_calculate_only: bool = False) -> Column:
+        try:
+            # Prefer exact match, need to try this because there may be multiple columns with identical
+            # variables besides the applied transforms
+            col = self._col_for(variable, var_key, orig_only=orig_only, for_calculate_only=for_calculate_only)
+        except NoColumnForVariableException:
+            # Fall back to matching only on variable key as it may be that it is the correct column but
+            # the transforms have not been applied yet
+            col = self._col_for(
+                variable, var_key, match_key_only=True, orig_only=orig_only, for_calculate_only=for_calculate_only
+            )
+        return col
+
+    def _col_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None,
+                match_key_only: bool = False, orig_only: bool = False, for_calculate_only: bool = False) -> Column:
+        if orig_only and for_calculate_only:
+            raise ValueError('pass only one of orig_only and for_calculate_only')
         if variable is None and var_key is None:
             raise ValueError('must pass variable or variable key')
-        col_key_by_var_key = {col.variable.key: col.load_key for col in self.columns}
-        if variable is not None:
-            return col_key_by_var_key[variable.key]
-        if var_key is not None:
-            return col_key_by_var_key[var_key]
+
+        if orig_only:
+            col_list = self._orig_columns
+        elif for_calculate_only:
+            col_list = self._columns_for_calculate
+        else:
+            col_list = self.columns
+
+        if variable is None:
+            possible_cols = [col for col in self.columns if col.variable.key == var_key]
+            if len(possible_cols) != 1:
+                raise ValueError(f'cannot look up col for key {var_key} as multiple columns match: {possible_cols}')
+            variable = possible_cols[0].variable
+        for col in col_list:
+            if match_key_only:
+                if col.variable.key == variable.key:
+                    return col
+            else:
+                if col.variable == variable:
+                    return col
+        raise NoColumnForVariableException(f'could not find column matching {variable} in {self.columns}')
+
+    def col_key_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None,
+                    orig_only: bool = False, for_calculate_only: bool = False) -> Column:
+        col = self.col_for(variable, var_key, orig_only=orig_only, for_calculate_only=for_calculate_only)
+        return col.load_key
 
     @property
     def col_var_keys(self) -> List[str]:
@@ -148,3 +236,7 @@ class DataSource:
 
     def __repr__(self):
         return f'<DataSource(name={self.name}, columns={self.columns})>'
+
+
+class NoColumnForVariableException(Exception):
+    pass

@@ -24,6 +24,7 @@ class DataLoader:
 
     def load(self) -> pd.DataFrame:
         df = self.read_file_into_df()
+        self.duplicate_columns_for_calculations_assign_series(df)
         self.rename_columns(df)
         if self.optimize_size:
             df = self.optimize_df_size(df)
@@ -34,6 +35,7 @@ class DataLoader:
         df = self.post_transform_clean_up(df)
         df = self.try_to_calculate_variables(df)
         self.assign_series_to_columns(df)
+        self.drop_variables(df)
 
         return df
 
@@ -45,11 +47,10 @@ class DataLoader:
 
         # Set which columns to load
         if self.source.load_variables and self.source.columns:
-            variable_keys = [var.key for var in self.source.load_variables]
             usecols = []
-            for var_key in variable_keys:
+            for var in self.source.load_variables:
                 for col in self.source.columns:
-                    if col.variable.key == var_key:
+                    if col.variable.key == var.key:
                         # Got column matching the desired variable
                         usecols.append(col.load_key)  # add the original column name in the dataset to usecols
             read_file_config['usecols'] = usecols
@@ -88,6 +89,26 @@ class DataLoader:
             col = self.source.col_for(var)
             col.series = df[var.name]
 
+    def duplicate_columns_for_calculations_assign_series(self, df: pd.DataFrame):
+        if not self.source._columns_for_calculate or not self.source._vars_for_calculate:
+            return
+
+        # TODO: more efficient implementation of loading variables for calculations
+        #
+        # The `DataLoader` checks what variables are needed for calculations that are not
+        # included in `load_variables`, and if it requires multiple transformations of
+        # a variable, then it copies that series for as many transformations are needed.
+        # It would be better to have an implementation that doesn't require carrying copies
+        # through everything.
+
+        load_var_keys = [var.key for var in self.source.load_variables]
+        for col in self.source._columns_for_calculate:
+            new_key = uuid.uuid4()  # temporary key for this variable
+            # should get column which already has data for this variable
+            existing_col = self.source.col_for(col.variable)
+            df[new_key] = deepcopy(df[existing_col.load_key])
+            col.load_key = new_key
+
     def optimize_df_size(self, df: pd.DataFrame) -> pd.DataFrame:
         # TODO [#17]: implement df size optimization
         #
@@ -95,18 +116,27 @@ class DataLoader:
         raise NotImplementedError('implement df size optimization')
 
     def rename_columns(self, df: pd.DataFrame):
+        from datacode.models.source import NoColumnForVariableException
         if not self.source.columns:
             return
 
         rename_dict = {}
-        for variable in self.source.load_variables:
+        for variable in self.source._orig_load_variables:
             if variable.key not in self.source.col_var_keys:
                 if variable.calculation is None:
                     raise ValueError(f'passed variable {variable} but not calculated and not '
                                      f'in columns {self.source.columns}')
                 continue
-            orig_name = self.source.col_key_for(var_key=variable.key)
+            orig_name = self.source.col_key_for(variable, orig_only=True)
             rename_dict[orig_name] = variable.name
+        for variable in self.source._vars_for_calculate:
+            try:
+                orig_name = self.source.col_key_for(variable, for_calculate_only=True)
+                rename_dict[orig_name] = variable.name
+            except NoColumnForVariableException:
+                # Must be using a pre-existing column rather than a newly generated column, need to rename that instead
+                orig_name = self.source.col_key_for(variable, orig_only=True)
+                rename_dict[orig_name] = variable.name
         df.rename(columns=rename_dict, inplace=True)
 
     def try_to_calculate_variables(self, df: pd.DataFrame):
@@ -168,14 +198,24 @@ class DataLoader:
         temp_source.name = '_temp_source_for_transform'
 
         for var in self.source.load_variables:
+            if not var.applied_transforms:
+                continue
             if var.key not in self.source.col_var_keys:
                 if var.calculation is None:
                     raise ValueError(f'passed variable {var} but not calculated and not '
                                      f'in columns {self.source.columns}')
                 continue
-            column = self.source.col_for(var_key=var.key)
+            column = self.source.untransformed_col_for(var)
             temp_source = _apply_transforms_to_var(var, column, temp_source)
         return temp_source.df
+
+    def drop_variables(self, df: pd.DataFrame):
+        if not self.source._vars_for_calculate:
+            # Only need to drop if extra variables were loaded for calculations
+            return
+
+        drop_names = [var.name for var in self.source._vars_for_calculate]
+        df.drop(drop_names, axis=1, inplace=True)
 
     def pre_transform_clean_up(self, df: pd.DataFrame) -> pd.DataFrame:
         return df

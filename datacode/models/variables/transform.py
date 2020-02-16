@@ -1,6 +1,8 @@
 from copy import deepcopy
 from typing import Optional, TYPE_CHECKING, Sequence
 
+from datacode.models.variables.compare import functions_are_equal
+
 if TYPE_CHECKING:
     from datacode.models.source import DataSource
     from datacode.models.column.column import Column
@@ -100,6 +102,17 @@ class Transform:
                              f'{self.data_func_target} which should be one of cell, series, dataframe, or source')
         return source
 
+    def __eq__(self, other):
+        same = True
+        try:
+            same = same and self.key == other.key
+            same = same and functions_are_equal(self.name_func, other.name_func)
+            same = same and functions_are_equal(self.data_func, other.data_func)
+            same = same and self.data_func_target == other.data_func_target
+            return same
+        except AttributeError:
+            return False
+
 
 
 class AppliedTransform(Transform):
@@ -128,3 +141,14 @@ class AppliedTransform(Transform):
             data_func_target=transform.data_func_target,
             **kwargs)
         return obj
+
+    def __eq__(self, other) -> bool:
+        same = super().__eq__(other)
+        if not same:
+            return False
+        try:
+            same = same and self.args == other.args
+            same = same and self.kwargs == other.kwargs
+            return same
+        except AttributeError:
+            return False
