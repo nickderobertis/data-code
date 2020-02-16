@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 class DataSource:
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
-                 pipeline: Optional['DataPipeline'] = None, columns: Optional[Dict[str, Column]] = None,
+                 pipeline: Optional['DataPipeline'] = None, columns: Optional[Sequence[Column]] = None,
                  load_variables: Optional[Sequence[Variable]] = None,
                  name: Optional[str] = None, tags: Optional[List[str]] = None,
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
@@ -29,7 +29,9 @@ class DataSource:
         if loader_class is None:
             loader_class = DataLoader
         if load_variables is None and columns is not None:
-            load_variables = [col.variable for col in columns.values()]
+            load_variables = [col.variable for col in columns]
+        if columns is not None and not isinstance(columns, list):
+            columns = list(columns)
 
         self._check_inputs(location, df)
         self.location = location
@@ -37,7 +39,7 @@ class DataSource:
         self.tags = tags # TODO: better handling for tags
         self.loader_class = loader_class
         self.pipeline = pipeline
-        self.columns = columns
+        self.columns: Optional[List[Column]] = columns
         self.load_variables = load_variables
         self.read_file_kwargs = read_file_kwargs
         self.optimize_size = optimize_size
@@ -125,7 +127,7 @@ class DataSource:
     def col_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None) -> Column:
         if variable is None and var_key is None:
             raise ValueError('must pass variable or variable key')
-        col_by_var_key = {col.variable.key: col for col in self.columns.values()}
+        col_by_var_key = {col.variable.key: col for col in self.columns}
         if variable is not None:
             return col_by_var_key[variable.key]
         if var_key is not None:
@@ -134,7 +136,7 @@ class DataSource:
     def col_key_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None) -> Column:
         if variable is None and var_key is None:
             raise ValueError('must pass variable or variable key')
-        col_key_by_var_key = {col.variable.key: col_key for col_key, col in self.columns.items()}
+        col_key_by_var_key = {col.variable.key: col.load_key for col in self.columns}
         if variable is not None:
             return col_key_by_var_key[variable.key]
         if var_key is not None:
@@ -142,7 +144,7 @@ class DataSource:
 
     @property
     def col_var_keys(self) -> List[str]:
-        return [col.variable.key for col in self.columns.values()]
+        return [col.variable.key for col in self.columns]
 
     def __repr__(self):
         return f'<DataSource(name={self.name}, columns={self.columns})>'
