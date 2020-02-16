@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.8.1 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.9.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.8.1
+                0.9.0
               </div>
             
           
@@ -183,7 +183,7 @@
 <div class="viewcode-block" id="DataSource"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource">[docs]</a><span class="k">class</span> <span class="nc">DataSource</span><span class="p">:</span>
 
 <div class="viewcode-block" id="DataSource.__init__"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">pipeline</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;DataPipeline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Column</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">pipeline</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;DataPipeline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Column</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">load_variables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Variable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">loader_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DataLoader</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">read_file_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -194,7 +194,47 @@
         <span class="k">if</span> <span class="n">loader_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">loader_class</span> <span class="o">=</span> <span class="n">DataLoader</span>
         <span class="k">if</span> <span class="n">load_variables</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">load_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+            <span class="n">load_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="c1"># Handle setup for loading columns needed only for calculations</span>
+        <span class="n">extra_cols_for_calcs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">extra_vars_for_calcs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">load_variables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vars_for_calculate</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">load_variables</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">vars_for_calculate</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">vars_for_calculate</span><span class="p">:</span>
+                <span class="n">all_vars</span> <span class="o">=</span> <span class="n">load_variables</span> <span class="o">+</span> <span class="n">extra_vars_for_calcs</span>
+                <span class="n">current_var_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">load_var</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">load_var</span> <span class="ow">in</span> <span class="n">all_vars</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_vars</span><span class="p">:</span>
+                    <span class="c1"># TODO: don&#39;t trigger extra columns when the extra columns are just the untransformed columns</span>
+                    <span class="c1">#</span>
+                    <span class="c1"># We are adding extra columns here for calculated variables which require variables not</span>
+                    <span class="c1"># included in `load_variables`. Currently, it will load extra variables even if</span>
+                    <span class="c1"># the calculation could just be done before variable transforms. For example, the</span>
+                    <span class="c1"># test `TestLoadSource.test_load_with_calculate_on_transformed_before_transform` should be able</span>
+                    <span class="c1"># to complete without adding any extra columns</span>
+                    <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="n">current_var_keys</span><span class="p">:</span>
+                        <span class="c1"># This is a variable that is already being loaded but with a different transformation</span>
+                        <span class="c1"># Need to create an extra column for it for later loading handling</span>
+                        <span class="n">existing_col</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">var</span><span class="o">.</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">new_col</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">existing_col</span><span class="p">)</span>
+                        <span class="n">new_col</span><span class="o">.</span><span class="n">variable</span> <span class="o">=</span> <span class="n">var</span>
+                        <span class="n">extra_cols_for_calcs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_col</span><span class="p">)</span>
+                    <span class="n">extra_vars_for_calcs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">all_columns</span> <span class="o">=</span> <span class="n">columns</span> <span class="o">+</span> <span class="n">extra_cols_for_calcs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_columns</span> <span class="o">=</span> <span class="n">columns</span>
+
+        <span class="k">if</span> <span class="n">load_variables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">all_load_vars</span> <span class="o">=</span> <span class="n">load_variables</span> <span class="o">+</span> <span class="n">extra_vars_for_calcs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_load_vars</span> <span class="o">=</span> <span class="n">load_variables</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_inputs</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
@@ -202,8 +242,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span> <span class="c1"># TODO: better handling for tags</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span> <span class="o">=</span> <span class="n">loader_class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">pipeline</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span> <span class="o">=</span> <span class="n">load_variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_orig_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]]</span> <span class="o">=</span> <span class="n">columns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_columns_for_calculate</span> <span class="o">=</span> <span class="n">extra_cols_for_calcs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]]</span> <span class="o">=</span> <span class="n">all_columns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_orig_load_variables</span> <span class="o">=</span> <span class="n">load_variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vars_for_calculate</span> <span class="o">=</span> <span class="n">extra_vars_for_calcs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span> <span class="o">=</span> <span class="n">all_load_vars</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span> <span class="o">=</span> <span class="n">optimize_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">df</span>
@@ -287,30 +331,80 @@
 <div class="viewcode-block" id="DataSource.copy"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataSource.col_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.col_for">[docs]</a>    <span class="k">def</span> <span class="nf">col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">variable</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">var_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;must pass variable or variable key&#39;</span><span class="p">)</span>
-        <span class="n">col_by_var_key</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">:</span> <span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">()}</span>
-        <span class="k">if</span> <span class="n">variable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">col_by_var_key</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">var_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">col_by_var_key</span><span class="p">[</span><span class="n">var_key</span><span class="p">]</span></div>
+<div class="viewcode-block" id="DataSource.untransformed_col_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.untransformed_col_for">[docs]</a>    <span class="k">def</span> <span class="nf">untransformed_col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Variable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
+        <span class="n">possible_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">var_applied_transform_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">possible_cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">col</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">:</span>
+                <span class="c1"># Matches key and no transformations, this is the correct col</span>
+                <span class="k">return</span> <span class="n">col</span>
+            <span class="c1"># Check for subset of transformations</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var_transform_key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">var_applied_transform_keys</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">):</span>
+                    <span class="c1"># More transforms applied to var than in col, must be the matching col</span>
+                    <span class="k">return</span> <span class="n">col</span>
+                <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">var_applied_transform_keys</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="c1"># Mismatching transform between column and variable, must be incorrect column</span>
+                    <span class="k">break</span>
+        <span class="k">raise</span> <span class="n">NoColumnForVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find untransformed col for </span><span class="si">{variable}</span><span class="s1"> in </span><span class="si">{self.columns}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataSource.col_key_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.col_key_for">[docs]</a>    <span class="k">def</span> <span class="nf">col_key_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
+<div class="viewcode-block" id="DataSource.col_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.col_for">[docs]</a>    <span class="k">def</span> <span class="nf">col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">orig_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Prefer exact match, need to try this because there may be multiple columns with identical</span>
+            <span class="c1"># variables besides the applied transforms</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_col_for</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">var_key</span><span class="p">,</span> <span class="n">orig_only</span><span class="o">=</span><span class="n">orig_only</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="o">=</span><span class="n">for_calculate_only</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoColumnForVariableException</span><span class="p">:</span>
+            <span class="c1"># Fall back to matching only on variable key as it may be that it is the correct column but</span>
+            <span class="c1"># the transforms have not been applied yet</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_col_for</span><span class="p">(</span>
+                <span class="n">variable</span><span class="p">,</span> <span class="n">var_key</span><span class="p">,</span> <span class="n">match_key_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">orig_only</span><span class="o">=</span><span class="n">orig_only</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="o">=</span><span class="n">for_calculate_only</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">col</span></div>
+
+    <span class="k">def</span> <span class="nf">_col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">match_key_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">orig_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">orig_only</span> <span class="ow">and</span> <span class="n">for_calculate_only</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;pass only one of orig_only and for_calculate_only&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">variable</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">var_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;must pass variable or variable key&#39;</span><span class="p">)</span>
-        <span class="n">col_key_by_var_key</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">:</span> <span class="n">col_key</span> <span class="k">for</span> <span class="n">col_key</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-        <span class="k">if</span> <span class="n">variable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">col_key_by_var_key</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">var_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">col_key_by_var_key</span><span class="p">[</span><span class="n">var_key</span><span class="p">]</span></div>
+
+        <span class="k">if</span> <span class="n">orig_only</span><span class="p">:</span>
+            <span class="n">col_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig_columns</span>
+        <span class="k">elif</span> <span class="n">for_calculate_only</span><span class="p">:</span>
+            <span class="n">col_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns_for_calculate</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">col_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span>
+
+        <span class="k">if</span> <span class="n">variable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">possible_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">var_key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_cols</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cannot look up col for key </span><span class="si">{var_key}</span><span class="s1"> as multiple columns match: </span><span class="si">{possible_cols}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">variable</span> <span class="o">=</span> <span class="n">possible_cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">variable</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">match_key_only</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">col</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span> <span class="o">==</span> <span class="n">variable</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">col</span>
+        <span class="k">raise</span> <span class="n">NoColumnForVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find column matching </span><span class="si">{variable}</span><span class="s1"> in </span><span class="si">{self.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DataSource.col_key_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.col_key_for">[docs]</a>    <span class="k">def</span> <span class="nf">col_key_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">orig_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">var_key</span><span class="p">,</span> <span class="n">orig_only</span><span class="o">=</span><span class="n">orig_only</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="o">=</span><span class="n">for_calculate_only</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">col</span><span class="o">.</span><span class="n">load_key</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">col_var_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataSource(name=</span><span class="si">{self.name}</span><span class="s1">, columns=</span><span class="si">{self.columns}</span><span class="s1">)&gt;&#39;</span></div>
+
+
+<div class="viewcode-block" id="NoColumnForVariableException"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.NoColumnForVariableException">[docs]</a><span class="k">class</span> <span class="nc">NoColumnForVariableException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
 </pre></div>
 
            </div>

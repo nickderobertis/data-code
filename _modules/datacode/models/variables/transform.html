@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.transform &mdash; datacode 0.8.1 documentation</title>
+  <title>datacode.models.variables.transform &mdash; datacode 0.9.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.8.1
+                0.9.0
               </div>
             
           
@@ -166,6 +166,8 @@
 <span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Sequence</span>
 
+<span class="kn">from</span> <span class="nn">datacode.models.variables.compare</span> <span class="kn">import</span> <span class="n">functions_are_equal</span>
+
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
     <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
@@ -263,7 +265,18 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not pass appropriate data_func_target to Transform </span><span class="si">{self}</span><span class="s1">, got &#39;</span>
                              <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{self.data_func_target}</span><span class="s1"> which should be one of cell, series, dataframe, or source&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">source</span></div>
+        <span class="k">return</span> <span class="n">source</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">same</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">same</span> <span class="o">=</span> <span class="n">same</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">key</span>
+            <span class="n">same</span> <span class="o">=</span> <span class="n">same</span> <span class="ow">and</span> <span class="n">functions_are_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_func</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">name_func</span><span class="p">)</span>
+            <span class="n">same</span> <span class="o">=</span> <span class="n">same</span> <span class="ow">and</span> <span class="n">functions_are_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">data_func</span><span class="p">)</span>
+            <span class="n">same</span> <span class="o">=</span> <span class="n">same</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">data_func_target</span>
+            <span class="k">return</span> <span class="n">same</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
 
 
 
@@ -292,7 +305,18 @@
             <span class="n">data_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">data_func</span><span class="p">,</span>
             <span class="n">data_func_target</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">data_func_target</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">obj</span></div></div>
+        <span class="k">return</span> <span class="n">obj</span></div>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">same</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">same</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">same</span> <span class="o">=</span> <span class="n">same</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">args</span>
+            <span class="n">same</span> <span class="o">=</span> <span class="n">same</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">kwargs</span>
+            <span class="k">return</span> <span class="n">same</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
 </pre></div>
 
            </div>

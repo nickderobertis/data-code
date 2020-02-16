@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models package &mdash; datacode 0.8.1 documentation</title>
+  <title>datacode.models package &mdash; datacode 0.9.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.8.1
+                0.9.0
               </div>
             
           
@@ -234,6 +234,7 @@
 <li class="toctree-l1"><a class="reference internal" href="datacode.models.variables.html">datacode.models.variables package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.collection">datacode.models.variables.collection module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.compare">datacode.models.variables.compare module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.expression">datacode.models.variables.expression module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.tools">datacode.models.variables.tools module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.variables.html#module-datacode.models.variables.transform">datacode.models.variables.transform module</a></li>
@@ -287,6 +288,16 @@
 <dl class="method">
 <dt id="datacode.models.loader.DataLoader.assign_series_to_columns">
 <code class="sig-name descname">assign_series_to_columns</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.assign_series_to_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.assign_series_to_columns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.drop_variables">
+<code class="sig-name descname">drop_variables</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.drop_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.drop_variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.duplicate_columns_for_calculations_assign_series">
+<code class="sig-name descname">duplicate_columns_for_calculations_assign_series</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.duplicate_columns_for_calculations_assign_series"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.duplicate_columns_for_calculations_assign_series" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -533,7 +544,7 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 
 <dl class="method">
 <dt id="datacode.models.source.DataSource.col_for">
-<code class="sig-name descname">col_for</code><span class="sig-paren">(</span><em class="sig-param">variable=None</em>, <em class="sig-param">var_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.col_for"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.col_for" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">col_for</code><span class="sig-paren">(</span><em class="sig-param">variable=None</em>, <em class="sig-param">var_key=None</em>, <em class="sig-param">orig_only=False</em>, <em class="sig-param">for_calculate_only=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.col_for"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.col_for" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="datacode.models.column.html#datacode.models.column.column.Column" title="datacode.models.column.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a></p>
@@ -543,7 +554,7 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 
 <dl class="method">
 <dt id="datacode.models.source.DataSource.col_key_for">
-<code class="sig-name descname">col_key_for</code><span class="sig-paren">(</span><em class="sig-param">variable=None</em>, <em class="sig-param">var_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.col_key_for"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.col_key_for" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">col_key_for</code><span class="sig-paren">(</span><em class="sig-param">variable=None</em>, <em class="sig-param">var_key=None</em>, <em class="sig-param">orig_only=False</em>, <em class="sig-param">for_calculate_only=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.col_key_for"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.col_key_for" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="datacode.models.column.html#datacode.models.column.column.Column" title="datacode.models.column.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a></p>
@@ -581,6 +592,22 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 <code class="sig-name descname">output</code><span class="sig-paren">(</span><em class="sig-param">**to_csv_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.output" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="datacode.models.source.DataSource.untransformed_col_for">
+<code class="sig-name descname">untransformed_col_for</code><span class="sig-paren">(</span><em class="sig-param">variable</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.untransformed_col_for"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.untransformed_col_for" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="datacode.models.column.html#datacode.models.column.column.Column" title="datacode.models.column.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="datacode.models.source.NoColumnForVariableException">
+<em class="property">exception </em><code class="sig-prename descclassname">datacode.models.source.</code><code class="sig-name descname">NoColumnForVariableException</code><a class="reference internal" href="../_modules/datacode/models/source.html#NoColumnForVariableException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.NoColumnForVariableException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
 </dd></dl>
 
 </div>

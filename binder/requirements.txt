@@ -1,8 +1,8 @@
 sympy
-pyfileconf
-matplotlib
-regtools
-pyexlatex
-pandas
-pd_utils
 datacode
+pandas
+regtools
+pd_utils
+pyfileconf
+pyexlatex
+matplotlib
