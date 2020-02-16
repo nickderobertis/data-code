@@ -45,7 +45,7 @@ class DataSource:
                 all_vars = load_variables + extra_vars_for_calcs
                 current_var_keys = [load_var.key for load_var in all_vars]
                 if var not in all_vars:
-                    # TODO: don't trigger extra columns when the extra columns are just the untransformed columns
+                    # TODO [$5e49794ab99ee8000711a068]: don't trigger extra columns when the extra columns are just the untransformed columns
                     #
                     # We are adding extra columns here for calculated variables which require variables not
                     # included in `load_variables`. Currently, it will load extra variables even if
