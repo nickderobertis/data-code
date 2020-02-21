@@ -25,7 +25,7 @@ class DataGeneratorPipeline(DataPipeline):
         self.output()
 
     def summary(self, **kwargs):
-        # TODO: better summary for DataGeneratorPipeline
+        # TODO [$5e4fcf476d393e0007a50c3b]: better summary for DataGeneratorPipeline
         print(f'Pipeline {self.name} calls function {self.func.__name__} with kwargs {self.func_kwargs}')
 
 
