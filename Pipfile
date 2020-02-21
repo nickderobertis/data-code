@@ -27,6 +27,7 @@ matplotlib = "*"
 regtools = "*"
 pyexlatex = "*"
 sympy = "*"
+IPython = "*"
 
 [requires]
 python_version = "3.7"
