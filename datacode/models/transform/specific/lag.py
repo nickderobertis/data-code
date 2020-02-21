@@ -4,7 +4,7 @@ from typing import Tuple, TYPE_CHECKING, List
 import pandas as pd
 from sympy import Symbol
 
-from datacode.models.variables.transform.transform import Transform
+from datacode.models.transform.transform import Transform
 from pd_utils.filldata import add_missing_group_rows
 
 from datacode.models.dtypes.datetime_type import DatetimeType

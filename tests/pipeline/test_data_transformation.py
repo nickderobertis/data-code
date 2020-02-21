@@ -4,13 +4,15 @@ import pandas as pd
 from pandas.testing import assert_frame_equal
 
 from datacode import DataSource, DataGeneratorPipeline, DataTransformationPipeline, Variable, Column
+from datacode.models.transform.source import SourceTransform
 from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
 
 
-def transform_func(col: Column, variable: Variable, ds: DataSource) -> DataSource:
-    if variable.dtype.is_numeric:
-        ds.df[variable.name] += 1
+def source_transform_func(ds: DataSource) -> DataSource:
+    for variable in ds.load_variables:
+        if variable.dtype.is_numeric:
+            ds.df[variable.name] += 1
     return ds
 
 
@@ -31,11 +33,12 @@ class DataTransformationPipelineTest(SourceTest):
         ],
         columns=['A_1', 'B_1', 'C_1']
     )
+    source_transform = SourceTransform('st', name_func=SourceTest.transform_name_func, data_func=source_transform_func)
     csv_path_output = os.path.join(GENERATED_PATH, 'output.csv')
 
     def create_pipeline(self, **pipeline_kwargs) -> DataTransformationPipeline:
         config_dict = dict(
-            func=transform_func,
+            func=source_transform_func,
             outpath=self.csv_path_output
         )
         config_dict.update(pipeline_kwargs)
@@ -49,16 +52,16 @@ class DataTransformationPipelineTest(SourceTest):
 class TestDataTransformationPipeline(DataTransformationPipelineTest):
 
     def test_create_and_run_generator_pipeline_from_func(self):
-        dgp = self.create_pipeline()
-        dgp.execute()
+        dtp = self.create_pipeline()
+        dtp.execute()
 
-        assert_frame_equal(dgp.df, self.expect_func_df)
+        assert_frame_equal(dtp.df, self.expect_func_df)
 
     def test_create_and_run_generator_pipeline_from_transform(self):
-        dgp = self.create_pipeline(func=self.transform_source)
-        dgp.execute()
+        dtp = self.create_pipeline(func=self.source_transform)
+        dtp.execute()
 
-        assert_frame_equal(dgp.df, self.expect_loaded_df_with_transform)
+        assert_frame_equal(dtp.df, self.expect_loaded_df_with_transform)
 
     def test_auto_run_pipeline_by_load_source_with_no_location(self):
         dtp = self.create_pipeline()
