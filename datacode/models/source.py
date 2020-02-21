@@ -13,12 +13,12 @@ from datacode.models.column.column import Column
 from datacode.models.loader import DataLoader
 
 if TYPE_CHECKING:
-    from datacode.models.pipeline import DataPipeline
+    from datacode.models.pipeline import DataMergePipeline
 
 class DataSource:
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
-                 pipeline: Optional['DataPipeline'] = None, columns: Optional[Sequence[Column]] = None,
+                 pipeline: Optional['DataMergePipeline'] = None, columns: Optional[Sequence[Column]] = None,
                  load_variables: Optional[Sequence[Variable]] = None,
                  name: Optional[str] = None, tags: Optional[List[str]] = None,
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
@@ -122,7 +122,7 @@ class DataSource:
         pass
         # assert not (filepath is None) and (df is None)
 
-    def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: 'DataPipeline' =None, **read_file_kwargs):
+    def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: 'DataMergePipeline' =None, **read_file_kwargs):
         run_pipeline = False
         if pipeline is not None:
             # if a source in the pipeline to create this data source was modified more recently than this data source

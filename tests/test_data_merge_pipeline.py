@@ -4,13 +4,13 @@ from typing import Tuple, Optional
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
-from datacode import Column, Variable, DataPipeline, DataSource
+from datacode import Column, Variable, DataMergePipeline, DataSource
 from datacode.models.merge import MergeOptions
 from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
 
 
-class DataPipelineTest(SourceTest):
+class DataMergePipelineTest(SourceTest):
     merge_var = Variable('c', 'C', dtype='str')
     test_df2 = pd.DataFrame(
         [
@@ -72,11 +72,11 @@ class DataPipelineTest(SourceTest):
         ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
 
         mo = MergeOptions([self.merge_var.name])
-        dp = DataPipeline([ds1, ds2], [mo], outpath=self.csv_path_output)
+        dp = DataMergePipeline([ds1, ds2], [mo], outpath=self.csv_path_output)
         return dp
 
 
-class TestDataMergePipeline(DataPipelineTest):
+class TestDataMergePipeline(DataMergePipelineTest):
 
     def test_create_and_run_merge_pipeline_from_sources(self):
         dp = self.create_merge_pipeline()

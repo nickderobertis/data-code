@@ -8,13 +8,13 @@ from datacode.models.source import DataSource
 from datacode.models.merge import DataMerge, MergeOptions, LastMergeFinishedException
 from pyfileconf.selector.models.itemview import ItemView, _is_item_view
 
-DataSourceOrPipeline = Union[DataSource, 'DataPipeline']
+DataSourceOrPipeline = Union[DataSource, 'DataMergePipeline']
 DataSourcesOrPipelines = Sequence[DataSourceOrPipeline]
 MergeOptionsList = Sequence[MergeOptions]
 DataMerges = List[DataMerge]
 
 
-class DataPipeline(Pipeline):
+class DataMergePipeline(Pipeline):
 
     def __init__(self, data_sources: DataSourcesOrPipelines=None, merge_options_list: MergeOptionsList=None,
                  outpath=None, post_merge_cleanup_func=None, name: str=None, cleanup_kwargs: dict=None):
@@ -187,10 +187,10 @@ class DataPipeline(Pipeline):
 def _get_merges(data_source_1: DataSourceOrPipeline, data_source_2: DataSourceOrPipeline,
                 merge_options: MergeOptions) -> DataMerges:
     """
-    Creates a list of DataMerge objects from a paring of two DataSource objects, a DataSource and a DataPipeline,
-    or two DataPipeline objects.
-    :param data_source_1: DataSource or DataPipeline
-    :param data_source_2: DataSource or DataPipeline
+    Creates a list of DataMerge objects from a paring of two DataSource objects, a DataSource and a DataMergePipeline,
+    or two DataMergePipeline objects.
+    :param data_source_1: DataSource or DataMergePipeline
+    :param data_source_2: DataSource or DataMergePipeline
     :param merge_options: MergeOptions
     :return: list of DataMerge objects
     """
