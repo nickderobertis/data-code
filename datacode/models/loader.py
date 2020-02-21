@@ -23,19 +23,24 @@ class DataLoader:
         self.read_file_kwargs = read_file_kwargs
 
     def load(self) -> pd.DataFrame:
+        self.pre_read()
         df = self.read_file_into_df()
+        df = self.post_read(df)
         self.duplicate_columns_for_calculations_assign_series(df)
         self.rename_columns(df)
+        df = self.post_rename(df)
         if self.optimize_size:
             df = self.optimize_df_size(df)
         self.assign_series_to_columns(df)
+        df = self.pre_calculate(df)
         df = self.try_to_calculate_variables(df)
-        df = self.pre_transform_clean_up(df)
+        df = self.pre_transform(df)
         df = self.apply_transforms(df)
-        df = self.post_transform_clean_up(df)
+        df = self.post_transform(df)
         df = self.try_to_calculate_variables(df)
         self.assign_series_to_columns(df)
         self.drop_variables(df)
+        df = self.post_load(df)
 
         return df
 
@@ -220,10 +225,25 @@ class DataLoader:
         drop_names = [var.name for var in self.source._vars_for_calculate]
         df.drop(drop_names, axis=1, inplace=True)
 
-    def pre_transform_clean_up(self, df: pd.DataFrame) -> pd.DataFrame:
+    def pre_transform(self, df: pd.DataFrame) -> pd.DataFrame:
         return df
 
-    def post_transform_clean_up(self, df: pd.DataFrame) -> pd.DataFrame:
+    def post_transform(self, df: pd.DataFrame) -> pd.DataFrame:
+        return df
+
+    def pre_read(self):
+        pass
+
+    def post_read(self, df: pd.DataFrame) -> pd.DataFrame:
+        return df
+
+    def post_rename(self, df: pd.DataFrame) -> pd.DataFrame:
+        return df
+
+    def pre_calculate(self, df: pd.DataFrame) -> pd.DataFrame:
+        return df
+
+    def post_load(self, df: pd.DataFrame) -> pd.DataFrame:
         return df
 
 
