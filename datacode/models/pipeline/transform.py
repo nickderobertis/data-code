@@ -16,7 +16,7 @@ class DataTransformationPipeline(DataPipeline):
     def __init__(self, data_source: DataSource, func: Union[Callable[[DataSource, Any], DataSource], Transform],
                  func_target: str = 'source', preserve_original: bool = True,
                  outpath: Optional[str] = None,
-                 name: Optional[str] = None, last_modified: Optional[datetime.datetime] = None,
+                 name: Optional[str] = None,
                  **func_kwargs):
         if isinstance(func, Transform):
             self.transform = func
@@ -25,7 +25,7 @@ class DataTransformationPipeline(DataPipeline):
         self.func = func
         self.func_kwargs = func_kwargs
         self.preserve_original = preserve_original
-        super().__init__(data_sources=[data_source], outpath=outpath, name=name, last_modified=last_modified)
+        super().__init__(data_sources=[data_source], outpath=outpath, name=name)
 
     def execute(self):
         ds = self.transform.apply_to_source(self.data_sources[0], preserve_original=self.preserve_original)
