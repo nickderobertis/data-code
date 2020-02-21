@@ -36,6 +36,8 @@ def transform_source_data_func(col: Column, variable: Variable, source: DataSour
     for this_col in cols:
         if not this_col.variable.key == col.variable.key:
             continue
+        if not variable.dtype.is_numeric:
+            continue
         source.df[variable.name] = source.df[variable.name] + 1
     return source
 

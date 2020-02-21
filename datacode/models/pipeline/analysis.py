@@ -7,6 +7,9 @@ from datacode.models.pipeline.base import DataPipeline
 
 
 class DataAnalysisPipeline(DataPipeline):
+    """
+    A DataPipeline which starts from a single data source but does not produce a data source
+    """
 
     def __init__(self, data_source: DataSource,
                  func: Callable[[DataSource, Any], Any], name: Optional[str] = None,
