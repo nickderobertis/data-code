@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; datacode 0.9.3 documentation</title>
+  <title>Index &mdash; datacode 0.10.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.9.3
+                0.10.0
               </div>
             
           
@@ -227,7 +227,13 @@
 </li>
         <li><a href="api/datacode.models.html#datacode.models.merge.MergeOptions.__init__">(datacode.models.merge.MergeOptions method)</a>
 </li>
-        <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.__init__">(datacode.models.pipeline.DataPipeline method)</a>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.analysis.DataAnalysisPipeline.__init__">(datacode.models.pipeline.analysis.DataAnalysisPipeline method)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.__init__">(datacode.models.pipeline.base.DataPipeline method)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline.__init__">(datacode.models.pipeline.generate.DataGeneratorPipeline method)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.__init__">(datacode.models.pipeline.merge.DataMergePipeline method)</a>
 </li>
         <li><a href="api/datacode.models.html#datacode.models.source.DataSource.__init__">(datacode.models.source.DataSource method)</a>
 </li>
@@ -321,7 +327,7 @@
       <li><a href="api/datacode.models.html#datacode.models.merge.MergeOptions.copy">copy() (datacode.models.merge.MergeOptions method)</a>
 
       <ul>
-        <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.copy">(datacode.models.pipeline.DataPipeline method)</a>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.copy">(datacode.models.pipeline.base.DataPipeline method)</a>
 </li>
         <li><a href="api/datacode.models.html#datacode.models.source.DataSource.copy">(datacode.models.source.DataSource method)</a>
 </li>
@@ -362,7 +368,15 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.data_sources">data_sources() (datacode.models.pipeline.DataPipeline property)</a>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.analysis.DataAnalysisPipeline.data_source">data_source() (datacode.models.pipeline.analysis.DataAnalysisPipeline property)</a>
+</li>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.data_sources">data_sources() (datacode.models.pipeline.base.DataPipeline property)</a>
+
+      <ul>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.data_sources">(datacode.models.pipeline.merge.DataMergePipeline property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.analysis.DataAnalysisPipeline">DataAnalysisPipeline (class in datacode.models.pipeline.analysis)</a>
 </li>
       <li><a href="api/datacode.html#module-datacode">datacode (module)</a>
 </li>
@@ -456,7 +470,15 @@
 </li>
       <li><a href="api/datacode.models.html#module-datacode.models.merge">datacode.models.merge (module)</a>
 </li>
-      <li><a href="api/datacode.models.html#module-datacode.models.pipeline">datacode.models.pipeline (module)</a>
+      <li><a href="api/datacode.models.pipeline.html#module-datacode.models.pipeline">datacode.models.pipeline (module)</a>
+</li>
+      <li><a href="api/datacode.models.pipeline.html#module-datacode.models.pipeline.analysis">datacode.models.pipeline.analysis (module)</a>
+</li>
+      <li><a href="api/datacode.models.pipeline.html#module-datacode.models.pipeline.base">datacode.models.pipeline.base (module)</a>
+</li>
+      <li><a href="api/datacode.models.pipeline.html#module-datacode.models.pipeline.generate">datacode.models.pipeline.generate (module)</a>
+</li>
+      <li><a href="api/datacode.models.pipeline.html#module-datacode.models.pipeline.merge">datacode.models.pipeline.merge (module)</a>
 </li>
       <li><a href="api/datacode.models.html#module-datacode.models.source">datacode.models.source (module)</a>
 </li>
@@ -504,12 +526,12 @@
 </li>
       <li><a href="api/datacode.portfolio.html#module-datacode.portfolio.name">datacode.portfolio.name (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.portfolio.html#module-datacode.portfolio.resample">datacode.portfolio.resample (module)</a>
 </li>
       <li><a href="api/datacode.portfolio.html#module-datacode.portfolio.sort">datacode.portfolio.sort (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.portfolio.html#module-datacode.portfolio.typing">datacode.portfolio.typing (module)</a>
 </li>
       <li><a href="api/datacode.psm.html#module-datacode.psm">datacode.psm (module)</a>
@@ -606,11 +628,15 @@
 </li>
       <li><a href="api/datacode.html#module-datacode.typing">datacode.typing (module)</a>
 </li>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline">DataGeneratorPipeline (class in datacode.models.pipeline.generate)</a>
+</li>
       <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader">DataLoader (class in datacode.models.loader)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.merge.DataMerge">DataMerge (class in datacode.models.merge)</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline">DataPipeline (class in datacode.models.pipeline)</a>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline">DataMergePipeline (class in datacode.models.pipeline.merge)</a>
+</li>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline">DataPipeline (class in datacode.models.pipeline.base)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource">DataSource (class in datacode.models.source)</a>
 </li>
@@ -625,7 +651,9 @@
       <li><a href="api/datacode.models.html#datacode.models.merge.DataMerge.describe">describe() (datacode.models.merge.DataMerge method)</a>
 
       <ul>
-        <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.describe">(datacode.models.pipeline.DataPipeline method)</a>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.describe">(datacode.models.pipeline.merge.DataMergePipeline method)</a>
+</li>
+        <li><a href="api/datacode.models.html#datacode.models.source.DataSource.describe">(datacode.models.source.DataSource method)</a>
 </li>
       </ul></li>
       <li><a href="api/datacode.summarize.html#datacode.summarize.describe_df">describe_df() (in module datacode.summarize)</a>
@@ -666,12 +694,20 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.psm.html#datacode.psm.score.EmptyArraysException">EmptyArraysException</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.execute">execute() (datacode.models.pipeline.DataPipeline method)</a>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.analysis.DataAnalysisPipeline.execute">execute() (datacode.models.pipeline.analysis.DataAnalysisPipeline method)</a>
+
+      <ul>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.execute">(datacode.models.pipeline.base.DataPipeline method)</a>
 </li>
-      <li><a href="api/datacode.panel.html#datacode.panel.expandselect.expand_entity_date_selections">expand_entity_date_selections() (in module datacode.panel.expandselect)</a>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline.execute">(datacode.models.pipeline.generate.DataGeneratorPipeline method)</a>
 </li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.execute">(datacode.models.pipeline.merge.DataMergePipeline method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.panel.html#datacode.panel.expandselect.expand_entity_date_selections">expand_entity_date_selections() (in module datacode.panel.expandselect)</a>
+</li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.expression.Expression.explanation">explanation() (datacode.models.variables.expression.Expression property)</a>
 </li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.expression.Expression">Expression (class in datacode.models.variables.expression)</a>
@@ -790,7 +826,7 @@
 </li>
       <li><a href="api/datacode.models.variables.transform.specific.html#datacode.models.variables.transform.specific.lag.lag_varname_to_varname_and_lag">lag_varname_to_varname_and_lag() (in module datacode.models.variables.transform.specific.lag)</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.last_modified">last_modified() (datacode.models.pipeline.DataPipeline property)</a>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.last_modified">last_modified() (datacode.models.pipeline.base.DataPipeline property)</a>
 
       <ul>
         <li><a href="api/datacode.models.html#datacode.models.source.DataSource.last_modified">(datacode.models.source.DataSource property)</a>
@@ -798,11 +834,13 @@
       </ul></li>
       <li><a href="api/datacode.models.html#datacode.models.merge.LastMergeFinishedException">LastMergeFinishedException</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.logic.merge.html#datacode.models.logic.merge.left_merge_df">left_merge_df() (in module datacode.models.logic.merge)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.load">load() (datacode.models.loader.DataLoader method)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.source.DataSource.loaded_columns">loaded_columns() (datacode.models.source.DataSource property)</a>
 </li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.LogitResult">LogitResult (class in datacode.formatters.models.result)</a>
 </li>
@@ -830,7 +868,7 @@
 </li>
       <li><a href="api/datacode.html#datacode.load.merge_dsenames">merge_dsenames() (in module datacode.load)</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.merge_options_list">merge_options_list() (datacode.models.pipeline.DataPipeline property)</a>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.merge_options_list">merge_options_list() (datacode.models.pipeline.merge.DataMergePipeline property)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.merge.DataMerge.merge_str">merge_str() (datacode.models.merge.DataMerge property)</a>
 </li>
@@ -840,11 +878,9 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datacode.models.html#datacode.models.merge.DataMerge.merged_type">merged_type() (datacode.models.merge.DataMerge property)</a>
-</li>
       <li><a href="api/datacode.models.html#datacode.models.merge.MergeOptions">MergeOptions (class in datacode.models.merge)</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.merges">merges() (datacode.models.pipeline.DataPipeline property)</a>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.merges">merges() (datacode.models.pipeline.merge.DataMergePipeline property)</a>
 </li>
       <li><a href="api/datacode.summarize.subset.missing.html#datacode.summarize.subset.missing.main.missing_data_single_column_analysis">missing_data_single_column_analysis() (in module datacode.summarize.subset.missing.main)</a>
 </li>
@@ -874,7 +910,7 @@
         <li><a href="api/datacode.models.dtypes.html#datacode.models.dtypes.str_type.StringType.names">(datacode.models.dtypes.str_type.StringType attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.next_merge">next_merge() (datacode.models.pipeline.DataPipeline method)</a>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.next_merge">next_merge() (datacode.models.pipeline.merge.DataMergePipeline method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -920,7 +956,7 @@
 </li>
       <li><a href="api/datacode.summarize.subset.outliers.html#datacode.summarize.subset.outliers.main.outlier_summary_tables">outlier_summary_tables() (in module datacode.summarize.subset.outliers.main)</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.output">output() (datacode.models.pipeline.DataPipeline method)</a>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.output">output() (datacode.models.pipeline.base.DataPipeline method)</a>
 
       <ul>
         <li><a href="api/datacode.models.html#datacode.models.source.DataSource.output">(datacode.models.source.DataSource method)</a>
@@ -1004,12 +1040,12 @@
 </li>
       <li><a href="api/datacode.models.variables.transform.html#datacode.models.variables.transform.transform.Transform.apply_to_source.params.source">source (datacode.models.variables.transform.transform.Transform.apply_to_source parameter)</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.source_last_modified">source_last_modified() (datacode.models.pipeline.DataPipeline property)</a>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.source_last_modified">source_last_modified() (datacode.models.pipeline.base.DataPipeline property)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.symbols.str_to_symbol">str_to_symbol() (in module datacode.models.symbols)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datacode.models.html#datacode.models.symbols.str_to_symbol">str_to_symbol() (in module datacode.models.symbols)</a>
-</li>
       <li><a href="api/datacode.models.dtypes.html#datacode.models.dtypes.str_type.StringType">StringType (class in datacode.models.dtypes.str_type)</a>
 </li>
       <li><a href="api/datacode.models.variables.transform.html#datacode.models.variables.transform.transform.Transform.apply_to_source.params.subset">subset (datacode.models.variables.transform.transform.Transform.apply_to_source parameter)</a>
@@ -1019,7 +1055,13 @@
       <li><a href="api/datacode.models.html#datacode.models.merge.DataMerge.summary">summary() (datacode.models.merge.DataMerge method)</a>
 
       <ul>
-        <li><a href="api/datacode.models.html#datacode.models.pipeline.DataPipeline.summary">(datacode.models.pipeline.DataPipeline method)</a>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.analysis.DataAnalysisPipeline.summary">(datacode.models.pipeline.analysis.DataAnalysisPipeline method)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.summary">(datacode.models.pipeline.base.DataPipeline method)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline.summary">(datacode.models.pipeline.generate.DataGeneratorPipeline method)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.summary">(datacode.models.pipeline.merge.DataMergePipeline method)</a>
 </li>
       </ul></li>
   </ul></td>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models package &mdash; datacode 0.9.3 documentation</title>
+  <title>datacode.models package &mdash; datacode 0.10.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.9.3
+                0.10.0
               </div>
             
           
@@ -229,6 +229,14 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.logic.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.logic.html#module-datacode.models.logic.partial">datacode.models.logic.partial module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.models.pipeline.html">datacode.models.pipeline package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.html#module-datacode.models.pipeline.analysis">datacode.models.pipeline.analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.html#module-datacode.models.pipeline.base">datacode.models.pipeline.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.html#module-datacode.models.pipeline.generate">datacode.models.pipeline.generate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.html#module-datacode.models.pipeline.merge">datacode.models.pipeline.merge module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="datacode.models.variables.html">datacode.models.variables package</a><ul>
@@ -412,11 +420,6 @@
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="datacode.models.merge.DataMerge.merged_type">
-<em class="property">property </em><code class="sig-name descname">merged_type</code><a class="headerlink" href="#datacode.models.merge.DataMerge.merged_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="datacode.models.merge.DataMerge.summary">
 <code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param">*summary_args</em>, <em class="sig-param">summary_method=None</em>, <em class="sig-param">summary_function=None</em>, <em class="sig-param">summary_attr=None</em>, <em class="sig-param">**summary_method_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#DataMerge.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.DataMerge.summary" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -476,76 +479,6 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 </dd></dl>
 
 </div>
-<div class="section" id="module-datacode.models.pipeline">
-<span id="datacode-models-pipeline-module"></span><h2>datacode.models.pipeline module<a class="headerlink" href="#module-datacode.models.pipeline" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.pipeline.DataPipeline">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.</code><code class="sig-name descname">DataPipeline</code><span class="sig-paren">(</span><em class="sig-param">data_sources=None</em>, <em class="sig-param">merge_options_list=None</em>, <em class="sig-param">outpath=None</em>, <em class="sig-param">post_merge_cleanup_func=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">cleanup_kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline.html#DataPipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.DataPipeline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pyfileconf.basemodels.pipeline.Pipeline</span></code></p>
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">data_sources=None</em>, <em class="sig-param">merge_options_list=None</em>, <em class="sig-param">outpath=None</em>, <em class="sig-param">post_merge_cleanup_func=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">cleanup_kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline.html#DataPipeline.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.copy">
-<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline.html#DataPipeline.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.copy" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.data_sources">
-<em class="property">property </em><code class="sig-name descname">data_sources</code><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.data_sources" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.describe">
-<code class="sig-name descname">describe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline.html#DataPipeline.describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.describe" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.execute">
-<code class="sig-name descname">execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline.html#DataPipeline.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.execute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.last_modified">
-<em class="property">property </em><code class="sig-name descname">last_modified</code><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.last_modified" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.merge_options_list">
-<em class="property">property </em><code class="sig-name descname">merge_options_list</code><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.merge_options_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.merges">
-<em class="property">property </em><code class="sig-name descname">merges</code><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.merges" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.next_merge">
-<code class="sig-name descname">next_merge</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline.html#DataPipeline.next_merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.next_merge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.output">
-<code class="sig-name descname">output</code><span class="sig-paren">(</span><em class="sig-param">outpath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline.html#DataPipeline.output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.output" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.source_last_modified">
-<em class="property">property </em><code class="sig-name descname">source_last_modified</code><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.source_last_modified" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.pipeline.DataPipeline.summary">
-<code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param">*summary_args</em>, <em class="sig-param">summary_method=None</em>, <em class="sig-param">summary_function=None</em>, <em class="sig-param">summary_attr=None</em>, <em class="sig-param">**summary_method_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline.html#DataPipeline.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.DataPipeline.summary" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="module-datacode.models.source">
 <span id="datacode-models-source-module"></span><h2>datacode.models.source module<a class="headerlink" href="#module-datacode.models.source" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -594,6 +527,11 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="datacode.models.source.DataSource.describe">
+<code class="sig-name descname">describe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.describe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="datacode.models.source.DataSource.df">
 <em class="property">property </em><code class="sig-name descname">df</code><a class="headerlink" href="#datacode.models.source.DataSource.df" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -621,7 +559,22 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 <dl class="method">
 <dt id="datacode.models.source.DataSource.last_modified">
 <em class="property">property </em><code class="sig-name descname">last_modified</code><a class="headerlink" href="#datacode.models.source.DataSource.last_modified" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.source.DataSource.loaded_columns">
+<em class="property">property </em><code class="sig-name descname">loaded_columns</code><a class="headerlink" href="#datacode.models.source.DataSource.loaded_columns" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="datacode.models.column.html#datacode.models.column.column.Column" title="datacode.models.column.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="datacode.models.source.DataSource.output">

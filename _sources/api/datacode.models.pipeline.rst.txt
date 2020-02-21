@@ -1,0 +1,43 @@
+datacode.models.pipeline package
+================================
+
+.. automodule:: datacode.models.pipeline
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.models.pipeline.analysis module
+----------------------------------------
+
+.. automodule:: datacode.models.pipeline.analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.pipeline.base module
+------------------------------------
+
+.. automodule:: datacode.models.pipeline.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.pipeline.generate module
+----------------------------------------
+
+.. automodule:: datacode.models.pipeline.generate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.pipeline.merge module
+-------------------------------------
+
+.. automodule:: datacode.models.pipeline.merge
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

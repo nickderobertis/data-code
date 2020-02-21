@@ -14,6 +14,7 @@ Subpackages
    datacode.models.column
    datacode.models.dtypes
    datacode.models.logic
+   datacode.models.pipeline
    datacode.models.variables
 
 Submodules
@@ -39,14 +40,6 @@ datacode.models.merge module
 ----------------------------
 
 .. automodule:: datacode.models.merge
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-datacode.models.pipeline module
--------------------------------
-
-.. automodule:: datacode.models.pipeline
    :members:
    :undoc-members:
    :show-inheritance:
