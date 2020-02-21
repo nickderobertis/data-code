@@ -100,7 +100,10 @@ class DataSource:
 
     @property
     def last_modified(self):
-        if self.location is None:
+        # TODO: cleaner way of handling non-existent DataSource location for modified time
+        #
+        # Currently just setting to a date far in the past, but then the output shows this
+        if self.location is None or not os.path.exists(self.location):
             # No location. Setting last modified time as a long time ago, so will trigger pipeline instead
             return datetime.datetime(1899, 1, 1)
 
@@ -143,6 +146,10 @@ class DataSource:
         # Still necessary to use loader as may be transforming the data
         if run_pipeline:
             def run_pipeline_then_load(pipeline):
+                # TODO: should not have to write to disk with pipeline to then load it in source
+                #
+                # Loader should be able to take a DataFrame instead of just a filepath, then use
+                # that here. Will need to handle columns, variables, transformations correctly
                 pipeline.execute() # outputs to file
                 return loader.load()
             self.data_loader = partial(run_pipeline_then_load, self.pipeline)

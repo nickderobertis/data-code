@@ -4,7 +4,7 @@ from typing import Tuple, Optional
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
-from datacode import Column, Variable, DataPipeline
+from datacode import Column, Variable, DataPipeline, DataSource
 from datacode.models.merge import MergeOptions
 from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
@@ -28,6 +28,7 @@ class DataPipelineTest(SourceTest):
         columns=['A', 'B', 'C', 'E', 'F']
     )
     csv_path2 = os.path.join(GENERATED_PATH, 'data2.csv')
+    csv_path_output = os.path.join(GENERATED_PATH, 'output.csv')
 
     def create_csv_for_2(self, df: Optional[pd.DataFrame] = None, **to_csv_kwargs):
         if df is None:
@@ -62,10 +63,7 @@ class DataPipelineTest(SourceTest):
             cc
         ]
 
-
-class TestDataMergePipeline(DataPipelineTest):
-
-    def test_create_and_run_merge_pipeline_from_sources(self):
+    def create_merge_pipeline(self):
         self.create_csv()
         ds1_cols = self.create_columns()
         ds1 = self.create_source(df=None, columns=ds1_cols, name='one')
@@ -74,7 +72,21 @@ class TestDataMergePipeline(DataPipelineTest):
         ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
 
         mo = MergeOptions([self.merge_var.name])
-        dp = DataPipeline([ds1, ds2], [mo])
+        dp = DataPipeline([ds1, ds2], [mo], outpath=self.csv_path_output)
+        return dp
+
+
+class TestDataMergePipeline(DataPipelineTest):
+
+    def test_create_and_run_merge_pipeline_from_sources(self):
+        dp = self.create_merge_pipeline()
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_merged)
+
+    def test_auto_run_pipeline_by_load_source_with_no_location(self):
+        dp = self.create_merge_pipeline()
+
+        ds = DataSource(pipeline=dp, location=self.csv_path_output)
+        df = ds.df
+        assert_frame_equal(df, self.expect_merged)
