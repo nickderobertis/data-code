@@ -4,8 +4,9 @@ from functools import partial
 import os
 import warnings
 import datetime
-from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence, Type
+from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence, Type, Union
 
+from datacode.summarize import describe_df
 from pd_utils.optimize.load import read_file as read_file_into_df
 
 from datacode.models.variables.variable import Variable
@@ -13,12 +14,15 @@ from datacode.models.column.column import Column
 from datacode.models.loader import DataLoader
 
 if TYPE_CHECKING:
-    from datacode.models.pipeline import DataPipeline
+    from datacode.models.pipeline.merge import DataMergePipeline
+    from datacode.models.pipeline.generate import DataGeneratorPipeline
+
 
 class DataSource:
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
-                 pipeline: Optional['DataPipeline'] = None, columns: Optional[Sequence[Column]] = None,
+                 pipeline: Optional[Union['DataMergePipeline', 'DataGeneratorPipeline']] = None,
+                 columns: Optional[Sequence[Column]] = None,
                  load_variables: Optional[Sequence[Variable]] = None,
                  name: Optional[str] = None, tags: Optional[List[str]] = None,
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
@@ -99,15 +103,14 @@ class DataSource:
         self._df = df
 
     @property
-    def last_modified(self):
-        if self.location is None:
-            # No location. Setting last modified time as a long time ago, so will trigger pipeline instead
-            return datetime.datetime(1899, 1, 1)
+    def last_modified(self) -> Optional[datetime.datetime]:
+        if self.location is None or not os.path.exists(self.location):
+            # No location. Will trigger pipeline instead
+            return None
 
         return datetime.datetime.fromtimestamp(os.path.getmtime(self.location))
 
     def _load(self):
-        self._touch_pipeline()
         if not hasattr(self, 'data_loader'):
             self._set_data_loader(self.loader_class, pipeline=self.pipeline, **self.read_file_kwargs)
         return self.data_loader()
@@ -119,22 +122,41 @@ class DataSource:
         pass
         # assert not (filepath is None) and (df is None)
 
-    def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: 'DataPipeline' =None, **read_file_kwargs):
+    def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: 'DataMergePipeline' =None, **read_file_kwargs):
         run_pipeline = False
         if pipeline is not None:
             # if a source in the pipeline to create this data source was modified more recently than this data source
             # note: if there is no location, will always enter the next block, as last modified time will set
             # to a long time ago
-            if pipeline.last_modified > self.last_modified:
+            if (
+                    # no existing location for this source, must use pipeline
+                    self.last_modified is None or
+                    # not able to determine when pipeline sources were modified, must always run pipeline
+                    pipeline.last_modified is None or
+                    # pipeline sources were modified more recently than this source, run pipeline
+                    pipeline.last_modified > self.last_modified
+            ):
                 # a prior source used to construct this data source has changed. need to re run pipeline
-                recent_source = pipeline.source_last_modified
-                warnings.warn(f'''data source {recent_source} was modified at {recent_source.last_modified}.
-
-                this data source {self} was modified at {self.last_modified}.
-
-                to get new changes, will load this data source through pipeline rather than from file.''')
-
                 run_pipeline = True
+                if pipeline.last_modified is None:
+                    warnings.warn(f"""
+                    Was not able to determine last modified of pipeline {pipeline}.
+                    Will always run pipeline due to this. Consider manually setting last_modified when creating
+                    the pipeline.
+                    """.strip())
+                elif self.last_modified is None:
+                    warnings.warn(f"""
+                   Was not able to determine last modified of source {self}.
+                   Will run pipeline due to this. This is due to no file currently existing for this source.
+                   """.strip())
+                else:
+                    recent_source = pipeline.source_last_modified
+                    warnings.warn(f'''data source {recent_source} was modified at {recent_source.last_modified}.
+    
+                    this data source {self} was modified at {self.last_modified}.
+    
+                    to get new changes, will load this data source through pipeline rather than from file.''')
+
             # otherwise, don't need to worry about pipeline, continue handling
 
         loader = data_loader_class(self, read_file_kwargs, self.optimize_size)
@@ -143,25 +165,15 @@ class DataSource:
         # Still necessary to use loader as may be transforming the data
         if run_pipeline:
             def run_pipeline_then_load(pipeline):
+                # TODO: should not have to write to disk with pipeline to then load it in source
+                #
+                # Loader should be able to take a DataFrame instead of just a filepath, then use
+                # that here. Will need to handle columns, variables, transformations correctly
                 pipeline.execute() # outputs to file
                 return loader.load()
             self.data_loader = partial(run_pipeline_then_load, self.pipeline)
         else:
             self.data_loader = loader.load
-
-    def _touch_pipeline(self):
-        """
-        Pipeline may be passed using pyfileconf.Selector, in which case it is
-        a pyfileconf.selector.models.itemview.ItemView object. _set_data_loader accesses a property of
-        the pipeline before it's configured, and so won't work correctly. By accessing the .item proprty of the ItemView,
-        we get the original item back
-        Returns:
-
-        """
-        from pyfileconf.selector.models.itemview import _is_item_view
-
-        if _is_item_view(self.pipeline):
-            self.pipeline = self.pipeline.item
 
     def copy(self, **kwargs):
         if not kwargs:
@@ -286,6 +298,19 @@ class DataSource:
                             index_vars.append(var)
         return index_vars
 
+    @property
+    def loaded_columns(self) -> Optional[List[Column]]:
+        if self.columns is None:
+            return None
+        cols = []
+        for var in self.load_variables:
+            col = self.col_for(var)
+            cols.append(col)
+        return cols
+
+    def describe(self):
+        # TODO: use columns, variables, indices, etc. in describe
+        return describe_df(self.df)
 
     def __repr__(self):
         return f'<DataSource(name={self.name}, columns={self.columns})>'

@@ -40,7 +40,7 @@ class LogicalPipeline(Pipeline):
         super().__init__(process, options)
 
 
-class DataPipeline(Pipeline):
+class DataMergePipeline(Pipeline):
 
     def __init__(self, process: Process, options: [PipelineOptions, None] = None):
         if options is None:

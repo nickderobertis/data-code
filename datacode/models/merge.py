@@ -132,7 +132,7 @@ class DataMerge:
         )
 
     def _set_result(self, outpath=None):
-        self.result = DataSource(outpath, name=self.merged_name, data_type=self.merged_type)
+        self.result = DataSource(outpath, name=self.merged_name)
 
     def _get_merge_dfs(self) -> TwoDfTuple:
         left_df = self.data_sources[0].df
@@ -155,14 +155,8 @@ class DataMerge:
     @property
     def merged_name(self):
         if self._merged_name is None:
-            self._merged_name = self.data_sources[0].name + ' & ' + self.data_sources[1].name
+            self._merged_name = f'{self.data_sources[0].name} & {self.data_sources[1].name}'
         return self._merged_name
-
-    @property
-    def merged_type(self):
-        if self._merged_type is None:
-            self._merged_type = self.data_sources[0].data_type + ' & ' + self.data_sources[1].data_type
-        return self._merged_type
 
     @property
     def merge_str(self):

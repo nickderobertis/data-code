@@ -7,7 +7,8 @@ class DataType:
     names: Sequence[str] = tuple()
 
     def __init__(self, py_class: Type, pd_class: Optional[Type] = None, names: Optional[Sequence[str]] = None,
-                 transforms: Optional[Sequence[Transform]] = None, categorical: bool = False,
+                 transforms: Optional[Sequence[Transform]] = None, is_numeric: bool = False,
+                 categorical: bool = False,
                  ordered: bool = False):
         if names is None:
             names = []
@@ -25,6 +26,7 @@ class DataType:
         self.transforms = transforms
         self.categorical = categorical
         self.ordered = ordered
+        self.is_numeric = is_numeric
 
     @classmethod
     def from_str(cls, dtype: str, categorical: bool = False, ordered: bool = False):

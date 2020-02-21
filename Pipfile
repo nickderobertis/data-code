@@ -26,8 +26,8 @@ pd_utils = "*"
 matplotlib = "*"
 regtools = "*"
 pyexlatex = "*"
-pyfileconf = "*"
 sympy = "*"
+IPython = "*"
 
 [requires]
 python_version = "3.7"
