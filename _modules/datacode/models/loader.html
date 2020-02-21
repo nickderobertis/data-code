@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.10.1 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.10.2 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -188,19 +188,24 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span></div>
 
 <div class="viewcode-block" id="DataLoader.load"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_read</span><span class="p">()</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_file_into_df</span><span class="p">()</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_read</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">duplicate_columns_for_calculations_assign_series</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_rename</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_df_size</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assign_series_to_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_calculate</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">try_to_calculate_variables</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_transform_clean_up</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_transforms</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_transform_clean_up</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">try_to_calculate_variables</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assign_series_to_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">drop_variables</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_load</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">df</span></div>
 
@@ -385,10 +390,25 @@
         <span class="n">drop_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_vars_for_calculate</span><span class="p">]</span>
         <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_names</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataLoader.pre_transform_clean_up"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.pre_transform_clean_up">[docs]</a>    <span class="k">def</span> <span class="nf">pre_transform_clean_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="DataLoader.pre_transform"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.pre_transform">[docs]</a>    <span class="k">def</span> <span class="nf">pre_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
-<div class="viewcode-block" id="DataLoader.post_transform_clean_up"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.post_transform_clean_up">[docs]</a>    <span class="k">def</span> <span class="nf">post_transform_clean_up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="DataLoader.post_transform"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.post_transform">[docs]</a>    <span class="k">def</span> <span class="nf">post_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="DataLoader.pre_read"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.pre_read">[docs]</a>    <span class="k">def</span> <span class="nf">pre_read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DataLoader.post_read"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.post_read">[docs]</a>    <span class="k">def</span> <span class="nf">post_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="DataLoader.post_rename"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.post_rename">[docs]</a>    <span class="k">def</span> <span class="nf">post_rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="DataLoader.pre_calculate"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.pre_calculate">[docs]</a>    <span class="k">def</span> <span class="nf">pre_calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="DataLoader.post_load"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.post_load">[docs]</a>    <span class="k">def</span> <span class="nf">post_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">df</span></div></div>
 
 

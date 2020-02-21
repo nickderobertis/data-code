@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models package &mdash; datacode 0.10.1 documentation</title>
+  <title>datacode.models package &mdash; datacode 0.10.2 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.10.1
+                0.10.2
               </div>
             
           
@@ -345,8 +345,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="datacode.models.loader.DataLoader.post_transform_clean_up">
-<code class="sig-name descname">post_transform_clean_up</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.post_transform_clean_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.post_transform_clean_up" title="Permalink to this definition">¶</a></dt>
+<dt id="datacode.models.loader.DataLoader.post_load">
+<code class="sig-name descname">post_load</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.post_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.post_load" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -355,8 +355,53 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="datacode.models.loader.DataLoader.pre_transform_clean_up">
-<code class="sig-name descname">pre_transform_clean_up</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.pre_transform_clean_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.pre_transform_clean_up" title="Permalink to this definition">¶</a></dt>
+<dt id="datacode.models.loader.DataLoader.post_read">
+<code class="sig-name descname">post_read</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.post_read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.post_read" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.post_rename">
+<code class="sig-name descname">post_rename</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.post_rename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.post_rename" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.post_transform">
+<code class="sig-name descname">post_transform</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.post_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.post_transform" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.pre_calculate">
+<code class="sig-name descname">pre_calculate</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.pre_calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.pre_calculate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.pre_read">
+<code class="sig-name descname">pre_read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.pre_read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.pre_read" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.pre_transform">
+<code class="sig-name descname">pre_transform</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.pre_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.pre_transform" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
