@@ -4,6 +4,7 @@ from datacode.models.index import Index
 from datacode.models.column.column import Column
 from datacode.models.column.index import ColumnIndex
 from datacode.models.pipeline.merge import DataMergePipeline
+from datacode.models.pipeline.base import DataPipeline
 from datacode.models.merge import DataMerge
 from datacode.models.variables.variable import Variable
 from datacode.models.variables.transform.transform import Transform, AppliedTransform
