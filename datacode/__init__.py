@@ -11,6 +11,7 @@ from datacode.models.merge import DataMerge, MergeOptions
 from datacode.models.variables.variable import Variable
 from datacode.models.transform.transform import Transform
 from datacode.models.transform.applied import AppliedTransform
+from datacode.models.transform.source import SourceTransform
 from datacode.models.transform.specific import DEFAULT_TRANSFORMS
 from datacode.models.variables.collection import VariableCollection
 from datacode.models.variables.expression import Expression
