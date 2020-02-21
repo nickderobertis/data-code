@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.merge &mdash; datacode 0.10.0 documentation</title>
+  <title>datacode.models.pipeline.merge &mdash; datacode 0.10.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.10.0
+                0.10.1
               </div>
             
           
@@ -163,19 +163,13 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.models.pipeline.merge</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.pipeline.base</span> <span class="kn">import</span> <span class="n">DataPipeline</span>
 <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
 <span class="kn">from</span> <span class="nn">datacode.models.merge</span> <span class="kn">import</span> <span class="n">MergeOptions</span><span class="p">,</span> <span class="n">LastMergeFinishedException</span><span class="p">,</span> <span class="n">DataMerge</span>
-
-<span class="n">DataSourceOrPipeline</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">DataSource</span><span class="p">,</span> <span class="s1">&#39;DataMergePipeline&#39;</span><span class="p">]</span>
-<span class="n">DataSourcesOrPipelines</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataSourceOrPipeline</span><span class="p">]</span>
-<span class="n">MergeOptionsList</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MergeOptions</span><span class="p">]</span>
-<span class="n">DataMerges</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">DataMerge</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">datacode.models.types</span> <span class="kn">import</span> <span class="n">DataSourceOrPipeline</span><span class="p">,</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span> <span class="n">MergeOptionsList</span><span class="p">,</span> <span class="n">DataMerges</span>
 
 
 <div class="viewcode-block" id="DataMergePipeline"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline">[docs]</a><span class="k">class</span> <span class="nc">DataMergePipeline</span><span class="p">(</span><span class="n">DataPipeline</span><span class="p">):</span>
@@ -183,7 +177,7 @@
 <span class="sd">    Handles data pipelines involving merges between two or more sources or pipelines</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DataMergePipeline.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">merge_options_list</span><span class="p">:</span> <span class="n">MergeOptionsList</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="DataMergePipeline.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">merge_options_list</span><span class="p">:</span> <span class="n">MergeOptionsList</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">outpath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">post_merge_cleanup_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cleanup_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">cleanup_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

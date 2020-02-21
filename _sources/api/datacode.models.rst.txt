@@ -60,3 +60,11 @@ datacode.models.symbols module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.types module
+----------------------------
+
+.. automodule:: datacode.models.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

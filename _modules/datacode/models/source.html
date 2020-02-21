@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.10.0 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.10.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.10.0
+                0.10.1
               </div>
             
           
@@ -330,7 +330,7 @@
         <span class="c1"># Still necessary to use loader as may be transforming the data</span>
         <span class="k">if</span> <span class="n">run_pipeline</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">run_pipeline_then_load</span><span class="p">(</span><span class="n">pipeline</span><span class="p">):</span>
-                <span class="c1"># TODO: should not have to write to disk with pipeline to then load it in source</span>
+                <span class="c1"># TODO [#47]: should not have to write to disk with pipeline to then load it in source</span>
                 <span class="c1">#</span>
                 <span class="c1"># Loader should be able to take a DataFrame instead of just a filepath, then use</span>
                 <span class="c1"># that here. Will need to handle columns, variables, transformations correctly</span>
@@ -474,7 +474,7 @@
         <span class="k">return</span> <span class="n">cols</span>
 
 <div class="viewcode-block" id="DataSource.describe"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># TODO: use columns, variables, indices, etc. in describe</span>
+        <span class="c1"># TODO [#48]: use columns, variables, indices, etc. in describe</span>
         <span class="k">return</span> <span class="n">describe_df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
