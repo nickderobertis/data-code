@@ -64,7 +64,6 @@ PACKAGE_INSTALL_REQUIRES = [
     'matplotlib',
     'regtools',
     'pyexlatex',
-    'pyfileconf',
     'sympy',
 ]
 

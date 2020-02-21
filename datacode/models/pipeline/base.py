@@ -1,13 +1,9 @@
 import datetime
 from copy import deepcopy
-from functools import partial
 from typing import Union, Sequence, List, Callable
 
-from pyfileconf.basemodels.pipeline import Pipeline
-from pyfileconf.selector.models.itemview import _is_item_view, ItemView
-
 from datacode.models.source import DataSource
-from datacode.models.merge import MergeOptions, LastMergeFinishedException, DataMerge
+from datacode.models.merge import MergeOptions, DataMerge
 
 DataSourceOrPipeline = Union[DataSource, 'DataMergePipeline']
 DataSourcesOrPipelines = Sequence[DataSourceOrPipeline]
@@ -62,7 +58,6 @@ class DataPipeline:
 
     @property
     def last_modified(self):
-        self._touch_data_sources()
         return max([source.last_modified for source in self.data_sources])
 
     @property
@@ -77,25 +72,3 @@ class DataPipeline:
 
     def copy(self):
         return deepcopy(self)
-
-    def _touch_data_sources(self):
-        """
-        Data sources may be passed using pyfileconf.Selector, in which case they
-        are pyfileconf.selector.models.itemview.ItemView objects. _get_merges uses isinstance, which will
-        return ItemView, and so won't work correctly. By accessing the .item proprty of the ItemView,
-        we get the original item back
-        Returns:
-
-        """
-        # TODO: remove direct relationship with pyfileconf in data pipeline
-        #
-        # This needs to be handled better in the pyfileconf library first
-        real_data_sources = []
-        for data_source_or_view in self.data_sources:
-            if _is_item_view(data_source_or_view):
-                data_source_or_view: ItemView
-                real_data_sources.append(data_source_or_view.item)
-            else:
-                real_data_sources.append(data_source_or_view)
-        self.data_sources = real_data_sources
-

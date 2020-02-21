@@ -111,7 +111,6 @@ class DataSource:
         return datetime.datetime.fromtimestamp(os.path.getmtime(self.location))
 
     def _load(self):
-        self._touch_pipeline()
         if not hasattr(self, 'data_loader'):
             self._set_data_loader(self.loader_class, pipeline=self.pipeline, **self.read_file_kwargs)
         return self.data_loader()
@@ -156,20 +155,6 @@ class DataSource:
             self.data_loader = partial(run_pipeline_then_load, self.pipeline)
         else:
             self.data_loader = loader.load
-
-    def _touch_pipeline(self):
-        """
-        Pipeline may be passed using pyfileconf.Selector, in which case it is
-        a pyfileconf.selector.models.itemview.ItemView object. _set_data_loader accesses a property of
-        the pipeline before it's configured, and so won't work correctly. By accessing the .item proprty of the ItemView,
-        we get the original item back
-        Returns:
-
-        """
-        from pyfileconf.selector.models.itemview import _is_item_view
-
-        if _is_item_view(self.pipeline):
-            self.pipeline = self.pipeline.item
 
     def copy(self, **kwargs):
         if not kwargs:

@@ -118,7 +118,6 @@ class DataMergePipeline(DataPipeline):
             self._set_merges()
 
     def _set_merges(self):
-        self._touch_data_sources()
         self._merges = self._create_merges(self.data_sources, self.merge_options_list)
 
     def _create_merges(self, data_sources: DataSourcesOrPipelines, merge_options_list: MergeOptionsList):

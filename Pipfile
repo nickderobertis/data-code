@@ -26,7 +26,6 @@ pd_utils = "*"
 matplotlib = "*"
 regtools = "*"
 pyexlatex = "*"
-pyfileconf = "*"
 sympy = "*"
 
 [requires]
