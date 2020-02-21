@@ -1,16 +1,10 @@
-import datetime
-from copy import deepcopy
 from functools import partial
-from typing import Union, Sequence, List, Callable
+from typing import List, Callable
 
 from datacode.models.pipeline.base import DataPipeline
 from datacode.models.source import DataSource
 from datacode.models.merge import MergeOptions, LastMergeFinishedException, DataMerge
-
-DataSourceOrPipeline = Union[DataSource, 'DataMergePipeline']
-DataSourcesOrPipelines = Sequence[DataSourceOrPipeline]
-MergeOptionsList = Sequence[MergeOptions]
-DataMerges = List[DataMerge]
+from datacode.models.types import DataSourceOrPipeline, DataSourcesOrPipelines, MergeOptionsList, DataMerges
 
 
 class DataMergePipeline(DataPipeline):
@@ -18,7 +12,7 @@ class DataMergePipeline(DataPipeline):
     Handles data pipelines involving merges between two or more sources or pipelines
     """
 
-    def __init__(self, data_sources: DataSourcesOrPipelines=None, merge_options_list: MergeOptionsList=None,
+    def __init__(self, data_sources: DataSourcesOrPipelines =None, merge_options_list: MergeOptionsList =None,
                  outpath=None, post_merge_cleanup_func=None, name: str=None, cleanup_kwargs: dict=None):
 
         if cleanup_kwargs is None:
