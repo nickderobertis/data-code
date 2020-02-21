@@ -9,8 +9,8 @@ from datacode.models.pipeline.analysis import DataAnalysisPipeline
 from datacode.models.pipeline.transform import DataTransformationPipeline
 from datacode.models.merge import DataMerge, MergeOptions
 from datacode.models.variables.variable import Variable
-from datacode.models.variables.transform.transform import Transform, AppliedTransform
-from datacode.models.variables.transform.specific import DEFAULT_TRANSFORMS
+from datacode.models.transform.transform import Transform, AppliedTransform
+from datacode.models.transform.specific import DEFAULT_TRANSFORMS
 from datacode.models.variables.collection import VariableCollection
 from datacode.models.variables.expression import Expression
 from datacode.summarize import describe_df

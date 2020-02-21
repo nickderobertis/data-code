@@ -1,9 +1,8 @@
-from copy import deepcopy
 from typing import TYPE_CHECKING
 
 from sympy import Symbol
 
-from datacode.models.variables.transform.transform import AppliedTransform, Transform
+from datacode.models.transform.transform import AppliedTransform, Transform
 
 if TYPE_CHECKING:
     from datacode.models.variables.variable import Variable
@@ -23,7 +22,7 @@ def create_changes_symbol_func(sym: Symbol, **kwargs) -> Symbol:
 
 
 def create_changes_data_func(col: 'Column', variable: 'Variable', source: 'DataSource', **kwargs) -> 'DataSource':
-    from datacode.models.variables.transform.specific.lag import lag_transform
+    from datacode.models.transform.specific.lag import lag_transform
 
     # Get index variables along with variable for changes
     all_names = [variable.name] + [var.name for var in source.index_vars]

@@ -1,9 +1,9 @@
 from copy import deepcopy
-from typing import Callable, Sequence, Union, Dict, Optional
+from typing import Sequence, Optional
 
 from datacode.models.variables.tools import _get_obj_or_attr
-from datacode.models.variables.transform.transform import Transform, AppliedTransform
-from datacode.models.variables.transform.specific import DEFAULT_TRANSFORMS
+from datacode.models.transform.transform import Transform, AppliedTransform
+from datacode.models.transform.specific import DEFAULT_TRANSFORMS
 from .variable import Variable
 
 
