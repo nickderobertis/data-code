@@ -16,6 +16,7 @@ class FloatType(DataType):
             names=('float', 'decimal', 'float16', 'float32', 'float64', 'float128', 'floating'),
             categorical=categorical,
             ordered=ordered,
+            is_numeric=True
         )
 
     def _get_pd_class(self) -> Type:

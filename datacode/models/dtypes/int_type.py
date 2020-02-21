@@ -17,6 +17,7 @@ class IntType(DataType):
             names=('int', 'integer', 'int_', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64'),
             categorical=categorical,
             ordered=ordered,
+            is_numeric=True
         )
 
     def _get_pd_class(self) -> Type:
