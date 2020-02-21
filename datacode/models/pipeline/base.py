@@ -23,6 +23,7 @@ class DataPipeline:
         self.name = name
         self.df = None
         self._manual_last_modified = last_modified
+        self.result = None
 
     def execute(self):
         raise NotImplementedError('child class must implement execute')

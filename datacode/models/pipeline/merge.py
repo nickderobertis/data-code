@@ -51,7 +51,6 @@ class DataMergePipeline(DataPipeline):
 
         self._merge()
 
-
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
         for merge in self.merges:

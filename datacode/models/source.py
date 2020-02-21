@@ -6,6 +6,7 @@ import warnings
 import datetime
 from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence, Type, Union
 
+from datacode.summarize import describe_df
 from pd_utils.optimize.load import read_file as read_file_into_df
 
 from datacode.models.variables.variable import Variable
@@ -297,6 +298,19 @@ class DataSource:
                             index_vars.append(var)
         return index_vars
 
+    @property
+    def loaded_columns(self) -> Optional[List[Column]]:
+        if self.columns is None:
+            return None
+        cols = []
+        for var in self.load_variables:
+            col = self.col_for(var)
+            cols.append(col)
+        return cols
+
+    def describe(self):
+        # TODO: use columns, variables, indices, etc. in describe
+        return describe_df(self.df)
 
     def __repr__(self):
         return f'<DataSource(name={self.name}, columns={self.columns})>'
