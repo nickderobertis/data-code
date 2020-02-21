@@ -1,12 +1,13 @@
-from functools import partial
-from typing import Union, Sequence, List, Callable
 import datetime
 from copy import deepcopy
+from functools import partial
+from typing import Union, Sequence, List, Callable
 
 from pyfileconf.basemodels.pipeline import Pipeline
+from pyfileconf.selector.models.itemview import _is_item_view, ItemView
+
 from datacode.models.source import DataSource
-from datacode.models.merge import DataMerge, MergeOptions, LastMergeFinishedException
-from pyfileconf.selector.models.itemview import ItemView, _is_item_view
+from datacode.models.merge import MergeOptions, LastMergeFinishedException, DataMerge
 
 DataSourceOrPipeline = Union[DataSource, 'DataMergePipeline']
 DataSourcesOrPipelines = Sequence[DataSourceOrPipeline]
@@ -225,4 +226,3 @@ def _get_merges(data_source_1: DataSourceOrPipeline, data_source_2: DataSourceOr
 
 def _is_data_pipeline(obj) -> bool:
     return hasattr(obj, 'data_sources') and hasattr(obj, 'merge_options_list')
-

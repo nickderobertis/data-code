@@ -13,7 +13,8 @@ from datacode.models.column.column import Column
 from datacode.models.loader import DataLoader
 
 if TYPE_CHECKING:
-    from datacode.models.pipeline import DataMergePipeline
+    from datacode.models.pipeline.merge import DataMergePipeline
+
 
 class DataSource:
 
