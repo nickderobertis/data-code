@@ -165,7 +165,7 @@ class DataSource:
         # Still necessary to use loader as may be transforming the data
         if run_pipeline:
             def run_pipeline_then_load(pipeline):
-                # TODO [$5e4fcf476d393e0007a50c3c]: should not have to write to disk with pipeline to then load it in source
+                # TODO [#47]: should not have to write to disk with pipeline to then load it in source
                 #
                 # Loader should be able to take a DataFrame instead of just a filepath, then use
                 # that here. Will need to handle columns, variables, transformations correctly
@@ -309,7 +309,7 @@ class DataSource:
         return cols
 
     def describe(self):
-        # TODO [$5e4fcf476d393e0007a50c3d]: use columns, variables, indices, etc. in describe
+        # TODO [#48]: use columns, variables, indices, etc. in describe
         return describe_df(self.df)
 
     def __repr__(self):
