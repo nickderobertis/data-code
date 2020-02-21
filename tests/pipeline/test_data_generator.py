@@ -1,11 +1,9 @@
 import os
-from typing import Tuple, Optional
 
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
-from datacode import Column, Variable, DataMergePipeline, DataSource, DataGeneratorPipeline
-from datacode.models.merge import MergeOptions
+from datacode import DataSource, DataGeneratorPipeline
 from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
 
