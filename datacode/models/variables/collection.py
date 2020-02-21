@@ -2,7 +2,8 @@ from copy import deepcopy
 from typing import Sequence, Optional
 
 from datacode.models.variables.tools import _get_obj_or_attr
-from datacode.models.transform.transform import Transform, AppliedTransform
+from datacode.models.transform.transform import Transform
+from datacode.models.transform.applied import AppliedTransform
 from datacode.models.transform.specific import DEFAULT_TRANSFORMS
 from .variable import Variable
 

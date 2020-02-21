@@ -2,7 +2,8 @@ from typing import TYPE_CHECKING
 
 from sympy import Symbol
 
-from datacode.models.transform.transform import AppliedTransform, Transform
+from datacode.models.transform.transform import Transform
+from datacode.models.transform.applied import AppliedTransform
 
 if TYPE_CHECKING:
     from datacode.models.variables.variable import Variable

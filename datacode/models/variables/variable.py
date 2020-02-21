@@ -5,7 +5,8 @@ from typing import Sequence, Optional, Union, Callable
 from datacode.models.dtypes.base import DataType
 from datacode.models.dtypes.convert import convert_str_to_data_type_if_necessary
 from datacode.models.variables.expression import Expression
-from datacode.models.transform.transform import Transform, AppliedTransform
+from datacode.models.transform.transform import Transform
+from datacode.models.transform.applied import AppliedTransform
 from datacode.models.symbols import Symbol, var_key_to_symbol_str, to_symbol_if_necessary
 
 
