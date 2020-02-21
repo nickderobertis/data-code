@@ -14,6 +14,9 @@ from datacode.models.variables.typing import StrFunc, ValueFunc, SymbolFunc
 
 
 class Transform:
+    """
+    Tracks and applies changes to variables for data, name, and symbol together
+    """
 
     def __init__(self, key: str, name_func: StrFunc = None, data_func: ValueFunc = None,
                  symbol_func: SymbolFunc = None,

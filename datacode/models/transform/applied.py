@@ -1,5 +1,9 @@
 import uuid
-from typing import Optional, Callable, Any
+from typing import Optional, Callable, Any, TYPE_CHECKING
+if TYPE_CHECKING:
+    from datacode.models.variables.variable import Variable
+    from datacode.models.column.column import Column
+    from datacode.models.source import DataSource
 
 from datacode.models.transform.transform import Transform
 from datacode.models.logic.partial import partial
@@ -55,12 +59,14 @@ class AppliedTransform(Transform):
             return False
 
     @classmethod
-    def from_func(cls, func: Callable[['DataSource', Any], 'DataSource'], key: Optional[str] = None,
+    def from_func(cls, func: Callable[['Column', 'Variable', 'DataSource', Any], 'DataSource'],
+                  key: Optional[str] = None,
                   data_func_target: str = 'source', **func_kwargs):
         if key is None:
             key = str(uuid.uuid4())
         return cls(
             key,
             data_func=func,
-            data_func_target=data_func_target
+            data_func_target=data_func_target,
+            **func_kwargs
         )
