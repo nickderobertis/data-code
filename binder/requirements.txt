@@ -1,8 +1,8 @@
-sympy
+pandas
+pyexlatex
+pd_utils
+datacode
+regtools
 matplotlib
 IPython
-pandas
-pd_utils
-pyexlatex
-regtools
-datacode
+sympy
