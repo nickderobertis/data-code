@@ -15,6 +15,7 @@ Subpackages
    datacode.models.dtypes
    datacode.models.logic
    datacode.models.pipeline
+   datacode.models.transform
    datacode.models.variables
 
 Submodules

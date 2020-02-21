@@ -1,0 +1,42 @@
+datacode.models.transform package
+=================================
+
+.. automodule:: datacode.models.transform
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.models.transform.specific
+
+Submodules
+----------
+
+datacode.models.transform.applied module
+----------------------------------------
+
+.. automodule:: datacode.models.transform.applied
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.transform.source module
+---------------------------------------
+
+.. automodule:: datacode.models.transform.source
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.transform.transform module
+------------------------------------------
+
+.. automodule:: datacode.models.transform.transform
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
