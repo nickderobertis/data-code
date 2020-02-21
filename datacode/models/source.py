@@ -4,7 +4,7 @@ from functools import partial
 import os
 import warnings
 import datetime
-from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence, Type
+from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence, Type, Union
 
 from pd_utils.optimize.load import read_file as read_file_into_df
 
@@ -14,12 +14,14 @@ from datacode.models.loader import DataLoader
 
 if TYPE_CHECKING:
     from datacode.models.pipeline.merge import DataMergePipeline
+    from datacode.models.pipeline.generate import DataGeneratorPipeline
 
 
 class DataSource:
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
-                 pipeline: Optional['DataMergePipeline'] = None, columns: Optional[Sequence[Column]] = None,
+                 pipeline: Optional[Union['DataMergePipeline', 'DataGeneratorPipeline']] = None,
+                 columns: Optional[Sequence[Column]] = None,
                  load_variables: Optional[Sequence[Variable]] = None,
                  name: Optional[str] = None, tags: Optional[List[str]] = None,
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
@@ -100,13 +102,10 @@ class DataSource:
         self._df = df
 
     @property
-    def last_modified(self):
-        # TODO: cleaner way of handling non-existent DataSource location for modified time
-        #
-        # Currently just setting to a date far in the past, but then the output shows this
+    def last_modified(self) -> Optional[datetime.datetime]:
         if self.location is None or not os.path.exists(self.location):
-            # No location. Setting last modified time as a long time ago, so will trigger pipeline instead
-            return datetime.datetime(1899, 1, 1)
+            # No location. Will trigger pipeline instead
+            return None
 
         return datetime.datetime.fromtimestamp(os.path.getmtime(self.location))
 
@@ -128,16 +127,35 @@ class DataSource:
             # if a source in the pipeline to create this data source was modified more recently than this data source
             # note: if there is no location, will always enter the next block, as last modified time will set
             # to a long time ago
-            if pipeline.last_modified > self.last_modified:
+            if (
+                    # no existing location for this source, must use pipeline
+                    self.last_modified is None or
+                    # not able to determine when pipeline sources were modified, must always run pipeline
+                    pipeline.last_modified is None or
+                    # pipeline sources were modified more recently than this source, run pipeline
+                    pipeline.last_modified > self.last_modified
+            ):
                 # a prior source used to construct this data source has changed. need to re run pipeline
-                recent_source = pipeline.source_last_modified
-                warnings.warn(f'''data source {recent_source} was modified at {recent_source.last_modified}.
-
-                this data source {self} was modified at {self.last_modified}.
-
-                to get new changes, will load this data source through pipeline rather than from file.''')
-
                 run_pipeline = True
+                if pipeline.last_modified is None:
+                    warnings.warn(f"""
+                    Was not able to determine last modified of pipeline {pipeline}.
+                    Will always run pipeline due to this. Consider manually setting last_modified when creating
+                    the pipeline.
+                    """.strip())
+                elif self.last_modified is None:
+                    warnings.warn(f"""
+                   Was not able to determine last modified of source {self}.
+                   Will run pipeline due to this. This is due to no file currently existing for this source.
+                   """.strip())
+                else:
+                    recent_source = pipeline.source_last_modified
+                    warnings.warn(f'''data source {recent_source} was modified at {recent_source.last_modified}.
+    
+                    this data source {self} was modified at {self.last_modified}.
+    
+                    to get new changes, will load this data source through pipeline rather than from file.''')
+
             # otherwise, don't need to worry about pipeline, continue handling
 
         loader = data_loader_class(self, read_file_kwargs, self.optimize_size)

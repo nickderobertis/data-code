@@ -17,11 +17,12 @@ class DataPipeline:
     """
 
     def __init__(self, data_sources: DataSourcesOrPipelines = None, outpath: Optional[str] = None,
-                 name: Optional[str] = None):
+                 name: Optional[str] = None, last_modified: Optional[datetime.datetime] = None):
         self.data_sources = data_sources
         self.outpath = outpath
         self.name = name
         self.df = None
+        self._manual_last_modified = last_modified
 
     def execute(self):
         raise NotImplementedError('child class must implement execute')
@@ -49,18 +50,26 @@ class DataPipeline:
         self._data_sources = data_sources
 
     @property
-    def last_modified(self):
+    def last_modified(self) -> Optional[datetime.datetime]:
+        if self._manual_last_modified is not None:
+            return self._manual_last_modified
+        if self.data_sources is None:
+            return None
         return max([source.last_modified for source in self.data_sources])
 
     @property
-    def source_last_modified(self):
+    def source_last_modified(self) -> Optional[DataSource]:
+        if self.data_sources is None:
+            return None
         most_recent_time = datetime.datetime(1900, 1, 1)
+        most_recent_index = None
         for i, source in enumerate(self.data_sources):
             if source.last_modified > most_recent_time:
                 most_recent_time = source.last_modified
                 most_recent_index = i
 
-        return self.data_sources[most_recent_index]
+        if most_recent_index is not None:
+            return self.data_sources[most_recent_index]
 
     def copy(self):
         return deepcopy(self)
