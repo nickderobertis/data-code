@@ -1,6 +1,6 @@
 import datetime
 from copy import deepcopy
-from typing import Union, Sequence, List, Callable
+from typing import Union, Sequence, List, Callable, Optional
 
 from datacode.models.source import DataSource
 from datacode.models.merge import MergeOptions, DataMerge
@@ -12,24 +12,19 @@ DataMerges = List[DataMerge]
 
 
 class DataPipeline:
+    """
+    Base class for data pipelines. Should not be used directly.
+    """
 
-    def __init__(self, data_sources: DataSourcesOrPipelines=None, merge_options_list: MergeOptionsList=None,
-                 outpath=None, post_merge_cleanup_func=None, name: str=None, cleanup_kwargs: dict=None):
-
-        if cleanup_kwargs is None:
-            cleanup_kwargs = {}
-
+    def __init__(self, data_sources: DataSourcesOrPipelines = None, outpath: Optional[str] = None,
+                 name: Optional[str] = None):
         self.data_sources = data_sources
-        self.merge_options_list = merge_options_list
-        self._merge_index = 0
-        self._set_cleanup_func(post_merge_cleanup_func, **cleanup_kwargs)
         self.outpath = outpath
         self.name = name
-        self.cleanup_kwargs = cleanup_kwargs
         self.df = None
 
     def execute(self):
-        pass
+        raise NotImplementedError('child class must implement execute')
 
     def output(self, outpath=None):
         if outpath:
@@ -39,14 +34,11 @@ class DataPipeline:
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
-        pass
+        raise NotImplementedError('child class must implement summary')
 
     def _output(self, outpath=None):
         if self.df is not None:
             self.df.to_csv(outpath, index=False, encoding='utf8')
-
-    # Following properties exist to recreate merges if data sources or merge options are overridden
-    # by user
 
     @property
     def data_sources(self):

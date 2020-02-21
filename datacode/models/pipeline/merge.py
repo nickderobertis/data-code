@@ -14,6 +14,9 @@ DataMerges = List[DataMerge]
 
 
 class DataMergePipeline(DataPipeline):
+    """
+    Handles data pipelines involving merges between two or more sources or pipelines
+    """
 
     def __init__(self, data_sources: DataSourcesOrPipelines=None, merge_options_list: MergeOptionsList=None,
                  outpath=None, post_merge_cleanup_func=None, name: str=None, cleanup_kwargs: dict=None):
@@ -21,13 +24,12 @@ class DataMergePipeline(DataPipeline):
         if cleanup_kwargs is None:
             cleanup_kwargs = {}
 
-        self.data_sources = data_sources
         self.merge_options_list = merge_options_list
         self._merge_index = 0
         self._set_cleanup_func(post_merge_cleanup_func, **cleanup_kwargs)
-        self.outpath = outpath
-        self.name = name
         self.cleanup_kwargs = cleanup_kwargs
+
+        super().__init__(data_sources=data_sources, name=name, outpath=outpath)
 
     def execute(self):
         while True:
@@ -139,9 +141,6 @@ class DataMergePipeline(DataPipeline):
             self.post_merge_cleanup_func = partial(post_merge_cleanup_func, **cleanup_kwargs)
         else:
             self.has_post_merge_cleanup_func = False
-
-    def copy(self):
-        return deepcopy(self)
 
 
 def _get_merges(data_source_1: DataSourceOrPipeline, data_source_2: DataSourceOrPipeline,
