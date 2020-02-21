@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.generate &mdash; datacode 0.10.3 documentation</title>
+  <title>datacode.models.pipeline.transform &mdash; datacode 0.10.3 documentation</title>
   
 
   
@@ -147,7 +147,7 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.models.pipeline.generate</li>
+      <li>datacode.models.pipeline.transform</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -162,37 +162,46 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.models.pipeline.generate</h1><div class="highlight"><pre>
+  <h1>Source code for datacode.models.pipeline.transform</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">datacode.models.variables.transform.transform</span> <span class="kn">import</span> <span class="n">Transform</span><span class="p">,</span> <span class="n">AppliedTransform</span>
 <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.pipeline.base</span> <span class="kn">import</span> <span class="n">DataPipeline</span>
 
 
-<div class="viewcode-block" id="DataGeneratorPipeline"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline">[docs]</a><span class="k">class</span> <span class="nc">DataGeneratorPipeline</span><span class="p">(</span><span class="n">DataPipeline</span><span class="p">):</span>
+<div class="viewcode-block" id="DataTransformationPipeline"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline">[docs]</a><span class="k">class</span> <span class="nc">DataTransformationPipeline</span><span class="p">(</span><span class="n">DataPipeline</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A DataPipeline which creates a DataSource without using any other DataSource</span>
+<span class="sd">    A DataPipeline which creates a DataSource directly from a single other DataSource</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DataGeneratorPipeline.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">DataSource</span><span class="p">],</span> <span class="n">outpath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="DataTransformationPipeline.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_source</span><span class="p">:</span> <span class="n">DataSource</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">DataSource</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">DataSource</span><span class="p">],</span> <span class="n">Transform</span><span class="p">],</span>
+                 <span class="n">func_target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;source&#39;</span><span class="p">,</span> <span class="n">preserve_original</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="n">outpath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">last_modified</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">func_kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">Transform</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">AppliedTransform</span><span class="o">.</span><span class="n">from_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">data_func_target</span><span class="o">=</span><span class="n">func_target</span><span class="p">,</span> <span class="o">**</span><span class="n">func_kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func_kwargs</span> <span class="o">=</span> <span class="n">func_kwargs</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">outpath</span><span class="o">=</span><span class="n">outpath</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">last_modified</span><span class="o">=</span><span class="n">last_modified</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preserve_original</span> <span class="o">=</span> <span class="n">preserve_original</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data_sources</span><span class="o">=</span><span class="p">[</span><span class="n">data_source</span><span class="p">],</span> <span class="n">outpath</span><span class="o">=</span><span class="n">outpath</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">last_modified</span><span class="o">=</span><span class="n">last_modified</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataGeneratorPipeline.execute"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">func_kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="p">]</span>
+<div class="viewcode-block" id="DataTransformationPipeline.execute"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">apply_to_source</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">preserve_original</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preserve_original</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ds</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">df</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DataGeneratorPipeline.summary"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="c1"># TODO [#46]: better summary for DataGeneratorPipeline</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Pipeline </span><span class="si">{self.name}</span><span class="s1"> calls function </span><span class="si">{self.func.__name__}</span><span class="s1"> with kwargs </span><span class="si">{self.func_kwargs}</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
-
+<div class="viewcode-block" id="DataTransformationPipeline.summary"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># TODO: better summary for DataTransformationPipeline</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Pipeline </span><span class="si">{self.name}</span><span class="s1"> calls function </span><span class="si">{self.func.__name__}</span><span class="s1"> with kwargs </span><span class="si">{self.func_kwargs}</span><span class="s1"> on existing &#39;</span>
+              <span class="sa">f</span><span class="s1">&#39;data source </span><span class="si">{self.data_sources[0]}</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
 
 
 

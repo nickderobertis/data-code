@@ -41,3 +41,11 @@ datacode.models.pipeline.merge module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.pipeline.transform module
+-----------------------------------------
+
+.. automodule:: datacode.models.pipeline.transform
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

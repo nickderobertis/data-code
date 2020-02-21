@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline package &mdash; datacode 0.10.2 documentation</title>
+  <title>datacode.models.pipeline package &mdash; datacode 0.10.3 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.10.2
+                0.10.3
               </div>
             
           
@@ -203,6 +203,7 @@
 <dt id="datacode.models.pipeline.analysis.DataAnalysisPipeline">
 <em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.analysis.</code><code class="sig-name descname">DataAnalysisPipeline</code><span class="sig-paren">(</span><em class="sig-param">data_source</em>, <em class="sig-param">func</em>, <em class="sig-param">name=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/analysis.html#DataAnalysisPipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.analysis.DataAnalysisPipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.base.DataPipeline" title="datacode.models.pipeline.base.DataPipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.base.DataPipeline</span></code></a></p>
+<p>A DataPipeline which starts from a single data source but does not produce a data source</p>
 <dl class="method">
 <dt id="datacode.models.pipeline.analysis.DataAnalysisPipeline.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">data_source</em>, <em class="sig-param">func</em>, <em class="sig-param">name=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/analysis.html#DataAnalysisPipeline.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.analysis.DataAnalysisPipeline.__init__" title="Permalink to this definition">¶</a></dt>
@@ -370,6 +371,32 @@
 <dl class="method">
 <dt id="datacode.models.pipeline.merge.DataMergePipeline.summary">
 <code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param">*summary_args</em>, <em class="sig-param">summary_method=None</em>, <em class="sig-param">summary_function=None</em>, <em class="sig-param">summary_attr=None</em>, <em class="sig-param">**summary_method_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/merge.html#DataMergePipeline.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.merge.DataMergePipeline.summary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacode.models.pipeline.transform">
+<span id="datacode-models-pipeline-transform-module"></span><h2>datacode.models.pipeline.transform module<a class="headerlink" href="#module-datacode.models.pipeline.transform" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacode.models.pipeline.transform.DataTransformationPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.transform.</code><code class="sig-name descname">DataTransformationPipeline</code><span class="sig-paren">(</span><em class="sig-param">data_source</em>, <em class="sig-param">func</em>, <em class="sig-param">func_target='source'</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">outpath=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">last_modified=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/transform.html#DataTransformationPipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.transform.DataTransformationPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.base.DataPipeline" title="datacode.models.pipeline.base.DataPipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.base.DataPipeline</span></code></a></p>
+<p>A DataPipeline which creates a DataSource directly from a single other DataSource</p>
+<dl class="method">
+<dt id="datacode.models.pipeline.transform.DataTransformationPipeline.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">data_source</em>, <em class="sig-param">func</em>, <em class="sig-param">func_target='source'</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">outpath=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">last_modified=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/transform.html#DataTransformationPipeline.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.transform.DataTransformationPipeline.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.pipeline.transform.DataTransformationPipeline.execute">
+<code class="sig-name descname">execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/transform.html#DataTransformationPipeline.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.transform.DataTransformationPipeline.execute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.pipeline.transform.DataTransformationPipeline.summary">
+<code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/transform.html#DataTransformationPipeline.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.transform.DataTransformationPipeline.summary" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
