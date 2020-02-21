@@ -1,5 +1,6 @@
+import uuid
 from copy import deepcopy
-from typing import Optional, Sequence, TYPE_CHECKING
+from typing import Optional, Sequence, TYPE_CHECKING, Callable, Any
 
 from sympy import Symbol
 
@@ -132,7 +133,7 @@ class AppliedTransform(Transform):
     Works like Transform but allows passing of arg and kwargs in advance, similar to functools.partial
     """
 
-    def __init__(self, key: str, *args, name_func: StrFunc = None, data_func: StrFunc = None,
+    def __init__(self, key: str, *args, name_func: StrFunc = None, data_func: ValueFunc = None,
                  symbol_func: SymbolFunc = None,
                  data_func_target: Optional[str] = None, **kwargs):
         super().__init__(
@@ -174,3 +175,14 @@ class AppliedTransform(Transform):
             return same
         except AttributeError:
             return False
+
+    @classmethod
+    def from_func(cls, func: Callable[['DataSource', Any], 'DataSource'], key: Optional[str] = None,
+                  data_func_target: str = 'source', **func_kwargs):
+        if key is None:
+            key = str(uuid.uuid4())
+        return cls(
+            key,
+            data_func=func,
+            data_func_target=data_func_target
+        )

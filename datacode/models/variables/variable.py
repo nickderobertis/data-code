@@ -126,8 +126,10 @@ class Variable:
         name = self._orig_name
         sym = self._orig_symbol
         for transform in self.applied_transforms:
-            name = transform.name_func(name)
-            sym = transform.symbol_func(sym)
+            if transform.name_func is not None:
+                name = transform.name_func(name)
+            if transform.symbol_func is not None:
+                sym = transform.symbol_func(sym)
         self.name = name
         self.symbol = sym
 

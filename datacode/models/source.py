@@ -6,6 +6,7 @@ import warnings
 import datetime
 from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence, Type, Union
 
+from datacode.models.types import SourceCreatingPipeline
 from datacode.summarize import describe_df
 from pd_utils.optimize.load import read_file as read_file_into_df
 
@@ -21,7 +22,7 @@ if TYPE_CHECKING:
 class DataSource:
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
-                 pipeline: Optional[Union['DataMergePipeline', 'DataGeneratorPipeline']] = None,
+                 pipeline: Optional[SourceCreatingPipeline] = None,
                  columns: Optional[Sequence[Column]] = None,
                  load_variables: Optional[Sequence[Variable]] = None,
                  name: Optional[str] = None, tags: Optional[List[str]] = None,
