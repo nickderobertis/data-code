@@ -21,3 +21,7 @@ class DataTransformationPipeline(DataPipeline):
     @property
     def data_source(self) -> DataSource:
         return self.data_sources[0]
+
+    @data_source.setter
+    def data_source(self, source: DataSource):
+        self.data_sources[0] = source

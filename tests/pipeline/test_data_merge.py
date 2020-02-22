@@ -28,9 +28,10 @@ class TestDataMergePipeline(PipelineTest):
 
     def test_raises_error_for_mismatching_data_sources_merge_options(self):
         mo = MergeOptions([self.merge_var.name])
+        dp = self.create_merge_pipeline(include_indices=(0, 1, 2), merge_options_list=[mo])
 
         with self.assertRaises(ValueError) as cm:
-            dp = self.create_merge_pipeline(include_indices=(0, 1, 2), merge_options_list=[mo])
+            dp.execute()
             exc = cm.exception
             assert 'must have one fewer merge options than data sources' in str(exc)
 
