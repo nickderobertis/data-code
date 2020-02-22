@@ -1,10 +1,9 @@
 from functools import partial
-from typing import List, Callable, Any, Dict, Optional
+from typing import Callable, Any, Dict, Optional, Sequence
 
+from datacode.models.pipeline.operations.merge import MergeOptions
 from datacode.models.pipeline.base import DataPipeline
-from datacode.models.source import DataSource
-from datacode.models.merge import MergeOptions, LastMergeFinishedException, DataMerge
-from datacode.models.types import DataSourceOrPipeline, DataSourcesOrPipelines, MergeOptionsList, DataMerges
+from datacode.models.types import DataSourcesOrPipelines
 
 
 class DataMergePipeline(DataPipeline):
@@ -12,7 +11,8 @@ class DataMergePipeline(DataPipeline):
     Handles data pipelines involving merges between two or more sources or pipelines
     """
 
-    def __init__(self, data_sources: DataSourcesOrPipelines = None, merge_options_list: MergeOptionsList = None,
+    def __init__(self, data_sources: DataSourcesOrPipelines = None,
+                 merge_options_list: Optional[Sequence[MergeOptions]] = None,
                  outpath: Optional[str] = None, post_merge_cleanup_func: Optional[Callable] = None,
                  name: Optional[str] = None, cleanup_kwargs: Optional[Dict[str, Any]] = None):
 

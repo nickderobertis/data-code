@@ -4,7 +4,7 @@ import pandas as pd
 from functools import partial
 
 from datacode.models.logic.merge.display import display_merge_summary
-from datacode.models.operation import DataOperation, OperationOptions
+from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
 from datacode.models.logic.merge import left_merge_df
 from datacode.summarize import describe_df

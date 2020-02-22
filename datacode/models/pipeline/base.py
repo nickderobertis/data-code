@@ -1,8 +1,8 @@
 import datetime
 from copy import deepcopy
-from typing import Union, Sequence, List, Callable, Optional
+from typing import Sequence, List, Callable, Optional
 
-from datacode.models.operation import DataOperation, OperationOptions
+from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
 from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline
 

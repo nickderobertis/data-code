@@ -1,6 +1,6 @@
 from typing import Callable, TYPE_CHECKING
 if TYPE_CHECKING:
-    from datacode.models.merge import DataMerge
+    from datacode.models.pipeline.operations.merge import DataMerge
 
 from datacode.models.logic.merge.summarize import get_summary_of_df
 from datacode.display import display_df_dict

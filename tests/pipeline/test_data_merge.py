@@ -5,7 +5,7 @@ import pandas as pd
 from pandas.testing import assert_frame_equal
 
 from datacode import Column, Variable, DataMergePipeline, DataSource
-from datacode.models.merge import MergeOptions
+from datacode.models.pipeline.operations.merge import MergeOptions
 from tests.pipeline.test_data_transformation import DataTransformationPipelineTest
 from tests.utils import GENERATED_PATH
 
