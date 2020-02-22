@@ -29,8 +29,6 @@ class DataMergePipeline(DataPipeline):
 
         super().__init__(data_sources, merge_options_list, name=name)
 
-        self._validate()
-
     def _validate(self):
         self._validate_data_sources_merge_options()
 
@@ -40,6 +38,8 @@ class DataMergePipeline(DataPipeline):
                              f'sources and {len(self.operation_options)} merge options.')
 
     def execute(self):
+        self._validate()
+
         super().execute(output=False)
 
         if self.has_post_merge_cleanup_func:
