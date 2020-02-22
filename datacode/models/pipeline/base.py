@@ -38,6 +38,8 @@ class DataPipeline:
         if output:
             self.output()
 
+        self.result = self.operations[-1].result
+
         return self.df
 
     def next_operation(self):
@@ -56,7 +58,9 @@ class DataPipeline:
         operation.execute()
 
         # Set current df to result of merge
-        self.df = operation.result.df
+        if isinstance(operation.result, DataSource):
+            # Need to check as may be analysis result, in which case df should not be changed
+            self.df = operation.result.df
 
         self._operation_index += 1
 
@@ -64,12 +68,19 @@ class DataPipeline:
         self._operations = self._create_operations(self.data_sources, self.operation_options)
 
     def _create_operations(self, data_sources: DataSourcesOrPipelines, options_list: List[OperationOptions]):
-        operations = _get_operations(data_sources[0], data_sources[1], options_list[0])
+        if options_list[0].op_class.requires_pair:
+            operations = _get_operations_for_pair(data_sources[0], data_sources[1], options_list[0])
+        else:
+            operations = _get_operations_for_single(data_sources[0], options_list[0])
+
         if len(options_list) == 1:
             return operations
 
         for i, options in enumerate(options_list[1:]):
-            operations += _get_operations(operations[-1].result, data_sources[i + 2], options)
+            if options.op_class.requires_pair:
+                operations += _get_operations_for_pair(operations[-1].result, data_sources[i + 2], options)
+            else:
+                operations += _get_operations_for_single(operations[-1].result, options)
 
         return operations
 
@@ -173,14 +184,39 @@ class LastOperationFinishedException(Exception):
     pass
 
 
-def _get_operations(data_source_1: DataSourceOrPipeline, data_source_2: DataSourceOrPipeline,
-                    options: OperationOptions) -> List[DataOperation]:
+def _get_operations_for_single(data_source: DataSourceOrPipeline, options: OperationOptions) -> List[DataOperation]:
+    """
+     Creates a list of DataOperation/subclass objects from a single DataSource or DataPipeline object
+    :param data_source:
+    :param options: Options for the main operation
+    :return:
+    """
+    operations: List[DataOperation] = []
+    final_operation_sources: List[DataSource] = []
+    # Add any pipeline operations first, as the results from the pipeline must be ready before we can use the results
+    # for other data sources or pipeline results operations
+    if _is_data_pipeline(data_source):
+        operations += data_source.operations  # type: ignore
+        pipeline_result = data_source.operations[-1].result  # type: ignore
+        # result of first pipeline will be first source in final operation
+        final_operation_sources.append(pipeline_result)
+    else:
+        final_operation_sources.append(data_source)  # type: ignore
+
+    # Add last (or only) operation
+    operations.append(options.op_class(final_operation_sources, options))
+
+    return operations
+
+
+def _get_operations_for_pair(data_source_1: DataSourceOrPipeline, data_source_2: DataSourceOrPipeline,
+                             options: OperationOptions) -> List[DataOperation]:
     """
     Creates a list of DataOperation/subclass objects from a paring of two DataSource objects, a DataSource and a
     DataPipeline, or two DataPipeline objects.
     :param data_source_1: DataSource or DataMergePipeline
     :param data_source_2: DataSource or DataMergePipeline
-    :param options: Options for the operation
+    :param options: Options for the main operation
     :return: list of DataOperation/subclass objects
     """
     # TODO: work DataTransformationPipeline and DataGenerationPipeline into merge creation in DataMergePipeline

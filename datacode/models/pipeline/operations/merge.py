@@ -15,6 +15,7 @@ TwoDfTuple = Tuple[pd.DataFrame, pd.DataFrame]
 
 
 class DataMerge(DataOperation):
+    requires_pair = True
 
     def __init__(self, data_sources: Sequence[DataSource], merge_options: 'MergeOptions'):
         self._merged_name = None
@@ -175,9 +176,6 @@ class MergeOptions(OperationOptions):
     def __repr__(self):
         return f'<DataMerge(args={self.args}, merge_function={self.merge_function.__name__}, ' \
                f'kwargs={self.merge_function_kwargs})>'
-
-    def copy(self):
-        return deepcopy(self)
 
     def update(self, **kwargs):
         self.merge_function_kwargs.update(**kwargs)

@@ -1,4 +1,4 @@
-from datacode import DataAnalysisPipeline, DataSource, FloatType
+from datacode import DataAnalysisPipeline, DataSource, FloatType, AnalysisOptions
 from tests.test_source import SourceTest
 
 
@@ -17,7 +17,8 @@ class DataAnalysisPipelineTest(SourceTest):
         ds1_cols = self.create_columns()
         ds1 = self.create_source(df=None, columns=ds1_cols, name='one')
 
-        dap = DataAnalysisPipeline(ds1, analysis_from_source)
+        ao = AnalysisOptions(analysis_from_source)
+        dap = DataAnalysisPipeline(ds1, ao)
         return dap
 
 
@@ -27,4 +28,4 @@ class TestDataAnalysisPipeline(DataAnalysisPipelineTest):
         dp = self.create_analysis_pipeline()
         dp.execute()
 
-        assert dp.result == 21
+        assert dp.result.result == 21

@@ -1,4 +1,5 @@
-from typing import Sequence, Callable, Optional
+from copy import deepcopy
+from typing import Sequence, Callable, Optional, Type
 
 from datacode.models.source import DataSource
 
@@ -8,6 +9,7 @@ class DataOperation:
     Base class for a singlar data process that takes one or more DataSources as inputs and has one DataSource
     as the output.
     """
+    requires_pair: bool = False
 
     def __init__(self, data_sources: Sequence[DataSource], options: 'OperationOptions',
                  output_name: Optional[str] = None):
@@ -31,15 +33,18 @@ class DataOperation:
         raise NotImplementedError('must implement describe in subclass of DataOperation')
 
     def _set_result(self, **kwargs):
-        self.result = DataSource(name=self.output_name)
+        self.result = self.options.result_class(name=self.output_name)
 
     def __repr__(self):
         return f'<DataOperation(data_sources={self.data_sources}, result={self.result})>'
 
 
 class OperationOptions:
-    op_class = DataOperation
     """
     Base class for options passed to DataOperations
     """
-    pass
+    op_class: Type[DataOperation] = DataOperation
+    result_class: Type = DataSource
+
+    def copy(self):
+        return deepcopy(self)
