@@ -234,7 +234,6 @@ def _get_operations_for_pair(data_source_1: DataSourceOrPipeline, data_source_2:
     :param options: Options for the main operation
     :return: list of DataOperation/subclass objects
     """
-    # TODO: work DataTransformationPipeline and DataGenerationPipeline into merge creation in DataMergePipeline
     operations: List[DataOperation] = []
     final_operation_sources: List[DataSource] = []
     # Add any pipeline operations first, as the results from the pipeline must be ready before we can use the results

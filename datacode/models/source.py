@@ -134,7 +134,8 @@ class DataSource:
         pass
         # assert not (filepath is None) and (df is None)
 
-    def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: 'DataMergePipeline' =None, **read_file_kwargs):
+    def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: SourceCreatingPipeline = None,
+                         **read_file_kwargs):
         run_pipeline = False
         if pipeline is not None:
             # if a source in the pipeline to create this data source was modified more recently than this data source
