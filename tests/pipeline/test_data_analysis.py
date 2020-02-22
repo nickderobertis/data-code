@@ -1,4 +1,8 @@
+from typing import Optional
+
 from datacode import DataAnalysisPipeline, DataSource, FloatType, AnalysisOptions
+from datacode.models.types import DataSourceOrPipeline
+from tests.pipeline.test_data_merge import DataMergePipelineTest
 from tests.test_source import SourceTest
 
 
@@ -10,22 +14,35 @@ def analysis_from_source(ds: DataSource) -> float:
     return running_sum
 
 
-class DataAnalysisPipelineTest(SourceTest):
+class DataAnalysisPipelineTest(DataMergePipelineTest):
+    ds_one_result = 21
+    ds_one_and_two_result = 191
 
-    def create_analysis_pipeline(self):
-        self.create_csv()
-        ds1_cols = self.create_columns()
-        ds1 = self.create_source(df=None, columns=ds1_cols, name='one')
+    def create_analysis_pipeline(self, source: Optional[DataSourceOrPipeline] = None,
+                                 options: Optional[AnalysisOptions] = None):
+        if source is None:
+            self.create_csv()
+            ds1_cols = self.create_columns()
+            source = self.create_source(df=None, columns=ds1_cols, name='one')
 
-        ao = AnalysisOptions(analysis_from_source)
-        dap = DataAnalysisPipeline(ds1, ao)
+        if options is None:
+            options = AnalysisOptions(analysis_from_source)
+
+        dap = DataAnalysisPipeline(source, options)
         return dap
 
 
 class TestDataAnalysisPipeline(DataAnalysisPipelineTest):
 
-    def test_create_and_run_merge_pipeline_from_source(self):
-        dp = self.create_analysis_pipeline()
-        dp.execute()
+    def test_create_and_run_analysis_pipeline_from_source(self):
+        dap = self.create_analysis_pipeline()
+        dap.execute()
 
-        assert dp.result.result == 21
+        assert dap.result.result == self.ds_one_result
+
+    def test_create_and_run_analysis_pipeline_from_merge_pipeline(self):
+        dmp = self.create_merge_pipeline()
+        dap = self.create_analysis_pipeline(source=dmp)
+        dap.execute()
+
+        assert dap.result.result == self.ds_one_and_two_result

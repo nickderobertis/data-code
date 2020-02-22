@@ -16,6 +16,8 @@ TwoDfTuple = Tuple[pd.DataFrame, pd.DataFrame]
 
 class DataMerge(DataOperation):
     requires_pair = True
+    options: 'MergeOptions'
+    result: 'DataSource'
 
     def __init__(self, data_sources: Sequence[DataSource], merge_options: 'MergeOptions'):
         self._merged_name = None
@@ -39,6 +41,23 @@ class DataMerge(DataOperation):
         )
         if self.options.post_merge_func is not None:
             self.result.df = self.options.post_merge_func(self.result.df)
+
+        left_ds, right_ds = self.data_sources[0], self.data_sources[1]
+        load_variables = []
+        columns = []
+        if left_ds.load_variables:
+            for var in left_ds.load_variables:
+                if self.options.left_df_keep_cols is None or var.name in self.options.left_df_keep_cols:
+                    load_variables.append(var)
+                    columns.append(left_ds.col_for(var))
+        if right_ds.load_variables:
+            for var in right_ds.load_variables:
+                if self.options.right_df_keep_cols is None or var.name in self.options.right_df_keep_cols:
+                    if var not in load_variables:  # merge on variables will be repeated, skip them
+                        load_variables.append(var)
+                        columns.append(right_ds.col_for(var))
+        self.result.columns = columns
+        self.result.load_variables = load_variables
 
         print(f"""
         {self.data_sources[0].name} obs: {len(left_df)}
