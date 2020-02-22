@@ -25,6 +25,16 @@ class DataMergePipeline(DataPipeline):
 
         super().__init__(data_sources=data_sources, name=name, outpath=outpath)
 
+        self._validate()
+
+    def _validate(self):
+        self._validate_data_sources_merge_options()
+
+    def _validate_data_sources_merge_options(self):
+        if len(self.data_sources) - 1 != len(self.merge_options_list):
+            raise ValueError(f'must have one fewer merge options than data sources. Have {len(self.data_sources)} data '
+                             f'sources and {len(self.merge_options_list)} merge options.')
+
     def execute(self):
         while True:
             try:
@@ -146,6 +156,7 @@ def _get_merges(data_source_1: DataSourceOrPipeline, data_source_2: DataSourceOr
     :param merge_options: MergeOptions
     :return: list of DataMerge objects
     """
+    # TODO: work DataTransformationPipeline and DataGenerationPipeline into merge creation in DataMergePipeline
     merges: DataMerges = []
     final_merge_sources: List[DataSource] = []
     # Add any pipeline merges first, as the results from the pipeline must be ready before we can merge the results
