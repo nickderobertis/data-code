@@ -2,6 +2,7 @@ import datetime
 from copy import deepcopy
 from typing import Union, Sequence, List, Callable, Optional
 
+from datacode.models.operation import DataOperation
 from datacode.models.source import DataSource
 from datacode.models.merge import MergeOptions, DataMerge
 
@@ -16,17 +17,52 @@ class DataPipeline:
     Base class for data pipelines. Should not be used directly.
     """
 
-    def __init__(self, data_sources: DataSourcesOrPipelines = None, outpath: Optional[str] = None,
+    def __init__(self, data_sources: DataSourcesOrPipelines, operations: Sequence[DataOperation],
+                 outpath: Optional[str] = None,
                  name: Optional[str] = None, last_modified: Optional[datetime.datetime] = None):
         self.data_sources = data_sources
+        self.operations = operations
         self.outpath = outpath
         self.name = name
         self.df = None
         self._manual_last_modified = last_modified
+        self._operation_index = 0
         self.result = None
 
-    def execute(self):
-        raise NotImplementedError('child class must implement execute')
+    def execute(self, output: bool = True):
+        while True:
+            try:
+                self.next_operation()
+            except LastOperationFinishedException:
+                break
+
+        if output:
+            self.output()
+
+        return self.df
+
+    def next_operation(self):
+        if self._operation_index == 0:
+            self._set_df_from_first_operation()
+
+        self._do_operation()
+
+    def _do_operation(self):
+        try:
+            operation = self.operations[self._operation_index]
+            print(f'Now running operation {self._operation_index + 1}: {operation}')
+        except IndexError:
+            raise LastOperationFinishedException
+
+        operation.execute()
+
+        # Set current df to result of merge
+        self.df = operation.result.df
+
+        self._operation_index += 1
+
+    def _set_df_from_first_operation(self):
+        self.df = self.operations[0].data_sources[0].df
 
     def output(self, outpath=None):
         if outpath:
@@ -74,3 +110,7 @@ class DataPipeline:
 
     def copy(self):
         return deepcopy(self)
+
+
+class LastOperationFinishedException(Exception):
+    pass

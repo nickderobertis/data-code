@@ -19,11 +19,11 @@ class DataMergePipeline(DataPipeline):
             cleanup_kwargs = {}
 
         self.merge_options_list = merge_options_list
-        self._merge_index = 0
         self._set_cleanup_func(post_merge_cleanup_func, **cleanup_kwargs)
         self.cleanup_kwargs = cleanup_kwargs
+        self.data_sources = data_sources
 
-        super().__init__(data_sources=data_sources, name=name, outpath=outpath)
+        super().__init__(data_sources, operations=self.merges, name=name, outpath=outpath)
 
         self._validate()
 
@@ -36,24 +36,13 @@ class DataMergePipeline(DataPipeline):
                              f'sources and {len(self.merge_options_list)} merge options.')
 
     def execute(self):
-        while True:
-            try:
-                self.next_merge()
-            except LastMergeFinishedException:
-                break
+        super().execute(output=False)
 
         if self.has_post_merge_cleanup_func:
             self.df = self.post_merge_cleanup_func(self.df)
         self.output()
 
         return self.df
-
-    def next_merge(self):
-        # On first merge, set df
-        if self._merge_index == 0:
-            self._set_df_from_first_merge()
-
-        self._merge()
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
@@ -69,24 +58,6 @@ class DataMergePipeline(DataPipeline):
     def describe(self):
         for merge in self.merges:
             merge.describe()
-
-    def _output(self, outpath=None):
-        self.df.to_csv(outpath, index=False, encoding='utf8')
-
-    def _merge(self):
-        try:
-            print(f'Now running merge {self._merge_index + 1}: {self.merges[self._merge_index]}')
-        except IndexError:
-            raise LastMergeFinishedException
-
-        self.merges[self._merge_index].execute()
-
-        # Set current df to result of merge
-        self.df = self.merges[self._merge_index].result.df
-
-        self._merge_index += 1
-
-        # TODO [#5]: add output considering path in merge options
 
     @property
     def merges(self):
@@ -134,9 +105,6 @@ class DataMergePipeline(DataPipeline):
             merges += _get_merges(merges[-1].result, data_sources[i + 2], merge_options)
 
         return merges
-
-    def _set_df_from_first_merge(self):
-        self.df = self.merges[0].data_sources[0].df
 
     def _set_cleanup_func(self, post_merge_cleanup_func, **cleanup_kwargs):
         if post_merge_cleanup_func is not None:
