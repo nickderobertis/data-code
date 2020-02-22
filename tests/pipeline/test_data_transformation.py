@@ -1,6 +1,6 @@
 from pandas.testing import assert_frame_equal
 
-from datacode import DataSource
+from datacode import DataSource, Column
 from tests.pipeline.base import PipelineTest
 
 
@@ -40,3 +40,18 @@ class TestDataTransformationPipeline(PipelineTest):
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_merged_1_2_both_transformed)
+
+    def test_original_variables_not_affected_by_transform(self):
+        self.create_csv()
+        a, b, c = self.create_variables()
+        ac = Column(a, 'a')
+        bc = Column(b, 'b')
+        cc = Column(c, 'c')
+        all_cols = [ac, bc, cc]
+        source = self.create_source(df=None, columns=all_cols)
+        dtp = self.create_transformation_pipeline(source=source)
+        dtp.execute()
+
+        assert not a.applied_transforms
+        assert not b.applied_transforms
+        assert not c.applied_transforms
