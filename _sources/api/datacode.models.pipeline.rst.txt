@@ -6,6 +6,13 @@ datacode.models.pipeline package
    :undoc-members:
    :show-inheritance:
 
+Subpackages
+-----------
+
+.. toctree::
+
+   datacode.models.pipeline.operations
+
 Submodules
 ----------
 

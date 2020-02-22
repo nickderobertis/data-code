@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.base &mdash; datacode 0.10.5 documentation</title>
+  <title>datacode.models.pipeline.base &mdash; datacode 0.11.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.10.5
+                0.11.0
               </div>
             
           
@@ -165,15 +165,11 @@
   <h1>Source code for datacode.models.pipeline.base</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">datacode.models.pipeline.operations.operation</span> <span class="kn">import</span> <span class="n">DataOperation</span><span class="p">,</span> <span class="n">OperationOptions</span>
 <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
-<span class="kn">from</span> <span class="nn">datacode.models.merge</span> <span class="kn">import</span> <span class="n">MergeOptions</span><span class="p">,</span> <span class="n">DataMerge</span>
-
-<span class="n">DataSourceOrPipeline</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">DataSource</span><span class="p">,</span> <span class="s1">&#39;DataMergePipeline&#39;</span><span class="p">]</span>
-<span class="n">DataSourcesOrPipelines</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataSourceOrPipeline</span><span class="p">]</span>
-<span class="n">MergeOptionsList</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MergeOptions</span><span class="p">]</span>
-<span class="n">DataMerges</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">DataMerge</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">datacode.models.types</span> <span class="kn">import</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span> <span class="n">DataSourceOrPipeline</span><span class="p">,</span> <span class="n">ObjWithLastModified</span>
 
 
 <div class="viewcode-block" id="DataPipeline"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline">[docs]</a><span class="k">class</span> <span class="nc">DataPipeline</span><span class="p">:</span>
@@ -181,64 +177,256 @@
 <span class="sd">    Base class for data pipelines. Should not be used directly.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DataPipeline.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">outpath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">last_modified</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span> <span class="o">=</span> <span class="n">data_sources</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outpath</span> <span class="o">=</span> <span class="n">outpath</span>
+<div class="viewcode-block" id="DataPipeline.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span>
+                 <span class="n">operation_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">OperationOptions</span><span class="p">]],</span>
+                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">operation_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">operation_options</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">data_sources</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data_sources</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_sources</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">data_sources</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data_sources</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation_options</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">operation_options</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">operation_options</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DataSourceOrPipeline</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_sources</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">OperationOptions</span><span class="p">]</span> <span class="o">=</span> <span class="n">operation_options</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_manual_last_modified</span> <span class="o">=</span> <span class="n">last_modified</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_operation_index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="DataPipeline.execute"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;child class must implement execute&#39;</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DataPipeline.execute"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">next_operation</span><span class="p">()</span>
+            <span class="k">except</span> <span class="n">LastOperationFinishedException</span><span class="p">:</span>
+                <span class="k">break</span>
 
-<div class="viewcode-block" id="DataPipeline.output"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outpath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">outpath</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">(</span><span class="n">outpath</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">outpath</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outpath</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">output</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span></div>
+
+<div class="viewcode-block" id="DataPipeline.next_operation"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.next_operation">[docs]</a>    <span class="k">def</span> <span class="nf">next_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operation_index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_df_from_first_operation</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_do_operation</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_do_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">operation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_operation_index</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Now running operation {self._operation_index + 1}: </span><span class="si">{operation}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">LastOperationFinishedException</span>
+
+        <span class="n">operation</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+        <span class="c1"># Set current df to result of merge</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">DataSource</span><span class="p">):</span>
+            <span class="c1"># Need to check as may be analysis result, in which case df should not be changed</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_operation_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_set_operations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_operations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_operations</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_operations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span> <span class="n">options_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">OperationOptions</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">options_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">op_class</span><span class="o">.</span><span class="n">num_required_sources</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">operations</span> <span class="o">=</span> <span class="p">[</span><span class="n">options_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">op_class</span><span class="p">(</span><span class="n">options_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="k">elif</span> <span class="n">options_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">op_class</span><span class="o">.</span><span class="n">num_required_sources</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">operations</span> <span class="o">=</span> <span class="n">_get_operations_for_single</span><span class="p">(</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">options_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">options_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">op_class</span><span class="o">.</span><span class="n">num_required_sources</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">operations</span> <span class="o">=</span> <span class="n">_get_operations_for_pair</span><span class="p">(</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">options_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;DataPipeline cannot handle operations with more than two sources&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">operations</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">options</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">options_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">op_class</span><span class="o">.</span><span class="n">num_required_sources</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">operations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">op_class</span><span class="p">(</span><span class="n">options</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">options</span><span class="o">.</span><span class="n">op_class</span><span class="o">.</span><span class="n">num_required_sources</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">operations</span> <span class="o">+=</span> <span class="n">_get_operations_for_single</span><span class="p">(</span><span class="n">operations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">options</span><span class="o">.</span><span class="n">op_class</span><span class="o">.</span><span class="n">num_required_sources</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">operations</span> <span class="o">+=</span> <span class="n">_get_operations_for_pair</span><span class="p">(</span><span class="n">operations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">options</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;DataPipeline cannot handle operations with more than two sources&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">operations</span>
+
+    <span class="k">def</span> <span class="nf">_set_df_from_first_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Need to check as may be generation pipeline which would not have a df to start from</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;data_sources&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data_sources</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">df</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">operations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operations</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_operations</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operations</span>
+
+    <span class="c1"># Following properties exist to recreate operations if data sources or merge options are overridden</span>
+    <span class="c1"># by user</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_sources</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DataSourceOrPipeline</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_sources</span>
+
+    <span class="nd">@data_sources</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">data_sources</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DataSourceOrPipeline</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data_sources</span> <span class="o">=</span> <span class="n">data_sources</span>
+        <span class="c1"># only set merges if previously set. otherwise no need to worry about updating cached result</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_operations&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_operations</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">operation_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operations_options</span>
+
+    <span class="nd">@operation_options</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">operation_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">OperationOptions</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_operations_options</span> <span class="o">=</span> <span class="n">options</span>
+        <span class="c1"># only set merges if previously set. otherwise no need to worry about updating cached result</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_operations&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_operations</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DataPipeline.output"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">out_path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">(</span><span class="n">out_path</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">out_path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">out_path</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataPipeline.summary"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">summary_attr</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">summary_method_kwargs</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;child class must implement summary&#39;</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">:</span>
+            <span class="n">op</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span>
+                <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span>
+                <span class="n">summary_method</span><span class="o">=</span><span class="n">summary_method</span><span class="p">,</span>
+                <span class="n">summary_function</span><span class="o">=</span><span class="n">summary_function</span><span class="p">,</span>
+                <span class="n">summary_attr</span><span class="o">=</span><span class="n">summary_attr</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">summary_method_kwargs</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataPipeline.describe"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">:</span>
+            <span class="n">op</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outpath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">outpath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">out_path</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">data_sources</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_sources</span>
-
-    <span class="nd">@data_sources</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">data_sources</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_data_sources</span> <span class="o">=</span> <span class="n">data_sources</span>
-
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manual_last_modified</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_manual_last_modified</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objs_with_last_modified</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="nb">max</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">last_modified</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="nb">max</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">last_modified</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objs_with_last_modified</span><span class="p">])</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">source_last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataSource</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">obj_last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ObjWithLastModified</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objs_with_last_modified</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">most_recent_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">most_recent_index</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">last_modified</span> <span class="o">&gt;</span> <span class="n">most_recent_time</span><span class="p">:</span>
-                <span class="n">most_recent_time</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">last_modified</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_objs_with_last_modified</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">last_modified</span> <span class="o">&gt;</span> <span class="n">most_recent_time</span><span class="p">:</span>
+                <span class="n">most_recent_time</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">last_modified</span>
                 <span class="n">most_recent_index</span> <span class="o">=</span> <span class="n">i</span>
 
         <span class="k">if</span> <span class="n">most_recent_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="n">most_recent_index</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objs_with_last_modified</span><span class="p">[</span><span class="n">most_recent_index</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_objs_with_last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ObjWithLastModified</span><span class="p">]:</span>
+        <span class="n">objs_with_last_modified</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ObjWithLastModified</span><span class="p">]</span>
+        <span class="n">objs_with_last_modified</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span>
+        <span class="n">objs_with_last_modified</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs_with_last_modified</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">last_modified</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">objs_with_last_modified</span>
 
 <div class="viewcode-block" id="DataPipeline.copy"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="LastOperationFinishedException"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.LastOperationFinishedException">[docs]</a><span class="k">class</span> <span class="nc">LastOperationFinishedException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_operations_for_single</span><span class="p">(</span><span class="n">data_source</span><span class="p">:</span> <span class="n">DataSourceOrPipeline</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">OperationOptions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DataOperation</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     Creates a list of DataOperation/subclass objects from a single DataSource or DataPipeline object</span>
+<span class="sd">    :param data_source:</span>
+<span class="sd">    :param options: Options for the main operation</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">operations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DataOperation</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">final_operation_sources</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DataSource</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Add any pipeline operations first, as the results from the pipeline must be ready before we can use the results</span>
+    <span class="c1"># for other data sources or pipeline results operations</span>
+    <span class="k">if</span> <span class="n">_is_data_pipeline</span><span class="p">(</span><span class="n">data_source</span><span class="p">):</span>
+        <span class="n">operations</span> <span class="o">+=</span> <span class="n">data_source</span><span class="o">.</span><span class="n">operations</span>  <span class="c1"># type: ignore</span>
+        <span class="n">pipeline_result</span> <span class="o">=</span> <span class="n">data_source</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span>  <span class="c1"># type: ignore</span>
+        <span class="c1"># result of first pipeline will be first source in final operation</span>
+        <span class="n">final_operation_sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pipeline_result</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">final_operation_sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_source</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+    <span class="c1"># Add last (or only) operation</span>
+    <span class="n">operations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">op_class</span><span class="p">(</span><span class="n">final_operation_sources</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">operations</span>
+
+
+<span class="k">def</span> <span class="nf">_get_operations_for_pair</span><span class="p">(</span><span class="n">data_source_1</span><span class="p">:</span> <span class="n">DataSourceOrPipeline</span><span class="p">,</span> <span class="n">data_source_2</span><span class="p">:</span> <span class="n">DataSourceOrPipeline</span><span class="p">,</span>
+                             <span class="n">options</span><span class="p">:</span> <span class="n">OperationOptions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DataOperation</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a list of DataOperation/subclass objects from a paring of two DataSource objects, a DataSource and a</span>
+<span class="sd">    DataPipeline, or two DataPipeline objects.</span>
+<span class="sd">    :param data_source_1: DataSource or DataMergePipeline</span>
+<span class="sd">    :param data_source_2: DataSource or DataMergePipeline</span>
+<span class="sd">    :param options: Options for the main operation</span>
+<span class="sd">    :return: list of DataOperation/subclass objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">operations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DataOperation</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">final_operation_sources</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DataSource</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Add any pipeline operations first, as the results from the pipeline must be ready before we can use the results</span>
+    <span class="c1"># for other data sources or pipeline results operations</span>
+    <span class="k">if</span> <span class="n">_is_data_pipeline</span><span class="p">(</span><span class="n">data_source_1</span><span class="p">):</span>
+        <span class="n">operations</span> <span class="o">+=</span> <span class="n">data_source_1</span><span class="o">.</span><span class="n">operations</span>  <span class="c1"># type: ignore</span>
+        <span class="n">pipeline_1_result</span> <span class="o">=</span> <span class="n">data_source_1</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span>  <span class="c1"># type: ignore</span>
+        <span class="c1"># result of first pipeline will be first source in final operation</span>
+        <span class="n">final_operation_sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pipeline_1_result</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">final_operation_sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_source_1</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">if</span> <span class="n">_is_data_pipeline</span><span class="p">(</span><span class="n">data_source_2</span><span class="p">):</span>
+        <span class="n">operations</span> <span class="o">+=</span> <span class="n">data_source_2</span><span class="o">.</span><span class="n">operations</span>  <span class="c1"># type: ignore</span>
+        <span class="c1"># result of second pipeline will be second source in final operation</span>
+        <span class="n">pipeline_2_result</span> <span class="o">=</span> <span class="n">data_source_2</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">result</span> <span class="c1"># type: ignore</span>
+        <span class="n">final_operation_sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pipeline_2_result</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">final_operation_sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_source_2</span><span class="p">)</span>
+
+    <span class="c1"># Add last (or only) operation</span>
+    <span class="n">operations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">op_class</span><span class="p">(</span><span class="n">final_operation_sources</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">operations</span>
+
+
+<span class="k">def</span> <span class="nf">_is_data_pipeline</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;data_sources&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;operation_options&#39;</span><span class="p">)</span>
 </pre></div>
 
            </div>

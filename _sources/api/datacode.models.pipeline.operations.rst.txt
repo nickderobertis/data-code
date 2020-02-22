@@ -1,0 +1,51 @@
+datacode.models.pipeline.operations package
+===========================================
+
+.. automodule:: datacode.models.pipeline.operations
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.models.pipeline.operations.analysis module
+---------------------------------------------------
+
+.. automodule:: datacode.models.pipeline.operations.analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.pipeline.operations.generate module
+---------------------------------------------------
+
+.. automodule:: datacode.models.pipeline.operations.generate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.pipeline.operations.merge module
+------------------------------------------------
+
+.. automodule:: datacode.models.pipeline.operations.merge
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.pipeline.operations.operation module
+----------------------------------------------------
+
+.. automodule:: datacode.models.pipeline.operations.operation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.pipeline.operations.transform module
+----------------------------------------------------
+
+.. automodule:: datacode.models.pipeline.operations.transform
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

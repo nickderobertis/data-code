@@ -21,6 +21,14 @@ Subpackages
 Submodules
 ----------
 
+datacode.models.analysis module
+-------------------------------
+
+.. automodule:: datacode.models.analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.index module
 ----------------------------
 
@@ -33,14 +41,6 @@ datacode.models.loader module
 -----------------------------
 
 .. automodule:: datacode.models.loader
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-datacode.models.merge module
-----------------------------
-
-.. automodule:: datacode.models.merge
    :members:
    :undoc-members:
    :show-inheritance:

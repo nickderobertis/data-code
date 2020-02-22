@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.10.5 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.11.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.10.5
+                0.11.0
               </div>
             
           
@@ -169,22 +169,34 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.types</span> <span class="kn">import</span> <span class="n">SourceCreatingPipeline</span>
 <span class="kn">from</span> <span class="nn">datacode.summarize</span> <span class="kn">import</span> <span class="n">describe_df</span>
-<span class="kn">from</span> <span class="nn">pd_utils.optimize.load</span> <span class="kn">import</span> <span class="n">read_file</span> <span class="k">as</span> <span class="n">read_file_into_df</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.variables.variable</span> <span class="kn">import</span> <span class="n">Variable</span>
 <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
 <span class="kn">from</span> <span class="nn">datacode.models.loader</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 
-<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">datacode.models.pipeline.merge</span> <span class="kn">import</span> <span class="n">DataMergePipeline</span>
-    <span class="kn">from</span> <span class="nn">datacode.models.pipeline.generate</span> <span class="kn">import</span> <span class="n">DataGeneratorPipeline</span>
-
 
 <div class="viewcode-block" id="DataSource"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource">[docs]</a><span class="k">class</span> <span class="nc">DataSource</span><span class="p">:</span>
+    <span class="n">copy_keys</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;location&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;tags&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;loader_class&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pipeline&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;columns&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;load_variables&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;read_file_kwargs&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;optimize_size&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">update_keys</span> <span class="o">=</span> <span class="n">copy_keys</span> <span class="o">+</span> <span class="p">[</span>
+        <span class="s1">&#39;_orig_columns&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_columns_for_calculate&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_orig_load_variables&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_vars_for_calculate&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
 
 <div class="viewcode-block" id="DataSource.__init__"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">pipeline</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SourceCreatingPipeline</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -255,8 +267,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span> <span class="o">=</span> <span class="n">all_load_vars</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span> <span class="o">=</span> <span class="n">optimize_size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">df</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name_type</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{name}</span><span class="s1">&#39;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">df</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -288,7 +299,8 @@
         <span class="k">pass</span>
         <span class="c1"># assert not (filepath is None) and (df is None)</span>
 
-    <span class="k">def</span> <span class="nf">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">DataLoader</span><span class="p">],</span> <span class="n">pipeline</span><span class="p">:</span> <span class="s1">&#39;DataMergePipeline&#39;</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">read_file_kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">DataLoader</span><span class="p">],</span> <span class="n">pipeline</span><span class="p">:</span> <span class="n">SourceCreatingPipeline</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">read_file_kwargs</span><span class="p">):</span>
         <span class="n">run_pipeline</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># if a source in the pipeline to create this data source was modified more recently than this data source</span>
@@ -316,8 +328,8 @@
 <span class="s2">                   Will run pipeline due to this. This is due to no file currently existing for this source.</span>
 <span class="s2">                   &quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">recent_source</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">source_last_modified</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;data source </span><span class="si">{recent_source}</span><span class="s1"> was modified at </span><span class="si">{recent_source.last_modified}</span><span class="s1">.</span>
+                    <span class="n">recent_obj</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">obj_last_modified</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{recent_obj}</span><span class="s1"> was modified at </span><span class="si">{recent_obj.last_modified}</span><span class="s1">.</span>
 <span class="s1">    </span>
 <span class="s1">                    this data source </span><span class="si">{self}</span><span class="s1"> was modified at </span><span class="si">{self.last_modified}</span><span class="s1">.</span>
 <span class="s1">    </span>
@@ -341,23 +353,29 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span>
 
+<div class="viewcode-block" id="DataSource.update_from_source"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.update_from_source">[docs]</a>    <span class="k">def</span> <span class="nf">update_from_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">exclude_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(),</span>
+                           <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates attributes of this DataSource with another DataSources attributes</span>
+
+<span class="sd">        :param other:</span>
+<span class="sd">        :param exclude_attrs: Any attributes to exclude when updating</span>
+<span class="sd">        :param include_attrs: Defaults to DataSource.update_keys + [&#39;_df&#39;] but can manually select attributes</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">include_attrs</span><span class="p">:</span>
+            <span class="n">include_attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_keys</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;_df&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">include_attrs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">attr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude_attrs</span><span class="p">:</span>
+                <span class="n">other_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">other_value</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="DataSource.copy"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-        <span class="n">copy_keys</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;location&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;pipeline&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;columns&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;load_variables&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;name&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;tags&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;loader_class&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;read_file_kwargs&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;optimize_size&#39;</span>
-        <span class="p">]</span>
-
-        <span class="n">config_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="n">deepcopy</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">copy_keys</span><span class="p">}</span>
+        <span class="n">config_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="n">deepcopy</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_keys</span><span class="p">}</span>
 
         <span class="c1"># Handle df only if not passed as do not want load df unnecessarily</span>
         <span class="k">if</span> <span class="s1">&#39;df&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models package &mdash; datacode 0.10.5 documentation</title>
+  <title>datacode.models package &mdash; datacode 0.11.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.10.5
+                0.11.0
               </div>
             
           
@@ -232,6 +232,18 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="datacode.models.pipeline.html">datacode.models.pipeline package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacode.models.pipeline.operations.html">datacode.models.pipeline.operations package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.pipeline.operations.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.analysis">datacode.models.pipeline.operations.analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.generate">datacode.models.pipeline.operations.generate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.merge">datacode.models.pipeline.operations.merge module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.operation">datacode.models.pipeline.operations.operation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.transform">datacode.models.pipeline.operations.transform module</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.html#module-datacode.models.pipeline.analysis">datacode.models.pipeline.analysis module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.html#module-datacode.models.pipeline.base">datacode.models.pipeline.base module</a></li>
@@ -271,6 +283,21 @@
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacode.models.analysis">
+<span id="datacode-models-analysis-module"></span><h2>datacode.models.analysis module<a class="headerlink" href="#module-datacode.models.analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacode.models.analysis.AnalysisResult">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.analysis.</code><code class="sig-name descname">AnalysisResult</code><span class="sig-paren">(</span><em class="sig-param">result=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/analysis.html#AnalysisResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.analysis.AnalysisResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="datacode.models.analysis.AnalysisResult.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">result=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/analysis.html#AnalysisResult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.analysis.AnalysisResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-datacode.models.index">
 <span id="datacode-models-index-module"></span><h2>datacode.models.index module<a class="headerlink" href="#module-datacode.models.index" title="Permalink to this headline">¶</a></h2>
@@ -432,98 +459,6 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-datacode.models.merge">
-<span id="datacode-models-merge-module"></span><h2>datacode.models.merge module<a class="headerlink" href="#module-datacode.models.merge" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.merge.DataMerge">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.merge.</code><code class="sig-name descname">DataMerge</code><span class="sig-paren">(</span><em class="sig-param">data_sources</em>, <em class="sig-param">merge_options</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#DataMerge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.DataMerge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.merge.DataMerge.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">data_sources</em>, <em class="sig-param">merge_options</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#DataMerge.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.DataMerge.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.merge.DataMerge.describe">
-<code class="sig-name descname">describe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#DataMerge.describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.DataMerge.describe" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.merge.DataMerge.merge">
-<code class="sig-name descname">merge</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#DataMerge.merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.DataMerge.merge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.merge.DataMerge.merge_str">
-<em class="property">property </em><code class="sig-name descname">merge_str</code><a class="headerlink" href="#datacode.models.merge.DataMerge.merge_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.merge.DataMerge.merged_name">
-<em class="property">property </em><code class="sig-name descname">merged_name</code><a class="headerlink" href="#datacode.models.merge.DataMerge.merged_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.merge.DataMerge.summary">
-<code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param">*summary_args</em>, <em class="sig-param">summary_method=None</em>, <em class="sig-param">summary_function=None</em>, <em class="sig-param">summary_attr=None</em>, <em class="sig-param">**summary_method_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#DataMerge.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.DataMerge.summary" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="exception">
-<dt id="datacode.models.merge.LastMergeFinishedException">
-<em class="property">exception </em><code class="sig-prename descclassname">datacode.models.merge.</code><code class="sig-name descname">LastMergeFinishedException</code><a class="reference internal" href="../_modules/datacode/models/merge.html#LastMergeFinishedException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.LastMergeFinishedException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
-</dd></dl>
-
-<dl class="class">
-<dt id="datacode.models.merge.MergeOptions">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.merge.</code><code class="sig-name descname">MergeOptions</code><span class="sig-paren">(</span><em class="sig-param">*merge_function_args</em>, <em class="sig-param">outpath=None</em>, <em class="sig-param">merge_function=&lt;function left_merge_df&gt;</em>, <em class="sig-param">left_df_keep_cols=None</em>, <em class="sig-param">right_df_keep_cols=None</em>, <em class="sig-param">left_df_pre_process_func=None</em>, <em class="sig-param">right_df_pre_process_func=None</em>, <em class="sig-param">left_df_pre_process_kwargs=None</em>, <em class="sig-param">right_df_pre_process_kwargs=None</em>, <em class="sig-param">post_merge_func=None</em>, <em class="sig-param">post_merge_func_kwargs=None</em>, <em class="sig-param">**merge_function_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#MergeOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.MergeOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.merge.MergeOptions.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*merge_function_args</em>, <em class="sig-param">outpath=None</em>, <em class="sig-param">merge_function=&lt;function left_merge_df&gt;</em>, <em class="sig-param">left_df_keep_cols=None</em>, <em class="sig-param">right_df_keep_cols=None</em>, <em class="sig-param">left_df_pre_process_func=None</em>, <em class="sig-param">right_df_pre_process_func=None</em>, <em class="sig-param">left_df_pre_process_kwargs=None</em>, <em class="sig-param">right_df_pre_process_kwargs=None</em>, <em class="sig-param">post_merge_func=None</em>, <em class="sig-param">post_merge_func_kwargs=None</em>, <em class="sig-param">**merge_function_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#MergeOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.MergeOptions.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>passed args to merge func will be (</dt><dd><p>left_df_pre_process_func(left_df, <a href="#id1"><span class="problematic" id="id2">**</span></a>left_df_pre_process_kwargs)[left_df_keep_cols],
-right_df_pre_process_func(right_df, <a href="#id3"><span class="problematic" id="id4">**</span></a>right_df_pre_process_kwargs)[right_df_keep_cols],
-<a href="#id5"><span class="problematic" id="id6">*</span></a>merge_function_kwargs,
-<a href="#id7"><span class="problematic" id="id8">**</span></a>merge_function_kwargs</p>
-</dd>
-</dl>
-<p>)</p>
-<p>if left_df_keep_cols is None, will instead pass left_df_pre_process_func(left_df, <a href="#id9"><span class="problematic" id="id10">**</span></a>left_df_pre_process_kwargs).
-If right_df_keep_cols is None, will instead pass right_df_pre_process_func(right_df, <a href="#id11"><span class="problematic" id="id12">**</span></a>right_df_pre_process_kwargs).
-If left_df_pre_process_func is None, will instead pass left_df or left_df[left_df_keep_cols] depending</p>
-<blockquote>
-<div><p>on whether left_df_keep_cols was passed. Similar behavior for right.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Args:</dt><dd><p><a href="#id13"><span class="problematic" id="id14">*</span></a>merge_function_args:
-outpath:
-merge_function:
-left_df_keep_cols:
-right_df_keep_cols:
-post_merge_func: function to be called on data after merge
-post_merge_func_kwargs: kwargs to be passed to post_merge_func
-<a href="#id15"><span class="problematic" id="id16">**</span></a>merge_function_kwargs:</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.merge.MergeOptions.copy">
-<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#MergeOptions.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.MergeOptions.copy" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.merge.MergeOptions.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/merge.html#MergeOptions.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.merge.MergeOptions.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="module-datacode.models.source">
 <span id="datacode-models-source-module"></span><h2>datacode.models.source module<a class="headerlink" href="#module-datacode.models.source" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -569,6 +504,11 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 <dl class="method">
 <dt id="datacode.models.source.DataSource.copy">
 <code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="datacode.models.source.DataSource.copy_keys">
+<code class="sig-name descname">copy_keys</code><em class="property"> = ['location', 'name', 'tags', 'loader_class', 'pipeline', 'columns', 'load_variables', 'read_file_kwargs', 'optimize_size']</em><a class="headerlink" href="#datacode.models.source.DataSource.copy_keys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -635,6 +575,29 @@ post_merge_func_kwargs: kwargs to be passed to post_merge_func
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.source.DataSource.update_from_source">
+<code class="sig-name descname">update_from_source</code><span class="sig-paren">(</span><em class="sig-param">other</em>, <em class="sig-param">exclude_attrs=()</em>, <em class="sig-param">include_attrs=()</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.update_from_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.update_from_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates attributes of this DataSource with another DataSources attributes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.models.source.DataSource.update_from_source.params.other"></span><strong>other</strong><a class="paramlink headerlink reference internal" href="#datacode.models.source.DataSource.update_from_source.params.other">¶</a> (<a class="reference internal" href="#datacode.models.source.DataSource" title="datacode.models.source.DataSource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSource</span></code></a>) – </p></li>
+<li><p><span class="target" id="datacode.models.source.DataSource.update_from_source.params.exclude_attrs"></span><strong>exclude_attrs</strong><a class="paramlink headerlink reference internal" href="#datacode.models.source.DataSource.update_from_source.params.exclude_attrs">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]) – Any attributes to exclude when updating</p></li>
+<li><p><span class="target" id="datacode.models.source.DataSource.update_from_source.params.include_attrs"></span><strong>include_attrs</strong><a class="paramlink headerlink reference internal" href="#datacode.models.source.DataSource.update_from_source.params.include_attrs">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]) – Defaults to DataSource.update_keys + [‘_df’] but can manually select attributes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="datacode.models.source.DataSource.update_keys">
+<code class="sig-name descname">update_keys</code><em class="property"> = ['location', 'name', 'tags', 'loader_class', 'pipeline', 'columns', 'load_variables', 'read_file_kwargs', 'optimize_size', '_orig_columns', '_columns_for_calculate', '_orig_load_variables', '_vars_for_calculate']</em><a class="headerlink" href="#datacode.models.source.DataSource.update_keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
