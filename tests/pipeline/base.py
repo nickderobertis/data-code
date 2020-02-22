@@ -20,15 +20,15 @@ def analysis_from_source(ds: DataSource) -> float:
 
 EXPECT_GENERATED_DF = df = pd.DataFrame(
     [
-        (1, 2),
-        (3, 4)
+        (1, 2, 'd'),
+        (3, 4, 'e')
     ],
-    columns=['a', 'b']
+    columns=['a', 'b', 'C']
 )
 
 
-def ds_generator_func() -> DataSource:
-    ds = DataSource(df=EXPECT_GENERATED_DF)
+def ds_generator_func(columns: Sequence[Column]) -> DataSource:
+    ds = DataSource(df=EXPECT_GENERATED_DF, columns=columns)
     return ds
 
 
@@ -42,8 +42,10 @@ def source_transform_func(ds: DataSource) -> DataSource:
 class PipelineTest(SourceTest):
     merge_var = Variable('c', 'C', dtype='str')
     source_transform = SourceTransform('st', name_func=SourceTest.transform_name_func, data_func=source_transform_func)
-    ds_one_result = 21
-    ds_one_and_two_result = 191
+    ds_one_analysis_result = 21
+    ds_one_and_two_analysis_result = 191
+    ds_one_transformed_analysis_result = 27
+    ds_one_generated_analysis_result = 10
     csv_path2 = os.path.join(GENERATED_PATH, 'data2.csv')
     csv_path3 = os.path.join(GENERATED_PATH, 'data3.csv')
     csv_path_output = os.path.join(GENERATED_PATH, 'output.csv')
@@ -78,6 +80,21 @@ class PipelineTest(SourceTest):
         ],
         columns=['A', 'B', 'C', 'E', 'F']
     )
+    expect_merged_1_2_both_transformed = pd.DataFrame(
+        [
+            (2, 3, 'd', 11, 21),
+            (4, 5, 'd', 11, 21),
+            (6, 7, 'e', 51, 61),
+        ],
+        columns=['A', 'B', 'C', 'E', 'F']
+    )
+    expect_merged_1_generated_2 = pd.DataFrame(
+        [
+            (1, 2, 'd', 10, 20),
+            (3, 4, 'e', 50, 60),
+        ],
+        columns=['a', 'b', 'C', 'E', 'F']
+    )
     expect_merged_1_2_3 = pd.DataFrame(
         [
             (1, 2, 'd', 10, 20, 100, 200),
@@ -101,6 +118,13 @@ class PipelineTest(SourceTest):
             (6, 7, 'e')
         ],
         columns=['A_1', 'B_1', 'C_1']
+    )
+    expect_generated_transformed = pd.DataFrame(
+        [
+            (2, 3, 'd'),
+            (4, 5, 'e')
+        ],
+        columns=['a', 'b', 'C']
     )
 
     def create_csv_for_2(self, df: Optional[pd.DataFrame] = None, **to_csv_kwargs):
@@ -131,6 +155,15 @@ class PipelineTest(SourceTest):
         c = Variable('c', 'C', dtype='str')
         return g, h, c
 
+    def create_variables_for_generated(self, transform_data: str = '', apply_transforms: bool = True
+                               ) -> Tuple[Variable, Variable, Variable]:
+        transform_dict = self.get_transform_dict(transform_data=transform_data, apply_transforms=apply_transforms)
+
+        a = Variable('a', 'a', dtype='int', **transform_dict)
+        b = Variable('b', 'b', dtype='int', **transform_dict)
+        c = Variable('c', 'C', dtype='str')
+        return a, b, c
+
     def create_columns_for_2(self, transform_data: str = '', apply_transforms: bool = True):
         e, f, c = self.create_variables_for_2(transform_data=transform_data, apply_transforms=apply_transforms)
         ec = Column(e, 'e')
@@ -150,6 +183,17 @@ class PipelineTest(SourceTest):
         return [
             gc,
             hc,
+            cc
+        ]
+
+    def create_columns_for_generated(self, transform_data: str = '', apply_transforms: bool = True):
+        a, b, c = self.create_variables_for_generated(transform_data=transform_data, apply_transforms=apply_transforms)
+        ac = Column(a, 'a')
+        bc = Column(b, 'b')
+        cc = Column(c, 'c')
+        return [
+            ac,
+            bc,
             cc
         ]
 
@@ -201,21 +245,24 @@ class PipelineTest(SourceTest):
         return dap
 
     def create_generator_pipeline(self) -> DataGeneratorPipeline:
-        go = GenerationOptions(ds_generator_func, out_path=self.csv_path_output)
+        gen_cols = self.create_columns_for_generated()
+        go = GenerationOptions(ds_generator_func, out_path=self.csv_path_output, columns=gen_cols)
         dgp = DataGeneratorPipeline(go)
         return dgp
 
-    def create_transformation_pipeline(self, **pipeline_kwargs) -> DataTransformationPipeline:
+    def create_transformation_pipeline(self, source: Optional[DataSourceOrPipeline] = None,
+                                       **pipeline_kwargs) -> DataTransformationPipeline:
         config_dict = dict(
             func=source_transform_func,
             out_path=self.csv_path_output
         )
         config_dict.update(pipeline_kwargs)
-        self.create_csv()
-        all_cols = self.create_columns()
-        ds = self.create_source(df=None, columns=all_cols)
+        if source is None:
+            self.create_csv()
+            all_cols = self.create_columns()
+            source = self.create_source(df=None, columns=all_cols)
 
         to = TransformOptions(**config_dict)
 
-        dtp = DataTransformationPipeline(ds, to)
+        dtp = DataTransformationPipeline(source, to)
         return dtp

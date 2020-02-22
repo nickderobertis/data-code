@@ -47,14 +47,26 @@ class TestDataMergePipeline(PipelineTest):
         assert_frame_equal(dp2.df, self.expect_merged_1_2_3)
 
     def test_create_nested_transformation_pipeline(self):
-        dt = self.create_transformation_pipeline()
+        dtp = self.create_transformation_pipeline()
 
         self.create_csv_for_2()
         ds2_cols = self.create_columns_for_2()
         ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
 
-        dp = self.create_merge_pipeline(data_sources=[dt, ds2])
+        dp = self.create_merge_pipeline(data_sources=[dtp, ds2])
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_merged_1_transformed_2)
+
+    def test_create_nested_generation_pipeline(self):
+        dgp = self.create_generator_pipeline()
+
+        self.create_csv_for_2()
+        ds2_cols = self.create_columns_for_2()
+        ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
+
+        dp = self.create_merge_pipeline(data_sources=[dgp, ds2])
+        dp.execute()
+
+        assert_frame_equal(dp.df, self.expect_merged_1_generated_2)
 
