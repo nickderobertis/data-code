@@ -1,3 +1,4 @@
+import datetime
 from copy import deepcopy
 from typing import Sequence, Callable, Optional, Type
 
@@ -9,7 +10,7 @@ class DataOperation:
     Base class for a singlar data process that takes one or more DataSources as inputs and has one DataSource
     as the output.
     """
-    requires_pair: bool = False
+    num_required_sources: int = 1
 
     def __init__(self, data_sources: Sequence[DataSource], options: 'OperationOptions',
                  output_name: Optional[str] = None):
@@ -46,6 +47,7 @@ class OperationOptions:
     op_class: Type[DataOperation] = DataOperation
     result_class: Type = DataSource
     out_path: Optional[str] = None
+    last_modified: Optional[datetime.datetime] = None
 
     def copy(self):
         return deepcopy(self)

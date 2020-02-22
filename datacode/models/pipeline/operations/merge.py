@@ -15,7 +15,7 @@ TwoDfTuple = Tuple[pd.DataFrame, pd.DataFrame]
 
 
 class DataMerge(DataOperation):
-    requires_pair = True
+    num_required_sources = 2
     options: 'MergeOptions'
     result: 'DataSource'
 

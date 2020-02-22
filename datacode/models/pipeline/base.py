@@ -1,10 +1,10 @@
 import datetime
 from copy import deepcopy
-from typing import Sequence, List, Callable, Optional
+from typing import Sequence, List, Callable, Optional, Union
 
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
-from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline
+from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline, ObjWithLastModified
 
 
 class DataPipeline:
@@ -14,15 +14,22 @@ class DataPipeline:
 
     def __init__(self, data_sources: DataSourcesOrPipelines,
                  operation_options: Optional[Sequence[OperationOptions]],
-                 name: Optional[str] = None, last_modified: Optional[datetime.datetime] = None):
+                 name: Optional[str] = None):
         if operation_options is None:
             operation_options = []
+        if data_sources is None:
+            data_sources = []
 
-        self.data_sources = data_sources
-        self.operation_options = operation_options
+        if not isinstance(data_sources, list):
+            data_sources = list(data_sources)
+
+        if not isinstance(operation_options, list):
+            operation_options = list(operation_options)
+
+        self.data_sources: List[DataSourceOrPipeline] = data_sources
+        self.operation_options: List[OperationOptions] = operation_options
         self.name = name
         self.df = None
-        self._manual_last_modified = last_modified
         self._operation_index = 0
         self.result = None
 
@@ -66,24 +73,34 @@ class DataPipeline:
         self._operations = self._create_operations(self.data_sources, self.operation_options)
 
     def _create_operations(self, data_sources: DataSourcesOrPipelines, options_list: List[OperationOptions]):
-        if options_list[0].op_class.requires_pair:
+        if options_list[0].op_class.num_required_sources == 0:
+            operations = [options_list[0].op_class(options_list[0])]
+        elif options_list[0].op_class.num_required_sources == 1:
+            operations = _get_operations_for_single(data_sources[0], options_list[0])
+        elif options_list[0].op_class.num_required_sources == 2:
             operations = _get_operations_for_pair(data_sources[0], data_sources[1], options_list[0])
         else:
-            operations = _get_operations_for_single(data_sources[0], options_list[0])
+            raise ValueError('DataPipeline cannot handle operations with more than two sources')
 
         if len(options_list) == 1:
             return operations
 
         for i, options in enumerate(options_list[1:]):
-            if options.op_class.requires_pair:
+            if options.op_class.num_required_sources == 0:
+                operations.append(options.op_class(options))
+            elif options.op_class.num_required_sources == 1:
+                operations += _get_operations_for_single(operations[-1].result, options)
+            elif options.op_class.num_required_sources == 2:
                 operations += _get_operations_for_pair(operations[-1].result, data_sources[i + 2], options)
             else:
-                operations += _get_operations_for_single(operations[-1].result, options)
+                raise ValueError('DataPipeline cannot handle operations with more than two sources')
 
         return operations
 
     def _set_df_from_first_operation(self):
-        self.df = self.operations[0].data_sources[0].df
+        # Need to check as may be generation pipeline which would not have a df to start from
+        if hasattr(self.operations[0], 'data_sources') and self.operations[0].data_sources:
+            self.df = self.operations[0].data_sources[0].df
 
     @property
     def operations(self):
@@ -98,11 +115,11 @@ class DataPipeline:
     # by user
 
     @property
-    def data_sources(self):
+    def data_sources(self) -> List[DataSourceOrPipeline]:
         return self._data_sources
 
     @data_sources.setter
-    def data_sources(self, data_sources: DataSourcesOrPipelines):
+    def data_sources(self, data_sources: List[DataSourceOrPipeline]):
         self._data_sources = data_sources
         # only set merges if previously set. otherwise no need to worry about updating cached result
         if hasattr(self, '_operations'):
@@ -147,34 +164,32 @@ class DataPipeline:
             self.df.to_csv(outpath, index=False, encoding='utf8')
 
     @property
-    def data_sources(self):
-        return self._data_sources
-
-    @data_sources.setter
-    def data_sources(self, data_sources: DataSourcesOrPipelines):
-        self._data_sources = data_sources
-
-    @property
     def last_modified(self) -> Optional[datetime.datetime]:
-        if self._manual_last_modified is not None:
-            return self._manual_last_modified
-        if self.data_sources is None:
+        if not self._objs_with_last_modified:
             return None
-        return max([source.last_modified for source in self.data_sources])
+
+        return max([source.last_modified for source in self._objs_with_last_modified])
 
     @property
-    def source_last_modified(self) -> Optional[DataSource]:
-        if self.data_sources is None:
+    def obj_last_modified(self) -> Optional[ObjWithLastModified]:
+        if not self._objs_with_last_modified:
             return None
         most_recent_time = datetime.datetime(1900, 1, 1)
         most_recent_index = None
-        for i, source in enumerate(self.data_sources):
-            if source.last_modified > most_recent_time:
-                most_recent_time = source.last_modified
+        for i, obj in enumerate(self._objs_with_last_modified):
+            if obj.last_modified > most_recent_time:
+                most_recent_time = obj.last_modified
                 most_recent_index = i
 
         if most_recent_index is not None:
-            return self.data_sources[most_recent_index]
+            return self._objs_with_last_modified[most_recent_index]
+
+    @property
+    def _objs_with_last_modified(self) -> List[ObjWithLastModified]:
+        objs_with_last_modified: List[ObjWithLastModified]
+        objs_with_last_modified = self.data_sources + self.operation_options
+        objs_with_last_modified = [obj for obj in objs_with_last_modified if obj.last_modified is not None]
+        return objs_with_last_modified
 
     def copy(self):
         return deepcopy(self)

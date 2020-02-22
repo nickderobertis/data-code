@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
-from datacode import DataSource, DataGeneratorPipeline
+from datacode import DataSource, DataGeneratorPipeline, GenerationOptions
 from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
 
@@ -24,7 +24,8 @@ class DataGeneratorPipelineTest(SourceTest):
     csv_path_output = os.path.join(GENERATED_PATH, 'output.csv')
 
     def create_pipeline(self) -> DataGeneratorPipeline:
-        dgp = DataGeneratorPipeline(ds_generator_func, outpath=self.csv_path_output)
+        go = GenerationOptions(ds_generator_func, out_path=self.csv_path_output)
+        dgp = DataGeneratorPipeline(go)
         return dgp
 
 

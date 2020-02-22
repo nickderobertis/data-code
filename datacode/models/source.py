@@ -4,19 +4,14 @@ from functools import partial
 import os
 import warnings
 import datetime
-from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence, Type, Union
+from typing import List, Optional, Any, Dict, Sequence, Type
 
 from datacode.models.types import SourceCreatingPipeline
 from datacode.summarize import describe_df
-from pd_utils.optimize.load import read_file as read_file_into_df
 
 from datacode.models.variables.variable import Variable
 from datacode.models.column.column import Column
 from datacode.models.loader import DataLoader
-
-if TYPE_CHECKING:
-    from datacode.models.pipeline.merge import DataMergePipeline
-    from datacode.models.pipeline.generate import DataGeneratorPipeline
 
 
 class DataSource:
@@ -165,8 +160,8 @@ class DataSource:
                    Will run pipeline due to this. This is due to no file currently existing for this source.
                    """.strip())
                 else:
-                    recent_source = pipeline.source_last_modified
-                    warnings.warn(f'''data source {recent_source} was modified at {recent_source.last_modified}.
+                    recent_obj = pipeline.obj_last_modified
+                    warnings.warn(f'''{recent_obj} was modified at {recent_obj.last_modified}.
     
                     this data source {self} was modified at {self.last_modified}.
     
