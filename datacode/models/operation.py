@@ -9,10 +9,12 @@ class DataOperation:
     as the output.
     """
 
-    def __init__(self, data_sources: Sequence[DataSource], output_name: Optional[str] = None):
+    def __init__(self, data_sources: Sequence[DataSource], options: 'OperationOptions',
+                 output_name: Optional[str] = None):
         if output_name is None:
             names = [ds.name if ds.name is not None else 'unnamed' for ds in data_sources]
             output_name = ' & '.join(names) + ' Post-Operation'
+        self.options = options
         self.data_sources = data_sources
         self.output_name = output_name
         self.result = None
@@ -33,3 +35,11 @@ class DataOperation:
 
     def __repr__(self):
         return f'<DataOperation(data_sources={self.data_sources}, result={self.result})>'
+
+
+class OperationOptions:
+    op_class = DataOperation
+    """
+    Base class for options passed to DataOperations
+    """
+    pass

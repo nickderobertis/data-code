@@ -4,7 +4,7 @@ import pandas as pd
 from functools import partial
 
 from datacode.models.logic.merge.display import display_merge_summary
-from datacode.models.operation import DataOperation
+from datacode.models.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
 from datacode.models.logic.merge import left_merge_df
 from datacode.summarize import describe_df
@@ -13,7 +13,103 @@ StrList = List[str]
 StrListOrNone = Union[None, StrList]
 TwoDfTuple = Tuple[pd.DataFrame, pd.DataFrame]
 
-class MergeOptions:
+
+class DataMerge(DataOperation):
+
+    def __init__(self, data_sources: Sequence[DataSource], merge_options: 'MergeOptions'):
+        self._merged_name = None
+        self._merged_type = None
+        self._merged_str = None
+        super().__init__(
+            data_sources,
+            merge_options
+        )
+        self.output_name = self.merged_name
+        self._set_result(location=merge_options.outpath)
+
+
+    def execute(self):
+        print(f'Running merge function {self.merge_str}')
+        left_df, right_df = self._get_merge_dfs()
+        self.result.df = self.options.merge_function(
+            left_df, right_df,
+            *self.options.args,
+            **self.options.merge_function_kwargs
+        )
+        if self.options.post_merge_func is not None:
+            self.result.df = self.options.post_merge_func(self.result.df)
+
+        print(f"""
+        {self.data_sources[0].name} obs: {len(left_df)}
+        {self.data_sources[1].name} obs: {len(right_df)}
+        Merged obs: {len(self.result.df)}
+        """)
+
+    def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
+                             summary_attr: str=None, **summary_method_kwargs):
+        display_merge_summary(
+            self,
+            *summary_args,
+            summary_method=summary_method,
+            summary_function=summary_function,
+            summary_attr=summary_attr,
+            **summary_method_kwargs
+        )
+
+    def describe(self):
+        display_merge_summary(
+            self,
+            summary_function=describe_df,
+            disp=False # don't display from describe_df as will display from display_merge_summary
+        )
+
+    def _get_merge_dfs(self) -> TwoDfTuple:
+        left_df = self.data_sources[0].df
+        right_df = self.data_sources[1].df
+
+        # Handle pre process funcs
+        if self.options.left_df_pre_process_func is not None:
+            left_df = self.options.left_df_pre_process_func(left_df)
+        if self.options.right_df_pre_process_func is not None:
+            right_df = self.options.right_df_pre_process_func(right_df)
+
+        # Handle selecting variables on processed df
+        if self.options.left_df_keep_cols is not None:
+            left_df = left_df[self.options.left_df_keep_cols]
+        if self.options.right_df_keep_cols is not None:
+            right_df = right_df[self.options.right_df_keep_cols]
+
+        return left_df, right_df
+
+    @property
+    def merged_name(self):
+        if self._merged_name is None:
+            self._merged_name = f'{self.data_sources[0].name} & {self.data_sources[1].name}'
+        return self._merged_name
+
+    @property
+    def merge_str(self):
+        if self._merged_str is None:
+            self._merged_str = f'''
+            {self.options.merge_function.__name__}(
+                {self.data_sources[0].name},
+                {self.data_sources[1].name},
+                *{self.options.args},
+                **{self.options.merge_function_kwargs}
+            )
+            '''
+        return self._merged_str
+
+    def __repr__(self):
+        return f'<DataMerge(left={self.data_sources[0]}, right={self.data_sources[1]})>'
+
+
+class LastMergeFinishedException(Exception):
+    pass
+
+
+class MergeOptions(OperationOptions):
+    op_class = DataMerge
 
     def __init__(self, *merge_function_args, outpath=None, merge_function=left_merge_df,
                  left_df_keep_cols: StrListOrNone=None, right_df_keep_cols: StrListOrNone=None,
@@ -85,99 +181,3 @@ class MergeOptions:
 
     def update(self, **kwargs):
         self.merge_function_kwargs.update(**kwargs)
-
-
-class DataMerge(DataOperation):
-
-    def __init__(self, data_sources: Sequence[DataSource], merge_options: MergeOptions):
-        self._merged_name = None
-        self._merged_type = None
-        self._merged_str = None
-        self.merge_options = merge_options
-        super().__init__(
-            data_sources,
-        )
-        self.output_name = self.merged_name
-        self._set_result(location=merge_options.outpath)
-
-
-    def execute(self):
-        print(f'Running merge function {self.merge_str}')
-        left_df, right_df = self._get_merge_dfs()
-        self.result.df = self.merge_options.merge_function(
-            left_df, right_df,
-            *self.merge_options.args,
-            **self.merge_options.merge_function_kwargs
-        )
-        if self.merge_options.post_merge_func is not None:
-            self.result.df = self.merge_options.post_merge_func(self.result.df)
-
-        print(f"""
-        {self.data_sources[0].name} obs: {len(left_df)}
-        {self.data_sources[1].name} obs: {len(right_df)}
-        Merged obs: {len(self.result.df)}
-        """)
-
-    def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
-                             summary_attr: str=None, **summary_method_kwargs):
-        display_merge_summary(
-            self,
-            *summary_args,
-            summary_method=summary_method,
-            summary_function=summary_function,
-            summary_attr=summary_attr,
-            **summary_method_kwargs
-        )
-
-    def describe(self):
-        display_merge_summary(
-            self,
-            summary_function=describe_df,
-            disp=False # don't display from describe_df as will display from display_merge_summary
-        )
-
-    def _get_merge_dfs(self) -> TwoDfTuple:
-        left_df = self.data_sources[0].df
-        right_df = self.data_sources[1].df
-
-        # Handle pre process funcs
-        if self.merge_options.left_df_pre_process_func is not None:
-            left_df = self.merge_options.left_df_pre_process_func(left_df)
-        if self.merge_options.right_df_pre_process_func is not None:
-            right_df = self.merge_options.right_df_pre_process_func(right_df)
-
-        # Handle selecting variables on processed df
-        if self.merge_options.left_df_keep_cols is not None:
-            left_df = left_df[self.merge_options.left_df_keep_cols]
-        if self.merge_options.right_df_keep_cols is not None:
-            right_df = right_df[self.merge_options.right_df_keep_cols]
-
-        return left_df, right_df
-
-    @property
-    def merged_name(self):
-        if self._merged_name is None:
-            self._merged_name = f'{self.data_sources[0].name} & {self.data_sources[1].name}'
-        return self._merged_name
-
-    @property
-    def merge_str(self):
-        if self._merged_str is None:
-            self._merged_str = f'''
-            {self.merge_options.merge_function.__name__}(
-                {self.data_sources[0].name},
-                {self.data_sources[1].name},
-                *{self.merge_options.args},
-                **{self.merge_options.merge_function_kwargs}
-            )
-            '''
-        return self._merged_str
-
-    def __repr__(self):
-        return f'<DataMerge(left={self.data_sources[0]}, right={self.data_sources[1]})>'
-
-
-class LastMergeFinishedException(Exception):
-    pass
-
-
