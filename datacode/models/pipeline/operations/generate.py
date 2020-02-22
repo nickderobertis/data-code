@@ -45,6 +45,14 @@ class GenerationOptions(OperationOptions):
 
     def __init__(self, func: Callable[[Any], DataSource], last_modified: Optional[datetime.datetime] = None,
                  out_path: Optional[str] = None, **func_kwargs):
+        """
+
+        :param func: function which generates the DataSource
+        :param last_modified: by default, will always run pipeline when loading generated source, but by passing a
+            last_modified can avoid re-running and instead load from location
+        :param out_path: location for generated DataSource
+        :param func_kwargs: Keyword arguments to pass to the function which generates the DataSource
+        """
         self.func = func
         self.func_kwargs = func_kwargs
         self.last_modified = last_modified

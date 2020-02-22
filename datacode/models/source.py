@@ -21,14 +21,16 @@ class DataSource:
         'tags',
         'loader_class',
         'pipeline',
-        '_orig_columns',
-        '_columns_for_calculate',
         'columns',
-        '_orig_load_variables',
-        '_vars_for_calculate',
         'load_variables',
         'read_file_kwargs',
         'optimize_size',
+    ]
+    update_keys = copy_keys + [
+        '_orig_columns',
+        '_columns_for_calculate',
+        '_orig_load_variables',
+        '_vars_for_calculate',
     ]
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
@@ -185,15 +187,20 @@ class DataSource:
         else:
             self.data_loader = loader.load
 
-    def update_from_source(self, other: 'DataSource', exclude_attrs: Optional[Sequence[str]] = tuple()):
+    def update_from_source(self, other: 'DataSource', exclude_attrs: Optional[Sequence[str]] = tuple(),
+                           include_attrs: Optional[Sequence[str]] = tuple()):
         """
         Updates attributes of this DataSource with another DataSources attributes
 
         :param other:
         :param exclude_attrs: Any attributes to exclude when updating
+        :param include_attrs: Defaults to DataSource.update_keys + ['_df'] but can manually select attributes
         :return:
         """
-        for attr in self.copy_keys + ['_df']:
+        if not include_attrs:
+            include_attrs = self.update_keys + ['_df']
+
+        for attr in include_attrs:
             if attr not in exclude_attrs:
                 other_value = getattr(other, attr)
                 setattr(self, attr, other_value)
