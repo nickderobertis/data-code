@@ -79,7 +79,7 @@ class DataMergePipeline(DataPipeline):
         except IndexError:
             raise LastMergeFinishedException
 
-        self.merges[self._merge_index].merge()
+        self.merges[self._merge_index].execute()
 
         # Set current df to result of merge
         self.df = self.merges[self._merge_index].result.df

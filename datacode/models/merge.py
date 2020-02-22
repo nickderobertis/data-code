@@ -4,6 +4,7 @@ import pandas as pd
 from functools import partial
 
 from datacode.models.logic.merge.display import display_merge_summary
+from datacode.models.operation import DataOperation
 from datacode.models.source import DataSource
 from datacode.models.logic.merge import left_merge_df
 from datacode.summarize import describe_df
@@ -86,17 +87,21 @@ class MergeOptions:
         self.merge_function_kwargs.update(**kwargs)
 
 
-class DataMerge:
+class DataMerge(DataOperation):
 
     def __init__(self, data_sources: Sequence[DataSource], merge_options: MergeOptions):
-        self.data_sources = data_sources
-        self.merge_options = merge_options
         self._merged_name = None
         self._merged_type = None
         self._merged_str = None
-        self._set_result(merge_options.outpath)
+        self.merge_options = merge_options
+        super().__init__(
+            data_sources,
+        )
+        self.output_name = self.merged_name
+        self._set_result(location=merge_options.outpath)
 
-    def merge(self):
+
+    def execute(self):
         print(f'Running merge function {self.merge_str}')
         left_df, right_df = self._get_merge_dfs()
         self.result.df = self.merge_options.merge_function(
@@ -130,9 +135,6 @@ class DataMerge:
             summary_function=describe_df,
             disp=False # don't display from describe_df as will display from display_merge_summary
         )
-
-    def _set_result(self, outpath=None):
-        self.result = DataSource(outpath, name=self.merged_name)
 
     def _get_merge_dfs(self) -> TwoDfTuple:
         left_df = self.data_sources[0].df
