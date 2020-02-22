@@ -157,3 +157,15 @@ class TestDataMergePipeline(DataMergePipelineTest):
             dp = self.create_merge_pipeline(include_indices=(0, 1, 2), merge_options_list=[mo])
             exc = cm.exception
             assert 'must have one fewer merge options than data sources' in str(exc)
+
+    def test_create_nested_pipeline(self):
+        dp1 = self.create_merge_pipeline(include_indices=(0, 1))
+
+        self.create_csv_for_3()
+        ds3_cols = self.create_columns_for_3()
+        ds3 = self.create_source(df=None, location=self.csv_path3, columns=ds3_cols, name='three')
+
+        dp2 = self.create_merge_pipeline(data_sources=[dp1, ds3])
+        dp2.execute()
+
+        assert_frame_equal(dp2.df, self.expect_merged_1_2_3)
