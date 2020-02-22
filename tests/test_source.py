@@ -1,5 +1,6 @@
 import os
 import shutil
+import unittest
 from typing import Optional, Tuple, Any, Callable, Dict, Sequence, List
 
 import pandas as pd
@@ -46,7 +47,7 @@ def expression_series_func(cols: Sequence[Column]) -> pd.Series:
     return cols[0].series + cols[1].series
 
 
-class SourceTest:
+class SourceTest(unittest.TestCase):
     test_df = pd.DataFrame(
         [
             (1, 2, 'd'),
@@ -152,10 +153,10 @@ class SourceTest:
     transform_source = Transform('add_one_source', transform_name_func, transform_source_data_func, data_func_target='source')
     csv_path = os.path.join(GENERATED_PATH, 'data.csv')
 
-    def setup_method(self):
+    def setup_method(self, *args, **kwargs):
         os.makedirs(GENERATED_PATH)
 
-    def teardown_method(self):
+    def teardown_method(self, *args, **kwargs):
         shutil.rmtree(GENERATED_PATH)
 
     def create_source(self, **kwargs) -> DataSource:
@@ -184,7 +185,7 @@ class SourceTest:
             df = self.test_df
         df.to_csv(self.csv_path, index=False, **to_csv_kwargs)
 
-    def create_variables(self, transform_data: str = '', apply_transforms: bool = True) -> Tuple[Variable, Variable, Variable]:
+    def get_transform_dict(self, transform_data: str = '', apply_transforms: bool = True):
         if transform_data:
             transform = self.get_transform(transform_data)
             transform_dict = dict(
@@ -194,6 +195,11 @@ class SourceTest:
                 transform_dict['applied_transforms'] = [transform]
         else:
             transform_dict = {}
+
+        return transform_dict
+
+    def create_variables(self, transform_data: str = '', apply_transforms: bool = True) -> Tuple[Variable, Variable, Variable]:
+        transform_dict = self.get_transform_dict(transform_data=transform_data, apply_transforms=apply_transforms)
 
         a = Variable('a', 'A', dtype='int', **transform_dict)
         b = Variable('b', 'B', dtype='int', **transform_dict)
