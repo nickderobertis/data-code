@@ -132,8 +132,9 @@ class DataMergePipelineTest(DataTransformationPipelineTest):
             mo = MergeOptions([self.merge_var.name])
             merge_options_list = [mo for _ in range(len(selected_data_sources) - 1)]
 
+        merge_options_list[-1].out_path = self.csv_path_output
 
-        dp = DataMergePipeline(selected_data_sources, merge_options_list, outpath=self.csv_path_output)
+        dp = DataMergePipeline(selected_data_sources, merge_options_list)
         return dp
 
 

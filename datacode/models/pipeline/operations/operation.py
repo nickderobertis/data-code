@@ -33,7 +33,7 @@ class DataOperation:
         raise NotImplementedError('must implement describe in subclass of DataOperation')
 
     def _set_result(self, **kwargs):
-        self.result = self.options.result_class(name=self.output_name)
+        self.result = self.options.result_class(name=self.output_name, location=self.options.out_path, **kwargs)
 
     def __repr__(self):
         return f'<DataOperation(data_sources={self.data_sources}, result={self.result})>'
@@ -45,6 +45,7 @@ class OperationOptions:
     """
     op_class: Type[DataOperation] = DataOperation
     result_class: Type = DataSource
+    out_path: Optional[str] = None
 
     def copy(self):
         return deepcopy(self)

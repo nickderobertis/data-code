@@ -1,9 +1,8 @@
 from typing import Optional
 
-from datacode import DataAnalysisPipeline, DataSource, FloatType, AnalysisOptions
+from datacode import DataAnalysisPipeline, DataSource, AnalysisOptions
 from datacode.models.types import DataSourceOrPipeline
 from tests.pipeline.test_data_merge import DataMergePipelineTest
-from tests.test_source import SourceTest
 
 
 def analysis_from_source(ds: DataSource) -> float:

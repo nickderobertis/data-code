@@ -4,6 +4,7 @@ import pandas as pd
 from pandas.testing import assert_frame_equal
 
 from datacode import DataSource, DataGeneratorPipeline, DataTransformationPipeline, Variable, Column
+from datacode.models.pipeline.operations.transform import TransformOptions
 from datacode.models.transform.source import SourceTransform
 from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
@@ -39,13 +40,16 @@ class DataTransformationPipelineTest(SourceTest):
     def create_transformation_pipeline(self, **pipeline_kwargs) -> DataTransformationPipeline:
         config_dict = dict(
             func=source_transform_func,
-            outpath=self.csv_path_output
+            out_path=self.csv_path_output
         )
         config_dict.update(pipeline_kwargs)
         self.create_csv()
         all_cols = self.create_columns()
         ds = self.create_source(df=None, columns=all_cols)
-        dtp = DataTransformationPipeline(ds, **config_dict)
+
+        to = TransformOptions(**config_dict)
+
+        dtp = DataTransformationPipeline(ds, to)
         return dtp
 
 

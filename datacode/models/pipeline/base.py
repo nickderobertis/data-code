@@ -14,14 +14,12 @@ class DataPipeline:
 
     def __init__(self, data_sources: DataSourcesOrPipelines,
                  operation_options: Optional[Sequence[OperationOptions]],
-                 outpath: Optional[str] = None,
                  name: Optional[str] = None, last_modified: Optional[datetime.datetime] = None):
         if operation_options is None:
             operation_options = []
 
         self.data_sources = data_sources
         self.operation_options = operation_options
-        self.outpath = outpath
         self.name = name
         self.df = None
         self._manual_last_modified = last_modified
@@ -121,11 +119,11 @@ class DataPipeline:
         if hasattr(self, '_operations'):
             self._set_operations()
 
-    def output(self, outpath=None):
-        if outpath:
-            self._output(outpath)
-        elif self.outpath:
-            self._output(self.outpath)
+    def output(self, out_path=None):
+        if out_path:
+            self._output(out_path)
+        elif self.operation_options[-1].out_path:
+            self._output(self.operation_options[-1].out_path)
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
@@ -143,6 +141,8 @@ class DataPipeline:
             op.describe()
 
     def _output(self, outpath=None):
+        if outpath is None:
+            outpath = self.operation_options[-1].out_path
         if self.df is not None:
             self.df.to_csv(outpath, index=False, encoding='utf8')
 

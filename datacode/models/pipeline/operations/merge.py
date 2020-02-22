@@ -28,8 +28,6 @@ class DataMerge(DataOperation):
             merge_options
         )
         self.output_name = self.merged_name
-        self._set_result(location=merge_options.outpath)
-
 
     def execute(self):
         print(f'Running merge function {self.merge_str}')
@@ -131,7 +129,7 @@ class LastMergeFinishedException(Exception):
 class MergeOptions(OperationOptions):
     op_class = DataMerge
 
-    def __init__(self, *merge_function_args, outpath=None, merge_function=left_merge_df,
+    def __init__(self, *merge_function_args, out_path=None, merge_function=left_merge_df,
                  left_df_keep_cols: StrListOrNone=None, right_df_keep_cols: StrListOrNone=None,
                  left_df_pre_process_func: Callable=None, right_df_pre_process_func: Callable=None,
                  left_df_pre_process_kwargs: Optional[Dict[str, Any]] = None,
@@ -154,7 +152,7 @@ class MergeOptions(OperationOptions):
 
         Args:
             *merge_function_args:
-            outpath:
+            out_path:
             merge_function:
             left_df_keep_cols:
             right_df_keep_cols:
@@ -182,7 +180,7 @@ class MergeOptions(OperationOptions):
             post_merge_func = lambda x: x
 
         self.args = merge_function_args
-        self.outpath = outpath
+        self.out_path = out_path
         self.merge_function = merge_function
         self.merge_function_kwargs = merge_function_kwargs
         self.left_df_keep_cols = left_df_keep_cols

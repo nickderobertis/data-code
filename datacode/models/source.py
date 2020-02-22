@@ -20,6 +20,21 @@ if TYPE_CHECKING:
 
 
 class DataSource:
+    copy_keys = [
+        'location',
+        'name',
+        'tags',
+        'loader_class',
+        'pipeline',
+        '_orig_columns',
+        '_columns_for_calculate',
+        'columns',
+        '_orig_load_variables',
+        '_vars_for_calculate',
+        'load_variables',
+        'read_file_kwargs',
+        'optimize_size',
+    ]
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
                  pipeline: Optional[SourceCreatingPipeline] = None,
@@ -175,23 +190,24 @@ class DataSource:
         else:
             self.data_loader = loader.load
 
+    def update_from_source(self, other: 'DataSource', exclude_attrs: Optional[Sequence[str]] = tuple()):
+        """
+        Updates attributes of this DataSource with another DataSources attributes
+
+        :param other:
+        :param exclude_attrs: Any attributes to exclude when updating
+        :return:
+        """
+        for attr in self.copy_keys + ['_df']:
+            if attr not in exclude_attrs:
+                other_value = getattr(other, attr)
+                setattr(self, attr, other_value)
+
     def copy(self, **kwargs):
         if not kwargs:
             return deepcopy(self)
 
-        copy_keys = [
-            'location',
-            'pipeline',
-            'columns',
-            'load_variables',
-            'name',
-            'tags',
-            'loader_class',
-            'read_file_kwargs',
-            'optimize_size'
-        ]
-
-        config_dict = {attr: deepcopy(getattr(self, attr)) for attr in copy_keys}
+        config_dict = {attr: deepcopy(getattr(self, attr)) for attr in self.copy_keys}
 
         # Handle df only if not passed as do not want load df unnecessarily
         if 'df' not in kwargs:
