@@ -1,30 +1,31 @@
-from datacode import DataAnalysisPipeline, DataSource, FloatType
-from tests.test_source import SourceTest
+from tests.pipeline.base import PipelineTest
 
 
-def analysis_from_source(ds: DataSource) -> float:
-    running_sum = 0
-    for var in ds.load_variables:
-        if var.dtype.is_numeric:
-            running_sum += ds.df[var.name].sum()
-    return running_sum
+class TestDataAnalysisPipeline(PipelineTest):
 
+    def test_create_and_run_analysis_pipeline_from_source(self):
+        dap = self.create_analysis_pipeline()
+        dap.execute()
 
-class DataAnalysisPipelineTest(SourceTest):
+        assert dap.result.result == self.ds_one_analysis_result
 
-    def create_analysis_pipeline(self):
-        self.create_csv()
-        ds1_cols = self.create_columns()
-        ds1 = self.create_source(df=None, columns=ds1_cols, name='one')
+    def test_create_and_run_analysis_pipeline_from_merge_pipeline(self):
+        dmp = self.create_merge_pipeline()
+        dap = self.create_analysis_pipeline(source=dmp)
+        dap.execute()
 
-        dap = DataAnalysisPipeline(ds1, analysis_from_source)
-        return dap
+        assert dap.result.result == self.ds_one_and_two_analysis_result
 
+    def test_create_and_run_analysis_pipeline_from_transformation_pipeline(self):
+        dtp = self.create_transformation_pipeline()
+        dap = self.create_analysis_pipeline(source=dtp)
+        dap.execute()
 
-class TestDataAnalysisPipeline(DataAnalysisPipelineTest):
+        assert dap.result.result == self.ds_one_transformed_analysis_result
 
-    def test_create_and_run_merge_pipeline_from_source(self):
-        dp = self.create_analysis_pipeline()
-        dp.execute()
+    def test_create_and_run_analysis_pipeline_from_generation_pipeline(self):
+        dgp = self.create_generator_pipeline()
+        dap = self.create_analysis_pipeline(source=dgp)
+        dap.execute()
 
-        assert dp.result == 21
+        assert dap.result.result == self.ds_one_generated_analysis_result

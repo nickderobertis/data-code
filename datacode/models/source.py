@@ -4,22 +4,34 @@ from functools import partial
 import os
 import warnings
 import datetime
-from typing import Callable, TYPE_CHECKING, List, Optional, Any, Dict, Sequence, Type, Union
+from typing import List, Optional, Any, Dict, Sequence, Type
 
 from datacode.models.types import SourceCreatingPipeline
 from datacode.summarize import describe_df
-from pd_utils.optimize.load import read_file as read_file_into_df
 
 from datacode.models.variables.variable import Variable
 from datacode.models.column.column import Column
 from datacode.models.loader import DataLoader
 
-if TYPE_CHECKING:
-    from datacode.models.pipeline.merge import DataMergePipeline
-    from datacode.models.pipeline.generate import DataGeneratorPipeline
-
 
 class DataSource:
+    copy_keys = [
+        'location',
+        'name',
+        'tags',
+        'loader_class',
+        'pipeline',
+        'columns',
+        'load_variables',
+        'read_file_kwargs',
+        'optimize_size',
+    ]
+    update_keys = copy_keys + [
+        '_orig_columns',
+        '_columns_for_calculate',
+        '_orig_load_variables',
+        '_vars_for_calculate',
+    ]
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
                  pipeline: Optional[SourceCreatingPipeline] = None,
@@ -91,7 +103,6 @@ class DataSource:
         self.read_file_kwargs = read_file_kwargs
         self.optimize_size = optimize_size
         self._df = df
-        self.name_type = f'{name}'
 
     @property
     def df(self):
@@ -123,7 +134,8 @@ class DataSource:
         pass
         # assert not (filepath is None) and (df is None)
 
-    def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: 'DataMergePipeline' =None, **read_file_kwargs):
+    def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: SourceCreatingPipeline = None,
+                         **read_file_kwargs):
         run_pipeline = False
         if pipeline is not None:
             # if a source in the pipeline to create this data source was modified more recently than this data source
@@ -151,8 +163,8 @@ class DataSource:
                    Will run pipeline due to this. This is due to no file currently existing for this source.
                    """.strip())
                 else:
-                    recent_source = pipeline.source_last_modified
-                    warnings.warn(f'''data source {recent_source} was modified at {recent_source.last_modified}.
+                    recent_obj = pipeline.obj_last_modified
+                    warnings.warn(f'''{recent_obj} was modified at {recent_obj.last_modified}.
     
                     this data source {self} was modified at {self.last_modified}.
     
@@ -176,23 +188,29 @@ class DataSource:
         else:
             self.data_loader = loader.load
 
+    def update_from_source(self, other: 'DataSource', exclude_attrs: Optional[Sequence[str]] = tuple(),
+                           include_attrs: Optional[Sequence[str]] = tuple()):
+        """
+        Updates attributes of this DataSource with another DataSources attributes
+
+        :param other:
+        :param exclude_attrs: Any attributes to exclude when updating
+        :param include_attrs: Defaults to DataSource.update_keys + ['_df'] but can manually select attributes
+        :return:
+        """
+        if not include_attrs:
+            include_attrs = self.update_keys + ['_df']
+
+        for attr in include_attrs:
+            if attr not in exclude_attrs:
+                other_value = getattr(other, attr)
+                setattr(self, attr, other_value)
+
     def copy(self, **kwargs):
         if not kwargs:
             return deepcopy(self)
 
-        copy_keys = [
-            'location',
-            'pipeline',
-            'columns',
-            'load_variables',
-            'name',
-            'tags',
-            'loader_class',
-            'read_file_kwargs',
-            'optimize_size'
-        ]
-
-        config_dict = {attr: deepcopy(getattr(self, attr)) for attr in copy_keys}
+        config_dict = {attr: deepcopy(getattr(self, attr)) for attr in self.copy_keys}
 
         # Handle df only if not passed as do not want load df unnecessarily
         if 'df' not in kwargs:
