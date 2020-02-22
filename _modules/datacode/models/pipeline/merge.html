@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.merge &mdash; datacode 0.11.0 documentation</title>
+  <title>datacode.models.pipeline.merge &mdash; datacode 0.11.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.11.0
+                0.11.1
               </div>
             
           
@@ -192,9 +192,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cleanup_kwargs</span> <span class="o">=</span> <span class="n">cleanup_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span> <span class="o">=</span> <span class="n">data_sources</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data_sources</span><span class="p">,</span> <span class="n">merge_options_list</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">()</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data_sources</span><span class="p">,</span> <span class="n">merge_options_list</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data_sources_merge_options</span><span class="p">()</span>
@@ -205,6 +203,8 @@
                              <span class="sa">f</span><span class="s1">&#39;sources and {len(self.operation_options)} merge options.&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DataMergePipeline.execute"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">()</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_post_merge_cleanup_func</span><span class="p">:</span>
