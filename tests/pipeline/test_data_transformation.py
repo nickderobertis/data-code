@@ -36,7 +36,7 @@ class DataTransformationPipelineTest(SourceTest):
     source_transform = SourceTransform('st', name_func=SourceTest.transform_name_func, data_func=source_transform_func)
     csv_path_output = os.path.join(GENERATED_PATH, 'output.csv')
 
-    def create_pipeline(self, **pipeline_kwargs) -> DataTransformationPipeline:
+    def create_transformation_pipeline(self, **pipeline_kwargs) -> DataTransformationPipeline:
         config_dict = dict(
             func=source_transform_func,
             outpath=self.csv_path_output
@@ -52,19 +52,19 @@ class DataTransformationPipelineTest(SourceTest):
 class TestDataTransformationPipeline(DataTransformationPipelineTest):
 
     def test_create_and_run_generator_pipeline_from_func(self):
-        dtp = self.create_pipeline()
+        dtp = self.create_transformation_pipeline()
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_func_df)
 
     def test_create_and_run_generator_pipeline_from_transform(self):
-        dtp = self.create_pipeline(func=self.source_transform)
+        dtp = self.create_transformation_pipeline(func=self.source_transform)
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_loaded_df_with_transform)
 
     def test_auto_run_pipeline_by_load_source_with_no_location(self):
-        dtp = self.create_pipeline()
+        dtp = self.create_transformation_pipeline()
 
         ds = DataSource(pipeline=dtp, location=self.csv_path_output)
         df = ds.df

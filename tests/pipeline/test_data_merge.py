@@ -6,11 +6,11 @@ from pandas.testing import assert_frame_equal
 
 from datacode import Column, Variable, DataMergePipeline, DataSource
 from datacode.models.merge import MergeOptions
-from tests.test_source import SourceTest
+from tests.pipeline.test_data_transformation import DataTransformationPipelineTest
 from tests.utils import GENERATED_PATH
 
 
-class DataMergePipelineTest(SourceTest):
+class DataMergePipelineTest(DataTransformationPipelineTest):
     merge_var = Variable('c', 'C', dtype='str')
     test_df2 = pd.DataFrame(
         [
@@ -31,6 +31,14 @@ class DataMergePipelineTest(SourceTest):
             (1, 2, 'd', 10, 20),
             (3, 4, 'd', 10, 20),
             (5, 6, 'e', 50, 60),
+        ],
+        columns=['A', 'B', 'C', 'E', 'F']
+    )
+    expect_merged_1_transformed_2 = pd.DataFrame(
+        [
+            (2, 3, 'd', 10, 20),
+            (4, 5, 'd', 10, 20),
+            (6, 7, 'e', 50, 60),
         ],
         columns=['A', 'B', 'C', 'E', 'F']
     )
@@ -169,3 +177,16 @@ class TestDataMergePipeline(DataMergePipelineTest):
         dp2.execute()
 
         assert_frame_equal(dp2.df, self.expect_merged_1_2_3)
+
+    def test_create_nested_transformation_pipeline(self):
+        dt = self.create_transformation_pipeline()
+
+        self.create_csv_for_2()
+        ds2_cols = self.create_columns_for_2()
+        ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
+
+        dp = self.create_merge_pipeline(data_sources=[dt, ds2])
+        dp.execute()
+
+        assert_frame_equal(dp.df, self.expect_merged_1_transformed_2)
+
