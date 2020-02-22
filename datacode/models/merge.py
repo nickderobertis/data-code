@@ -108,8 +108,8 @@ class DataMerge:
             self.result.df = self.merge_options.post_merge_func(self.result.df)
 
         print(f"""
-        {self.data_sources[0].name_type} obs: {len(left_df)}
-        {self.data_sources[1].name_type} obs: {len(right_df)}
+        {self.data_sources[0].name} obs: {len(left_df)}
+        {self.data_sources[1].name} obs: {len(right_df)}
         Merged obs: {len(self.result.df)}
         """)
 
@@ -163,8 +163,8 @@ class DataMerge:
         if self._merged_str is None:
             self._merged_str = f'''
             {self.merge_options.merge_function.__name__}(
-                {self.data_sources[0].name_type},
-                {self.data_sources[1].name_type},
+                {self.data_sources[0].name},
+                {self.data_sources[1].name},
                 *{self.merge_options.args},
                 **{self.merge_options.merge_function_kwargs}
             )
