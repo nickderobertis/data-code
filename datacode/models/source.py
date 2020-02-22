@@ -6,6 +6,7 @@ import warnings
 import datetime
 from typing import List, Optional, Any, Dict, Sequence, Type
 
+from datacode.models.outputter import DataOutputter
 from datacode.models.types import SourceCreatingPipeline
 from datacode.summarize import describe_df
 
@@ -20,10 +21,12 @@ class DataSource:
         'name',
         'tags',
         'loader_class',
+        'outputter_class',
         'pipeline',
         'columns',
         'load_variables',
         'read_file_kwargs',
+        'data_outputter_kwargs',
         'optimize_size',
     ]
     update_keys = copy_keys + [
@@ -39,12 +42,18 @@ class DataSource:
                  load_variables: Optional[Sequence[Variable]] = None,
                  name: Optional[str] = None, tags: Optional[List[str]] = None,
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
+                 outputter_class: Optional[Type[DataOutputter]] = None,
+                 data_outputter_kwargs: Optional[Dict[str, Any]] = None,
                  optimize_size: bool = False):
 
         if read_file_kwargs is None:
             read_file_kwargs = {}
+        if data_outputter_kwargs is None:
+            data_outputter_kwargs = {}
         if loader_class is None:
             loader_class = DataLoader
+        if outputter_class is None:
+            outputter_class = DataOutputter
         if load_variables is None and columns is not None:
             load_variables = [col.variable for col in columns]
         if columns is not None and not isinstance(columns, list):
@@ -93,6 +102,7 @@ class DataSource:
         self.name = name
         self.tags = tags # TODO: better handling for tags
         self.loader_class = loader_class
+        self.outputter_class = outputter_class
         self.pipeline = pipeline
         self._orig_columns: Optional[List[Column]] = columns
         self._columns_for_calculate = extra_cols_for_calcs
@@ -101,6 +111,7 @@ class DataSource:
         self._vars_for_calculate = extra_vars_for_calcs
         self.load_variables = all_load_vars
         self.read_file_kwargs = read_file_kwargs
+        self.data_outputter_kwargs = data_outputter_kwargs
         self.optimize_size = optimize_size
         self._df = df
 
@@ -127,8 +138,11 @@ class DataSource:
             self._set_data_loader(self.loader_class, pipeline=self.pipeline, **self.read_file_kwargs)
         return self.data_loader()
 
-    def output(self, **to_csv_kwargs):
-        self.df.to_csv(self.location, **to_csv_kwargs)
+    def output(self, **data_outputter_kwargs):
+        config_dict = deepcopy(self.data_outputter_kwargs)
+        config_dict.update(**data_outputter_kwargs)
+        outputter = self.outputter_class(self, **config_dict)
+        outputter.output()
 
     def _check_inputs(self, filepath, df):
         pass
@@ -288,6 +302,10 @@ class DataSource:
     @property
     def col_var_keys(self) -> List[str]:
         return [col.variable.key for col in self.columns]
+
+    @property
+    def col_load_keys(self) -> List[str]:
+        return [col.load_key for col in self.columns]
 
     @property
     def index_cols(self) -> List[Column]:

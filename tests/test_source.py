@@ -11,8 +11,8 @@ from datacode.models.dtypes.str_type import StringType
 from datacode.models.source import DataSource
 from datacode.models.variables import Variable
 from datacode.models.variables.expression import Expression
-from datacode import Transform
-from tests.utils import GENERATED_PATH
+from datacode import Transform, DataOutputNotSafeException
+from tests.utils import GENERATED_PATH, assert_frame_not_equal
 
 
 def transform_cell_data_func(col: Column, variable: Variable, cell: Any) -> Any:
@@ -414,3 +414,61 @@ class TestTransform(SourceTest):
         all_ds.append(self.transform_source.apply_to_source(orig_ds, subset=[a, b]))
         for ds in all_ds:
             assert_frame_equal(ds.df, self.expect_loaded_df_with_transform)
+
+
+class TestOutput(SourceTest):
+
+    def test_save_then_load(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        ds = self.create_source(df=None, columns=all_cols)
+        ds.output()
+        ds = self.create_source(df=None, columns=all_cols)
+        assert_frame_equal(ds.df, self.expect_loaded_df_rename_only)
+
+    def test_save_then_load_variable_subset(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        all_vars = self.create_variables()
+        var_subset = [var for var in all_vars if var.key != 'c']
+
+        # Test when in safe mode, raises error because will delete data
+        ds = self.create_source(df=None, columns=all_cols, load_variables=var_subset)
+        with self.assertRaises(DataOutputNotSafeException) as cm:
+            ds.output()
+
+        # Test when bypassing safe mode, can save and load properly
+        ds = self.create_source(
+            df=None, columns=all_cols, load_variables=var_subset, data_outputter_kwargs=dict(safe=False)
+        )
+        ds.output()
+
+        ds = self.create_source(df=None, columns=all_cols, load_variables=var_subset)
+        assert_frame_equal(ds.df, self.expect_loaded_df_rename_only_a_b)
+
+    def test_save_then_load_with_transformations(self):
+        self.create_csv()
+        all_cols = self.create_columns(transform_data='cell', apply_transforms=False)
+        a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
+        load_variables = [
+            a.add_one_cell(),
+            b.add_one_cell(),
+            c
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        ds.output()
+
+        # This works because the same variables and columns are used to load again
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_transform)
+
+        # This won't work right, applying the transformations a second time
+        all_cols = self.create_columns(transform_data='cell', apply_transforms=False)
+        a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
+        load_variables = [
+            a.add_one_cell(),
+            b.add_one_cell(),
+            c
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_not_equal(ds.df, self.expect_loaded_df_with_transform)
