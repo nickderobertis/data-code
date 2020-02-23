@@ -23,7 +23,7 @@ EXPECT_GENERATED_DF = df = pd.DataFrame(
         (1, 2, 'd'),
         (3, 4, 'e')
     ],
-    columns=['a', 'b', 'c']
+    columns=['a', 'b', 'C']
 )
 
 
@@ -190,7 +190,7 @@ class PipelineTest(SourceTest):
         a, b, c = self.create_variables_for_generated(transform_data=transform_data, apply_transforms=apply_transforms)
         ac = Column(a, 'a')
         bc = Column(b, 'b')
-        cc = Column(c, 'c')
+        cc = Column(c, 'C')
         return [
             ac,
             bc,

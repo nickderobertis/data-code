@@ -1,5 +1,7 @@
-from typing import Callable, List, Union, Tuple, Optional, Dict, Any, Sequence
-from copy import deepcopy
+from typing import Callable, List, Union, Tuple, Optional, Dict, Any, Sequence, TYPE_CHECKING
+if TYPE_CHECKING:
+    from datacode.models.variables.variable import Variable
+    from datacode.models.column.column import Column
 import pandas as pd
 from functools import partial
 
@@ -34,7 +36,7 @@ class DataMerge(DataOperation):
         left_df, right_df = self._get_merge_dfs()
         self.result.df = self.options.merge_function(
             left_df, right_df,
-            *self.options.args,
+            self.options.on_names,
             **self.options.merge_function_kwargs
         )
         if self.options.post_merge_func is not None:
@@ -51,7 +53,9 @@ class DataMerge(DataOperation):
         if right_ds.load_variables:
             for var in right_ds.load_variables:
                 if self.options.right_df_keep_cols is None or var.name in self.options.right_df_keep_cols:
-                    if var not in load_variables:  # merge on variables will be repeated, skip them
+                    # don't repeat variables and columns. Merge on variables will be repeated,
+                    # perhaps even with different transformations, so explictly skip them
+                    if var not in load_variables and var.name not in self.options.on_names:
                         load_variables.append(var)
                         columns.append(right_ds.col_for(var))
         self.result.columns = columns
@@ -112,7 +116,7 @@ class DataMerge(DataOperation):
             {self.options.merge_function.__name__}(
                 {self.data_sources[0].name},
                 {self.data_sources[1].name},
-                *{self.options.args},
+                {self.options.on_names},
                 **{self.options.merge_function_kwargs}
             )
             '''
@@ -129,12 +133,13 @@ class LastMergeFinishedException(Exception):
 class MergeOptions(OperationOptions):
     op_class = DataMerge
 
-    def __init__(self, *merge_function_args, out_path=None, merge_function=left_merge_df,
+    def __init__(self, on: Sequence[Union[str, 'Variable', 'Column']], out_path=None, merge_function=left_merge_df,
                  left_df_keep_cols: StrListOrNone=None, right_df_keep_cols: StrListOrNone=None,
                  left_df_pre_process_func: Callable=None, right_df_pre_process_func: Callable=None,
                  left_df_pre_process_kwargs: Optional[Dict[str, Any]] = None,
                  right_df_pre_process_kwargs: Optional[Dict[str, Any]] = None,
                  post_merge_func: Callable = None, post_merge_func_kwargs: Optional[Dict[str, Any]] = None,
+                 allow_modifying_result: bool = True,
                  **merge_function_kwargs):
         """
 
@@ -159,7 +164,14 @@ class MergeOptions(OperationOptions):
             post_merge_func: function to be called on data after merge
             post_merge_func_kwargs: kwargs to be passed to post_merge_func
             **merge_function_kwargs:
+
+        :param allow_modifying_result: When DataSources are directly linked to pipelines, loading
+            source from pipeline can cause modifications in the pipeline's result source. Set to False
+            to ensure it won't be modified (but uses more memory). Setting to False should only be needed
+            if multiple sources load from the same pipeline in one session
         """
+        from datacode.models.variables.variable import Variable
+        from datacode.models.column.column import Column
 
         if left_df_pre_process_kwargs is None:
             left_df_pre_process_kwargs = {}
@@ -179,7 +191,17 @@ class MergeOptions(OperationOptions):
         if post_merge_func is None:
             post_merge_func = lambda x: x
 
-        self.args = merge_function_args
+        on_names = []
+        for item in on:
+            if isinstance(item, str):
+                on_names.append(item)
+            elif isinstance(item, Variable):
+                on_names.append(item.name)
+            elif isinstance(item, Column):
+                on_names.append(item.variable.name)
+
+        self.on = on
+        self.on_names = on_names
         self.out_path = out_path
         self.merge_function = merge_function
         self.merge_function_kwargs = merge_function_kwargs
@@ -188,10 +210,11 @@ class MergeOptions(OperationOptions):
         self.left_df_pre_process_func = partial(left_df_pre_process_func, **left_df_pre_process_kwargs)
         self.right_df_pre_process_func = partial(right_df_pre_process_func, **right_df_pre_process_kwargs)
         self.post_merge_func = partial(post_merge_func, **post_merge_func_kwargs)
+        self.allow_modifying_result = allow_modifying_result
 
 
     def __repr__(self):
-        return f'<DataMerge(args={self.args}, merge_function={self.merge_function.__name__}, ' \
+        return f'<DataMerge(on_names={self.on_names}, merge_function={self.merge_function.__name__}, ' \
                f'kwargs={self.merge_function_kwargs})>'
 
     def update(self, **kwargs):

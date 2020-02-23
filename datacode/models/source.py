@@ -191,16 +191,15 @@ class DataSource:
         # If necessary, run pipeline before loading
         # Still necessary to use loader as may be transforming the data
         if run_pipeline:
-            def run_pipeline_then_load(pipeline):
-                # TODO [#47]: should not have to write to disk with pipeline to then load it in source
-                #
-                # Loader should be able to take a DataFrame instead of just a filepath, then use
-                # that here. Will need to handle columns, variables, transformations correctly
+            def run_pipeline_then_load(pipeline: SourceCreatingPipeline):
                 pipeline.execute() # outputs to file
-                return loader.load()
+                return loader.load_from_existing_source(
+                    pipeline.result,
+                    preserve_original=not pipeline.allow_modifying_result
+                )
             self.data_loader = partial(run_pipeline_then_load, self.pipeline)
         else:
-            self.data_loader = loader.load
+            self.data_loader = loader.load_from_location
 
     def update_from_source(self, other: 'DataSource', exclude_attrs: Optional[Sequence[str]] = tuple(),
                            include_attrs: Optional[Sequence[str]] = tuple()):

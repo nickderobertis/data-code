@@ -15,6 +15,12 @@ class DataPipeline:
     def __init__(self, data_sources: DataSourcesOrPipelines,
                  operation_options: Optional[Sequence[OperationOptions]],
                  name: Optional[str] = None):
+        """
+
+        :param data_sources:
+        :param operation_options:
+        :param name:
+        """
         if operation_options is None:
             operation_options = []
         if data_sources is None:
@@ -200,6 +206,10 @@ class DataPipeline:
         objs_with_last_modified = self.data_sources + self.operation_options
         objs_with_last_modified = [obj for obj in objs_with_last_modified if obj.last_modified is not None]
         return objs_with_last_modified
+
+    @property
+    def allow_modifying_result(self) -> bool:
+        return self.operation_options[-1].allow_modifying_result
 
     def copy(self):
         return deepcopy(self)

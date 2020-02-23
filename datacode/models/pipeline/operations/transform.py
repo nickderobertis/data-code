@@ -56,7 +56,18 @@ class TransformOptions(OperationOptions):
     op_class = TransformOperation
 
     def __init__(self, func: Union[Callable[[DataSource, Any], DataSource], SourceTransform],
-                 preserve_original: bool = True, out_path: Optional[str] = None):
+                 preserve_original: bool = True, out_path: Optional[str] = None,
+                 allow_modifying_result: bool = True):
+        """
+
+        :param func:
+        :param preserve_original:
+        :param out_path:
+        :param allow_modifying_result: When DataSources are directly linked to pipelines, loading
+            source from pipeline can cause modifications in the pipeline's result source. Set to False
+            to ensure it won't be modified (but uses more memory). Setting to False should only be needed
+            if multiple sources load from the same pipeline in one session
+        """
         if isinstance(func, SourceTransform):
             self.transform = func
         else:
@@ -65,3 +76,4 @@ class TransformOptions(OperationOptions):
         self.func = func
         self.preserve_original = preserve_original
         self.out_path = out_path
+        self.allow_modifying_result = allow_modifying_result

@@ -48,6 +48,7 @@ class OperationOptions:
     result_class: Type = DataSource
     out_path: Optional[str] = None
     last_modified: Optional[datetime.datetime] = None
+    allow_modifying_result: bool = True
 
     def copy(self):
         return deepcopy(self)

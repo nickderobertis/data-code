@@ -22,7 +22,12 @@ class DataLoader:
         self.optimize_size = optimize_size
         self.read_file_kwargs = read_file_kwargs
 
-    def load(self) -> pd.DataFrame:
+    def load_from_location(self) -> pd.DataFrame:
+        """
+        Used when df does not already exist in the source, loads it from location
+
+        :return:
+        """
         self.pre_read()
         df = self.read_file_into_df()
         df = self.post_read(df)
@@ -32,6 +37,33 @@ class DataLoader:
         if self.optimize_size:
             df = self.optimize_df_size(df)
         self.set_df_index(df)
+        df = self.apply_calculations_transforms_and_drops(df)
+
+        return df
+
+    def load_from_existing_source(self, other_source: 'DataSource', preserve_original: bool = False) -> pd.DataFrame:
+        """
+        Used when df already exists in another source, just selects load_variables and
+        applies calculations and transformations
+
+        :return:
+        """
+        if preserve_original:
+            df = other_source.df.copy()
+        else:
+            df = other_source.df
+
+        # TODO: when loading from existing source, handle when indices do not match
+        #
+        # Currently the code assumes the same index in the existing source and loaded source.
+        # Need to add code to change the index. But if this was due to a desired aggregation,
+        # how should the user select what aggregation would be applied?
+
+        self.select_variables_in_existing_source(df)
+        df = self.apply_calculations_transforms_and_drops(df)
+        return df
+
+    def apply_calculations_transforms_and_drops(self, df: pd.DataFrame):
         self.assign_series_to_columns(df)
         df = self.pre_calculate(df)
         df = self.try_to_calculate_variables(df)
@@ -42,8 +74,20 @@ class DataLoader:
         self.assign_series_to_columns(df)
         self.drop_variables(df)
         df = self.post_load(df)
-
         return df
+
+    def select_variables_in_existing_source(self, df: pd.DataFrame):
+        if not (self.source.load_variables and self.source.columns):
+            return
+
+        keep_names = []
+        for var in self.source.load_variables:
+            for col in self.source.columns:
+                if col.variable.key == var.key:
+                    # Got column matching the desired variable
+                    keep_names.append(var.name)  # add the variable name in the dataset to keep_names
+        drop_cols = [col for col in df.columns if col not in keep_names]
+        df.drop(drop_cols, axis=1, inplace=True)
 
     def read_file_into_df(self) -> pd.DataFrame:
         if self.source.location is None:

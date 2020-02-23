@@ -82,6 +82,9 @@ class DataOutputter:
                                              f'columns when DataSource '
                                              f'describes {len(self.source.columns)} columns')
 
+        drop_cols = [col for col in df.columns if col not in keep_cols]
+        df.drop(drop_cols, axis=1, inplace=True)
+
     def output_to_location(self, df: pd.DataFrame):
         if not self.source.index_cols:
             # No index columns, index should be useless autoincrementing range, don't output it
