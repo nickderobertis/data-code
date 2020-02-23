@@ -51,10 +51,10 @@ def _disp_df_dict_from_merge(merge, *summary_args, summary_method: str=None, sum
     }
 
 
-def _df_dict_from_merge(merge):
+def _df_dict_from_merge(merge: 'DataMerge'):
     df_dict = {
-        f'Left Dataset: {merge.data_sources[0].name_type}': merge.data_sources[0].df,
-        f'Right Dataset: {merge.data_sources[1].name_type}': merge.data_sources[1].df,
+        f'Left Dataset: {merge.data_sources[0].name}': merge.data_sources[0].df,
+        f'Right Dataset: {merge.data_sources[1].name}': merge.data_sources[1].df,
         f'Result: {merge.result.name}': merge.result.df
     }
 
