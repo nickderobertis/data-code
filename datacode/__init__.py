@@ -30,3 +30,5 @@ from datacode.models.dtypes.int_type import IntType
 from datacode.models.dtypes.obj_type import ObjectType
 from datacode.models.dtypes.str_type import StringType
 from datacode.models.dtypes.timedelta_type import TimedeltaType
+
+from datacode.models.transform.plugin import register_transforms
