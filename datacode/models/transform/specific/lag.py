@@ -151,12 +151,16 @@ def create_lags_transform_data_func(col: 'Column', variable: 'Variable', source:
         source.df.sort_values(by_var_names + time_var_names, inplace=True)
 
         if fill_missing_rows and can_fill_missing_rows:
-            # Save original byvars, for outputting df of same shape
-            orig_index_df = source.df[by_var_names + time_var_names]
+            # Save original index, for outputting df of same shape
+            orig_index_df = source.df[[]]
 
+            # TODO: use implementation of add_missing_group_rows which does not require dropping and resetting index
+            #
+            # Need to wait for pd_utils to support it
+            orig_index_names = orig_index_df.index.names
             source.df = add_missing_group_rows(
-                source.df, by_var_names, time_var_names, fill_method=fill_method, fill_limit=fill_limit
-            )
+                source.df.reset_index(), by_var_names, time_var_names, fill_method=fill_method, fill_limit=fill_limit
+            ).set_index(orig_index_names)
     else:
         lag_func = _create_lagged_variable  # type: ignore
 
@@ -164,7 +168,7 @@ def create_lags_transform_data_func(col: 'Column', variable: 'Variable', source:
 
     if by_vars and fill_missing_rows and can_fill_missing_rows:
         # Don't want to expand size of df
-        source.df = orig_index_df.merge(source.df, how="left", on=by_var_names + time_var_names)
+        source.df = orig_index_df.join(source.df, how="left")
         # Reorder back to original order of columns
         source.df = source.df[orig_cols]
 

@@ -307,6 +307,45 @@ class DataSource:
     def col_load_keys(self) -> List[str]:
         return [col.load_key for col in self.columns]
 
+    def get_series_for(self, var_name: Optional[str] = None, var: Optional[Variable] = None,
+                       col: Optional[Column] = None, df: Optional[pd.DataFrame] = None) -> pd.Series:
+        """
+        Extracts series for a variable or column, regardless of whether it is a column or index
+
+        :param var_name:
+        :param var:
+        :param col:
+        :param df: Will use source.df by default, but can also pass a custom df to use
+        :return:
+        """
+        # Validate inputs
+        conditions = [
+            var_name is not None,
+            var is not None,
+            col is not None
+        ]
+        num_passed = len([cond for cond in conditions if cond])
+
+        if num_passed == 0:
+            raise ValueError('must pass one of var_name, var, or col to get series')
+        elif num_passed > 1:
+            raise ValueError('must pass at most one of var_name, var, or col to get series')
+
+        # Main logic
+        if var is not None:
+            var_name = var.name
+        if col is not None:
+            var_name = col.variable.name
+        if df is None:
+            df = self.df
+
+        if var_name in self.index_var_names:
+            # Need to get from index and convert to series
+            return pd.Series(df.index.get_level_values(var_name))
+        else:
+            # Regular column, just look it up normally
+            return df[var_name]
+
     @property
     def index_cols(self) -> List[Column]:
         if self.columns is None:
@@ -334,6 +373,11 @@ class DataSource:
                         if var not in index_vars:
                             index_vars.append(var)
         return index_vars
+
+    @property
+    def index_var_names(self) -> List[str]:
+        index_vars = self.index_vars
+        return [var.name for var in index_vars]
 
     @property
     def loaded_columns(self) -> Optional[List[Column]]:

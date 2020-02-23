@@ -23,7 +23,7 @@ EXPECT_GENERATED_DF = df = pd.DataFrame(
         (1, 2, 'd'),
         (3, 4, 'e')
     ],
-    columns=['a', 'b', 'C']
+    columns=['a', 'b', 'c']
 )
 
 

@@ -28,6 +28,7 @@ class SpecificTransformsTest(SourceTest):
                                      pd.date_range(start='1/3/2000', periods=2, freq='d'))
     full_date_index = pd.Index.append(orig_date_index, date_index_with_gaps)
     test_df_with_ids_and_dates['date'] = full_date_index
+    c_df_index = pd.Index(['d', 'd', 'e'], name='C')
     expect_loaded_df_with_lags = pd.DataFrame(
         [
             (np.nan, np.nan, 'd'),
@@ -46,11 +47,12 @@ class SpecificTransformsTest(SourceTest):
     )
     expect_loaded_df_with_lags_and_by_var = pd.DataFrame(
         [
-            (np.nan, np.nan, 'd'),
-            (1, 2, 'd'),
-            (np.nan, np.nan, 'e')
+            (np.nan, np.nan),
+            (1, 2),
+            (np.nan, np.nan)
         ],
-        columns=['A$_{t - 1}$', 'B$_{t - 1}$', 'C'],
+        columns=['A$_{t - 1}$', 'B$_{t - 1}$'],
+        index=c_df_index,
     )
     expect_lag_df_with_ids_and_dates = pd.DataFrame(
         [
@@ -64,6 +66,7 @@ class SpecificTransformsTest(SourceTest):
         columns=['A$_{t - 1}$', 'B$_{t - 1}$', 'C'],
     )
     expect_lag_df_with_ids_and_dates['Date'] = full_date_index
+    expect_lag_df_with_ids_and_dates.set_index(['C', 'Date'], inplace=True)
     expect_loaded_df_with_change = pd.DataFrame(
         [
             (np.nan, np.nan, 'd'),
@@ -92,6 +95,8 @@ class SpecificTransformsTest(SourceTest):
         columns=['A Change', 'B Change', 'C'],
     )
     expect_change_df_with_ids_and_dates['Date'] = full_date_index
+    expect_change_df_with_ids_and_dates.set_index(['C', 'Date'], inplace=True)
+
 
     def create_variable_collection(self, **kwargs) -> Tuple[VariableCollection, Variable, Variable, Variable]:
         config_dict = dict(

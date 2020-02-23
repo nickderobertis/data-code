@@ -31,6 +31,7 @@ class DataLoader:
         df = self.post_rename(df)
         if self.optimize_size:
             df = self.optimize_df_size(df)
+        self.set_df_index(df)
         self.assign_series_to_columns(df)
         df = self.pre_calculate(df)
         df = self.try_to_calculate_variables(df)
@@ -82,6 +83,12 @@ class DataLoader:
 
         return read_file(self.source.location, **read_file_config)
 
+    def set_df_index(self, df: pd.DataFrame):
+        if not self.source.index_vars:
+            return
+
+        df.set_index(self.source.index_var_names, inplace=True)
+
     def assign_series_to_columns(self, df: pd.DataFrame):
         if not self.source.columns:
             return
@@ -92,7 +99,8 @@ class DataLoader:
                                      f'in columns {self.source.columns}')
                 continue
             col = self.source.col_for(var)
-            col.series = df[var.name]
+            series = self.source.get_series_for(var=var, df=df)
+            col.series = series
 
     def duplicate_columns_for_calculations_assign_series(self, df: pd.DataFrame):
         if not self.source._columns_for_calculate or not self.source._vars_for_calculate:

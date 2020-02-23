@@ -83,8 +83,16 @@ class DataOutputter:
                                              f'describes {len(self.source.columns)} columns')
 
     def output_to_location(self, df: pd.DataFrame):
+        if not self.source.index_cols:
+            # No index columns, index should be useless autoincrementing range, don't output it
+            output_index = False
+        else:
+            output_index = True
+        config_dict = deepcopy(self.to_location_kwargs)
+        config_dict.update(dict(index=output_index))
+
         # TODO: implement output to location types other than CSV
-        df.to_csv(self.source.location, **self.to_location_kwargs)
+        df.to_csv(self.source.location, **config_dict)
 
 
 
