@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.transform &mdash; datacode 0.12.0 documentation</title>
+  <title>datacode.models.pipeline.operations.transform &mdash; datacode 0.12.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.12.0
+                0.12.1
               </div>
             
           
@@ -190,7 +190,7 @@
 
 <div class="viewcode-block" id="TransformOperation.execute"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOperation.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="p">,</span> <span class="n">preserve_original</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">preserve_original</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">update_from_source</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">update_from_source</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">exclude_attrs</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">,))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span></div>
 
 <div class="viewcode-block" id="TransformOperation.summary"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOperation.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

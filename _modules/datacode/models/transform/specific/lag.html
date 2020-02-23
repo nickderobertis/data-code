@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.transform.specific.lag &mdash; datacode 0.12.0 documentation</title>
+  <title>datacode.models.transform.specific.lag &mdash; datacode 0.12.1 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.12.0
+                0.12.1
               </div>
             
           
@@ -319,7 +319,7 @@
             <span class="c1"># Save original index, for outputting df of same shape</span>
             <span class="n">orig_index_df</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[[]]</span>
 
-            <span class="c1"># TODO: use implementation of add_missing_group_rows which does not require dropping and resetting index</span>
+            <span class="c1"># TODO [#61]: use implementation of add_missing_group_rows which does not require dropping and resetting index</span>
             <span class="c1">#</span>
             <span class="c1"># Need to wait for pd_utils to support it</span>
             <span class="n">orig_index_names</span> <span class="o">=</span> <span class="n">orig_index_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>

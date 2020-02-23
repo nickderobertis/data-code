@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.dtypes.datetime_type &mdash; datacode 0.12.1 documentation</title>
+  <title>datacode.models.transform.plugin &mdash; datacode 0.12.1 documentation</title>
   
 
   
@@ -147,7 +147,7 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.models.dtypes.datetime_type</li>
+      <li>datacode.models.transform.plugin</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -162,34 +162,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.models.dtypes.datetime_type</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+  <h1>Source code for datacode.models.transform.plugin</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
+<span class="kn">from</span> <span class="nn">datacode.models.transform.transform</span> <span class="kn">import</span> <span class="n">Transform</span>
 
 
-<div class="viewcode-block" id="DatetimeType"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.datetime_type.DatetimeType">[docs]</a><span class="k">class</span> <span class="nc">DatetimeType</span><span class="p">(</span><span class="n">DataType</span><span class="p">):</span>
+<div class="viewcode-block" id="register_transforms"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.plugin.register_transforms">[docs]</a><span class="k">def</span> <span class="nf">register_transforms</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Transform</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convenience function to add passed transforms into DEFAULT_TRANSFORMS which are automatically</span>
+<span class="sd">    provided to all variables</span>
 
-<div class="viewcode-block" id="DatetimeType.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.datetime_type.DatetimeType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categorical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
-            <span class="n">pd_class</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span>
-            <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;datetime&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;datetime64&#39;</span><span class="p">),</span>
-            <span class="n">categorical</span><span class="o">=</span><span class="n">categorical</span><span class="p">,</span>
-            <span class="n">ordered</span><span class="o">=</span><span class="n">ordered</span><span class="p">,</span>
-        <span class="p">)</span></div>
+<span class="sd">    :param transforms:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">datacode.models.transform.specific</span> <span class="kn">import</span> <span class="n">DEFAULT_TRANSFORMS</span>
 
-<div class="viewcode-block" id="DatetimeType.from_str"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.datetime_type.DatetimeType.from_str">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_str</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">categorical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dtype </span><span class="si">{dtype}</span><span class="s1"> does not match valid names for </span><span class="si">{cls.__name__}</span><span class="s1">: </span><span class="si">{cls.names}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-            <span class="n">categorical</span><span class="o">=</span><span class="n">categorical</span><span class="p">,</span>
-            <span class="n">ordered</span><span class="o">=</span><span class="n">ordered</span>
-        <span class="p">)</span></div></div>
+    <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">:</span>
+        <span class="n">existing_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">DEFAULT_TRANSFORMS</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">existing_keys</span><span class="p">:</span>
+            <span class="n">DEFAULT_TRANSFORMS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

@@ -24,6 +24,14 @@ datacode.models.transform.applied module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.transform.plugin module
+---------------------------------------
+
+.. automodule:: datacode.models.transform.plugin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.transform.source module
 ---------------------------------------
 
