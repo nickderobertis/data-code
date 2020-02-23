@@ -1,6 +1,8 @@
 import datetime
 from copy import deepcopy
-from typing import Sequence, Callable, Optional, Type
+from typing import Sequence, Callable, Optional, Type, TYPE_CHECKING
+if TYPE_CHECKING:
+    from datacode.models.analysis import AnalysisResult
 
 from datacode.models.source import DataSource
 
@@ -49,6 +51,11 @@ class OperationOptions:
     out_path: Optional[str] = None
     last_modified: Optional[datetime.datetime] = None
     allow_modifying_result: bool = True
+    analysis_output_func: Optional[Callable[['AnalysisResult', str], None]] = None
 
     def copy(self):
         return deepcopy(self)
+
+    @property
+    def can_output(self) -> bool:
+        return self.out_path is not None

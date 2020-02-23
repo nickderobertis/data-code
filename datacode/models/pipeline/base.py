@@ -2,6 +2,7 @@ import datetime
 from copy import deepcopy
 from typing import Sequence, List, Callable, Optional, Union
 
+from datacode.models.analysis import AnalysisResult
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
 from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline, ObjWithLastModified
@@ -145,10 +146,15 @@ class DataPipeline:
     def output(self):
         if self.result is None:
             return
+        if isinstance(self.result, AnalysisResult):
+            if not self.operation_options[-1].can_output:
+                return
+            self.operation_options[-1].analysis_output_func(self.result, self.operation_options[-1].out_path)
+            return
         if not isinstance(self.result, DataSource):
             raise NotImplementedError(f'have not implemented pipeline output for type {type(self.result)}')
         if self.result.location is None:
-            if self.operation_options[-1].out_path is None:
+            if not self.operation_options[-1].can_output:
                 return
             self.result.location = self.operation_options[-1].out_path
 

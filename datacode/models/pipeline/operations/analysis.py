@@ -46,6 +46,11 @@ class AnalysisOperation(DataOperation):
                              f'Data sources: {self.data_sources}')
 
 
+def analysis_result_to_file(result: AnalysisResult, out_path: str):
+    with open(out_path, 'w') as f:
+        f.write(str(result.result))
+
+
 class AnalysisOptions(OperationOptions):
     """
     Class for options passed to AnalysisOperations
@@ -53,6 +58,14 @@ class AnalysisOptions(OperationOptions):
     op_class = AnalysisOperation
     result_class = AnalysisResult
 
-    def __init__(self, func: Callable[[DataSource, Any], Any], **func_kwargs):
+    def __init__(self, func: Callable[[DataSource, Any], Any],
+                 output_func: Optional[Callable[['AnalysisResult', str], None]] = analysis_result_to_file,
+                 out_path: Optional[str] = None, **func_kwargs):
         self.func = func
         self.func_kwargs = func_kwargs
+        self.analysis_output_func = output_func
+        self.out_path = out_path
+
+    @property
+    def can_output(self) -> bool:
+        return self.out_path is not None and self.analysis_output_func is not None
