@@ -95,7 +95,7 @@ class DataOutputter:
         config_dict = deepcopy(self.to_location_kwargs)
         config_dict.update(dict(index=output_index))
 
-        # TODO [$5e529bc054efc10007c4591d]: implement output to location types other than CSV
+        # TODO [#60]: implement output to location types other than CSV
         df.to_csv(self.source.location, **config_dict)
 
 
