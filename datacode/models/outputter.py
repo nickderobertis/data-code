@@ -70,6 +70,7 @@ class DataOutputter:
             rename_dict[variable.name] = col.load_key
 
         df.rename(columns=rename_dict, inplace=True)
+        df.rename_axis(index=rename_dict, inplace=True)
 
     def keep_necessary_cols(self, df: pd.DataFrame):
         if not self.source.columns:
@@ -77,7 +78,7 @@ class DataOutputter:
 
         keep_cols = [col for col in df.columns if col in self.source.col_load_keys]
 
-        if self.safe and len(keep_cols) < len(self.source.columns):
+        if self.safe and len(keep_cols) + len(df.index.names) < len(self.source.columns):
             raise DataOutputNotSafeException(f'After keeping necessary columns, only outputting {len(keep_cols)} '
                                              f'columns when DataSource '
                                              f'describes {len(self.source.columns)} columns')
