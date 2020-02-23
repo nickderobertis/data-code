@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; datacode 0.11.1 documentation</title>
+  <title>Index &mdash; datacode 0.12.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.11.1
+                0.12.0
               </div>
             
           
@@ -176,6 +176,7 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -224,6 +225,8 @@
         <li><a href="api/datacode.models.html#datacode.models.index.Index.__init__">(datacode.models.index.Index method)</a>
 </li>
         <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.__init__">(datacode.models.loader.DataLoader method)</a>
+</li>
+        <li><a href="api/datacode.models.html#datacode.models.outputter.DataOutputter.__init__">(datacode.models.outputter.DataOutputter method)</a>
 </li>
         <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.analysis.DataAnalysisPipeline.__init__">(datacode.models.pipeline.analysis.DataAnalysisPipeline method)</a>
 </li>
@@ -276,19 +279,37 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOptions.params.allow_modifying_result">allow_modifying_result (datacode.models.pipeline.operations.generate.GenerationOptions parameter)</a>
+
+      <ul>
+        <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.MergeOptions.params.allow_modifying_result">(datacode.models.pipeline.operations.merge.MergeOptions parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.operation.OperationOptions.allow_modifying_result">(datacode.models.pipeline.operations.operation.OperationOptions attribute)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOptions.params.allow_modifying_result">(datacode.models.pipeline.operations.transform.TransformOptions parameter)</a>
+</li>
+      </ul></li>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.allow_modifying_result">allow_modifying_result() (datacode.models.pipeline.base.DataPipeline property)</a>
+</li>
+      <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.operation.OperationOptions.analysis_output_func">analysis_output_func (datacode.models.pipeline.operations.operation.OperationOptions attribute)</a>
+</li>
+      <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.analysis.analysis_result_to_file">analysis_result_to_file() (in module datacode.models.pipeline.operations.analysis)</a>
+</li>
       <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.analysis.AnalysisOperation">AnalysisOperation (class in datacode.models.pipeline.operations.analysis)</a>
 </li>
       <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.analysis.AnalysisOptions">AnalysisOptions (class in datacode.models.pipeline.operations.analysis)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.html#datacode.models.analysis.AnalysisResult">AnalysisResult (class in datacode.models.analysis)</a>
 </li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection.append">append() (datacode.models.variables.collection.VariableCollection method)</a>
 </li>
       <li><a href="api/datacode.models.transform.html#datacode.models.transform.applied.AppliedTransform">AppliedTransform (class in datacode.models.transform.applied)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.transform.html#datacode.models.transform.source.SourceTransform.apply">apply() (datacode.models.transform.source.SourceTransform method)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.apply_calculations_transforms_and_drops">apply_calculations_transforms_and_drops() (datacode.models.loader.DataLoader method)</a>
 </li>
       <li><a href="api/datacode.models.transform.html#datacode.models.transform.transform.Transform.apply_to_source">apply_to_source() (datacode.models.transform.transform.Transform method)</a>
 </li>
@@ -322,9 +343,19 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.analysis.AnalysisOptions.can_output">can_output() (datacode.models.pipeline.operations.analysis.AnalysisOptions property)</a>
+
+      <ul>
+        <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.operation.OperationOptions.can_output">(datacode.models.pipeline.operations.operation.OperationOptions property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/datacode.models.html#datacode.models.source.DataSource.get_series_for.params.col">col (datacode.models.source.DataSource.get_series_for parameter)</a>
+</li>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource.col_for">col_for() (datacode.models.source.DataSource method)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource.col_key_for">col_key_for() (datacode.models.source.DataSource method)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.source.DataSource.col_load_keys">col_load_keys() (datacode.models.source.DataSource property)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource.col_var_keys">col_var_keys() (datacode.models.source.DataSource property)</a>
 </li>
@@ -350,6 +381,8 @@
 </li>
       <li><a href="api/datacode.formatters.html#datacode.formatters.stars.convert_to_stars">convert_to_stars() (in module datacode.formatters.stars)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.formatters.html#datacode.formatters.stderr.convert_to_stderr_format">convert_to_stderr_format() (in module datacode.formatters.stderr)</a>
 </li>
       <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.copy">copy() (datacode.models.pipeline.base.DataPipeline method)</a>
@@ -360,8 +393,6 @@
         <li><a href="api/datacode.models.html#datacode.models.source.DataSource.copy">(datacode.models.source.DataSource method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource.copy_keys">copy_keys (datacode.models.source.DataSource attribute)</a>
 </li>
       <li><a href="api/datacode.models.transform.specific.html#datacode.models.transform.specific.change.create_changes_data_func">create_changes_data_func() (in module datacode.models.transform.specific.change)</a>
@@ -406,6 +437,18 @@
         <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOperation.data_source">(datacode.models.pipeline.operations.transform.TransformOperation property)</a>
 </li>
         <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline.data_source">(datacode.models.pipeline.transform.DataTransformationPipeline property)</a>
+</li>
+      </ul></li>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.analysis.DataAnalysisPipeline.params.data_sources">data_sources (datacode.models.pipeline.analysis.DataAnalysisPipeline parameter)</a>
+
+      <ul>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.params.data_sources">(datacode.models.pipeline.base.DataPipeline parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline.params.data_sources">(datacode.models.pipeline.generate.DataGeneratorPipeline parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.params.data_sources">(datacode.models.pipeline.merge.DataMergePipeline parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline.params.data_sources">(datacode.models.pipeline.transform.DataTransformationPipeline parameter)</a>
 </li>
       </ul></li>
       <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.data_sources">data_sources() (datacode.models.pipeline.base.DataPipeline property)</a>
@@ -504,6 +547,8 @@
 </li>
       <li><a href="api/datacode.models.logic.html#module-datacode.models.logic.partial">datacode.models.logic.partial (module)</a>
 </li>
+      <li><a href="api/datacode.models.html#module-datacode.models.outputter">datacode.models.outputter (module)</a>
+</li>
       <li><a href="api/datacode.models.pipeline.html#module-datacode.models.pipeline">datacode.models.pipeline (module)</a>
 </li>
       <li><a href="api/datacode.models.pipeline.html#module-datacode.models.pipeline.analysis">datacode.models.pipeline.analysis (module)</a>
@@ -570,12 +615,12 @@
 </li>
       <li><a href="api/datacode.panel.did.html#module-datacode.panel.did.main">datacode.panel.did.main (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.panel.did.html#module-datacode.panel.did.reg">datacode.panel.did.reg (module)</a>
 </li>
       <li><a href="api/datacode.panel.did.html#module-datacode.panel.did.totex">datacode.panel.did.totex (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.panel.html#module-datacode.panel.expandselect">datacode.panel.expandselect (module)</a>
 </li>
       <li><a href="api/datacode.portfolio.html#module-datacode.portfolio">datacode.portfolio (module)</a>
@@ -692,6 +737,10 @@
 </li>
       <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.operation.DataOperation">DataOperation (class in datacode.models.pipeline.operations.operation)</a>
 </li>
+      <li><a href="api/datacode.models.html#datacode.models.outputter.DataOutputNotSafeException">DataOutputNotSafeException</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.outputter.DataOutputter">DataOutputter (class in datacode.models.outputter)</a>
+</li>
       <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline">DataPipeline (class in datacode.models.pipeline.base)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource">DataSource (class in datacode.models.source)</a>
@@ -723,6 +772,8 @@
 </li>
       </ul></li>
       <li><a href="api/datacode.summarize.html#datacode.summarize.describe_df">describe_df() (in module datacode.summarize)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.source.DataSource.get_series_for.params.df">df (datacode.models.source.DataSource.get_series_for parameter)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource.df">df() (datacode.models.source.DataSource property)</a>
 </li>
@@ -837,7 +888,11 @@
       <li><a href="api/datacode.summarize.subset.outliers.summary.html#datacode.summarize.subset.outliers.summary.stats.full_df_summary_stats_df">full_df_summary_stats_df() (in module datacode.summarize.subset.outliers.summary.stats)</a>
 </li>
       <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOptions.params.func">func (datacode.models.pipeline.operations.generate.GenerationOptions parameter)</a>
+
+      <ul>
+        <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOptions.params.func">(datacode.models.pipeline.operations.transform.TransformOptions parameter)</a>
 </li>
+      </ul></li>
       <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOptions.params.func_kwargs">func_kwargs (datacode.models.pipeline.operations.generate.GenerationOptions parameter)</a>
 </li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.compare.functions_are_equal">functions_are_equal() (in module datacode.models.variables.compare)</a>
@@ -858,15 +913,17 @@
 </li>
       <li><a href="api/datacode.models.dtypes.html#datacode.models.dtypes.bit_size.get_bit_from_dtype">get_bit_from_dtype() (in module datacode.models.dtypes.bit_size)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.dtypes.html#datacode.models.dtypes.manager.DataTypeManager.get_by_name">get_by_name() (datacode.models.dtypes.manager.DataTypeManager method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.html#datacode.load.get_ff_factors">get_ff_factors() (in module datacode.load)</a>
 </li>
       <li><a href="api/datacode.html#datacode.load.get_gvkey_or_permno">get_gvkey_or_permno() (in module datacode.load)</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.names.get_prob_treated_varname">get_prob_treated_varname() (in module datacode.psm.names)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.source.DataSource.get_series_for">get_series_for() (datacode.models.source.DataSource method)</a>
 </li>
       <li><a href="api/datacode.models.logic.merge.html#datacode.models.logic.merge.summarize.get_summary_of_df">get_summary_of_df() (in module datacode.models.logic.merge.summarize)</a>
 </li>
@@ -885,6 +942,8 @@
       <li><a href="api/datacode.models.html#datacode.models.index.Index">Index (class in datacode.models.index)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource.index_cols">index_cols() (datacode.models.source.DataSource property)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.source.DataSource.index_var_names">index_var_names() (datacode.models.source.DataSource property)</a>
 </li>
       <li><a href="api/datacode.models.column.html#datacode.models.column.column.Column.index_vars">index_vars() (datacode.models.column.column.Column property)</a>
 
@@ -905,6 +964,14 @@
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.is_significant_at">is_significant_at() (datacode.formatters.models.result.Result method)</a>
 </li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection.items">items() (datacode.models.variables.collection.VariableCollection property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.html#datacode.models.outputter.DataOutputter.keep_necessary_cols">keep_necessary_cols() (datacode.models.outputter.DataOutputter method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -930,13 +997,15 @@
       </ul></li>
       <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.LastMergeFinishedException">LastMergeFinishedException</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.LastOperationFinishedException">LastOperationFinishedException</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.logic.merge.html#datacode.models.logic.merge.left_merge_df">left_merge_df() (in module datacode.models.logic.merge)</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.load">load() (datacode.models.loader.DataLoader method)</a>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.load_from_existing_source">load_from_existing_source() (datacode.models.loader.DataLoader method)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.load_from_location">load_from_location() (datacode.models.loader.DataLoader method)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.source.DataSource.loaded_columns">loaded_columns() (datacode.models.source.DataSource property)</a>
 </li>
@@ -996,20 +1065,32 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.analysis.DataAnalysisPipeline.params.name">name (datacode.models.pipeline.analysis.DataAnalysisPipeline parameter)</a>
+
+      <ul>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.params.name">(datacode.models.pipeline.base.DataPipeline parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline.params.name">(datacode.models.pipeline.generate.DataGeneratorPipeline parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.params.name">(datacode.models.pipeline.merge.DataMergePipeline parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline.params.name">(datacode.models.pipeline.transform.DataTransformationPipeline parameter)</a>
+</li>
+      </ul></li>
       <li><a href="api/datacode.models.dtypes.html#datacode.models.dtypes.base.DataType.names">names (datacode.models.dtypes.base.DataType attribute)</a>
 
       <ul>
         <li><a href="api/datacode.models.dtypes.html#datacode.models.dtypes.str_type.StringType.names">(datacode.models.dtypes.str_type.StringType attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.next_operation">next_operation() (datacode.models.pipeline.base.DataPipeline method)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.source.NoColumnForVariableException">NoColumnForVariableException</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.score.NotEnoughTimeObservationsException">NotEnoughTimeObservationsException</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.summarize.subset.missing.detail.html#datacode.summarize.subset.missing.detail.textfuncs.num_or_pct">num_or_pct() (in module datacode.summarize.subset.missing.detail.textfuncs)</a>
 </li>
       <li><a href="api/datacode.summarize.subset.missing.detail.html#datacode.summarize.subset.missing.detail.textfuncs.num_or_pct_word">num_or_pct_word() (in module datacode.summarize.subset.missing.detail.textfuncs)</a>
@@ -1054,14 +1135,26 @@
         <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOptions.op_class">(datacode.models.pipeline.operations.transform.TransformOptions attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.analysis.DataAnalysisPipeline.params.operation_options">operation_options (datacode.models.pipeline.analysis.DataAnalysisPipeline parameter)</a>
+
+      <ul>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.params.operation_options">(datacode.models.pipeline.base.DataPipeline parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.generate.DataGeneratorPipeline.params.operation_options">(datacode.models.pipeline.generate.DataGeneratorPipeline parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.merge.DataMergePipeline.params.operation_options">(datacode.models.pipeline.merge.DataMergePipeline parameter)</a>
+</li>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline.params.operation_options">(datacode.models.pipeline.transform.DataTransformationPipeline parameter)</a>
+</li>
+      </ul></li>
       <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.operation_options">operation_options() (datacode.models.pipeline.base.DataPipeline property)</a>
 </li>
       <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.operation.OperationOptions">OperationOptions (class in datacode.models.pipeline.operations.operation)</a>
 </li>
-      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.operations">operations() (datacode.models.pipeline.base.DataPipeline property)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.operations">operations() (datacode.models.pipeline.base.DataPipeline property)</a>
+</li>
       <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.optimize_df_size">optimize_df_size() (datacode.models.loader.DataLoader method)</a>
 </li>
       <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOperation.options">options (datacode.models.pipeline.operations.generate.GenerationOperation attribute)</a>
@@ -1079,6 +1172,8 @@
       <ul>
         <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.operation.OperationOptions.out_path">(datacode.models.pipeline.operations.operation.OperationOptions attribute)</a>
 </li>
+        <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOptions.params.out_path">(datacode.models.pipeline.operations.transform.TransformOptions parameter)</a>
+</li>
       </ul></li>
       <li><a href="api/datacode.models.logic.merge.html#datacode.models.logic.merge.outer_merge_df">outer_merge_df() (in module datacode.models.logic.merge)</a>
 </li>
@@ -1092,12 +1187,16 @@
 </li>
       <li><a href="api/datacode.summarize.subset.outliers.html#datacode.summarize.subset.outliers.main.outlier_summary_tables">outlier_summary_tables() (in module datacode.summarize.subset.outliers.main)</a>
 </li>
-      <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.output">output() (datacode.models.pipeline.base.DataPipeline method)</a>
+      <li><a href="api/datacode.models.html#datacode.models.outputter.DataOutputter.output">output() (datacode.models.outputter.DataOutputter method)</a>
 
       <ul>
+        <li><a href="api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.output">(datacode.models.pipeline.base.DataPipeline method)</a>
+</li>
         <li><a href="api/datacode.models.html#datacode.models.source.DataSource.output">(datacode.models.source.DataSource method)</a>
 </li>
       </ul></li>
+      <li><a href="api/datacode.models.html#datacode.models.outputter.DataOutputter.output_to_location">output_to_location() (datacode.models.outputter.DataOutputter method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1126,10 +1225,10 @@
 </li>
       <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.post_read">post_read() (datacode.models.loader.DataLoader method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.post_rename">post_rename() (datacode.models.loader.DataLoader method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.post_transform">post_transform() (datacode.models.loader.DataLoader method)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.pre_calculate">pre_calculate() (datacode.models.loader.DataLoader method)</a>
@@ -1140,9 +1239,11 @@
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.names.predict_treated_varname">predict_treated_varname() (in module datacode.psm.names)</a>
 </li>
-      <li><a href="api/datacode.models.transform.html#datacode.models.transform.source.SourceTransform.apply.params.preserve_original">preserve_original (datacode.models.transform.source.SourceTransform.apply parameter)</a>
+      <li><a href="api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOptions.params.preserve_original">preserve_original (datacode.models.pipeline.operations.transform.TransformOptions parameter)</a>
 
       <ul>
+        <li><a href="api/datacode.models.transform.html#datacode.models.transform.source.SourceTransform.apply.params.preserve_original">(datacode.models.transform.source.SourceTransform.apply parameter)</a>
+</li>
         <li><a href="api/datacode.models.transform.html#datacode.models.transform.transform.Transform.apply_to_source.params.preserve_original">(datacode.models.transform.transform.Transform.apply_to_source parameter)</a>
 </li>
       </ul></li>
@@ -1165,7 +1266,11 @@
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection.remove">remove() (datacode.models.variables.collection.VariableCollection method)</a>
 </li>
       <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.rename_columns">rename_columns() (datacode.models.loader.DataLoader method)</a>
+
+      <ul>
+        <li><a href="api/datacode.models.html#datacode.models.outputter.DataOutputter.rename_columns">(datacode.models.outputter.DataOutputter method)</a>
 </li>
+      </ul></li>
       <li><a href="api/datacode.html#datacode.load.replace_missing_csv">replace_missing_csv() (in module datacode.load)</a>
 </li>
       <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result">Result (class in datacode.formatters.models.result)</a>
@@ -1194,6 +1299,10 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.select_variables_in_existing_source">select_variables_in_existing_source() (datacode.models.loader.DataLoader method)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.loader.DataLoader.set_df_index">set_df_index() (datacode.models.loader.DataLoader method)</a>
+</li>
       <li><a href="api/datacode.summarize.subset.missing.detail.reformat.html#datacode.summarize.subset.missing.detail.reformat.numformat.sort_and_apply_formatting_to_df">sort_and_apply_formatting_to_df() (in module datacode.summarize.subset.missing.detail.reformat.numformat)</a>
 </li>
       <li><a href="api/datacode.portfolio.html#datacode.portfolio.sort.sort_portfolio_columns">sort_portfolio_columns() (in module datacode.portfolio.sort)</a>
@@ -1210,10 +1319,10 @@
       </ul></li>
       <li><a href="api/datacode.models.transform.html#datacode.models.transform.source.SourceTransform">SourceTransform (class in datacode.models.transform.source)</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.symbols.str_to_symbol">str_to_symbol() (in module datacode.models.symbols)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.html#datacode.models.symbols.str_to_symbol">str_to_symbol() (in module datacode.models.symbols)</a>
+</li>
       <li><a href="api/datacode.models.dtypes.html#datacode.models.dtypes.str_type.StringType">StringType (class in datacode.models.dtypes.str_type)</a>
 </li>
       <li><a href="api/datacode.models.transform.html#datacode.models.transform.transform.Transform.apply_to_source.params.subset">subset (datacode.models.transform.transform.Transform.apply_to_source parameter)</a>
@@ -1282,7 +1391,11 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.html#datacode.models.source.DataSource.get_series_for.params.var">var (datacode.models.source.DataSource.get_series_for parameter)</a>
+</li>
       <li><a href="api/datacode.models.html#datacode.models.symbols.var_key_to_symbol_str">var_key_to_symbol_str() (in module datacode.models.symbols)</a>
+</li>
+      <li><a href="api/datacode.models.html#datacode.models.source.DataSource.get_series_for.params.var_name">var_name (datacode.models.source.DataSource.get_series_for parameter)</a>
 </li>
       <li><a href="api/datacode.models.transform.specific.html#datacode.models.transform.specific.lag.var_symbol_to_lagged_var_symbol">var_symbol_to_lagged_var_symbol() (in module datacode.models.transform.specific.lag)</a>
 </li>
@@ -1292,10 +1405,10 @@
 </li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableChangePortfolioNameCollection">VariableChangePortfolioNameCollection (class in datacode.models.variables.collection)</a>
 </li>
-      <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection">VariableCollection (class in datacode.models.variables.collection)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection">VariableCollection (class in datacode.models.variables.collection)</a>
+</li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableDefaultCollection">VariableDefaultCollection (class in datacode.models.variables.collection)</a>
 </li>
       <li><a href="api/datacode.models.variables.html#datacode.models.variables.collection.VariableDisplayNameCollection">VariableDisplayNameCollection (class in datacode.models.variables.collection)</a>

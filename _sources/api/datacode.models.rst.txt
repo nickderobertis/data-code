@@ -45,6 +45,14 @@ datacode.models.loader module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.outputter module
+--------------------------------
+
+.. automodule:: datacode.models.outputter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.source module
 -----------------------------
 

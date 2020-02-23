@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations package &mdash; datacode 0.11.1 documentation</title>
+  <title>datacode.models.pipeline.operations package &mdash; datacode 0.12.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.11.1
+                0.12.0
               </div>
             
           
@@ -241,13 +241,23 @@
 
 <dl class="class">
 <dt id="datacode.models.pipeline.operations.analysis.AnalysisOptions">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.analysis.</code><code class="sig-name descname">AnalysisOptions</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/analysis.html#AnalysisOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.analysis.AnalysisOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.analysis.</code><code class="sig-name descname">AnalysisOptions</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">output_func=&lt;function analysis_result_to_file&gt;</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/analysis.html#AnalysisOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.analysis.AnalysisOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.operations.operation.OperationOptions" title="datacode.models.pipeline.operations.operation.OperationOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.operations.operation.OperationOptions</span></code></a></p>
 <p>Class for options passed to AnalysisOperations</p>
 <dl class="method">
 <dt id="datacode.models.pipeline.operations.analysis.AnalysisOptions.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/analysis.html#AnalysisOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.analysis.AnalysisOptions.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">output_func=&lt;function analysis_result_to_file&gt;</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/analysis.html#AnalysisOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.analysis.AnalysisOptions.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.pipeline.operations.analysis.AnalysisOptions.can_output">
+<em class="property">property </em><code class="sig-name descname">can_output</code><a class="headerlink" href="#datacode.models.pipeline.operations.analysis.AnalysisOptions.can_output" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -263,6 +273,11 @@
 </dd></dl>
 
 </dd></dl>
+
+<dl class="function">
+<dt id="datacode.models.pipeline.operations.analysis.analysis_result_to_file">
+<code class="sig-prename descclassname">datacode.models.pipeline.operations.analysis.</code><code class="sig-name descname">analysis_result_to_file</code><span class="sig-paren">(</span><em class="sig-param">result</em>, <em class="sig-param">out_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/analysis.html#analysis_result_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.analysis.analysis_result_to_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-datacode.models.pipeline.operations.generate">
@@ -312,12 +327,12 @@
 
 <dl class="class">
 <dt id="datacode.models.pipeline.operations.generate.GenerationOptions">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.generate.</code><code class="sig-name descname">GenerationOptions</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">last_modified=None</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/generate.html#GenerationOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.generate.GenerationOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.generate.</code><code class="sig-name descname">GenerationOptions</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">last_modified=None</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">allow_modifying_result=True</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/generate.html#GenerationOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.generate.GenerationOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.operations.operation.OperationOptions" title="datacode.models.pipeline.operations.operation.OperationOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.operations.operation.OperationOptions</span></code></a></p>
 <p>Class for options passed to AnalysisOperations</p>
 <dl class="method">
 <dt id="datacode.models.pipeline.operations.generate.GenerationOptions.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">last_modified=None</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/generate.html#GenerationOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.generate.GenerationOptions.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">last_modified=None</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">allow_modifying_result=True</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/generate.html#GenerationOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.generate.GenerationOptions.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -326,6 +341,10 @@
 last_modified can avoid re-running and instead load from location</p></li>
 <li><p><span class="target" id="datacode.models.pipeline.operations.generate.GenerationOptions.params.out_path"></span><strong>out_path</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.generate.GenerationOptions.params.out_path">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – location for generated DataSource</p></li>
 <li><p><span class="target" id="datacode.models.pipeline.operations.generate.GenerationOptions.params.func_kwargs"></span><strong>func_kwargs</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.generate.GenerationOptions.params.func_kwargs">¶</a> – Keyword arguments to pass to the function which generates the DataSource</p></li>
+<li><p><span class="target" id="datacode.models.pipeline.operations.generate.GenerationOptions.params.allow_modifying_result"></span><strong>allow_modifying_result</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.generate.GenerationOptions.params.allow_modifying_result">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – When DataSources are directly linked to pipelines, loading
+source from pipeline can cause modifications in the pipeline’s result source. Set to False
+to ensure it won’t be modified (but uses more memory). Setting to False should only be needed
+if multiple sources load from the same pipeline in one session</p></li>
 </ul>
 </dd>
 </dl>
@@ -402,11 +421,11 @@ last_modified can avoid re-running and instead load from location</p></li>
 
 <dl class="class">
 <dt id="datacode.models.pipeline.operations.merge.MergeOptions">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.merge.</code><code class="sig-name descname">MergeOptions</code><span class="sig-paren">(</span><em class="sig-param">*merge_function_args</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">merge_function=&lt;function left_merge_df&gt;</em>, <em class="sig-param">left_df_keep_cols=None</em>, <em class="sig-param">right_df_keep_cols=None</em>, <em class="sig-param">left_df_pre_process_func=None</em>, <em class="sig-param">right_df_pre_process_func=None</em>, <em class="sig-param">left_df_pre_process_kwargs=None</em>, <em class="sig-param">right_df_pre_process_kwargs=None</em>, <em class="sig-param">post_merge_func=None</em>, <em class="sig-param">post_merge_func_kwargs=None</em>, <em class="sig-param">**merge_function_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/merge.html#MergeOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.merge.MergeOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.merge.</code><code class="sig-name descname">MergeOptions</code><span class="sig-paren">(</span><em class="sig-param">on</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">merge_function=&lt;function left_merge_df&gt;</em>, <em class="sig-param">left_df_keep_cols=None</em>, <em class="sig-param">right_df_keep_cols=None</em>, <em class="sig-param">left_df_pre_process_func=None</em>, <em class="sig-param">right_df_pre_process_func=None</em>, <em class="sig-param">left_df_pre_process_kwargs=None</em>, <em class="sig-param">right_df_pre_process_kwargs=None</em>, <em class="sig-param">post_merge_func=None</em>, <em class="sig-param">post_merge_func_kwargs=None</em>, <em class="sig-param">allow_modifying_result=True</em>, <em class="sig-param">**merge_function_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/merge.html#MergeOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.merge.MergeOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.operations.operation.OperationOptions" title="datacode.models.pipeline.operations.operation.OperationOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.operations.operation.OperationOptions</span></code></a></p>
 <dl class="method">
 <dt id="datacode.models.pipeline.operations.merge.MergeOptions.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*merge_function_args</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">merge_function=&lt;function left_merge_df&gt;</em>, <em class="sig-param">left_df_keep_cols=None</em>, <em class="sig-param">right_df_keep_cols=None</em>, <em class="sig-param">left_df_pre_process_func=None</em>, <em class="sig-param">right_df_pre_process_func=None</em>, <em class="sig-param">left_df_pre_process_kwargs=None</em>, <em class="sig-param">right_df_pre_process_kwargs=None</em>, <em class="sig-param">post_merge_func=None</em>, <em class="sig-param">post_merge_func_kwargs=None</em>, <em class="sig-param">**merge_function_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/merge.html#MergeOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.merge.MergeOptions.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">on</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">merge_function=&lt;function left_merge_df&gt;</em>, <em class="sig-param">left_df_keep_cols=None</em>, <em class="sig-param">right_df_keep_cols=None</em>, <em class="sig-param">left_df_pre_process_func=None</em>, <em class="sig-param">right_df_pre_process_func=None</em>, <em class="sig-param">left_df_pre_process_kwargs=None</em>, <em class="sig-param">right_df_pre_process_kwargs=None</em>, <em class="sig-param">post_merge_func=None</em>, <em class="sig-param">post_merge_func_kwargs=None</em>, <em class="sig-param">allow_modifying_result=True</em>, <em class="sig-param">**merge_function_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/merge.html#MergeOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.merge.MergeOptions.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>passed args to merge func will be (</dt><dd><p>left_df_pre_process_func(left_df, <a href="#id1"><span class="problematic" id="id2">**</span></a>left_df_pre_process_kwargs)[left_df_keep_cols],
 right_df_pre_process_func(right_df, <a href="#id3"><span class="problematic" id="id4">**</span></a>right_df_pre_process_kwargs)[right_df_keep_cols],
@@ -430,6 +449,14 @@ right_df_keep_cols:
 post_merge_func: function to be called on data after merge
 post_merge_func_kwargs: kwargs to be passed to post_merge_func
 <a href="#id15"><span class="problematic" id="id16">**</span></a>merge_function_kwargs:</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><span class="target" id="datacode.models.pipeline.operations.merge.MergeOptions.params.allow_modifying_result"></span><strong>allow_modifying_result</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.merge.MergeOptions.params.allow_modifying_result">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – When DataSources are directly linked to pipelines, loading
+source from pipeline can cause modifications in the pipeline’s result source. Set to False
+to ensure it won’t be modified (but uses more memory). Setting to False should only be needed
+if multiple sources load from the same pipeline in one session</p>
 </dd>
 </dl>
 </dd></dl>
@@ -489,6 +516,26 @@ as the output.</p>
 <em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.operation.</code><code class="sig-name descname">OperationOptions</code><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/operation.html#OperationOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.operation.OperationOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Base class for options passed to DataOperations</p>
+<dl class="attribute">
+<dt id="datacode.models.pipeline.operations.operation.OperationOptions.allow_modifying_result">
+<code class="sig-name descname">allow_modifying_result</code><em class="property">: bool</em><em class="property"> = True</em><a class="headerlink" href="#datacode.models.pipeline.operations.operation.OperationOptions.allow_modifying_result" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="datacode.models.pipeline.operations.operation.OperationOptions.analysis_output_func">
+<code class="sig-name descname">analysis_output_func</code><em class="property">: Optional[Callable[[AnalysisResult, str], None]]</em><em class="property"> = None</em><a class="headerlink" href="#datacode.models.pipeline.operations.operation.OperationOptions.analysis_output_func" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.pipeline.operations.operation.OperationOptions.can_output">
+<em class="property">property </em><code class="sig-name descname">can_output</code><a class="headerlink" href="#datacode.models.pipeline.operations.operation.OperationOptions.can_output" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="datacode.models.pipeline.operations.operation.OperationOptions.copy">
 <code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/operation.html#OperationOptions.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.operation.OperationOptions.copy" title="Permalink to this definition">¶</a></dt>
@@ -571,13 +618,25 @@ as the output.</p>
 
 <dl class="class">
 <dt id="datacode.models.pipeline.operations.transform.TransformOptions">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.transform.</code><code class="sig-name descname">TransformOptions</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">out_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/transform.html#TransformOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.transform.TransformOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.transform.</code><code class="sig-name descname">TransformOptions</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">allow_modifying_result=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/transform.html#TransformOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.transform.TransformOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.operations.operation.OperationOptions" title="datacode.models.pipeline.operations.operation.OperationOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.operations.operation.OperationOptions</span></code></a></p>
 <p>Class for options passed to AnalysisOperations</p>
 <dl class="method">
 <dt id="datacode.models.pipeline.operations.transform.TransformOptions.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">out_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/transform.html#TransformOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.transform.TransformOptions.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">allow_modifying_result=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/transform.html#TransformOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.transform.TransformOptions.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.models.pipeline.operations.transform.TransformOptions.params.func"></span><strong>func</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.transform.TransformOptions.params.func">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<a class="reference internal" href="datacode.models.html#datacode.models.source.DataSource" title="datacode.models.source.DataSource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSource</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>], <a class="reference internal" href="datacode.models.html#datacode.models.source.DataSource" title="datacode.models.source.DataSource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSource</span></code></a>], <a class="reference internal" href="datacode.models.transform.html#datacode.models.transform.source.SourceTransform" title="datacode.models.transform.source.SourceTransform"><code class="xref py py-class docutils literal notranslate"><span class="pre">SourceTransform</span></code></a>]) – </p></li>
+<li><p><span class="target" id="datacode.models.pipeline.operations.transform.TransformOptions.params.preserve_original"></span><strong>preserve_original</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.transform.TransformOptions.params.preserve_original">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – </p></li>
+<li><p><span class="target" id="datacode.models.pipeline.operations.transform.TransformOptions.params.out_path"></span><strong>out_path</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.transform.TransformOptions.params.out_path">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – </p></li>
+<li><p><span class="target" id="datacode.models.pipeline.operations.transform.TransformOptions.params.allow_modifying_result"></span><strong>allow_modifying_result</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.transform.TransformOptions.params.allow_modifying_result">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – When DataSources are directly linked to pipelines, loading
+source from pipeline can cause modifications in the pipeline’s result source. Set to False
+to ensure it won’t be modified (but uses more memory). Setting to False should only be needed
+if multiple sources load from the same pipeline in one session</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">

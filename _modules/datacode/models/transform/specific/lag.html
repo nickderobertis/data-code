@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.transform.specific.lag &mdash; datacode 0.11.1 documentation</title>
+  <title>datacode.models.transform.specific.lag &mdash; datacode 0.12.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.11.1
+                0.12.0
               </div>
             
           
@@ -316,12 +316,16 @@
         <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by_var_names</span> <span class="o">+</span> <span class="n">time_var_names</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">fill_missing_rows</span> <span class="ow">and</span> <span class="n">can_fill_missing_rows</span><span class="p">:</span>
-            <span class="c1"># Save original byvars, for outputting df of same shape</span>
-            <span class="n">orig_index_df</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">by_var_names</span> <span class="o">+</span> <span class="n">time_var_names</span><span class="p">]</span>
+            <span class="c1"># Save original index, for outputting df of same shape</span>
+            <span class="n">orig_index_df</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[[]]</span>
 
+            <span class="c1"># TODO: use implementation of add_missing_group_rows which does not require dropping and resetting index</span>
+            <span class="c1">#</span>
+            <span class="c1"># Need to wait for pd_utils to support it</span>
+            <span class="n">orig_index_names</span> <span class="o">=</span> <span class="n">orig_index_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>
             <span class="n">source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">add_missing_group_rows</span><span class="p">(</span>
-                <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">by_var_names</span><span class="p">,</span> <span class="n">time_var_names</span><span class="p">,</span> <span class="n">fill_method</span><span class="o">=</span><span class="n">fill_method</span><span class="p">,</span> <span class="n">fill_limit</span><span class="o">=</span><span class="n">fill_limit</span>
-            <span class="p">)</span>
+                <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(),</span> <span class="n">by_var_names</span><span class="p">,</span> <span class="n">time_var_names</span><span class="p">,</span> <span class="n">fill_method</span><span class="o">=</span><span class="n">fill_method</span><span class="p">,</span> <span class="n">fill_limit</span><span class="o">=</span><span class="n">fill_limit</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">orig_index_names</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">lag_func</span> <span class="o">=</span> <span class="n">_create_lagged_variable</span>  <span class="c1"># type: ignore</span>
 
@@ -329,7 +333,7 @@
 
     <span class="k">if</span> <span class="n">by_vars</span> <span class="ow">and</span> <span class="n">fill_missing_rows</span> <span class="ow">and</span> <span class="n">can_fill_missing_rows</span><span class="p">:</span>
         <span class="c1"># Don&#39;t want to expand size of df</span>
-        <span class="n">source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">orig_index_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">by_var_names</span> <span class="o">+</span> <span class="n">time_var_names</span><span class="p">)</span>
+        <span class="n">source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">orig_index_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
         <span class="c1"># Reorder back to original order of columns</span>
         <span class="n">source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">orig_cols</span><span class="p">]</span>
 

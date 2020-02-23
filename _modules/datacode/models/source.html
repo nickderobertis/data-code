@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.11.1 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.12.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.11.1
+                0.12.0
               </div>
             
           
@@ -171,6 +171,7 @@
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Type</span>
 
+<span class="kn">from</span> <span class="nn">datacode.models.outputter</span> <span class="kn">import</span> <span class="n">DataOutputter</span>
 <span class="kn">from</span> <span class="nn">datacode.models.types</span> <span class="kn">import</span> <span class="n">SourceCreatingPipeline</span>
 <span class="kn">from</span> <span class="nn">datacode.summarize</span> <span class="kn">import</span> <span class="n">describe_df</span>
 
@@ -185,10 +186,12 @@
         <span class="s1">&#39;name&#39;</span><span class="p">,</span>
         <span class="s1">&#39;tags&#39;</span><span class="p">,</span>
         <span class="s1">&#39;loader_class&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;outputter_class&#39;</span><span class="p">,</span>
         <span class="s1">&#39;pipeline&#39;</span><span class="p">,</span>
         <span class="s1">&#39;columns&#39;</span><span class="p">,</span>
         <span class="s1">&#39;load_variables&#39;</span><span class="p">,</span>
         <span class="s1">&#39;read_file_kwargs&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;data_outputter_kwargs&#39;</span><span class="p">,</span>
         <span class="s1">&#39;optimize_size&#39;</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="n">update_keys</span> <span class="o">=</span> <span class="n">copy_keys</span> <span class="o">+</span> <span class="p">[</span>
@@ -204,12 +207,18 @@
                  <span class="n">load_variables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Variable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">loader_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DataLoader</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">read_file_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">outputter_class</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DataOutputter</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">data_outputter_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">optimize_size</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">read_file_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">data_outputter_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data_outputter_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">loader_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">loader_class</span> <span class="o">=</span> <span class="n">DataLoader</span>
+        <span class="k">if</span> <span class="n">outputter_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outputter_class</span> <span class="o">=</span> <span class="n">DataOutputter</span>
         <span class="k">if</span> <span class="n">load_variables</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">load_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -258,6 +267,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span> <span class="c1"># TODO: better handling for tags</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span> <span class="o">=</span> <span class="n">loader_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputter_class</span> <span class="o">=</span> <span class="n">outputter_class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">pipeline</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_orig_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]]</span> <span class="o">=</span> <span class="n">columns</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_columns_for_calculate</span> <span class="o">=</span> <span class="n">extra_cols_for_calcs</span>
@@ -266,6 +276,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_vars_for_calculate</span> <span class="o">=</span> <span class="n">extra_vars_for_calcs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span> <span class="o">=</span> <span class="n">all_load_vars</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_outputter_kwargs</span> <span class="o">=</span> <span class="n">data_outputter_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span> <span class="o">=</span> <span class="n">optimize_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">df</span></div>
 
@@ -292,8 +303,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DataSource.output"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">to_csv_kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="o">**</span><span class="n">to_csv_kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DataSource.output"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data_outputter_kwargs</span><span class="p">):</span>
+        <span class="n">config_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_outputter_kwargs</span><span class="p">)</span>
+        <span class="n">config_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">data_outputter_kwargs</span><span class="p">)</span>
+        <span class="n">outputter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputter_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">config_dict</span><span class="p">)</span>
+        <span class="n">outputter</span><span class="o">.</span><span class="n">output</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">_check_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
         <span class="k">pass</span>
@@ -342,16 +356,15 @@
         <span class="c1"># If necessary, run pipeline before loading</span>
         <span class="c1"># Still necessary to use loader as may be transforming the data</span>
         <span class="k">if</span> <span class="n">run_pipeline</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">run_pipeline_then_load</span><span class="p">(</span><span class="n">pipeline</span><span class="p">):</span>
-                <span class="c1"># TODO [#47]: should not have to write to disk with pipeline to then load it in source</span>
-                <span class="c1">#</span>
-                <span class="c1"># Loader should be able to take a DataFrame instead of just a filepath, then use</span>
-                <span class="c1"># that here. Will need to handle columns, variables, transformations correctly</span>
+            <span class="k">def</span> <span class="nf">run_pipeline_then_load</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="n">SourceCreatingPipeline</span><span class="p">):</span>
                 <span class="n">pipeline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span> <span class="c1"># outputs to file</span>
-                <span class="k">return</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_from_existing_source</span><span class="p">(</span>
+                    <span class="n">pipeline</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+                    <span class="n">preserve_original</span><span class="o">=</span><span class="ow">not</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">allow_modifying_result</span>
+                <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">run_pipeline_then_load</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_from_location</span>
 
 <div class="viewcode-block" id="DataSource.update_from_source"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.update_from_source">[docs]</a>    <span class="k">def</span> <span class="nf">update_from_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">exclude_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(),</span>
                            <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()):</span>
@@ -455,6 +468,49 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">col_load_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">load_key</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+<div class="viewcode-block" id="DataSource.get_series_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.get_series_for">[docs]</a>    <span class="k">def</span> <span class="nf">get_series_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Column</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extracts series for a variable or column, regardless of whether it is a column or index</span>
+
+<span class="sd">        :param var_name:</span>
+<span class="sd">        :param var:</span>
+<span class="sd">        :param col:</span>
+<span class="sd">        :param df: Will use source.df by default, but can also pass a custom df to use</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Validate inputs</span>
+        <span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">var_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">]</span>
+        <span class="n">num_passed</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">cond</span> <span class="k">for</span> <span class="n">cond</span> <span class="ow">in</span> <span class="n">conditions</span> <span class="k">if</span> <span class="n">cond</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">num_passed</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;must pass one of var_name, var, or col to get series&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">num_passed</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;must pass at most one of var_name, var, or col to get series&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Main logic</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">var_name</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">var_name</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+
+        <span class="k">if</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_var_names</span><span class="p">:</span>
+            <span class="c1"># Need to get from index and convert to series</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">var_name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Regular column, just look it up normally</span>
+            <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span></div>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
@@ -481,6 +537,11 @@
                         <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">index_vars</span><span class="p">:</span>
                             <span class="n">index_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">index_vars</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">index_var_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">index_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_vars</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">index_vars</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">loaded_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]]:</span>

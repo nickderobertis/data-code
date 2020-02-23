@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models package &mdash; datacode 0.11.1 documentation</title>
+  <title>datacode.models package &mdash; datacode 0.12.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.11.1
+                0.12.0
               </div>
             
           
@@ -327,6 +327,11 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="datacode.models.loader.DataLoader.apply_calculations_transforms_and_drops">
+<code class="sig-name descname">apply_calculations_transforms_and_drops</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.apply_calculations_transforms_and_drops"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.apply_calculations_transforms_and_drops" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="datacode.models.loader.DataLoader.apply_transforms">
 <code class="sig-name descname">apply_transforms</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.apply_transforms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.apply_transforms" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -352,11 +357,30 @@
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="datacode.models.loader.DataLoader.load">
-<code class="sig-name descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.load" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dt id="datacode.models.loader.DataLoader.load_from_existing_source">
+<code class="sig-name descname">load_from_existing_source</code><span class="sig-paren">(</span><em class="sig-param">other_source</em>, <em class="sig-param">preserve_original=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.load_from_existing_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.load_from_existing_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used when df already exists in another source, just selects load_variables and
+applies calculations and transformations</p>
+<dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.load_from_location">
+<code class="sig-name descname">load_from_location</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.load_from_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.load_from_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used when df does not already exist in the source, loads it from location</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
 </dd>
 </dl>
 </dd></dl>
@@ -452,8 +476,59 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="datacode.models.loader.DataLoader.select_variables_in_existing_source">
+<code class="sig-name descname">select_variables_in_existing_source</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.select_variables_in_existing_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.select_variables_in_existing_source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.loader.DataLoader.set_df_index">
+<code class="sig-name descname">set_df_index</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.set_df_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.set_df_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="datacode.models.loader.DataLoader.try_to_calculate_variables">
 <code class="sig-name descname">try_to_calculate_variables</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/loader.html#DataLoader.try_to_calculate_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.loader.DataLoader.try_to_calculate_variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacode.models.outputter">
+<span id="datacode-models-outputter-module"></span><h2>datacode.models.outputter module<a class="headerlink" href="#module-datacode.models.outputter" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="datacode.models.outputter.DataOutputNotSafeException">
+<em class="property">exception </em><code class="sig-prename descclassname">datacode.models.outputter.</code><code class="sig-name descname">DataOutputNotSafeException</code><a class="reference internal" href="../_modules/datacode/models/outputter.html#DataOutputNotSafeException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.outputter.DataOutputNotSafeException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="datacode.models.outputter.DataOutputter">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.outputter.</code><code class="sig-name descname">DataOutputter</code><span class="sig-paren">(</span><em class="sig-param">source</em>, <em class="sig-param">to_location_kwargs=None</em>, <em class="sig-param">safe=True</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">save_calculated=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/outputter.html#DataOutputter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.outputter.DataOutputter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="datacode.models.outputter.DataOutputter.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">source</em>, <em class="sig-param">to_location_kwargs=None</em>, <em class="sig-param">safe=True</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">save_calculated=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/outputter.html#DataOutputter.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.outputter.DataOutputter.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.outputter.DataOutputter.keep_necessary_cols">
+<code class="sig-name descname">keep_necessary_cols</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/outputter.html#DataOutputter.keep_necessary_cols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.outputter.DataOutputter.keep_necessary_cols" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.outputter.DataOutputter.output">
+<code class="sig-name descname">output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/outputter.html#DataOutputter.output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.outputter.DataOutputter.output" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.outputter.DataOutputter.output_to_location">
+<code class="sig-name descname">output_to_location</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/outputter.html#DataOutputter.output_to_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.outputter.DataOutputter.output_to_location" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.outputter.DataOutputter.rename_columns">
+<code class="sig-name descname">rename_columns</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/outputter.html#DataOutputter.rename_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.outputter.DataOutputter.rename_columns" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -463,11 +538,11 @@
 <span id="datacode-models-source-module"></span><h2>datacode.models.source module<a class="headerlink" href="#module-datacode.models.source" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="datacode.models.source.DataSource">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.source.</code><code class="sig-name descname">DataSource</code><span class="sig-paren">(</span><em class="sig-param">location=None</em>, <em class="sig-param">df=None</em>, <em class="sig-param">pipeline=None</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">load_variables=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">tags=None</em>, <em class="sig-param">loader_class=None</em>, <em class="sig-param">read_file_kwargs=None</em>, <em class="sig-param">optimize_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.source.</code><code class="sig-name descname">DataSource</code><span class="sig-paren">(</span><em class="sig-param">location=None</em>, <em class="sig-param">df=None</em>, <em class="sig-param">pipeline=None</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">load_variables=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">tags=None</em>, <em class="sig-param">loader_class=None</em>, <em class="sig-param">read_file_kwargs=None</em>, <em class="sig-param">outputter_class=None</em>, <em class="sig-param">data_outputter_kwargs=None</em>, <em class="sig-param">optimize_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="datacode.models.source.DataSource.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">location=None</em>, <em class="sig-param">df=None</em>, <em class="sig-param">pipeline=None</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">load_variables=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">tags=None</em>, <em class="sig-param">loader_class=None</em>, <em class="sig-param">read_file_kwargs=None</em>, <em class="sig-param">optimize_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">location=None</em>, <em class="sig-param">df=None</em>, <em class="sig-param">pipeline=None</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">load_variables=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">tags=None</em>, <em class="sig-param">loader_class=None</em>, <em class="sig-param">read_file_kwargs=None</em>, <em class="sig-param">outputter_class=None</em>, <em class="sig-param">data_outputter_kwargs=None</em>, <em class="sig-param">optimize_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -492,6 +567,16 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="datacode.models.source.DataSource.col_load_keys">
+<em class="property">property </em><code class="sig-name descname">col_load_keys</code><a class="headerlink" href="#datacode.models.source.DataSource.col_load_keys" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="datacode.models.source.DataSource.col_var_keys">
 <em class="property">property </em><code class="sig-name descname">col_var_keys</code><a class="headerlink" href="#datacode.models.source.DataSource.col_var_keys" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -508,7 +593,7 @@
 
 <dl class="attribute">
 <dt id="datacode.models.source.DataSource.copy_keys">
-<code class="sig-name descname">copy_keys</code><em class="property"> = ['location', 'name', 'tags', 'loader_class', 'pipeline', 'columns', 'load_variables', 'read_file_kwargs', 'optimize_size']</em><a class="headerlink" href="#datacode.models.source.DataSource.copy_keys" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">copy_keys</code><em class="property"> = ['location', 'name', 'tags', 'loader_class', 'outputter_class', 'pipeline', 'columns', 'load_variables', 'read_file_kwargs', 'data_outputter_kwargs', 'optimize_size']</em><a class="headerlink" href="#datacode.models.source.DataSource.copy_keys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -522,11 +607,43 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="datacode.models.source.DataSource.get_series_for">
+<code class="sig-name descname">get_series_for</code><span class="sig-paren">(</span><em class="sig-param">var_name=None</em>, <em class="sig-param">var=None</em>, <em class="sig-param">col=None</em>, <em class="sig-param">df=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.get_series_for"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.get_series_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts series for a variable or column, regardless of whether it is a column or index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.models.source.DataSource.get_series_for.params.var_name"></span><strong>var_name</strong><a class="paramlink headerlink reference internal" href="#datacode.models.source.DataSource.get_series_for.params.var_name">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – </p></li>
+<li><p><span class="target" id="datacode.models.source.DataSource.get_series_for.params.var"></span><strong>var</strong><a class="paramlink headerlink reference internal" href="#datacode.models.source.DataSource.get_series_for.params.var">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="datacode.models.variables.html#datacode.models.variables.variable.Variable" title="datacode.models.variables.variable.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a>]) – </p></li>
+<li><p><span class="target" id="datacode.models.source.DataSource.get_series_for.params.col"></span><strong>col</strong><a class="paramlink headerlink reference internal" href="#datacode.models.source.DataSource.get_series_for.params.col">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="datacode.models.column.html#datacode.models.column.column.Column" title="datacode.models.column.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a>]) – </p></li>
+<li><p><span class="target" id="datacode.models.source.DataSource.get_series_for.params.df"></span><strong>df</strong><a class="paramlink headerlink reference internal" href="#datacode.models.source.DataSource.get_series_for.params.df">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]) – Will use source.df by default, but can also pass a custom df to use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Series</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="datacode.models.source.DataSource.index_cols">
 <em class="property">property </em><code class="sig-name descname">index_cols</code><a class="headerlink" href="#datacode.models.source.DataSource.index_cols" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="datacode.models.column.html#datacode.models.column.column.Column" title="datacode.models.column.column.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacode.models.source.DataSource.index_var_names">
+<em class="property">property </em><code class="sig-name descname">index_var_names</code><a class="headerlink" href="#datacode.models.source.DataSource.index_var_names" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -563,7 +680,7 @@
 
 <dl class="method">
 <dt id="datacode.models.source.DataSource.output">
-<code class="sig-name descname">output</code><span class="sig-paren">(</span><em class="sig-param">**to_csv_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.output" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">output</code><span class="sig-paren">(</span><em class="sig-param">**data_outputter_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/source.html#DataSource.output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.source.DataSource.output" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -596,7 +713,7 @@
 
 <dl class="attribute">
 <dt id="datacode.models.source.DataSource.update_keys">
-<code class="sig-name descname">update_keys</code><em class="property"> = ['location', 'name', 'tags', 'loader_class', 'pipeline', 'columns', 'load_variables', 'read_file_kwargs', 'optimize_size', '_orig_columns', '_columns_for_calculate', '_orig_load_variables', '_vars_for_calculate']</em><a class="headerlink" href="#datacode.models.source.DataSource.update_keys" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update_keys</code><em class="property"> = ['location', 'name', 'tags', 'loader_class', 'outputter_class', 'pipeline', 'columns', 'load_variables', 'read_file_kwargs', 'data_outputter_kwargs', 'optimize_size', '_orig_columns', '_columns_for_calculate', '_orig_load_variables', '_vars_for_calculate']</em><a class="headerlink" href="#datacode.models.source.DataSource.update_keys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

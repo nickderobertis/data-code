@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.11.1 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.12.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.11.1
+                0.12.0
               </div>
             
           
@@ -187,7 +187,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span> <span class="o">=</span> <span class="n">optimize_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span></div>
 
-<div class="viewcode-block" id="DataLoader.load"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="DataLoader.load_from_location"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.load_from_location">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_location</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used when df does not already exist in the source, loads it from location</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pre_read</span><span class="p">()</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_file_into_df</span><span class="p">()</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_read</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -196,6 +201,34 @@
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_rename</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_df_size</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_df_index</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_calculations_transforms_and_drops</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="DataLoader.load_from_existing_source"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.load_from_existing_source">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_existing_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_source</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">preserve_original</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used when df already exists in another source, just selects load_variables and</span>
+<span class="sd">        applies calculations and transformations</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">preserve_original</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">other_source</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">other_source</span><span class="o">.</span><span class="n">df</span>
+
+        <span class="c1"># TODO: when loading from existing source, handle when indices do not match</span>
+        <span class="c1">#</span>
+        <span class="c1"># Currently the code assumes the same index in the existing source and loaded source.</span>
+        <span class="c1"># Need to add code to change the index. But if this was due to a desired aggregation,</span>
+        <span class="c1"># how should the user select what aggregation would be applied?</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">select_variables_in_existing_source</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_calculations_transforms_and_drops</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="DataLoader.apply_calculations_transforms_and_drops"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.apply_calculations_transforms_and_drops">[docs]</a>    <span class="k">def</span> <span class="nf">apply_calculations_transforms_and_drops</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assign_series_to_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_calculate</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">try_to_calculate_variables</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -206,8 +239,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assign_series_to_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">drop_variables</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_load</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="DataLoader.select_variables_in_existing_source"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.select_variables_in_existing_source">[docs]</a>    <span class="k">def</span> <span class="nf">select_variables_in_existing_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="n">keep_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">var</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
+                    <span class="c1"># Got column matching the desired variable</span>
+                    <span class="n">keep_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>  <span class="c1"># add the variable name in the dataset to keep_names</span>
+        <span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keep_names</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataLoader.read_file_into_df"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.read_file_into_df">[docs]</a>    <span class="k">def</span> <span class="nf">read_file_into_df</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -247,6 +292,12 @@
 
         <span class="k">return</span> <span class="n">read_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="o">**</span><span class="n">read_file_config</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="DataLoader.set_df_index"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.set_df_index">[docs]</a>    <span class="k">def</span> <span class="nf">set_df_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">index_vars</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">index_var_names</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="DataLoader.assign_series_to_columns"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.assign_series_to_columns">[docs]</a>    <span class="k">def</span> <span class="nf">assign_series_to_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="k">return</span>
@@ -257,7 +308,8 @@
                                      <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
             <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-            <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">]</span></div>
+            <span class="n">series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">get_series_for</span><span class="p">(</span><span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">series</span></div>
 
 <div class="viewcode-block" id="DataLoader.duplicate_columns_for_calculations_assign_series"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.duplicate_columns_for_calculations_assign_series">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_columns_for_calculations_assign_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_columns_for_calculate</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_vars_for_calculate</span><span class="p">:</span>
