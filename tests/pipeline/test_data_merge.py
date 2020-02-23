@@ -13,6 +13,12 @@ class TestDataMergePipeline(PipelineTest):
 
         assert_frame_equal(dp.df, self.expect_merged_1_2)
 
+    def test_create_and_run_merge_pipeline_with_indices(self):
+        dp = self.create_merge_pipeline(indexed=True)
+        dp.execute()
+
+        assert_frame_equal(dp.df, self.expect_merged_1_2_c_index)
+
     def test_auto_run_pipeline_by_load_source_with_no_location(self):
         dp = self.create_merge_pipeline()
 
