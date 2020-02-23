@@ -40,10 +40,10 @@ class DataPipeline:
             except LastOperationFinishedException:
                 break
 
+        self.result = self.operations[-1].result
+
         if output:
             self.output()
-
-        self.result = self.operations[-1].result
 
         return self.df
 
@@ -136,11 +136,27 @@ class DataPipeline:
         if hasattr(self, '_operations'):
             self._set_operations()
 
-    def output(self, out_path=None):
-        if out_path:
-            self._output(out_path)
-        elif self.operation_options[-1].out_path:
-            self._output(self.operation_options[-1].out_path)
+    def output(self):
+        if self.result is None:
+            return
+        if not isinstance(self.result, DataSource):
+            raise NotImplementedError(f'have not implemented pipeline output for type {type(self.result)}')
+        if self.result.location is None:
+            if self.operation_options[-1].out_path is None:
+                return
+            self.result.location = self.operation_options[-1].out_path
+
+        # By default, save calculated variables, unless user explicitly passes to not save them
+        # Essentially setting the opposite default versus working directly with the DataSource since
+        # usually DataSource calculations are done on loading and it is assumed if the pipeline result
+        # is being saved at all then it is likely an expensive calculation which the user doesn't
+        # want to repeat on every load
+        if 'save_calculated' not in self.result.data_outputter_kwargs:
+            extra_kwargs = dict(save_calculated=True)
+        else:
+            extra_kwargs = {}
+
+        self.result.output(**extra_kwargs)
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
@@ -156,12 +172,6 @@ class DataPipeline:
     def describe(self):
         for op in self.operations:
             op.describe()
-
-    def _output(self, outpath=None):
-        if outpath is None:
-            outpath = self.operation_options[-1].out_path
-        if self.df is not None:
-            self.df.to_csv(outpath, index=False, encoding='utf8')
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
