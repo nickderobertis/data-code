@@ -44,7 +44,7 @@ class GenerationOptions(OperationOptions):
     op_class = GenerationOperation
 
     def __init__(self, func: Callable[[Any], DataSource], last_modified: Optional[datetime.datetime] = None,
-                 out_path: Optional[str] = None, **func_kwargs):
+                 out_path: Optional[str] = None, allow_modifying_result: bool = True, **func_kwargs):
         """
 
         :param func: function which generates the DataSource
@@ -52,8 +52,13 @@ class GenerationOptions(OperationOptions):
             last_modified can avoid re-running and instead load from location
         :param out_path: location for generated DataSource
         :param func_kwargs: Keyword arguments to pass to the function which generates the DataSource
+        :param allow_modifying_result: When DataSources are directly linked to pipelines, loading
+            source from pipeline can cause modifications in the pipeline's result source. Set to False
+            to ensure it won't be modified (but uses more memory). Setting to False should only be needed
+            if multiple sources load from the same pipeline in one session
         """
         self.func = func
         self.func_kwargs = func_kwargs
         self.last_modified = last_modified
         self.out_path = out_path
+        self.allow_modifying_result = allow_modifying_result

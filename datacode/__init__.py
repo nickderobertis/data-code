@@ -1,5 +1,6 @@
 from datacode.models.source import DataSource
 from datacode.models.loader import DataLoader
+from datacode.models.outputter import DataOutputter, DataOutputNotSafeException
 from datacode.models.index import Index
 from datacode.models.column.column import Column
 from datacode.models.column.index import ColumnIndex

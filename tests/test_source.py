@@ -11,8 +11,8 @@ from datacode.models.dtypes.str_type import StringType
 from datacode.models.source import DataSource
 from datacode.models.variables import Variable
 from datacode.models.variables.expression import Expression
-from datacode import Transform
-from tests.utils import GENERATED_PATH
+from datacode import Transform, DataOutputNotSafeException, Index, ColumnIndex
+from tests.utils import GENERATED_PATH, assert_frame_not_equal
 
 
 def transform_cell_data_func(col: Column, variable: Variable, cell: Any) -> Any:
@@ -64,6 +64,8 @@ class SourceTest(unittest.TestCase):
         ],
         columns=['A', 'B', 'C'],
     )
+    expect_loaded_df_rename_only_indexed_c = expect_loaded_df_rename_only.set_index('C')
+    expect_loaded_df_rename_only_a_indexed_c = expect_loaded_df_rename_only_indexed_c.drop('B', axis=1)
     expect_loaded_df_rename_only_a_b = pd.DataFrame(
         [
             (1, 2,),
@@ -210,6 +212,32 @@ class SourceTest(unittest.TestCase):
         a, b, c = self.create_variables(transform_data=transform_data, apply_transforms=apply_transforms)
         ac = Column(a, 'a')
         bc = Column(b, 'b')
+        cc = Column(c, 'c')
+        return [
+            ac,
+            bc,
+            cc
+        ]
+
+    def create_c_index(self) -> Index:
+        c_index = Index('c', dtype=StringType(categorical=True))
+        return c_index
+
+    def create_variables_and_c_colindex(self, transform_data: str = '', apply_transforms: bool = True
+                                        ) -> Tuple[List[Variable], ColumnIndex]:
+        a, b, c = self.create_variables(transform_data=transform_data, apply_transforms=apply_transforms)
+        c_index = self.create_c_index()
+
+        c_col_index = ColumnIndex(c_index, [c])
+
+        return [a, b, c], c_col_index
+
+    def create_indexed_columns(self, transform_data: str = '', apply_transforms: bool = True) -> List[Column]:
+        (a, b, c), c_col_index = self.create_variables_and_c_colindex(
+            transform_data=transform_data, apply_transforms=apply_transforms
+        )
+        ac = Column(a, 'a', indices=[c_col_index])
+        bc = Column(b, 'b', indices=[c_col_index])
         cc = Column(c, 'c')
         return [
             ac,
@@ -378,8 +406,6 @@ class TestLoadSource(SourceTest):
         assert_frame_equal(ds.df, self.expect_loaded_df_with_calculated_c_d_only)
 
 
-# TODO [#49]: add test for save and load source after adding save functionality
-
 class TestDunders(SourceTest):
 
     def test_str(self):
@@ -414,3 +440,89 @@ class TestTransform(SourceTest):
         all_ds.append(self.transform_source.apply_to_source(orig_ds, subset=[a, b]))
         for ds in all_ds:
             assert_frame_equal(ds.df, self.expect_loaded_df_with_transform)
+
+
+class TestOutput(SourceTest):
+
+    def test_save_then_load(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        ds = self.create_source(df=None, columns=all_cols)
+        ds.output()
+        ds = self.create_source(df=None, columns=all_cols)
+        assert_frame_equal(ds.df, self.expect_loaded_df_rename_only)
+
+    def test_save_then_load_with_indices(self):
+        self.create_csv()
+        all_cols = self.create_indexed_columns()
+        ds = self.create_source(df=None, columns=all_cols)
+        ds.output()
+        ds = self.create_source(df=None, columns=all_cols)
+        assert_frame_equal(ds.df, self.expect_loaded_df_rename_only_indexed_c)
+
+    def test_save_then_load_variable_subset(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        all_vars = self.create_variables()
+        var_subset = [var for var in all_vars if var.key != 'c']
+
+        # Test when in safe mode, raises error because will delete data
+        ds = self.create_source(df=None, columns=all_cols, load_variables=var_subset)
+        with self.assertRaises(DataOutputNotSafeException) as cm:
+            ds.output()
+
+        # Test when bypassing safe mode, can save and load properly
+        ds = self.create_source(
+            df=None, columns=all_cols, load_variables=var_subset, data_outputter_kwargs=dict(safe=False)
+        )
+        ds.output()
+
+        ds = self.create_source(df=None, columns=all_cols, load_variables=var_subset)
+        assert_frame_equal(ds.df, self.expect_loaded_df_rename_only_a_b)
+
+    def test_save_then_load_variable_subset_and_indices(self):
+        self.create_csv()
+        all_cols = self.create_indexed_columns()
+        (a, b, c), c_col_index = self.create_variables_and_c_colindex()
+        var_subset = [a, c]
+
+        # Test when in safe mode, raises error because will delete data
+        ds = self.create_source(df=None, columns=all_cols, load_variables=var_subset)
+        with self.assertRaises(DataOutputNotSafeException) as cm:
+            ds.output()
+
+        # Test when bypassing safe mode, can save and load properly
+        ds = self.create_source(
+            df=None, columns=all_cols, load_variables=var_subset, data_outputter_kwargs=dict(safe=False)
+        )
+        ds.output()
+
+        ds = self.create_source(df=None, columns=all_cols, load_variables=var_subset)
+        assert_frame_equal(ds.df, self.expect_loaded_df_rename_only_a_indexed_c)
+
+    def test_save_then_load_with_transformations(self):
+        self.create_csv()
+        all_cols = self.create_columns(transform_data='cell', apply_transforms=False)
+        a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
+        load_variables = [
+            a.add_one_cell(),
+            b.add_one_cell(),
+            c
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        ds.output()
+
+        # This works because the same variables and columns are used to load again
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_transform)
+
+        # This won't work right, applying the transformations a second time
+        all_cols = self.create_columns(transform_data='cell', apply_transforms=False)
+        a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
+        load_variables = [
+            a.add_one_cell(),
+            b.add_one_cell(),
+            c
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_not_equal(ds.df, self.expect_loaded_df_with_transform)

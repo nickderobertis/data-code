@@ -1,4 +1,5 @@
-from tests.pipeline.base import PipelineTest
+from datacode import AnalysisOptions
+from tests.pipeline.base import PipelineTest, analysis_from_source
 
 
 class TestDataAnalysisPipeline(PipelineTest):
@@ -8,6 +9,16 @@ class TestDataAnalysisPipeline(PipelineTest):
         dap.execute()
 
         assert dap.result.result == self.ds_one_analysis_result
+
+    def test_analysis_pipeline_output(self):
+        options = AnalysisOptions(analysis_from_source, out_path=self.csv_path_output)
+        dap = self.create_analysis_pipeline(options=options)
+        dap.execute()
+
+        with open(self.csv_path_output, 'r') as f:
+            result_from_file = int(f.read())
+
+        assert result_from_file == self.ds_one_analysis_result
 
     def test_create_and_run_analysis_pipeline_from_merge_pipeline(self):
         dmp = self.create_merge_pipeline()

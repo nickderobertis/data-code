@@ -1,10 +1,11 @@
 import os
-from typing import Optional, Tuple, Sequence
+from typing import Optional, Tuple, Sequence, List
 
 import pandas as pd
 
 from datacode import AnalysisOptions, DataSource, DataAnalysisPipeline, DataGeneratorPipeline, GenerationOptions, \
-    Variable, Column, MergeOptions, DataMergePipeline, SourceTransform, DataTransformationPipeline, TransformOptions
+    Variable, Column, MergeOptions, DataMergePipeline, SourceTransform, DataTransformationPipeline, TransformOptions, \
+    ColumnIndex
 from datacode.models.types import DataSourceOrPipeline
 from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
@@ -72,6 +73,7 @@ class PipelineTest(SourceTest):
         ],
         columns=['A', 'B', 'C', 'E', 'F']
     )
+    expect_merged_1_2_c_index = expect_merged_1_2.set_index('C')
     expect_merged_1_transformed_2 = pd.DataFrame(
         [
             (2, 3, 'd', 10, 20),
@@ -190,26 +192,80 @@ class PipelineTest(SourceTest):
         a, b, c = self.create_variables_for_generated(transform_data=transform_data, apply_transforms=apply_transforms)
         ac = Column(a, 'a')
         bc = Column(b, 'b')
-        cc = Column(c, 'c')
+        cc = Column(c, 'C')
         return [
             ac,
             bc,
             cc
         ]
 
+    def create_variables_and_c_colindex_for_2(self, transform_data: str = '', apply_transforms: bool = True
+                                        ) -> Tuple[List[Variable], ColumnIndex]:
+        e, f, c = self.create_variables_for_2(transform_data=transform_data, apply_transforms=apply_transforms)
+        c_index = self.create_c_index()
+
+        c_col_index = ColumnIndex(c_index, [c])
+
+        return [e, f, c], c_col_index
+
+    def create_indexed_columns_for_2(self, transform_data: str = '', apply_transforms: bool = True) -> List[Column]:
+        (e, f, c), c_col_index = self.create_variables_and_c_colindex_for_2(
+            transform_data=transform_data, apply_transforms=apply_transforms
+        )
+        ec = Column(e, 'e', indices=[c_col_index])
+        fc = Column(f, 'f', indices=[c_col_index])
+        cc = Column(c, 'c')
+        return [
+            ec,
+            fc,
+            cc
+        ]
+
+    def create_variables_and_c_colindex_for_3(self, transform_data: str = '', apply_transforms: bool = True
+                                        ) -> Tuple[List[Variable], ColumnIndex]:
+        g, h, c = self.create_variables_for_3(transform_data=transform_data, apply_transforms=apply_transforms)
+        c_index = self.create_c_index()
+
+        c_col_index = ColumnIndex(c_index, [c])
+
+        return [g, h, c], c_col_index
+
+    def create_indexed_columns_for_3(self, transform_data: str = '', apply_transforms: bool = True) -> List[Column]:
+        (g, h, c), c_col_index = self.create_variables_and_c_colindex_for_3(
+            transform_data=transform_data, apply_transforms=apply_transforms
+        )
+        gc = Column(g, 'g', indices=[c_col_index])
+        hc = Column(h, 'h', indices=[c_col_index])
+        cc = Column(c, 'c')
+        return [
+            gc,
+            hc,
+            cc
+        ]
+
     def create_merge_pipeline(self, include_indices: Sequence[int] = (0, 1),
                               data_sources: Optional[Sequence[DataSource]] = None,
-                              merge_options_list: Optional[Sequence[MergeOptions]] = None) -> DataMergePipeline:
+                              merge_options_list: Optional[Sequence[MergeOptions]] = None,
+                              indexed: bool = False) -> DataMergePipeline:
+        if indexed:
+            col_func_1 = self.create_indexed_columns
+            col_func_2 = self.create_indexed_columns_for_2
+            col_func_3 = self.create_indexed_columns_for_3
+        else:
+            col_func_1 = self.create_columns
+            col_func_2 = self.create_columns_for_2
+            col_func_3 = self.create_columns_for_3
+
 
         if data_sources is None:
             self.create_csv()
-            ds1_cols = self.create_columns()
+            ds1_cols = col_func_1()
             ds1 = self.create_source(df=None, columns=ds1_cols, name='one')
             self.create_csv_for_2()
-            ds2_cols = self.create_columns_for_2()
+            ds2_cols = col_func_2()
             ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
             self.create_csv_for_3()
-            ds3_cols = self.create_columns_for_3()
+            ds3_cols = col_func_3()
             ds3 = self.create_source(df=None, location=self.csv_path3, columns=ds3_cols, name='three')
 
 

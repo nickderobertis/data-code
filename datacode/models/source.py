@@ -6,6 +6,7 @@ import warnings
 import datetime
 from typing import List, Optional, Any, Dict, Sequence, Type
 
+from datacode.models.outputter import DataOutputter
 from datacode.models.types import SourceCreatingPipeline
 from datacode.summarize import describe_df
 
@@ -20,10 +21,12 @@ class DataSource:
         'name',
         'tags',
         'loader_class',
+        'outputter_class',
         'pipeline',
         'columns',
         'load_variables',
         'read_file_kwargs',
+        'data_outputter_kwargs',
         'optimize_size',
     ]
     update_keys = copy_keys + [
@@ -39,12 +42,18 @@ class DataSource:
                  load_variables: Optional[Sequence[Variable]] = None,
                  name: Optional[str] = None, tags: Optional[List[str]] = None,
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
+                 outputter_class: Optional[Type[DataOutputter]] = None,
+                 data_outputter_kwargs: Optional[Dict[str, Any]] = None,
                  optimize_size: bool = False):
 
         if read_file_kwargs is None:
             read_file_kwargs = {}
+        if data_outputter_kwargs is None:
+            data_outputter_kwargs = {}
         if loader_class is None:
             loader_class = DataLoader
+        if outputter_class is None:
+            outputter_class = DataOutputter
         if load_variables is None and columns is not None:
             load_variables = [col.variable for col in columns]
         if columns is not None and not isinstance(columns, list):
@@ -93,6 +102,7 @@ class DataSource:
         self.name = name
         self.tags = tags # TODO: better handling for tags
         self.loader_class = loader_class
+        self.outputter_class = outputter_class
         self.pipeline = pipeline
         self._orig_columns: Optional[List[Column]] = columns
         self._columns_for_calculate = extra_cols_for_calcs
@@ -101,6 +111,7 @@ class DataSource:
         self._vars_for_calculate = extra_vars_for_calcs
         self.load_variables = all_load_vars
         self.read_file_kwargs = read_file_kwargs
+        self.data_outputter_kwargs = data_outputter_kwargs
         self.optimize_size = optimize_size
         self._df = df
 
@@ -127,8 +138,11 @@ class DataSource:
             self._set_data_loader(self.loader_class, pipeline=self.pipeline, **self.read_file_kwargs)
         return self.data_loader()
 
-    def output(self, **to_csv_kwargs):
-        self.df.to_csv(self.location, **to_csv_kwargs)
+    def output(self, **data_outputter_kwargs):
+        config_dict = deepcopy(self.data_outputter_kwargs)
+        config_dict.update(**data_outputter_kwargs)
+        outputter = self.outputter_class(self, **config_dict)
+        outputter.output()
 
     def _check_inputs(self, filepath, df):
         pass
@@ -177,16 +191,15 @@ class DataSource:
         # If necessary, run pipeline before loading
         # Still necessary to use loader as may be transforming the data
         if run_pipeline:
-            def run_pipeline_then_load(pipeline):
-                # TODO [#47]: should not have to write to disk with pipeline to then load it in source
-                #
-                # Loader should be able to take a DataFrame instead of just a filepath, then use
-                # that here. Will need to handle columns, variables, transformations correctly
+            def run_pipeline_then_load(pipeline: SourceCreatingPipeline):
                 pipeline.execute() # outputs to file
-                return loader.load()
+                return loader.load_from_existing_source(
+                    pipeline.result,
+                    preserve_original=not pipeline.allow_modifying_result
+                )
             self.data_loader = partial(run_pipeline_then_load, self.pipeline)
         else:
-            self.data_loader = loader.load
+            self.data_loader = loader.load_from_location
 
     def update_from_source(self, other: 'DataSource', exclude_attrs: Optional[Sequence[str]] = tuple(),
                            include_attrs: Optional[Sequence[str]] = tuple()):
@@ -290,6 +303,49 @@ class DataSource:
         return [col.variable.key for col in self.columns]
 
     @property
+    def col_load_keys(self) -> List[str]:
+        return [col.load_key for col in self.columns]
+
+    def get_series_for(self, var_name: Optional[str] = None, var: Optional[Variable] = None,
+                       col: Optional[Column] = None, df: Optional[pd.DataFrame] = None) -> pd.Series:
+        """
+        Extracts series for a variable or column, regardless of whether it is a column or index
+
+        :param var_name:
+        :param var:
+        :param col:
+        :param df: Will use source.df by default, but can also pass a custom df to use
+        :return:
+        """
+        # Validate inputs
+        conditions = [
+            var_name is not None,
+            var is not None,
+            col is not None
+        ]
+        num_passed = len([cond for cond in conditions if cond])
+
+        if num_passed == 0:
+            raise ValueError('must pass one of var_name, var, or col to get series')
+        elif num_passed > 1:
+            raise ValueError('must pass at most one of var_name, var, or col to get series')
+
+        # Main logic
+        if var is not None:
+            var_name = var.name
+        if col is not None:
+            var_name = col.variable.name
+        if df is None:
+            df = self.df
+
+        if var_name in self.index_var_names:
+            # Need to get from index and convert to series
+            return pd.Series(df.index.get_level_values(var_name))
+        else:
+            # Regular column, just look it up normally
+            return df[var_name]
+
+    @property
     def index_cols(self) -> List[Column]:
         if self.columns is None:
             return []
@@ -316,6 +372,11 @@ class DataSource:
                         if var not in index_vars:
                             index_vars.append(var)
         return index_vars
+
+    @property
+    def index_var_names(self) -> List[str]:
+        index_vars = self.index_vars
+        return [var.name for var in index_vars]
 
     @property
     def loaded_columns(self) -> Optional[List[Column]]:

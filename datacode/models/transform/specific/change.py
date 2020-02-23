@@ -25,12 +25,9 @@ def create_changes_symbol_func(sym: Symbol, **kwargs) -> Symbol:
 def create_changes_data_func(col: 'Column', variable: 'Variable', source: 'DataSource', **kwargs) -> 'DataSource':
     from datacode.models.transform.specific.lag import lag_transform
 
-    # Get index variables along with variable for changes
-    all_names = [variable.name] + [var.name for var in source.index_vars]
-
     applied_lag_transform = AppliedTransform.from_transform(lag_transform, **kwargs)
     source_for_lag = source.copy(
-        df=source.df[all_names]
+        df=source.df[[variable.name]]
     )
     source_with_lag = applied_lag_transform.apply_to_source(
         source_for_lag,
