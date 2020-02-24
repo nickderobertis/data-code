@@ -31,7 +31,7 @@ class DataLoader:
         self.pre_read()
         df = self.read_file_into_df()
         df = self.post_read(df)
-        self.duplicate_columns_for_calculations_assign_series(df)
+        df = self.duplicate_columns_for_calculations_assign_series(df)
         self.rename_columns(df)
         df = self.post_rename(df)
         if self.optimize_size:
@@ -146,10 +146,7 @@ class DataLoader:
             series = self.source.get_series_for(var=var, df=df)
             col.series = series
 
-    def duplicate_columns_for_calculations_assign_series(self, df: pd.DataFrame):
-        if not self.source._columns_for_calculate or not self.source._vars_for_calculate:
-            return
-
+    def duplicate_columns_for_calculations_assign_series(self, df: pd.DataFrame) -> pd.DataFrame:
         # TODO [#39]: more efficient implementation of loading variables for calculations
         #
         # The `DataLoader` checks what variables are needed for calculations that are not
@@ -158,13 +155,47 @@ class DataLoader:
         # It would be better to have an implementation that doesn't require carrying copies
         # through everything.
 
-        load_var_keys = [var.key for var in self.source.load_variables]
         for col in self.source._columns_for_calculate:
-            new_key = uuid.uuid4()  # temporary key for this variable
-            # should get column which already has data for this variable
-            existing_col = self.source.col_for(col.variable)
-            df[new_key] = deepcopy(df[existing_col.load_key])
-            col.load_key = new_key
+            # Extra column is already in source, but need to add to df
+            self.source._create_series_in_df_for_calculation(df, col)
+
+        if not self.source.load_variables:
+            return df
+
+        # Now need to see if we need multiple transformations of a variable, then also copy that column
+        # so that it won't get used up for just one of the transformations/original variable
+        unique_var_keys = {}
+        for var in self.source.load_variables:
+            # If the variable is needed multiple times, but not because of calculations (multiple transforms)
+            if var.key in unique_var_keys and var not in self.source._vars_for_calculate:
+                # Got a variable multiple times, duplicate the column
+                # Use the original variable for duplication as the column will already exist for that variable
+                self.source._duplicate_column_for_calculation(
+                    df,
+                    orig_var=unique_var_keys[var.key],
+                    new_var=var,
+                )
+            else:
+                # Not a repeated variable, just add to tracking dict
+                unique_var_keys[var.key] = var
+
+        # Reorder df to be the same order as passed load variables
+        col_order: Dict[str, int] = {}
+        for col in self.source.columns:
+            if col.variable.key not in self.source.load_var_keys:
+                # Must be an unloaded column, skip it
+                continue
+            if col.variable.calculation is not None:
+                # Calculated variables won't be in the data yet, skip them
+                continue
+            order = self.source.load_var_keys.index(col.variable.key)
+            col_order[col.load_key] = order
+        order_tups = list(col_order.items())
+        order_tups.sort(key=lambda x: x[1])
+        col_keys = [key for key, order in order_tups]
+        df = df[col_keys]
+
+        return df
 
     def optimize_df_size(self, df: pd.DataFrame) -> pd.DataFrame:
         # TODO [#17]: implement df size optimization
@@ -184,7 +215,7 @@ class DataLoader:
                     raise ValueError(f'passed variable {variable} but not calculated and not '
                                      f'in columns {self.source.columns}')
                 continue
-            col = self.source.col_for(variable, orig_only=True)
+            col = self.source.col_for(variable)
             rename_dict[col.load_key] = variable.name
             col.variable = variable
         for variable in self.source._vars_for_calculate:

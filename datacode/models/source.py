@@ -1,3 +1,4 @@
+import uuid
 from copy import deepcopy
 import pandas as pd
 from functools import partial
@@ -114,6 +115,23 @@ class DataSource:
         self.data_outputter_kwargs = data_outputter_kwargs
         self.optimize_size = optimize_size
         self._df = df
+
+        self._validate()
+
+    def _validate(self):
+        self._validate_load_variables()
+
+    def _validate_load_variables(self):
+        if self.load_variables is None:
+            return
+        # Ensure uniqueness of loaded variables' names
+        var_names = [var.name for var in self.load_variables]
+        existing_names = []
+        for name in var_names:
+            if name in existing_names:
+                raise ValueError(f'variable name {name} repeated in load variables')
+            existing_names.append(name)
+
 
     @property
     def df(self):
@@ -306,6 +324,13 @@ class DataSource:
     def col_load_keys(self) -> List[str]:
         return [col.load_key for col in self.columns]
 
+    @property
+    def load_var_keys(self) -> List[str]:
+        if self.load_variables is None:
+            return []
+
+        return [var.key for var in self.load_variables]
+
     def get_series_for(self, var_name: Optional[str] = None, var: Optional[Variable] = None,
                        col: Optional[Column] = None, df: Optional[pd.DataFrame] = None) -> pd.Series:
         """
@@ -391,6 +416,25 @@ class DataSource:
     def describe(self):
         # TODO [#48]: use columns, variables, indices, etc. in describe
         return describe_df(self.df)
+
+    def _create_series_in_df_for_calculation(self, df: pd.DataFrame, col: Column):
+        new_key = str(uuid.uuid4())  # temporary key for this variable
+        # should get column which already has data for this variable
+        existing_col = self.col_for(col.variable)
+        df[new_key] = deepcopy(df[existing_col.load_key])
+        col.load_key = new_key
+
+    def _duplicate_column_for_calculation(self, df: pd.DataFrame, orig_var: Variable, new_var: Variable):
+        # should get column which already has data for this variable
+        existing_col = self.col_for(orig_var)
+
+        new_key = str(uuid.uuid4())  # temporary key for this variable
+        df[new_key] = deepcopy(df[existing_col.load_key])
+
+        col = deepcopy(existing_col)
+        col.variable = new_var
+        col.load_key = new_key
+        self.columns.append(col)
 
     def __repr__(self):
         return f'<DataSource(name={self.name}, columns={self.columns})>'

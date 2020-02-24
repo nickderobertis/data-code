@@ -1,6 +1,7 @@
 import os
 import shutil
 import unittest
+from copy import deepcopy
 from typing import Optional, Tuple, Any, Callable, Dict, Sequence, List
 
 import pandas as pd
@@ -81,6 +82,22 @@ class SourceTest(unittest.TestCase):
             (6, 7, 'e')
         ],
         columns=['A_1', 'B_1', 'C']
+    )
+    expect_loaded_df_with_a_and_a_transform = pd.DataFrame(
+        [
+            (1, 2, 2, 'd'),
+            (3, 4, 4, 'd'),
+            (5, 6, 6, 'e')
+        ],
+        columns=['A', 'A_1', 'B', 'C']
+    )
+    expect_loaded_df_with_a_transform_and_a = pd.DataFrame(
+        [
+            (2, 1, 2, 'd'),
+            (4, 3, 4, 'd'),
+            (6, 5, 6, 'e')
+        ],
+        columns=['A_1', 'A', 'B', 'C']
     )
     expect_loaded_df_with_transform_only_a_b = pd.DataFrame(
         [
@@ -279,7 +296,43 @@ class TestLoadSource(SourceTest):
         ds = self.create_source(df=None, columns=all_cols, load_variables=var_subset)
         assert_frame_equal(ds.df, self.expect_loaded_df_rename_only_a_b)
 
-    def test_with_with_columns_and_load_variables_with_transforms(self):
+    def test_with_with_repeated_variables_different_transforms(self):
+        self.create_csv()
+        all_cols = self.create_columns(transform_data='cell', apply_transforms=False)
+        a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
+
+        # First with original variable first, then transformation
+        load_variables = [
+            a,
+            a.add_one_cell(),
+            b,
+            c,
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_a_and_a_transform)
+
+        all_cols = self.create_columns(transform_data='cell', apply_transforms=False)
+        a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
+        # Now with transformation first, then original variable
+        load_variables = [
+            a.add_one_cell(),
+            a,
+            b,
+            c,
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_a_transform_and_a)
+
+    def test_load_with_repeated_variable_names_raises_error(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        all_cols.append(deepcopy(all_cols[2]))
+        with self.assertRaises(ValueError) as cm:
+            ds = self.create_source(df=None, columns=all_cols)
+            exc = cm.exception
+            assert 'variable name C repeated in load variables' in str(exc)
+
+    def test_with_columns_and_load_variables_with_transforms(self):
         self.create_csv()
         all_cols = self.create_columns(transform_data='cell', apply_transforms=False)
         a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
@@ -327,7 +380,7 @@ class TestLoadSource(SourceTest):
         self.create_csv()
         all_cols = self.create_columns()
         a, b, c = self.create_variables()
-        all_cols.append(Column(c, 'c', dtype=StringType(categorical=True)))
+        all_cols[2] = Column(c, 'c', dtype=StringType(categorical=True))
         ds = self.create_source(df=None, columns=all_cols)
         assert_frame_equal(ds.df, self.expect_loaded_df_categorical)
 
