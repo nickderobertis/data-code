@@ -139,6 +139,14 @@ class SourceTest(unittest.TestCase):
         ],
         columns=['A', 'B', 'C', 'D_1'],
     )
+    expect_loaded_df_with_calculated_and_calculated_transformed = pd.DataFrame(
+        [
+            (1, 2, 'd', 3, 4),
+            (3, 4, 'd', 7, 8),
+            (5, 6, 'e', 11, 12)
+        ],
+        columns=['A', 'B', 'C', 'D', 'D_1'],
+    )
     expect_loaded_df_with_calculate_on_transformed_before_transform = pd.DataFrame(
         [
             (2, 3, 'd', 3),
@@ -425,6 +433,22 @@ class TestLoadSource(SourceTest):
         d = Variable('d', 'D', calculation=a + b, available_transforms=[tran])
         ds = self.create_source(df=None, columns=all_cols, load_variables=[a, b, c, d.add_one_cell()])
         assert_frame_equal(ds.df, self.expect_loaded_df_with_calculated_transformed)
+
+    def test_load_with_calculated_and_same_calculated_variable_transformed(self):
+        self.create_csv()
+        all_cols = self.create_columns()
+        a, b, c = self.create_variables()
+        tran = self.get_transform('cell')
+        d = Variable('d', 'D', calculation=a + b, available_transforms=[tran])
+        load_vars = [
+            a,
+            b,
+            c,
+            d,
+            d.add_one_cell()
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_vars)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_calculated_and_calculated_transformed)
 
     def test_load_with_calculate_on_transformed_after_transform(self):
         self.create_csv()

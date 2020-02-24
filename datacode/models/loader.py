@@ -1,6 +1,6 @@
 import uuid
 from copy import deepcopy
-from typing import TYPE_CHECKING, Any, Dict, Optional, List
+from typing import TYPE_CHECKING, Any, Dict, Optional, List, Tuple
 
 import pandas as pd
 from datacode.models.column.column import Column
@@ -21,6 +21,9 @@ class DataLoader:
         self.source = source
         self.optimize_size = optimize_size
         self.read_file_kwargs = read_file_kwargs
+
+        # First var in tup is original variable, second is variable which needs column created
+        self._calculated_variables_that_need_duplication: Dict[str, Tuple[Variable, Variable]] = {}
 
     def load_from_location(self) -> pd.DataFrame:
         """
@@ -67,6 +70,7 @@ class DataLoader:
         self.assign_series_to_columns(df)
         df = self.pre_calculate(df)
         df = self.try_to_calculate_variables(df)
+        self.duplicate_calculated_columns_if_necessary(df)
         df = self.pre_transform(df)
         df = self.apply_transforms(df)
         df = self.post_transform(df)
@@ -75,6 +79,15 @@ class DataLoader:
         self.drop_variables(df)
         df = self.post_load(df)
         return df
+
+    def duplicate_calculated_columns_if_necessary(self, df: pd.DataFrame):
+        for var_key, (orig_var, new_var) in self._calculated_variables_that_need_duplication.items():
+            self.source._duplicate_column_for_calculation(
+                df,
+                orig_var=orig_var,
+                new_var=new_var,
+                pre_rename=False,
+            )
 
     def select_variables_in_existing_source(self, df: pd.DataFrame):
         if not (self.source.load_variables and self.source.columns):
@@ -164,10 +177,16 @@ class DataLoader:
 
         # Now need to see if we need multiple transformations of a variable, then also copy that column
         # so that it won't get used up for just one of the transformations/original variable
-        unique_var_keys = {}
+        unique_var_keys: Dict[str, Variable] = {}
         for var in self.source.load_variables:
             # If the variable is needed multiple times, but not because of calculations (multiple transforms)
             if var.key in unique_var_keys and var not in self.source._vars_for_calculate:
+                if var.calculation is not None:
+                    # This calculated variable needs to be duplicated, but it has not been calculated yet.
+                    # Therefore add to a list of variables which need to be duplicated after calculation.
+                    if var.key not in self._calculated_variables_that_need_duplication:
+                        self._calculated_variables_that_need_duplication[var.key] = (unique_var_keys[var.key], var)
+                    continue
                 # Got a variable multiple times, duplicate the column
                 # Use the original variable for duplication as the column will already exist for that variable
                 self.source._duplicate_column_for_calculation(

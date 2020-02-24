@@ -67,7 +67,9 @@ class DataSource:
             vars_for_calculate = []
             for var in load_variables:
                 if var.calculation is not None:
-                    vars_for_calculate.extend(var.calculation.variables)
+                    for var_for_calc in var.calculation.variables:
+                        if var_for_calc not in vars_for_calculate:
+                            vars_for_calculate.append(var_for_calc)
             for var in vars_for_calculate:
                 all_vars = load_variables + extra_vars_for_calcs
                 current_var_keys = [load_var.key for load_var in all_vars]
@@ -424,17 +426,28 @@ class DataSource:
         df[new_key] = deepcopy(df[existing_col.load_key])
         col.load_key = new_key
 
-    def _duplicate_column_for_calculation(self, df: pd.DataFrame, orig_var: Variable, new_var: Variable):
+    def _duplicate_column_for_calculation(self, df: pd.DataFrame, orig_var: Variable, new_var: Variable,
+                                          pre_rename: bool = True):
         # should get column which already has data for this variable
         existing_col = self.col_for(orig_var)
 
-        new_key = str(uuid.uuid4())  # temporary key for this variable
-        df[new_key] = deepcopy(df[existing_col.load_key])
+        if pre_rename:
+            existing_var_name = existing_col.load_key
+        else:
+            existing_var_name = orig_var.name
 
         col = deepcopy(existing_col)
         col.variable = new_var
-        col.load_key = new_key
+
+        if pre_rename:
+            new_key = str(uuid.uuid4())  # temporary key for this variable
+            df[new_key] = deepcopy(df[existing_var_name])
+            col.load_key = new_key
+        else:
+            df[new_var.name] = deepcopy(df[existing_var_name])
+
         self.columns.append(col)
+
 
     def __repr__(self):
         return f'<DataSource(name={self.name}, columns={self.columns})>'
