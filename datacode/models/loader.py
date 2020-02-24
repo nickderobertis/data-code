@@ -291,8 +291,6 @@ class DataLoader:
                 # TODO [#34]: determine how to set index for columns from calculated variables
                 new_col = Column(variable, dtype=str(new_series.dtype), series=new_series)
                 temp_source.df[variable.name] = new_series
-                temp_source.columns.append(new_col)
-                temp_source = _apply_transforms_to_var(variable, new_col, temp_source)
                 self.source.columns.append(new_col)
 
         return temp_source.df
