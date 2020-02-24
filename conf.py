@@ -66,6 +66,7 @@ PACKAGE_INSTALL_REQUIRES = [
     'pyexlatex',
     'sympy',
     'IPython',
+    'mixins',
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
