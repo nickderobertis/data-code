@@ -55,3 +55,22 @@ class TestDataTransformationPipeline(PipelineTest):
         assert not a.applied_transforms
         assert not b.applied_transforms
         assert not c.applied_transforms
+
+    def test_transform_on_source_with_normal_and_transformed_of_same_variable(self):
+        self.create_csv()
+        a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
+        ac = Column(a, 'a')
+        bc = Column(b, 'b')
+        cc = Column(c, 'c')
+        all_cols = [ac, bc, cc]
+        include_vars = [
+            a,
+            a.add_one_cell(),
+            b,
+            c
+        ]
+        source = self.create_source(df=None, columns=all_cols, load_variables=include_vars)
+        dtp = self.create_transformation_pipeline(source=source)
+        dtp.execute()
+
+        assert_frame_equal(dtp.df, self.expect_func_df_with_a_and_a_transformed)

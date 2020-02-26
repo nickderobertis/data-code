@@ -14,6 +14,7 @@ class AppliedTransform(Transform):
     """
     Works like Transform but allows passing of arg and kwargs in advance, similar to functools.partial
     """
+    repr_cols = ['key', 'name_func', 'data_func', 'symbol_func', 'data_func_target', 'args', 'kwargs']
 
     def __init__(self, key: str, *args, name_func: StrFunc = None, data_func: ValueFunc = None,
                  symbol_func: SymbolFunc = None,

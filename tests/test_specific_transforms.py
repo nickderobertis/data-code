@@ -4,7 +4,7 @@ from pandas.testing import assert_frame_equal
 import pandas as pd
 import numpy as np
 
-from datacode import VariableCollection, Variable, Column, Index, StringType, ColumnIndex
+from datacode import VariableCollection, Variable, Column, Index, StringType, ColumnIndex, SourceTransform
 from tests.test_source import SourceTest
 from tests.test_variables import VC_NAME
 
@@ -195,6 +195,30 @@ class TestLag(SpecificTransformsTest):
         ]
         ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
         assert_frame_equal(ds.df, self.expect_lag_df_with_ids_and_dates)
+
+    def test_lags_as_source_transform_with_subset(self):
+        vc, a, b, c = self.create_variable_collection()
+        self.create_csv()
+        all_cols = self.create_columns()
+        load_variables = [
+            vc.a,
+            vc.b,
+            c
+        ]
+        ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
+        lag_transform = [transform for transform in vc.transforms if transform.key == 'lag'][0]
+        source_transform = SourceTransform.from_transform(lag_transform, subset=[a, b])
+
+        # NOTE: this commented code catches issue where original variables are not preserved when passing
+        # preserve_original=False. See SourceTransform.apply
+
+        # source_transform.apply(ds, preserve_original=False)
+
+        ds = source_transform.apply(ds)
+        assert_frame_equal(ds.df, self.expect_loaded_df_with_lags)
+        assert str(vc.a.lag().symbol) == r'\text{A}_{t - 1}'
+        assert str(vc.b.lag().symbol) == r'\text{B}_{t - 1}'
+        assert str(vc.c.symbol) == r'\text{C}'
 
 
 class TestChange(SpecificTransformsTest):

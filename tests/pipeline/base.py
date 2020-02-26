@@ -113,6 +113,14 @@ class PipelineTest(SourceTest):
         ],
         columns=['A', 'B', 'C']
     )
+    expect_func_df_with_a_and_a_transformed = pd.DataFrame(
+        [
+            (2, 3, 3, 'd'),
+            (4, 5, 5, 'd'),
+            (6, 7, 7, 'e')
+        ],
+        columns=['A', 'A_1', 'B', 'C']
+    )
     expect_loaded_df_with_transform = pd.DataFrame(
         [
             (2, 3, 'd'),

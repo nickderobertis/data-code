@@ -1,6 +1,7 @@
 from copy import deepcopy
 from typing import Optional, Sequence, TYPE_CHECKING
 
+from mixins.repr import ReprMixin
 from sympy import Symbol
 
 if TYPE_CHECKING:
@@ -13,10 +14,11 @@ from datacode.models.variables.compare import functions_are_equal
 from datacode.models.variables.typing import StrFunc, ValueFunc, SymbolFunc
 
 
-class Transform:
+class Transform(ReprMixin):
     """
     Tracks and applies changes to variables for data, name, and symbol together
     """
+    repr_cols = ['key', 'name_func', 'data_func', 'symbol_func', 'data_func_target']
 
     def __init__(self, key: str, name_func: StrFunc = None, data_func: ValueFunc = None,
                  symbol_func: SymbolFunc = None,
@@ -67,9 +69,16 @@ class Transform:
         """
         if preserve_original:
             source = deepcopy(source)
+        else:
+            # Even when not preserving original, don't want to modify original variables or columns
+            # as they may be used in other sources
+
+            # NOTE: not working yet, see SourceTransform.apply
+            source.load_variables = deepcopy(source.load_variables)
+            source.columns = deepcopy(source.columns)
 
         if subset:
-            variables = subset
+            variables = deepcopy(subset)
         else:
             variables = source.load_variables
 
@@ -128,5 +137,3 @@ class Transform:
             return same
         except AttributeError:
             return False
-
-

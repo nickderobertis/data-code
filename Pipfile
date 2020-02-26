@@ -29,6 +29,7 @@ regtools = "*"
 pyexlatex = "*"
 sympy = "*"
 IPython = "*"
+mixins = "*"
 
 [requires]
 python_version = "3.7"
