@@ -69,9 +69,16 @@ class Transform(ReprMixin):
         """
         if preserve_original:
             source = deepcopy(source)
+        else:
+            # Even when not preserving original, don't want to modify original variables or columns
+            # as they may be used in other sources
+
+            # NOTE: not working yet, see SourceTransform.apply
+            source.load_variables = deepcopy(source.load_variables)
+            source.columns = deepcopy(source.columns)
 
         if subset:
-            variables = subset
+            variables = deepcopy(subset)
         else:
             variables = source.load_variables
 
