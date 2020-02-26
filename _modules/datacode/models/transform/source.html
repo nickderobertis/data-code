@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.transform.source &mdash; datacode 0.12.1 documentation</title>
+  <title>datacode.models.transform.source &mdash; datacode 0.12.3 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.12.1
+                0.12.3
               </div>
             
           
@@ -165,10 +165,14 @@
   <h1>Source code for datacode.models.transform.source</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
+    <span class="kn">from</span> <span class="nn">datacode.models.variables.variable</span> <span class="kn">import</span> <span class="n">Variable</span>
+    <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.transform.transform</span> <span class="kn">import</span> <span class="n">Transform</span>
 <span class="kn">from</span> <span class="nn">datacode.models.variables.typing</span> <span class="kn">import</span> <span class="n">StrFunc</span><span class="p">,</span> <span class="n">ValueFunc</span><span class="p">,</span> <span class="n">SymbolFunc</span>
@@ -180,14 +184,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SourceTransform.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.source.SourceTransform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data_func</span><span class="p">:</span> <span class="n">ValueFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">symbol_func</span><span class="p">:</span> <span class="n">SymbolFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                 <span class="n">symbol_func</span><span class="p">:</span> <span class="n">SymbolFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="s1">&#39;Variable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">key</span><span class="p">,</span>
             <span class="n">name_func</span><span class="o">=</span><span class="n">name_func</span><span class="p">,</span>
             <span class="n">data_func</span><span class="o">=</span><span class="n">data_func</span><span class="p">,</span>
             <span class="n">symbol_func</span><span class="o">=</span><span class="n">symbol_func</span><span class="p">,</span>
             <span class="n">data_func_target</span><span class="o">=</span><span class="s1">&#39;source&#39;</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subset</span> <span class="o">=</span> <span class="n">subset</span></div>
+
 
 <div class="viewcode-block" id="SourceTransform.apply"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.source.SourceTransform.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">preserve_original</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -200,6 +206,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">preserve_original</span><span class="p">:</span>
             <span class="n">source</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Even when not preserving original, don&#39;t want to modify original variables or columns</span>
+            <span class="c1"># as they may be used in other sources</span>
+
+            <span class="c1"># TODO: Preserving variables in transform apply to source inplace not working</span>
+            <span class="c1">#</span>
+            <span class="c1"># This code is supposed to prevent that but is not working as expected.</span>
+            <span class="c1"># The original variables are still being modified. The problem occurs with both</span>
+            <span class="c1"># SourceTransform.apply and Transform.apply_to_source. A test has been added which</span>
+            <span class="c1"># catches this issue in test_lags_as_source_transform_with_subset but it has been</span>
+            <span class="c1"># commented out for now.</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">load_variables</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">)</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">subset</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">load_variables</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">subset</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subset</span><span class="p">)</span>
 
         <span class="c1"># Call transformation on source data</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -207,8 +231,8 @@
 
         <span class="c1"># Collect necessary renames</span>
         <span class="n">rename_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">selected_var</span> <span class="ow">in</span> <span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
-            <span class="n">col</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var_key</span><span class="o">=</span><span class="n">selected_var</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">selected_var</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">:</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">selected_var</span><span class="p">)</span>
             <span class="n">var</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span>  <span class="c1"># Don&#39;t use variable directly besides key as may be different instance</span>
 
             <span class="c1"># Update variable</span>
@@ -226,12 +250,38 @@
         <span class="k">return</span> <span class="n">source</span></div>
 
 <div class="viewcode-block" id="SourceTransform.from_func"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.source.SourceTransform.from_func">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_func</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;DataSource&#39;</span><span class="p">],</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_func</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;DataSource&#39;</span><span class="p">],</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">subset</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="s1">&#39;Variable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">key</span><span class="p">,</span>
-            <span class="n">data_func</span><span class="o">=</span><span class="n">func</span>
+            <span class="n">data_func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span>
+            <span class="n">subset</span><span class="o">=</span><span class="n">subset</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SourceTransform.from_transform"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.source.SourceTransform.from_transform">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_transform</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Transform</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="s1">&#39;Variable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Transform is by variable, need to create new data function which</span>
+        <span class="c1"># accepts source and applies to subset of variables one by one</span>
+        <span class="k">def</span> <span class="nf">data_func</span><span class="p">(</span><span class="n">subset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">subset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">subset</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">load_variables</span>
+
+            <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">:</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">)</span>
+                <span class="n">source</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">data_func</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">source</span>
+
+        <span class="n">data_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">data_func</span><span class="p">,</span> <span class="n">subset</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">transform</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+            <span class="n">name_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">name_func</span><span class="p">,</span>
+            <span class="n">data_func</span><span class="o">=</span><span class="n">data_func</span><span class="p">,</span>
+            <span class="n">symbol_func</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">symbol_func</span><span class="p">,</span>
+            <span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span>
         <span class="p">)</span></div></div>
 </pre></div>
 

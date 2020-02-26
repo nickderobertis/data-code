@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.12.1 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.12.3 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.12.1
+                0.12.3
               </div>
             
           
@@ -165,7 +165,7 @@
   <h1>Source code for datacode.models.loader</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
@@ -185,7 +185,10 @@
             <span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span> <span class="o">=</span> <span class="n">optimize_size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span>
+
+        <span class="c1"># First var in tup is original variable, second is variable which needs column created</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_variables_that_need_duplication</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Variable</span><span class="p">,</span> <span class="n">Variable</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span></div>
 
 <div class="viewcode-block" id="DataLoader.load_from_location"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.load_from_location">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_location</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -196,7 +199,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pre_read</span><span class="p">()</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_file_into_df</span><span class="p">()</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_read</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">duplicate_columns_for_calculations_assign_series</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">duplicate_columns_for_calculations_assign_series</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rename_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_rename</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span><span class="p">:</span>
@@ -232,6 +235,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assign_series_to_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_calculate</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">try_to_calculate_variables</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duplicate_calculated_columns_if_necessary</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_transforms</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -240,6 +244,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">drop_variables</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_load</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="DataLoader.duplicate_calculated_columns_if_necessary"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.duplicate_calculated_columns_if_necessary">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_calculated_columns_if_necessary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">var_key</span><span class="p">,</span> <span class="p">(</span><span class="n">orig_var</span><span class="p">,</span> <span class="n">new_var</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_variables_that_need_duplication</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_duplicate_column_for_calculation</span><span class="p">(</span>
+                <span class="n">df</span><span class="p">,</span>
+                <span class="n">orig_var</span><span class="o">=</span><span class="n">orig_var</span><span class="p">,</span>
+                <span class="n">new_var</span><span class="o">=</span><span class="n">new_var</span><span class="p">,</span>
+                <span class="n">pre_rename</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataLoader.select_variables_in_existing_source"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.select_variables_in_existing_source">[docs]</a>    <span class="k">def</span> <span class="nf">select_variables_in_existing_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
@@ -311,10 +324,7 @@
             <span class="n">series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">get_series_for</span><span class="p">(</span><span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
             <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">series</span></div>
 
-<div class="viewcode-block" id="DataLoader.duplicate_columns_for_calculations_assign_series"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.duplicate_columns_for_calculations_assign_series">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_columns_for_calculations_assign_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_columns_for_calculate</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_vars_for_calculate</span><span class="p">:</span>
-            <span class="k">return</span>
-
+<div class="viewcode-block" id="DataLoader.duplicate_columns_for_calculations_assign_series"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.duplicate_columns_for_calculations_assign_series">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_columns_for_calculations_assign_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="c1"># TODO [#39]: more efficient implementation of loading variables for calculations</span>
         <span class="c1">#</span>
         <span class="c1"># The `DataLoader` checks what variables are needed for calculations that are not</span>
@@ -323,13 +333,53 @@
         <span class="c1"># It would be better to have an implementation that doesn&#39;t require carrying copies</span>
         <span class="c1"># through everything.</span>
 
-        <span class="n">load_var_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_columns_for_calculate</span><span class="p">:</span>
-            <span class="n">new_key</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>  <span class="c1"># temporary key for this variable</span>
-            <span class="c1"># should get column which already has data for this variable</span>
-            <span class="n">existing_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="p">)</span>
-            <span class="n">df</span><span class="p">[</span><span class="n">new_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">existing_col</span><span class="o">.</span><span class="n">load_key</span><span class="p">])</span>
-            <span class="n">col</span><span class="o">.</span><span class="n">load_key</span> <span class="o">=</span> <span class="n">new_key</span></div>
+            <span class="c1"># Extra column is already in source, but need to add to df</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_create_series_in_df_for_calculation</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span>
+
+        <span class="c1"># Now need to see if we need multiple transformations of a variable, then also copy that column</span>
+        <span class="c1"># so that it won&#39;t get used up for just one of the transformations/original variable</span>
+        <span class="n">unique_var_keys</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+            <span class="c1"># If the variable is needed multiple times, but not because of calculations (multiple transforms)</span>
+            <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="n">unique_var_keys</span> <span class="ow">and</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_vars_for_calculate</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># This calculated variable needs to be duplicated, but it has not been calculated yet.</span>
+                    <span class="c1"># Therefore add to a list of variables which need to be duplicated after calculation.</span>
+                    <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_variables_that_need_duplication</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_calculated_variables_that_need_duplication</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">unique_var_keys</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">key</span><span class="p">],</span> <span class="n">var</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="c1"># Got a variable multiple times, duplicate the column</span>
+                <span class="c1"># Use the original variable for duplication as the column will already exist for that variable</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_duplicate_column_for_calculation</span><span class="p">(</span>
+                    <span class="n">df</span><span class="p">,</span>
+                    <span class="n">orig_var</span><span class="o">=</span><span class="n">unique_var_keys</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">key</span><span class="p">],</span>
+                    <span class="n">new_var</span><span class="o">=</span><span class="n">var</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Not a repeated variable, just add to tracking dict</span>
+                <span class="n">unique_var_keys</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+
+        <span class="c1"># Reorder df to be the same order as passed load variables</span>
+        <span class="n">col_order</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_var_keys</span><span class="p">:</span>
+                <span class="c1"># Must be an unloaded column, skip it</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Calculated variables won&#39;t be in the data yet, skip them</span>
+                <span class="k">continue</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_var_keys</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">col_order</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">load_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span>
+        <span class="n">order_tups</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">col_order</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="n">order_tups</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">col_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">order_tups</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col_keys</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">df</span></div>
 
 <div class="viewcode-block" id="DataLoader.optimize_df_size"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.optimize_df_size">[docs]</a>    <span class="k">def</span> <span class="nf">optimize_df_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="c1"># TODO [#17]: implement df size optimization</span>
@@ -349,7 +399,7 @@
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{variable}</span><span class="s1"> but not calculated and not &#39;</span>
                                      <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
-            <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">orig_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
             <span class="n">rename_dict</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">load_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
             <span class="n">col</span><span class="o">.</span><span class="n">variable</span> <span class="o">=</span> <span class="n">variable</span>
         <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_vars_for_calculate</span><span class="p">:</span>
@@ -406,8 +456,6 @@
                 <span class="c1"># TODO [#34]: determine how to set index for columns from calculated variables</span>
                 <span class="n">new_col</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">new_series</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="n">series</span><span class="o">=</span><span class="n">new_series</span><span class="p">)</span>
                 <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_series</span>
-                <span class="n">temp_source</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_col</span><span class="p">)</span>
-                <span class="n">temp_source</span> <span class="o">=</span> <span class="n">_apply_transforms_to_var</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">new_col</span><span class="p">,</span> <span class="n">temp_source</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_col</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">temp_source</span><span class="o">.</span><span class="n">df</span></div>

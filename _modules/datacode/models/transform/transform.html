@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.transform.transform &mdash; datacode 0.12.1 documentation</title>
+  <title>datacode.models.transform.transform &mdash; datacode 0.12.3 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.12.1
+                0.12.3
               </div>
             
           
@@ -166,6 +166,7 @@
 <span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 
+<span class="kn">from</span> <span class="nn">mixins.repr</span> <span class="kn">import</span> <span class="n">ReprMixin</span>
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -178,10 +179,11 @@
 <span class="kn">from</span> <span class="nn">datacode.models.variables.typing</span> <span class="kn">import</span> <span class="n">StrFunc</span><span class="p">,</span> <span class="n">ValueFunc</span><span class="p">,</span> <span class="n">SymbolFunc</span>
 
 
-<div class="viewcode-block" id="Transform"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.transform.Transform">[docs]</a><span class="k">class</span> <span class="nc">Transform</span><span class="p">:</span>
+<div class="viewcode-block" id="Transform"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.transform.Transform">[docs]</a><span class="k">class</span> <span class="nc">Transform</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tracks and applies changes to variables for data, name, and symbol together</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">repr_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;name_func&#39;</span><span class="p">,</span> <span class="s1">&#39;data_func&#39;</span><span class="p">,</span> <span class="s1">&#39;symbol_func&#39;</span><span class="p">,</span> <span class="s1">&#39;data_func_target&#39;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Transform.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.transform.Transform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name_func</span><span class="p">:</span> <span class="n">StrFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data_func</span><span class="p">:</span> <span class="n">ValueFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">symbol_func</span><span class="p">:</span> <span class="n">SymbolFunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -232,9 +234,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">preserve_original</span><span class="p">:</span>
             <span class="n">source</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Even when not preserving original, don&#39;t want to modify original variables or columns</span>
+            <span class="c1"># as they may be used in other sources</span>
+
+            <span class="c1"># NOTE: not working yet, see SourceTransform.apply</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">load_variables</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">)</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">subset</span><span class="p">:</span>
-            <span class="n">variables</span> <span class="o">=</span> <span class="n">subset</span>
+            <span class="n">variables</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">variables</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">load_variables</span>
 
@@ -293,8 +302,6 @@
             <span class="k">return</span> <span class="n">same</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
-
-
 </pre></div>
 
            </div>

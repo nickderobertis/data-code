@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.12.1 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.12.3 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.12.1
+                0.12.3
               </div>
             
           
@@ -163,7 +163,8 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.models.source</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span></span><span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -231,7 +232,9 @@
             <span class="n">vars_for_calculate</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">load_variables</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">vars_for_calculate</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">var_for_calc</span> <span class="ow">in</span> <span class="n">var</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">var_for_calc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vars_for_calculate</span><span class="p">:</span>
+                            <span class="n">vars_for_calculate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var_for_calc</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">vars_for_calculate</span><span class="p">:</span>
                 <span class="n">all_vars</span> <span class="o">=</span> <span class="n">load_variables</span> <span class="o">+</span> <span class="n">extra_vars_for_calcs</span>
                 <span class="n">current_var_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">load_var</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">load_var</span> <span class="ow">in</span> <span class="n">all_vars</span><span class="p">]</span>
@@ -278,7 +281,24 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_outputter_kwargs</span> <span class="o">=</span> <span class="n">data_outputter_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span> <span class="o">=</span> <span class="n">optimize_size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">df</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">df</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_load_variables</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_validate_load_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># Ensure uniqueness of loaded variables&#39; names</span>
+        <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span><span class="p">]</span>
+        <span class="n">existing_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">var_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">existing_names</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;variable name </span><span class="si">{name}</span><span class="s1"> repeated in load variables&#39;</span><span class="p">)</span>
+            <span class="n">existing_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -471,6 +491,13 @@
     <span class="k">def</span> <span class="nf">col_load_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">load_key</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">load_var_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span><span class="p">]</span>
+
 <div class="viewcode-block" id="DataSource.get_series_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.get_series_for">[docs]</a>    <span class="k">def</span> <span class="nf">get_series_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                        <span class="n">col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Column</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -556,6 +583,36 @@
 <div class="viewcode-block" id="DataSource.describe"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># TODO [#48]: use columns, variables, indices, etc. in describe</span>
         <span class="k">return</span> <span class="n">describe_df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_series_in_df_for_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="n">Column</span><span class="p">):</span>
+        <span class="n">new_key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>  <span class="c1"># temporary key for this variable</span>
+        <span class="c1"># should get column which already has data for this variable</span>
+        <span class="n">existing_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">new_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">existing_col</span><span class="o">.</span><span class="n">load_key</span><span class="p">])</span>
+        <span class="n">col</span><span class="o">.</span><span class="n">load_key</span> <span class="o">=</span> <span class="n">new_key</span>
+
+    <span class="k">def</span> <span class="nf">_duplicate_column_for_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">orig_var</span><span class="p">:</span> <span class="n">Variable</span><span class="p">,</span> <span class="n">new_var</span><span class="p">:</span> <span class="n">Variable</span><span class="p">,</span>
+                                          <span class="n">pre_rename</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># should get column which already has data for this variable</span>
+        <span class="n">existing_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">orig_var</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pre_rename</span><span class="p">:</span>
+            <span class="n">existing_var_name</span> <span class="o">=</span> <span class="n">existing_col</span><span class="o">.</span><span class="n">load_key</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">existing_var_name</span> <span class="o">=</span> <span class="n">orig_var</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="n">col</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">existing_col</span><span class="p">)</span>
+        <span class="n">col</span><span class="o">.</span><span class="n">variable</span> <span class="o">=</span> <span class="n">new_var</span>
+
+        <span class="k">if</span> <span class="n">pre_rename</span><span class="p">:</span>
+            <span class="n">new_key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>  <span class="c1"># temporary key for this variable</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">new_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">existing_var_name</span><span class="p">])</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">load_key</span> <span class="o">=</span> <span class="n">new_key</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">new_var</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">existing_var_name</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataSource(name=</span><span class="si">{self.name}</span><span class="s1">, columns=</span><span class="si">{self.columns}</span><span class="s1">)&gt;&#39;</span></div>
