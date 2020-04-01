@@ -55,6 +55,10 @@ class Variable:
         # If all compare attributes are equal, objects are equal
         return all([getattr(self, attr) == getattr(other, attr) for attr in compare_attrs])
 
+    def __hash__(self):
+        applied_transform_hash = hash(tuple([hash(transform) for transform in self.applied_transforms]))
+        return hash((self.key, applied_transform_hash))
+
     def __add__(self, other) -> Expression:
         return self._create_expression_from_other_and_operator(other, operator.add, 'add')
 
