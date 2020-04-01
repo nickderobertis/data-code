@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.transform.specific.lag &mdash; datacode 0.12.3 documentation</title>
+  <title>datacode.models.transform.specific.lag &mdash; datacode 0.12.4 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.12.3
+                0.12.4
               </div>
             
           
@@ -333,7 +333,10 @@
 
     <span class="k">if</span> <span class="n">by_vars</span> <span class="ow">and</span> <span class="n">fill_missing_rows</span> <span class="ow">and</span> <span class="n">can_fill_missing_rows</span><span class="p">:</span>
         <span class="c1"># Don&#39;t want to expand size of df</span>
-        <span class="n">source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">orig_index_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+        <span class="c1"># For some reason, join doesn&#39;t work correctly. So reset indexes, merge, and set indexes back</span>
+        <span class="n">source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">orig_index_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(),</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">orig_index_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">orig_index_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
         <span class="c1"># Reorder back to original order of columns</span>
         <span class="n">source</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">orig_cols</span><span class="p">]</span>
 

@@ -1,9 +1,9 @@
-mixins
 pd_utils
+mixins
 matplotlib
-sympy
-pandas
-datacode
-regtools
 pyexlatex
+pandas
+sympy
+datacode
 IPython
+regtools
