@@ -5,7 +5,7 @@
 
 ## Overview
 
-High-level tools to analyze, summarize, and transform data
+Data pipelines for humans. Work with variables, sources, and pipelines rather than raw data. Also includes high-level tools to analyze, summarize, and transform data.
 
 ## Getting Started
 
