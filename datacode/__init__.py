@@ -1,3 +1,6 @@
+"""
+Data pipelines for humans. Work with variables, sources, and pipelines rather than raw data. Also includes high-level tools to analyze, summarize, and transform data.
+"""
 from datacode.models.source import DataSource
 from datacode.models.loader import DataLoader
 from datacode.models.outputter import DataOutputter, DataOutputNotSafeException
