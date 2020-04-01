@@ -168,7 +168,10 @@ def create_lags_transform_data_func(col: 'Column', variable: 'Variable', source:
 
     if by_vars and fill_missing_rows and can_fill_missing_rows:
         # Don't want to expand size of df
-        source.df = orig_index_df.join(source.df, how="left")
+        # For some reason, join doesn't work correctly. So reset indexes, merge, and set indexes back
+        source.df = orig_index_df.reset_index().merge(
+            source.df.reset_index(), how='left', on=orig_index_df.index.names
+        ).set_index(orig_index_df.index.names)
         # Reorder back to original order of columns
         source.df = source.df[orig_cols]
 
