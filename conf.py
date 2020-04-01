@@ -67,6 +67,8 @@ PACKAGE_INSTALL_REQUIRES = [
     'sympy',
     'IPython',
     'mixins',
+    'semopy',
+    'sklearn',
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here

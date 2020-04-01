@@ -30,6 +30,8 @@ pyexlatex = "*"
 sympy = "*"
 IPython = "*"
 mixins = "*"
+scikit-learn = "*"
+semopy = "*"
 
 [requires]
 python_version = "3.7"
