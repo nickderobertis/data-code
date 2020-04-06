@@ -1,11 +1,16 @@
-from typing import Sequence, List, Dict
+from typing import Sequence, List, Dict, Optional
 
 import pandas as pd
 import numpy as np
 from IPython.core.display import display, HTML
 from semopy import Optimizer, inspect, gather_statistics
+import pyexlatex as pl
 
 from datacode.models.variables import Variable
+from datacode.sem.eqs import model_eqs
+from datacode.sem.to_tex import summary_latex_table
+from datacode.sem.constants import STANDARD_SCALE_MESSAGE, ROBUST_SCALE_MESSAGE
+from datacode.utils.suppress import no_stdout
 
 
 def structural_summary_dfs(opt: Optimizer, observed_endog_vars: Sequence[Variable],
@@ -52,7 +57,8 @@ def latent_summary_dfs(opt: Optimizer, measurement_dict: Dict[Variable, Sequence
 
 def _param_summary_dfs(opt: Optimizer, var_keys: Sequence[str], operator: str = '~',
                        include_same_var: bool = False) -> List[pd.DataFrame]:
-    results = inspect(opt)
+    with no_stdout():
+        results = inspect(opt)
     summ_dfs = []
     for var_key in var_keys:
         selected_results_mask = (results['lval'] == var_key) & (results['op'] == operator)
@@ -100,13 +106,20 @@ def get_fit_statistics(opt: Optimizer) -> pd.DataFrame:
 class SEMSummary:
 
     def __init__(self, opt: Optimizer, observed_endog_vars: Sequence[Variable],
+                 structural_dict: Dict[Variable, Sequence[Variable]],
                  measurement_dict: Dict[Variable, Sequence[Variable]],
-                 all_vars: Sequence[Variable]):
+                 var_corr_groups: Sequence[Sequence[Variable]],
+                 all_vars: Sequence[Variable], scale: bool,
+                 robust_scale: bool):
         self.opt = opt
         self.observed_endog_vars = observed_endog_vars
+        self.structural_dict = structural_dict
         self.measurement_dict = measurement_dict
+        self.var_corr_groups = var_corr_groups
         self.all_vars = all_vars
         self.stats = gather_statistics(opt)
+        self.scale = scale
+        self.robust_scale = robust_scale
 
     @property
     def structural(self) -> List[pd.DataFrame]:
@@ -124,7 +137,57 @@ class SEMSummary:
     def fit(self) -> pd.DataFrame:
         return get_fit_statistics(self.opt)
 
+    @property
+    def eqs(self) -> List[pl.Equation]:
+        return model_eqs(self.structural_dict, self.measurement_dict, self.var_corr_groups)
+
+    @property
+    def warnings(self) -> List[str]:
+        warns = []
+        try:
+            if not self.opt._sample_cov_pos_df:
+                warns.append('Sample covariance matrix is not positive-definite')
+        except AttributeError:
+            # must be opt created without data-code
+            pass
+
+        try:
+            if not self.opt._model_cov_pos_df:
+                warns.append('Model-implied covariance matrix is not positive-definite')
+        except AttributeError:
+            # must be opt created without data-code
+            pass
+        return warns
+
+    @property
+    def notes(self) -> List[str]:
+        ns = []
+        if self.scale:
+            ns.append(STANDARD_SCALE_MESSAGE)
+        if self.robust_scale:
+            ns.append(ROBUST_SCALE_MESSAGE)
+        return ns
+
+    def to_latex(self, begin_below_text: Optional[str] = None,
+                 end_below_text: Optional[str] = None, replace_below_text: Optional[str] = None,
+                 caption: str = 'Structural Equation Model (SEM)') -> pl.Table:
+        return summary_latex_table(
+            self.fit,
+            self.structural,
+            self.latent,
+            self.scale,
+            self.robust_scale,
+            equations=self.eqs,
+            begin_below_text=begin_below_text,
+            end_below_text=end_below_text,
+            replace_below_text=replace_below_text,
+            caption=caption
+        )
+
     def summary(self):
+        if self.warnings:
+            _display_header('Warnings')
+            _display_unordered_list(self.warnings)
         display(self.fit)
         to_display = {
             'Structural': self.structural,
@@ -135,6 +198,9 @@ class SEMSummary:
             _display_header(header)
             for df in df_list:
                 display(df)
+        if self.notes:
+            _display_header('Notes')
+            _display_unordered_list(self.notes)
 
     def _repr_html_(self):
         self.summary()
@@ -142,3 +208,16 @@ class SEMSummary:
 
 def _display_header(text: str, level: int = 4):
     display(HTML(f'<h{level}>{text}</h{level}>'))
+
+
+def _display_unordered_list(items: Sequence[str]):
+    if items:
+        display(HTML(_ul_html(items)))
+
+
+def _ul_html(items: Sequence[str]) -> str:
+    html_str = '<ul>\n'
+    for item in items:
+        html_str += f'\t<li>{item}</li>\n'
+    html_str += '</ul>'
+    return html_str

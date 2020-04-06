@@ -16,7 +16,7 @@ class SEM:
     def __init__(self, data: Union[DataSource, pd.DataFrame], structural_dict: Dict[Variable, Sequence[Variable]],
                  measurement_dict: Dict[Variable, Sequence[Variable]],
                  var_corr_groups: Sequence[Sequence[Variable]], scale: bool = True,
-                 robust_scale: bool = False, **scale_kwargs):
+                 robust_scale: bool = False, pos_def_warnings: str = 'ignore', **scale_kwargs):
         self.data = data
         self.structural_dict = structural_dict
         self.measurement_dict = measurement_dict
@@ -24,6 +24,7 @@ class SEM:
         self.scale = scale
         self.robust_scale = robust_scale
         self.scale_kwargs = scale_kwargs
+        self.pos_def_warnings = pos_def_warnings
         self.model_def = model_str(structural_dict, measurement_dict, var_corr_groups)
 
         self.opt = None
@@ -32,9 +33,18 @@ class SEM:
         self._model_df = None
 
     def fit(self, **opt_kwargs) -> SEMSummary:
-        self.opt = run_model(self.model_def, self.model_df, **opt_kwargs)
+        self.opt = run_model(self.model_def, self.model_df, pos_def_warnings=self.pos_def_warnings, **opt_kwargs)
         self.model = self.opt.model
-        self.summary = SEMSummary(self.opt, self.observed_endog_vars, self.measurement_dict, self.all_vars)
+        self.summary = SEMSummary(
+            self.opt,
+            self.observed_endog_vars,
+            self.structural_dict,
+            self.measurement_dict,
+            self.var_corr_groups,
+            self.all_vars,
+            self.scale,
+            self.robust_scale
+        )
         return self.summary
 
     @property
