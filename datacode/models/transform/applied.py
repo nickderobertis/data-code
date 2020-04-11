@@ -59,6 +59,15 @@ class AppliedTransform(Transform):
         except AttributeError:
             return False
 
+    # TODO: should not be necessary to explicitly hash AppliedTransform
+    #
+    # Already hashing `Transform` base class. But was getting unhashable type: 'AppliedTransform'
+    # even with that.
+    def __hash__(self):
+        hash_attrs = ['key', 'data_func_target']
+        hash_items = tuple([getattr(self, attr) for attr in hash_attrs])
+        return hash(hash_items)
+
     @classmethod
     def from_func(cls, func: Callable[['Column', 'Variable', 'DataSource', Any], 'DataSource'],
                   key: Optional[str] = None,
