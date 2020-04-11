@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode package &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode package &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../_static/language_data.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="datacode.compareids package" href="datacode.compareids.html" />
@@ -68,7 +69,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -111,7 +112,9 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.sem.html">datacode.sem package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.summarize.html">datacode.summarize package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.utils.html">datacode.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
@@ -401,8 +404,30 @@
 <li class="toctree-l2"><a class="reference internal" href="datacode.psm.html#module-datacode.psm.typing">datacode.psm.typing module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.sem.html">datacode.sem package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.constants">datacode.sem.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.df">datacode.sem.df module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.eqs">datacode.sem.eqs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.exc">datacode.sem.exc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.latents">datacode.sem.latents module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.main">datacode.sem.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.model">datacode.sem.model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.parse">datacode.sem.parse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.run">datacode.sem.run module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.summary">datacode.sem.summary module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.sem.html#module-datacode.sem.to_tex">datacode.sem.to_tex module</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="datacode.summarize.html">datacode.summarize package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.summarize.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacode.summarize.coverage.html">datacode.summarize.coverage package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.coverage.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.coverage.html#module-datacode.summarize.coverage.counts">datacode.summarize.coverage.counts module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.coverage.html#module-datacode.summarize.coverage.main">datacode.summarize.coverage.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.coverage.html#module-datacode.summarize.coverage.to_tex">datacode.summarize.coverage.to_tex module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.summarize.subset.html">datacode.summarize.subset package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="datacode.summarize.subset.missing.html">datacode.summarize.subset.missing package</a><ul>
@@ -489,6 +514,11 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="datacode.utils.html">datacode.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.utils.html#module-datacode.utils.suppress">datacode.utils.suppress module</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -500,19 +530,19 @@
 <p>A collection of tools for working with finance data in an academic setting. Compare and summarize data sets,
 propensity score matching, analyze outliers and missing data, and create/reformat several types of data sets,
 including: difference-in-difference, Fama-French-style factors, and portfolios.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="datacode.load.GetCRSP">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">GetCRSP</code><span class="sig-paren">(</span><em class="sig-param">debug=False</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#GetCRSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.GetCRSP" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">GetCRSP</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">crsp_dir</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#GetCRSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.GetCRSP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.load.GetCRSP.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">debug=False</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#GetCRSP.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.GetCRSP.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">crsp_dir</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#GetCRSP.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.GetCRSP.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.load.GetCRSP.pull_crsp">
-<code class="sig-name descname">pull_crsp</code><span class="sig-paren">(</span><em class="sig-param">df, coid='PERMNO', freq='m', get=['PRC', 'SHROUT'], date='Date', other_byvars=None, time=None, between_time=False, wide=True, abret=False, window=None, cumret=False, includefac=False, includecoef=False, drop_first=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#GetCRSP.pull_crsp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.GetCRSP.pull_crsp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pull_crsp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">coid</span><span class="o">=</span><span class="default_value">'PERMNO'</span></em>, <em class="sig-param"><span class="n">freq</span><span class="o">=</span><span class="default_value">'m'</span></em>, <em class="sig-param"><span class="n">get</span><span class="o">=</span><span class="default_value">['PRC', 'SHROUT']</span></em>, <em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">other_byvars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">between_time</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">wide</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">abret</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">window</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cumret</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">includefac</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">includecoef</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">drop_first</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#GetCRSP.pull_crsp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.GetCRSP.pull_crsp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pulls prices and returns from CRSP. Currently supports the monthly file merging on PERMNO.</p>
 <p>WARNING: Will overwrite variables called “Year” and “Month” if merging the monthly file</p>
 <p>coid = string, company identifier (currently supports ‘GVKEY’, ‘TICKER’, ‘PERMNO’, ‘PERMCO’, ‘NCUSIP’)
@@ -584,9 +614,9 @@ Calculating a return window with abnormal returns included:</p>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.load.get_abret">
-<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">get_abret</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">byvars</em>, <em class="sig-param">fulldatevar='Date'</em>, <em class="sig-param">year_month=None</em>, <em class="sig-param">freq='m'</em>, <em class="sig-param">abret_fac=5</em>, <em class="sig-param">retvar='RET'</em>, <em class="sig-param">includecoef=False</em>, <em class="sig-param">includefac=False</em>, <em class="sig-param">mp=False</em>, <em class="sig-param">stderr=False</em>, <em class="sig-param">**get_ff_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#get_abret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.get_abret" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">get_abret</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">byvars</span></em>, <em class="sig-param"><span class="n">fulldatevar</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">year_month</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">freq</span><span class="o">=</span><span class="default_value">'m'</span></em>, <em class="sig-param"><span class="n">abret_fac</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">retvar</span><span class="o">=</span><span class="default_value">'RET'</span></em>, <em class="sig-param"><span class="n">includecoef</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">includefac</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">mp</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">stderr</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">get_ff_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#get_abret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.get_abret" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a dataframe containing a column of returns, dates, and at least one by variable and calculates
 abnormal returns for the model of choice. Returns a dataframe with the abnormal returns merged.</p>
 <p>Required inputs:
@@ -607,9 +637,9 @@ mp: False to use single processor, True to use all processors, int to use # proc
 stderr: bool, True to include standard errors of coefficients</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.load.get_ff_factors">
-<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">get_ff_factors</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">fulldatevar=None</em>, <em class="sig-param">year_month=None</em>, <em class="sig-param">freq='m'</em>, <em class="sig-param">subset=None</em>, <em class="sig-param">ff_df=None</em>, <em class="sig-param">ff_dir=None</em>, <em class="sig-param">custom_ff_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#get_ff_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.get_ff_factors" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">get_ff_factors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">fulldatevar</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">year_month</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">freq</span><span class="o">=</span><span class="default_value">'m'</span></em>, <em class="sig-param"><span class="n">subset</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ff_df</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ff_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_ff_name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#get_ff_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.get_ff_factors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pulls Fama-French factors and merges them to dataset</p>
 <p>df: Input dataframe
 fulldatevar: String name of date variable to merge on. Specify this OR year and month variable. Must use this</p>
@@ -626,15 +656,15 @@ ff_dir: folder containing FF data
 custom_ff_name: used in combination with ff_dir to select file</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.load.get_gvkey_or_permno">
-<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">get_gvkey_or_permno</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">datevar</em>, <em class="sig-param">get='GVKEY'</em>, <em class="sig-param">other_byvars=None</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#get_gvkey_or_permno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.get_gvkey_or_permno" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">get_gvkey_or_permno</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">datevar</span></em>, <em class="sig-param"><span class="n">get</span><span class="o">=</span><span class="default_value">'GVKEY'</span></em>, <em class="sig-param"><span class="n">other_byvars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">crsp_dir</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#get_gvkey_or_permno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.get_gvkey_or_permno" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a dataframe containing either GVKEY or PERMNO and merges to the CRSP linktable to get the other one.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.load.merge_dsenames">
-<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">merge_dsenames</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">on='TICKER'</em>, <em class="sig-param">get='PERMNO'</em>, <em class="sig-param">date='Date'</em>, <em class="sig-param">other_byvars=None</em>, <em class="sig-param">crsp_dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#merge_dsenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.merge_dsenames" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">merge_dsenames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">on</span><span class="o">=</span><span class="default_value">'TICKER'</span></em>, <em class="sig-param"><span class="n">get</span><span class="o">=</span><span class="default_value">'PERMNO'</span></em>, <em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">other_byvars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">crsp_dir</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#merge_dsenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.merge_dsenames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Merges with dsenames file on on variable (TICKER, PERMNO, PERMCO, NCUSIP, CUSIP6), to get get variable (same list).
 Must have a Date variable in df.</p>
 <p>Default is to match on TICKER and pull PERMNO.</p>
@@ -650,9 +680,9 @@ get: str or list, column or columns to get from dsenames, any of (TICKER, PERMNO
 other_byvars: any other variables signifying groups in the data, prevents from collapsing those groups</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.load.replace_missing_csv">
-<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">replace_missing_csv</code><span class="sig-paren">(</span><em class="sig-param">csv_list</em>, <em class="sig-param">missing_rep</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#replace_missing_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.replace_missing_csv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">replace_missing_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">csv_list</span></em>, <em class="sig-param"><span class="n">missing_rep</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#replace_missing_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.replace_missing_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replaces missing items in a CSV with a given missing representation string.</p>
 </dd></dl>
 

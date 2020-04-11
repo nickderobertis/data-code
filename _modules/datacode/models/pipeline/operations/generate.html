@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.generate &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.models.pipeline.operations.generate &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../../../_static/language_data.js"></script>
         <script src="../../../../../_static/clipboard.min.js"></script>
         <script src="../../../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -192,14 +193,14 @@
 <div class="viewcode-block" id="GenerationOperation.summary"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOperation.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">summary_attr</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">summary_method_kwargs</span><span class="p">):</span>
         <span class="c1"># TODO [#46]: better summary for DataGeneratorPipeline</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Calling function </span><span class="si">{self.options.func.__name__}</span><span class="s1"> with kwargs </span><span class="si">{self.options.func_kwargs}</span><span class="s1"> to &#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Calling function </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> with kwargs </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func_kwargs</span><span class="si">}</span><span class="s1"> to &#39;</span>
               <span class="sa">f</span><span class="s1">&#39;generate a DataSource&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenerationOperation.describe"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOperation.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;GenerationOperation(options=</span><span class="si">{self.options}</span><span class="s1">)&gt;&#39;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;GenerationOperation(options=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="si">}</span><span class="s1">)&gt;&#39;</span></div>
 
 
 <div class="viewcode-block" id="GenerationOptions"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOptions">[docs]</a><span class="k">class</span> <span class="nc">GenerationOptions</span><span class="p">(</span><span class="n">OperationOptions</span><span class="p">):</span>

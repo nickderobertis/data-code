@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize.subset.missing.detail.textfuncs &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.summarize.subset.missing.detail.textfuncs &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../../../../_static/language_data.js"></script>
         <script src="../../../../../../_static/clipboard.min.js"></script>
         <script src="../../../../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -169,18 +170,18 @@
 
 <div class="viewcode-block" id="missing_more_than_str"><a class="viewcode-back" href="../../../../../../api/datacode.summarize.subset.missing.detail.html#datacode.summarize.subset.missing.detail.textfuncs.missing_more_than_str">[docs]</a><span class="k">def</span> <span class="nf">missing_more_than_str</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">:</span> <span class="n">IntOrNone</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">:</span> <span class="n">FloatOrNone</span><span class="p">,</span>
                           <span class="n">missing_display_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">id_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;More than {_t_or_q(missing_tolerance, missing_quantile)} </span><span class="si">{missing_display_str}</span><span class="s1"> </span><span class="si">{id_var}</span><span class="s1">&#39;</span></div>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;More than </span><span class="si">{</span><span class="n">_t_or_q</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">missing_display_str</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">id_var</span><span class="si">}</span><span class="s1">&#39;</span></div>
 
 <div class="viewcode-block" id="missing_more_than_pct_str"><a class="viewcode-back" href="../../../../../../api/datacode.summarize.subset.missing.detail.html#datacode.summarize.subset.missing.detail.textfuncs.missing_more_than_pct_str">[docs]</a><span class="k">def</span> <span class="nf">missing_more_than_pct_str</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">:</span> <span class="n">IntOrNone</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">:</span> <span class="n">FloatOrNone</span><span class="p">,</span>
                               <span class="n">missing_display_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">id_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;More than {_t_or_q(missing_tolerance, missing_quantile)} </span><span class="si">{missing_display_str}</span><span class="s1"> </span><span class="si">{id_var}</span><span class="s1"> Percentage&#39;</span></div>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;More than </span><span class="si">{</span><span class="n">_t_or_q</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">missing_display_str</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">id_var</span><span class="si">}</span><span class="s1"> Percentage&#39;</span></div>
 
 <div class="viewcode-block" id="missing_tolerance_count_str"><a class="viewcode-back" href="../../../../../../api/datacode.summarize.subset.missing.detail.html#datacode.summarize.subset.missing.detail.textfuncs.missing_tolerance_count_str">[docs]</a><span class="k">def</span> <span class="nf">missing_tolerance_count_str</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">:</span> <span class="n">IntOrNone</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">:</span> <span class="n">FloatOrNone</span><span class="p">,</span>
                                 <span class="n">missing_display_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">id_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;{_t_or_q(missing_tolerance, missing_quantile)} or less </span><span class="si">{missing_display_str}</span><span class="s1"> </span><span class="si">{id_var}</span><span class="s1"> Count&#39;</span></div>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_t_or_q</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">)</span><span class="si">}</span><span class="s1"> or less </span><span class="si">{</span><span class="n">missing_display_str</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">id_var</span><span class="si">}</span><span class="s1"> Count&#39;</span></div>
 
 <div class="viewcode-block" id="id_count_str"><a class="viewcode-back" href="../../../../../../api/datacode.summarize.subset.missing.detail.html#datacode.summarize.subset.missing.detail.textfuncs.id_count_str">[docs]</a><span class="k">def</span> <span class="nf">id_count_str</span><span class="p">(</span><span class="n">id_var</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{id_var}</span><span class="s1"> Count&#39;</span></div>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">id_var</span><span class="si">}</span><span class="s1"> Count&#39;</span></div>
 
 <div class="viewcode-block" id="num_or_pct"><a class="viewcode-back" href="../../../../../../api/datacode.summarize.subset.missing.detail.html#datacode.summarize.subset.missing.detail.textfuncs.num_or_pct">[docs]</a><span class="k">def</span> <span class="nf">num_or_pct</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">:</span> <span class="n">IntOrNone</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">:</span> <span class="n">FloatOrNone</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">missing_quantile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -202,7 +203,7 @@
 
 <span class="k">def</span> <span class="nf">_t_or_q</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">:</span> <span class="n">IntOrNone</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">:</span> <span class="n">FloatOrNone</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="k">if</span> <span class="n">missing_quantile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;{missing_quantile * 100:g}%&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">missing_quantile</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="s1">g</span><span class="si">}</span><span class="s1">%&#39;</span>
 
     <span class="k">return</span> <span class="n">missing_tolerance</span>
 </pre></div>

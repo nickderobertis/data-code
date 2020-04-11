@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize package &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.summarize package &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../_static/language_data.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -37,14 +36,16 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="datacode.summarize.subset package" href="datacode.summarize.subset.html" />
-    <link rel="prev" title="datacode.psm.summarize package" href="datacode.psm.summarize.html" /> 
+    <link rel="next" title="datacode.summarize.coverage package" href="datacode.summarize.coverage.html" />
+    <link rel="prev" title="datacode.sem package" href="datacode.sem.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -68,7 +69,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -111,7 +112,9 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.sem.html">datacode.sem package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">datacode.summarize package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.utils.html">datacode.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
@@ -192,7 +195,7 @@
             
   <div class="section" id="module-datacode.summarize">
 <span id="datacode-summarize-package"></span><h1>datacode.summarize package<a class="headerlink" href="#module-datacode.summarize" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.summarize.describe_df">
 <code class="sig-prename descclassname">datacode.summarize.</code><code class="sig-name descname">describe_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">disp=True</em>, <em class="sig-param">format_func=&lt;function format_numbers_to_decimal_places&gt;</em>, <em class="sig-param">format_kwargs=None</em>, <em class="sig-param">percentiles=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize.html#describe_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.describe_df" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
@@ -208,15 +211,22 @@ disp: True to display summaries, False to only return dict of summaries</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.summarize.format_numbers_to_decimal_places">
-<code class="sig-prename descclassname">datacode.summarize.</code><code class="sig-name descname">format_numbers_to_decimal_places</code><span class="sig-paren">(</span><em class="sig-param">item</em>, <em class="sig-param">decimals=2</em>, <em class="sig-param">coerce_ints=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize.html#format_numbers_to_decimal_places"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.format_numbers_to_decimal_places" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.summarize.</code><code class="sig-name descname">format_numbers_to_decimal_places</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em>, <em class="sig-param"><span class="n">decimals</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">coerce_ints</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize.html#format_numbers_to_decimal_places"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.format_numbers_to_decimal_places" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="datacode.summarize.coverage.html">datacode.summarize.coverage package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#module-datacode.summarize.coverage.counts">datacode.summarize.coverage.counts module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#module-datacode.summarize.coverage.main">datacode.summarize.coverage.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#module-datacode.summarize.coverage.to_tex">datacode.summarize.coverage.to_tex module</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="datacode.summarize.subset.html">datacode.summarize.subset package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.summarize.subset.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="datacode.summarize.subset.missing.html">datacode.summarize.subset.missing package</a><ul>
@@ -312,10 +322,10 @@ disp: True to display summaries, False to only return dict of summaries</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="datacode.summarize.subset.html" class="btn btn-neutral float-right" title="datacode.summarize.subset package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="datacode.summarize.coverage.html" class="btn btn-neutral float-right" title="datacode.summarize.coverage package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="datacode.psm.summarize.html" class="btn btn-neutral float-left" title="datacode.psm.summarize package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="datacode.sem.html" class="btn btn-neutral float-left" title="datacode.sem package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

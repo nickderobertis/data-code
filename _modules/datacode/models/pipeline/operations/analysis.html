@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.analysis &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.models.pipeline.operations.analysis &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../../../_static/language_data.js"></script>
         <script src="../../../../../_static/clipboard.min.js"></script>
         <script src="../../../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -193,14 +194,14 @@
 <div class="viewcode-block" id="AnalysisOperation.summary"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.analysis.AnalysisOperation.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">summary_attr</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">summary_method_kwargs</span><span class="p">):</span>
         <span class="c1"># TODO [#45]: better summary for DataAnalysisPipeline</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Runs func </span><span class="si">{self.options.func.__name__}</span><span class="s1"> with kwargs </span><span class="si">{self.options.func_kwargs}</span><span class="s1"> on </span><span class="si">{self.data_source}</span><span class="s1">:&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;{self.data_source.describe()}&#39;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Runs func </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> with kwargs </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func_kwargs</span><span class="si">}</span><span class="s1"> on </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AnalysisOperation.describe"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.analysis.AnalysisOperation.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;AnalysisOperation(data_source=</span><span class="si">{self.data_source}</span><span class="s1">, options=</span><span class="si">{self.options}</span><span class="s1">)&gt;&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;AnalysisOperation(data_source=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="si">}</span><span class="s1">, options=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="si">}</span><span class="s1">)&gt;&#39;</span>
 
     <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data_sources_and_options</span><span class="p">()</span>
@@ -208,7 +209,7 @@
     <span class="k">def</span> <span class="nf">_validate_data_sources_and_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;got more than one data source got DataAnalysisPipeline, not clear which to use. &#39;</span>
-                             <span class="sa">f</span><span class="s1">&#39;Data sources: </span><span class="si">{self.data_sources}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+                             <span class="sa">f</span><span class="s1">&#39;Data sources: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="analysis_result_to_file"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.analysis.analysis_result_to_file">[docs]</a><span class="k">def</span> <span class="nf">analysis_result_to_file</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">AnalysisResult</span><span class="p">,</span> <span class="n">out_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>

@@ -1,0 +1,19 @@
+datacode.utils package
+======================
+
+.. automodule:: datacode.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.utils.suppress module
+------------------------------
+
+.. automodule:: datacode.utils.suppress
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

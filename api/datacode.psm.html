@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.psm package &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.psm package &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../_static/language_data.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="datacode.psm.summarize package" href="datacode.psm.summarize.html" />
@@ -68,7 +69,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -111,7 +112,9 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">datacode.psm package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.sem.html">datacode.sem package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.summarize.html">datacode.summarize package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.utils.html">datacode.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
@@ -213,9 +216,9 @@
 </div>
 <div class="section" id="module-datacode.psm.dataprep">
 <span id="datacode-psm-dataprep-module"></span><h2>datacode.psm.dataprep module<a class="headerlink" href="#module-datacode.psm.dataprep" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.dataprep.treated_and_control_df_from_df">
-<code class="sig-prename descclassname">datacode.psm.dataprep.</code><code class="sig-name descname">treated_and_control_df_from_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">treated_var</em>, <em class="sig-param">entity_var</em>, <em class="sig-param">keep_vars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/dataprep.html#treated_and_control_df_from_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.dataprep.treated_and_control_df_from_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.dataprep.</code><code class="sig-name descname">treated_and_control_df_from_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">treated_var</span></em>, <em class="sig-param"><span class="n">entity_var</span></em>, <em class="sig-param"><span class="n">keep_vars</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/dataprep.html#treated_and_control_df_from_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.dataprep.treated_and_control_df_from_df" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
@@ -229,9 +232,9 @@
 </div>
 <div class="section" id="module-datacode.psm.match">
 <span id="datacode-psm-match-module"></span><h2>datacode.psm.match module<a class="headerlink" href="#module-datacode.psm.match" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.match.create_matched_df_from_match_dict">
-<code class="sig-prename descclassname">datacode.psm.match.</code><code class="sig-name descname">create_matched_df_from_match_dict</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">match_dict</em>, <em class="sig-param">entity_var='id'</em>, <em class="sig-param">control_only=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/match.html#create_matched_df_from_match_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.match.create_matched_df_from_match_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.match.</code><code class="sig-name descname">create_matched_df_from_match_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">match_dict</span></em>, <em class="sig-param"><span class="n">entity_var</span><span class="o">=</span><span class="default_value">'id'</span></em>, <em class="sig-param"><span class="n">control_only</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/match.html#create_matched_df_from_match_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.match.create_matched_df_from_match_dict" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -239,9 +242,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.match.create_matched_df_using_propensity_scores">
-<code class="sig-prename descclassname">datacode.psm.match.</code><code class="sig-name descname">create_matched_df_using_propensity_scores</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">predict_df</em>, <em class="sig-param">treated_var</em>, <em class="sig-param">prob_treated_var=None</em>, <em class="sig-param">time_var='Date'</em>, <em class="sig-param">entity_var='id'</em>, <em class="sig-param">min_matching_pct=None</em>, <em class="sig-param">control_only=False</em>, <em class="sig-param">num_matches_per_entity=1</em>, <em class="sig-param">match_with_replacement=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/match.html#create_matched_df_using_propensity_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.match.create_matched_df_using_propensity_scores" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.match.</code><code class="sig-name descname">create_matched_df_using_propensity_scores</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">predict_df</span></em>, <em class="sig-param"><span class="n">treated_var</span></em>, <em class="sig-param"><span class="n">prob_treated_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time_var</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">entity_var</span><span class="o">=</span><span class="default_value">'id'</span></em>, <em class="sig-param"><span class="n">min_matching_pct</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">control_only</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">num_matches_per_entity</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">match_with_replacement</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/match.html#create_matched_df_using_propensity_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.match.create_matched_df_using_propensity_scores" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -249,9 +252,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.match.create_matched_id_dict_using_propensity_scores">
-<code class="sig-prename descclassname">datacode.psm.match.</code><code class="sig-name descname">create_matched_id_dict_using_propensity_scores</code><span class="sig-paren">(</span><em class="sig-param">treated_df</em>, <em class="sig-param">control_df</em>, <em class="sig-param">prob_treated_var</em>, <em class="sig-param">time_var='Date'</em>, <em class="sig-param">entity_var='id'</em>, <em class="sig-param">min_matching_pct=None</em>, <em class="sig-param">num_matches_per_entity=1</em>, <em class="sig-param">match_with_replacement=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/match.html#create_matched_id_dict_using_propensity_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.match.create_matched_id_dict_using_propensity_scores" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.match.</code><code class="sig-name descname">create_matched_id_dict_using_propensity_scores</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">treated_df</span></em>, <em class="sig-param"><span class="n">control_df</span></em>, <em class="sig-param"><span class="n">prob_treated_var</span></em>, <em class="sig-param"><span class="n">time_var</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">entity_var</span><span class="o">=</span><span class="default_value">'id'</span></em>, <em class="sig-param"><span class="n">min_matching_pct</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">num_matches_per_entity</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">match_with_replacement</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/match.html#create_matched_id_dict_using_propensity_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.match.create_matched_id_dict_using_propensity_scores" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
@@ -262,9 +265,9 @@
 </div>
 <div class="section" id="module-datacode.psm.names">
 <span id="datacode-psm-names-module"></span><h2>datacode.psm.names module<a class="headerlink" href="#module-datacode.psm.names" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.names.get_prob_treated_varname">
-<code class="sig-prename descclassname">datacode.psm.names.</code><code class="sig-name descname">get_prob_treated_varname</code><span class="sig-paren">(</span><em class="sig-param">treated_var</em>, <em class="sig-param">prob_treated_var_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/names.html#get_prob_treated_varname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.names.get_prob_treated_varname" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.names.</code><code class="sig-name descname">get_prob_treated_varname</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">treated_var</span></em>, <em class="sig-param"><span class="n">prob_treated_var_name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/names.html#get_prob_treated_varname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.names.get_prob_treated_varname" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
@@ -272,9 +275,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.names.predict_treated_varname">
-<code class="sig-prename descclassname">datacode.psm.names.</code><code class="sig-name descname">predict_treated_varname</code><span class="sig-paren">(</span><em class="sig-param">treated_var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/names.html#predict_treated_varname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.names.predict_treated_varname" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.names.</code><code class="sig-name descname">predict_treated_varname</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">treated_var</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/names.html#predict_treated_varname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.names.predict_treated_varname" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
@@ -282,9 +285,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.names.prob_treated_varname">
-<code class="sig-prename descclassname">datacode.psm.names.</code><code class="sig-name descname">prob_treated_varname</code><span class="sig-paren">(</span><em class="sig-param">treated_var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/names.html#prob_treated_varname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.names.prob_treated_varname" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.names.</code><code class="sig-name descname">prob_treated_varname</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">treated_var</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/names.html#prob_treated_varname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.names.prob_treated_varname" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
@@ -298,21 +301,21 @@
 </div>
 <div class="section" id="module-datacode.psm.score">
 <span id="datacode-psm-score-module"></span><h2>datacode.psm.score module<a class="headerlink" href="#module-datacode.psm.score" title="Permalink to this headline">¶</a></h2>
-<dl class="exception">
+<dl class="py exception">
 <dt id="datacode.psm.score.EmptyArraysException">
 <em class="property">exception </em><code class="sig-prename descclassname">datacode.psm.score.</code><code class="sig-name descname">EmptyArraysException</code><a class="reference internal" href="../_modules/datacode/psm/score.html#EmptyArraysException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.score.EmptyArraysException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
 </dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
 <dt id="datacode.psm.score.NotEnoughTimeObservationsException">
 <em class="property">exception </em><code class="sig-prename descclassname">datacode.psm.score.</code><code class="sig-name descname">NotEnoughTimeObservationsException</code><a class="reference internal" href="../_modules/datacode/psm/score.html#NotEnoughTimeObservationsException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.score.NotEnoughTimeObservationsException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.score.comparison_arrays_from_treated_and_control_df">
-<code class="sig-prename descclassname">datacode.psm.score.</code><code class="sig-name descname">comparison_arrays_from_treated_and_control_df</code><span class="sig-paren">(</span><em class="sig-param">treated_entity_df</em>, <em class="sig-param">control_entity_df</em>, <em class="sig-param">prob_treated_var</em>, <em class="sig-param">time_var='Date'</em>, <em class="sig-param">minimum_length=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/score.html#comparison_arrays_from_treated_and_control_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.score.comparison_arrays_from_treated_and_control_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.score.</code><code class="sig-name descname">comparison_arrays_from_treated_and_control_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">treated_entity_df</span></em>, <em class="sig-param"><span class="n">control_entity_df</span></em>, <em class="sig-param"><span class="n">prob_treated_var</span></em>, <em class="sig-param"><span class="n">time_var</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">minimum_length</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/score.html#comparison_arrays_from_treated_and_control_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.score.comparison_arrays_from_treated_and_control_df" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code>]</p>
@@ -320,9 +323,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.score.comparison_score">
-<code class="sig-prename descclassname">datacode.psm.score.</code><code class="sig-name descname">comparison_score</code><span class="sig-paren">(</span><em class="sig-param">compare_arrays</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/score.html#comparison_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.score.comparison_score" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.score.</code><code class="sig-name descname">comparison_score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">compare_arrays</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/score.html#comparison_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.score.comparison_score" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
@@ -330,9 +333,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.psm.score.merge_treated_and_control_calculate_comparison_score">
-<code class="sig-prename descclassname">datacode.psm.score.</code><code class="sig-name descname">merge_treated_and_control_calculate_comparison_score</code><span class="sig-paren">(</span><em class="sig-param">treated_entity_df</em>, <em class="sig-param">control_entity_df</em>, <em class="sig-param">prob_treated_var</em>, <em class="sig-param">time_var='Date'</em>, <em class="sig-param">minimum_length=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/score.html#merge_treated_and_control_calculate_comparison_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.score.merge_treated_and_control_calculate_comparison_score" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.psm.score.</code><code class="sig-name descname">merge_treated_and_control_calculate_comparison_score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">treated_entity_df</span></em>, <em class="sig-param"><span class="n">control_entity_df</span></em>, <em class="sig-param"><span class="n">prob_treated_var</span></em>, <em class="sig-param"><span class="n">time_var</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">minimum_length</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/psm/score.html#merge_treated_and_control_calculate_comparison_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.psm.score.merge_treated_and_control_calculate_comparison_score" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>

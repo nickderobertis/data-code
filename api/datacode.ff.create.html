@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.ff.create package &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.ff.create package &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../_static/language_data.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="datacode.formatters package" href="datacode.formatters.html" />
@@ -68,7 +69,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -111,7 +112,9 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.sem.html">datacode.sem package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.summarize.html">datacode.summarize package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.utils.html">datacode.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
@@ -199,9 +202,9 @@
 </div>
 <div class="section" id="module-datacode.ff.create.average">
 <span id="datacode-ff-create-average-module"></span><h2>datacode.ff.create.average module<a class="headerlink" href="#module-datacode.ff.create.average" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.average.market_returns">
-<code class="sig-prename descclassname">datacode.ff.create.average.</code><code class="sig-name descname">market_returns</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">retvar='RET'</em>, <em class="sig-param">datevar='Date'</em>, <em class="sig-param">wtvar='Market Equity'</em>, <em class="sig-param">byvars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/average.html#market_returns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.average.market_returns" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.average.</code><code class="sig-name descname">market_returns</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">retvar</span><span class="o">=</span><span class="default_value">'RET'</span></em>, <em class="sig-param"><span class="n">datevar</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">wtvar</span><span class="o">=</span><span class="default_value">'Market Equity'</span></em>, <em class="sig-param"><span class="n">byvars</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/average.html#market_returns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.average.market_returns" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -209,9 +212,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.average.portfolio_returns">
-<code class="sig-prename descclassname">datacode.ff.create.average.</code><code class="sig-name descname">portfolio_returns</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">retvar='RET'</em>, <em class="sig-param">datevar='Date'</em>, <em class="sig-param">wtvar='Market Equity'</em>, <em class="sig-param">byvars=None</em>, <em class="sig-param">portvar='Market Equity Portfolio/B/M Portfolio'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/average.html#portfolio_returns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.average.portfolio_returns" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.average.</code><code class="sig-name descname">portfolio_returns</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">retvar</span><span class="o">=</span><span class="default_value">'RET'</span></em>, <em class="sig-param"><span class="n">datevar</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">wtvar</span><span class="o">=</span><span class="default_value">'Market Equity'</span></em>, <em class="sig-param"><span class="n">byvars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">portvar</span><span class="o">=</span><span class="default_value">'Market Equity Portfolio/B/M Portfolio'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/average.html#portfolio_returns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.average.portfolio_returns" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -222,9 +225,9 @@
 </div>
 <div class="section" id="module-datacode.ff.create.dualsort">
 <span id="datacode-ff-create-dualsort-module"></span><h2>datacode.ff.create.dualsort module<a class="headerlink" href="#module-datacode.ff.create.dualsort" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.dualsort.create_dual_sort_variables_get_pairings">
-<code class="sig-prename descclassname">datacode.ff.create.dualsort.</code><code class="sig-name descname">create_dual_sort_variables_get_pairings</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">factor_model</em>, <em class="sig-param">size_var=None</em>, <em class="sig-param">value_var=None</em>, <em class="sig-param">profitability_var=None</em>, <em class="sig-param">investment_var=None</em>, <em class="sig-param">custom_pairings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/dualsort.html#create_dual_sort_variables_get_pairings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.dualsort.create_dual_sort_variables_get_pairings" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.dualsort.</code><code class="sig-name descname">create_dual_sort_variables_get_pairings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">factor_model</span></em>, <em class="sig-param"><span class="n">size_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profitability_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">investment_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_pairings</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/dualsort.html#create_dual_sort_variables_get_pairings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.dualsort.create_dual_sort_variables_get_pairings" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</p>
@@ -238,9 +241,9 @@
 </div>
 <div class="section" id="module-datacode.ff.create.label">
 <span id="datacode-ff-create-label-module"></span><h2>datacode.ff.create.label module<a class="headerlink" href="#module-datacode.ff.create.label" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.label.get_and_set_labels">
-<code class="sig-prename descclassname">datacode.ff.create.label.</code><code class="sig-name descname">get_and_set_labels</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">factor_model=3</em>, <em class="sig-param">size_var=None</em>, <em class="sig-param">value_var=None</em>, <em class="sig-param">profitability_var=None</em>, <em class="sig-param">investment_var=None</em>, <em class="sig-param">custom_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/label.html#get_and_set_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.label.get_and_set_labels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.label.</code><code class="sig-name descname">get_and_set_labels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">factor_model</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">size_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profitability_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">investment_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_labels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/label.html#get_and_set_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.label.get_and_set_labels" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</p>
@@ -251,9 +254,9 @@
 </div>
 <div class="section" id="module-datacode.ff.create.main">
 <span id="datacode-ff-create-main-module"></span><h2>datacode.ff.create.main module<a class="headerlink" href="#module-datacode.ff.create.main" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.main.construct_averges_and_minus_variables_for_pairing">
-<code class="sig-prename descclassname">datacode.ff.create.main.</code><code class="sig-name descname">construct_averges_and_minus_variables_for_pairing</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">pairing</em>, <em class="sig-param">labels</em>, <em class="sig-param">factor_model</em>, <em class="sig-param">datevar='Date'</em>, <em class="sig-param">byvars=None</em>, <em class="sig-param">retvar='RET'</em>, <em class="sig-param">wtvar='Market Equity'</em>, <em class="sig-param">size_var=None</em>, <em class="sig-param">value_var=None</em>, <em class="sig-param">profitability_var=None</em>, <em class="sig-param">investment_var=None</em>, <em class="sig-param">custom_low_minus_high_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/main.html#construct_averges_and_minus_variables_for_pairing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.main.construct_averges_and_minus_variables_for_pairing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.main.</code><code class="sig-name descname">construct_averges_and_minus_variables_for_pairing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">pairing</span></em>, <em class="sig-param"><span class="n">labels</span></em>, <em class="sig-param"><span class="n">factor_model</span></em>, <em class="sig-param"><span class="n">datevar</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">byvars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">retvar</span><span class="o">=</span><span class="default_value">'RET'</span></em>, <em class="sig-param"><span class="n">wtvar</span><span class="o">=</span><span class="default_value">'Market Equity'</span></em>, <em class="sig-param"><span class="n">size_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profitability_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">investment_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_low_minus_high_dict</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/main.html#construct_averges_and_minus_variables_for_pairing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.main.construct_averges_and_minus_variables_for_pairing" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -261,9 +264,9 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.main.create_ff_factors">
-<code class="sig-prename descclassname">datacode.ff.create.main.</code><code class="sig-name descname">create_ff_factors</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">factor_model</em>, <em class="sig-param">id_var='PERMNO'</em>, <em class="sig-param">datevar='Date'</em>, <em class="sig-param">byvars=None</em>, <em class="sig-param">retvar='RET'</em>, <em class="sig-param">wtvar='Market Equity'</em>, <em class="sig-param">size_var=None</em>, <em class="sig-param">value_var=None</em>, <em class="sig-param">profitability_var=None</em>, <em class="sig-param">investment_var=None</em>, <em class="sig-param">custom_labels=None</em>, <em class="sig-param">custom_groupvar_ngroups_dict=None</em>, <em class="sig-param">custom_pairings=None</em>, <em class="sig-param">custom_low_minus_high_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/main.html#create_ff_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.main.create_ff_factors" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.main.</code><code class="sig-name descname">create_ff_factors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">factor_model</span></em>, <em class="sig-param"><span class="n">id_var</span><span class="o">=</span><span class="default_value">'PERMNO'</span></em>, <em class="sig-param"><span class="n">datevar</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">byvars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">retvar</span><span class="o">=</span><span class="default_value">'RET'</span></em>, <em class="sig-param"><span class="n">wtvar</span><span class="o">=</span><span class="default_value">'Market Equity'</span></em>, <em class="sig-param"><span class="n">size_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profitability_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">investment_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_labels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_groupvar_ngroups_dict</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_pairings</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_low_minus_high_dict</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/main.html#create_ff_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.main.create_ff_factors" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -274,9 +277,9 @@
 </div>
 <div class="section" id="module-datacode.ff.create.mainport">
 <span id="datacode-ff-create-mainport-module"></span><h2>datacode.ff.create.mainport module<a class="headerlink" href="#module-datacode.ff.create.mainport" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.mainport.combine_main_portfolios">
-<code class="sig-prename descclassname">datacode.ff.create.mainport.</code><code class="sig-name descname">combine_main_portfolios</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">labels</em>, <em class="sig-param">pairings</em>, <em class="sig-param">factor_model=3</em>, <em class="sig-param">size_var=None</em>, <em class="sig-param">value_var=None</em>, <em class="sig-param">profitability_var=None</em>, <em class="sig-param">investment_var=None</em>, <em class="sig-param">custom_low_minus_high_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/mainport.html#combine_main_portfolios"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.mainport.combine_main_portfolios" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.mainport.</code><code class="sig-name descname">combine_main_portfolios</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">labels</span></em>, <em class="sig-param"><span class="n">pairings</span></em>, <em class="sig-param"><span class="n">factor_model</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">size_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profitability_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">investment_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_low_minus_high_dict</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/mainport.html#combine_main_portfolios"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.mainport.combine_main_portfolios" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: inplace</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>df:
@@ -302,9 +305,9 @@ custom_low_minus_high_dict:</p>
 </div>
 <div class="section" id="module-datacode.ff.create.minus">
 <span id="datacode-ff-create-minus-module"></span><h2>datacode.ff.create.minus module<a class="headerlink" href="#module-datacode.ff.create.minus" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.minus.construct_minus_variables">
-<code class="sig-prename descclassname">datacode.ff.create.minus.</code><code class="sig-name descname">construct_minus_variables</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">labels</em>, <em class="sig-param">pairing</em>, <em class="sig-param">factor_model=3</em>, <em class="sig-param">byvars=None</em>, <em class="sig-param">datevar='Date'</em>, <em class="sig-param">size_var=None</em>, <em class="sig-param">value_var=None</em>, <em class="sig-param">profitability_var=None</em>, <em class="sig-param">investment_var=None</em>, <em class="sig-param">custom_low_minus_high_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/minus.html#construct_minus_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.minus.construct_minus_variables" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.minus.</code><code class="sig-name descname">construct_minus_variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">labels</span></em>, <em class="sig-param"><span class="n">pairing</span></em>, <em class="sig-param"><span class="n">factor_model</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">byvars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">datevar</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">size_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profitability_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">investment_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_low_minus_high_dict</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/minus.html#construct_minus_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.minus.construct_minus_variables" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -315,9 +318,9 @@ custom_low_minus_high_dict:</p>
 </div>
 <div class="section" id="module-datacode.ff.create.model">
 <span id="datacode-ff-create-model-module"></span><h2>datacode.ff.create.model module<a class="headerlink" href="#module-datacode.ff.create.model" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.model.parse_model">
-<code class="sig-prename descclassname">datacode.ff.create.model.</code><code class="sig-name descname">parse_model</code><span class="sig-paren">(</span><em class="sig-param">model_selector</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/model.html#parse_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.model.parse_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.model.</code><code class="sig-name descname">parse_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model_selector</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/model.html#parse_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.model.parse_model" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
@@ -328,9 +331,9 @@ custom_low_minus_high_dict:</p>
 </div>
 <div class="section" id="module-datacode.ff.create.reshape">
 <span id="datacode-ff-create-reshape-module"></span><h2>datacode.ff.create.reshape module<a class="headerlink" href="#module-datacode.ff.create.reshape" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.reshape.long_averages_to_wide_averages">
-<code class="sig-prename descclassname">datacode.ff.create.reshape.</code><code class="sig-name descname">long_averages_to_wide_averages</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">datevar='Date'</em>, <em class="sig-param">byvars=None</em>, <em class="sig-param">retvar='RET'</em>, <em class="sig-param">dual_portvar='Market Equity Portfolio/B/M Portfolio'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/reshape.html#long_averages_to_wide_averages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.reshape.long_averages_to_wide_averages" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.reshape.</code><code class="sig-name descname">long_averages_to_wide_averages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">datevar</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">byvars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">retvar</span><span class="o">=</span><span class="default_value">'RET'</span></em>, <em class="sig-param"><span class="n">dual_portvar</span><span class="o">=</span><span class="default_value">'Market Equity Portfolio/B/M Portfolio'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/reshape.html#long_averages_to_wide_averages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.reshape.long_averages_to_wide_averages" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -341,9 +344,9 @@ custom_low_minus_high_dict:</p>
 </div>
 <div class="section" id="module-datacode.ff.create.sort">
 <span id="datacode-ff-create-sort-module"></span><h2>datacode.ff.create.sort module<a class="headerlink" href="#module-datacode.ff.create.sort" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.sort.create_ff_portfolios">
-<code class="sig-prename descclassname">datacode.ff.create.sort.</code><code class="sig-name descname">create_ff_portfolios</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">factor_model=3</em>, <em class="sig-param">byvars='Year'</em>, <em class="sig-param">id_var='Ticker'</em>, <em class="sig-param">date_var='Date'</em>, <em class="sig-param">size_var=None</em>, <em class="sig-param">value_var=None</em>, <em class="sig-param">profitability_var=None</em>, <em class="sig-param">investment_var=None</em>, <em class="sig-param">custom_groupvar_ngroups_dict=None</em>, <em class="sig-param">**portfolio_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/sort.html#create_ff_portfolios"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.sort.create_ff_portfolios" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.sort.</code><code class="sig-name descname">create_ff_portfolios</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">factor_model</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">byvars</span><span class="o">=</span><span class="default_value">'Year'</span></em>, <em class="sig-param"><span class="n">id_var</span><span class="o">=</span><span class="default_value">'Ticker'</span></em>, <em class="sig-param"><span class="n">date_var</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">size_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profitability_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">investment_var</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">custom_groupvar_ngroups_dict</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">portfolio_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/sort.html#create_ff_portfolios"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.sort.create_ff_portfolios" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -351,9 +354,9 @@ custom_low_minus_high_dict:</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.sort.create_portfolio">
-<code class="sig-prename descclassname">datacode.ff.create.sort.</code><code class="sig-name descname">create_portfolio</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">groupvar='Market Equity'</em>, <em class="sig-param">ngroups=2</em>, <em class="sig-param">byvars='Year'</em>, <em class="sig-param">id_var='Ticker'</em>, <em class="sig-param">date_var='Date'</em>, <em class="sig-param">**portfolio_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/sort.html#create_portfolio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.sort.create_portfolio" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.sort.</code><code class="sig-name descname">create_portfolio</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">groupvar</span><span class="o">=</span><span class="default_value">'Market Equity'</span></em>, <em class="sig-param"><span class="n">ngroups</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">byvars</span><span class="o">=</span><span class="default_value">'Year'</span></em>, <em class="sig-param"><span class="n">id_var</span><span class="o">=</span><span class="default_value">'Ticker'</span></em>, <em class="sig-param"><span class="n">date_var</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">portfolio_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/sort.html#create_portfolio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.sort.create_portfolio" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -361,9 +364,9 @@ custom_low_minus_high_dict:</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.ff.create.sort.create_portfolios">
-<code class="sig-prename descclassname">datacode.ff.create.sort.</code><code class="sig-name descname">create_portfolios</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">groupvar_ngroups_dict=None</em>, <em class="sig-param">byvars='Year'</em>, <em class="sig-param">id_var='Ticker'</em>, <em class="sig-param">date_var='Date'</em>, <em class="sig-param">**portfolio_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/sort.html#create_portfolios"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.sort.create_portfolios" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.ff.create.sort.</code><code class="sig-name descname">create_portfolios</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">groupvar_ngroups_dict</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">byvars</span><span class="o">=</span><span class="default_value">'Year'</span></em>, <em class="sig-param"><span class="n">id_var</span><span class="o">=</span><span class="default_value">'Ticker'</span></em>, <em class="sig-param"><span class="n">date_var</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">portfolio_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/ff/create/sort.html#create_portfolios"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.ff.create.sort.create_portfolios" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>

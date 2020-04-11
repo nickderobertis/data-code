@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../_static/language_data.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -317,8 +318,8 @@
         <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_var_keys</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{var}</span><span class="s1"> but not calculated and not &#39;</span>
-                                     <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1"> but not calculated and not &#39;</span>
+                                     <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
             <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
             <span class="n">series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">get_series_for</span><span class="p">(</span><span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
@@ -396,8 +397,8 @@
         <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">_orig_load_variables</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_var_keys</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{variable}</span><span class="s1"> but not calculated and not &#39;</span>
-                                     <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s1"> but not calculated and not &#39;</span>
+                                     <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
             <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
             <span class="n">rename_dict</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">load_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">name</span>
@@ -429,8 +430,8 @@
                 <span class="k">continue</span>
 
             <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{variable}</span><span class="s1"> but not calculated and not &#39;</span>
-                                 <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s1"> but not calculated and not &#39;</span>
+                                 <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">required_variables</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">calculation</span><span class="o">.</span><span class="n">variables</span>
             <span class="n">has_all_required_variables</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="n">calc_with_cols</span> <span class="o">=</span> <span class="p">[]</span>
@@ -475,8 +476,8 @@
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_var_keys</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">calculation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{var}</span><span class="s1"> but not calculated and not &#39;</span>
-                                     <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{self.source.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;passed variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1"> but not calculated and not &#39;</span>
+                                     <span class="sa">f</span><span class="s1">&#39;in columns </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
             <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">untransformed_col_for</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
             <span class="n">temp_source</span> <span class="o">=</span> <span class="n">_apply_transforms_to_var</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">temp_source</span><span class="p">)</span>

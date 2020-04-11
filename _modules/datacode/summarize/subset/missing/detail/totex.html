@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize.subset.missing.detail.totex &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.summarize.subset.missing.detail.totex &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../../../../_static/language_data.js"></script>
         <script src="../../../../../../_static/clipboard.min.js"></script>
         <script src="../../../../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -183,7 +184,7 @@
                                                <span class="n">align</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                                <span class="n">outfolder</span><span class="p">:</span> <span class="n">StrOrNone</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">lt</span><span class="o">.</span><span class="n">Table</span><span class="p">:</span>
 
-    <span class="n">caption</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Data Gap Analysis - </span><span class="si">{missing_display_str}</span><span class="s1"> </span><span class="si">{count_with_missings_var}</span><span class="s1">&#39;</span>
+    <span class="n">caption</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Data Gap Analysis - </span><span class="si">{</span><span class="n">missing_display_str</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">count_with_missings_var</span><span class="si">}</span><span class="s1">&#39;</span>
 
     <span class="n">missing_display_str</span> <span class="o">=</span> <span class="n">missing_display_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
@@ -198,22 +199,22 @@
     <span class="n">percent_of_or_blank</span> <span class="o">=</span> <span class="n">pct_of_if_necessary</span><span class="p">(</span><span class="n">missing_tolerance</span><span class="p">,</span> <span class="n">missing_quantile</span><span class="p">)</span>
 
     <span class="n">below_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    This table shows where the </span><span class="si">{count_with_missings_var}</span><span class="s2"> variable is </span><span class="si">{missing_long_display_str}</span><span class="s2">. </span>
-<span class="s2">    For Panels A, B, C, and D, each item represents a subsample analysis where </span><span class="si">{row_byvar}</span><span class="s2"> is the value given by the row</span>
-<span class="s2">    and where </span><span class="si">{col_byvar}</span><span class="s2"> is the value given by the column, while Panel E is a full sample analysis.</span>
+<span class="s2">    This table shows where the </span><span class="si">{</span><span class="n">count_with_missings_var</span><span class="si">}</span><span class="s2"> variable is </span><span class="si">{</span><span class="n">missing_long_display_str</span><span class="si">}</span><span class="s2">. </span>
+<span class="s2">    For Panels A, B, C, and D, each item represents a subsample analysis where </span><span class="si">{</span><span class="n">row_byvar</span><span class="si">}</span><span class="s2"> is the value given by the row</span>
+<span class="s2">    and where </span><span class="si">{</span><span class="n">col_byvar</span><span class="si">}</span><span class="s2"> is the value given by the column, while Panel E is a full sample analysis.</span>
 <span class="s2">    Panel A describes the number of observations.</span>
-<span class="s2">    Panel B describes the percentage of observations with </span><span class="si">{missing_long_display_str}</span><span class="s2"> for </span><span class="si">{count_with_missings_var}</span><span class="s2">.</span>
-<span class="s2">    Panel C describes the number of unique </span><span class="si">{id_var}</span><span class="s2">s. </span>
-<span class="s2">    Panel D describes the percentage of unique </span><span class="si">{id_var}</span><span class="s2">s which have more than </span><span class="si">{missing_tolerance}{percent_of_or_blank}</span><span class="s2"> </span>
-<span class="s2">    observations with </span><span class="si">{missing_long_display_str}</span><span class="s2"> for </span><span class="si">{count_with_missings_var}</span><span class="s2">. </span>
+<span class="s2">    Panel B describes the percentage of observations with </span><span class="si">{</span><span class="n">missing_long_display_str</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">count_with_missings_var</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">    Panel C describes the number of unique </span><span class="si">{</span><span class="n">id_var</span><span class="si">}</span><span class="s2">s. </span>
+<span class="s2">    Panel D describes the percentage of unique </span><span class="si">{</span><span class="n">id_var</span><span class="si">}</span><span class="s2">s which have more than </span><span class="si">{</span><span class="n">missing_tolerance</span><span class="si">}{</span><span class="n">percent_of_or_blank</span><span class="si">}</span><span class="s2"> </span>
+<span class="s2">    observations with </span><span class="si">{</span><span class="n">missing_long_display_str</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">count_with_missings_var</span><span class="si">}</span><span class="s2">. </span>
 <span class="s2">    Panel E has four subsections. The first section shows the count of observations and the percentage that are </span>
-<span class="s2">    </span><span class="si">{missing_long_display_str}</span><span class="s2">. The second section shows the count of unique </span><span class="si">{id_var}</span><span class="s2">s. The third section shows</span>
-<span class="s2">    summary statistics for the number of </span><span class="si">{period_display_name}</span><span class="s2">s per </span><span class="si">{id_var}</span><span class="s2">. The fourth section shows the percentage</span>
-<span class="s2">    of </span><span class="si">{id_var}</span><span class="s2">s which have at least the </span><span class="si">{summary_num_or_pct}</span><span class="s2"> of </span><span class="si">{period_display_name}</span><span class="s2">s given by the column. </span>
+<span class="s2">    </span><span class="si">{</span><span class="n">missing_long_display_str</span><span class="si">}</span><span class="s2">. The second section shows the count of unique </span><span class="si">{</span><span class="n">id_var</span><span class="si">}</span><span class="s2">s. The third section shows</span>
+<span class="s2">    summary statistics for the number of </span><span class="si">{</span><span class="n">period_display_name</span><span class="si">}</span><span class="s2">s per </span><span class="si">{</span><span class="n">id_var</span><span class="si">}</span><span class="s2">. The fourth section shows the percentage</span>
+<span class="s2">    of </span><span class="si">{</span><span class="n">id_var</span><span class="si">}</span><span class="s2">s which have at least the </span><span class="si">{</span><span class="n">summary_num_or_pct</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">period_display_name</span><span class="si">}</span><span class="s2">s given by the column. </span>
 <span class="s2">    &quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">extra_below_text</span>
 
     <span class="k">if</span> <span class="n">extra_caption</span><span class="p">:</span>
-        <span class="n">caption</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{caption}</span><span class="s1"> - </span><span class="si">{extra_caption}</span><span class="s1">&#39;</span>
+        <span class="n">caption</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">caption</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">extra_caption</span><span class="si">}</span><span class="s1">&#39;</span>
 
     <span class="n">detail_data_tables</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">name</span><span class="p">:</span> <span class="n">lt</span><span class="o">.</span><span class="n">DataTable</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">include_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra_header</span><span class="o">=</span><span class="n">col_byvar</span><span class="p">)</span>

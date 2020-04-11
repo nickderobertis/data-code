@@ -19,7 +19,9 @@ Subpackages
    datacode.panel
    datacode.portfolio
    datacode.psm
+   datacode.sem
    datacode.summarize
+   datacode.utils
 
 Submodules
 ----------

@@ -1,0 +1,35 @@
+datacode.summarize.coverage package
+===================================
+
+.. automodule:: datacode.summarize.coverage
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.summarize.coverage.counts module
+-----------------------------------------
+
+.. automodule:: datacode.summarize.coverage.counts
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.coverage.main module
+---------------------------------------
+
+.. automodule:: datacode.summarize.coverage.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.summarize.coverage.to\_tex module
+------------------------------------------
+
+.. automodule:: datacode.summarize.coverage.to_tex
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

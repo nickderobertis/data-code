@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.collection &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.models.variables.collection &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../../_static/language_data.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
         <script src="../../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -271,7 +272,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_map</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;attribute </span><span class="si">{item}</span><span class="s1"> does not exist on </span><span class="si">{self}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;attribute </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1"> does not exist on </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_set_variables_and_collections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Variable</span><span class="p">)]</span>
@@ -305,7 +306,7 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">variables_str</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">])</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;VariableCollection(name=</span><span class="si">{self.name}</span><span class="s1">,</span><span class="se">\n</span><span class="s1"> variables=</span><span class="si">{variables_str}</span><span class="s1">)&gt;&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;VariableCollection(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">,</span><span class="se">\n</span><span class="s1"> variables=</span><span class="si">{</span><span class="n">variables_str</span><span class="si">}</span><span class="s1">)&gt;&#39;</span>
 
 
 <div class="viewcode-block" id="VariableCollection.from_display_names"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.collection.VariableCollection.from_display_names">[docs]</a>    <span class="nd">@classmethod</span>
@@ -336,7 +337,7 @@
             <span class="c1"># Add single variable</span>
             <span class="n">tups</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">variable_or_collection</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">_get_obj_or_attr</span><span class="p">(</span><span class="n">variable_or_collection</span><span class="p">,</span> <span class="n">output</span><span class="p">)))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;must pass iterable of Variable or VariableCollection. </span><span class="si">{variable_or_collection}</span><span class="s1"> has type {type(variable_or_collection)}&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;must pass iterable of Variable or VariableCollection. </span><span class="si">{</span><span class="n">variable_or_collection</span><span class="si">}</span><span class="s1"> has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">variable_or_collection</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">tups</span>
 
@@ -355,7 +356,7 @@
             <span class="k">if</span> <span class="n">variable_or_collection</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">collected</span><span class="p">:</span>
                 <span class="n">collected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">variable_or_collection</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;must pass iterable of Variable or VariableCollection. </span><span class="si">{variable_or_collection}</span><span class="s1"> has type {type(variable_or_collection)}&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;must pass iterable of Variable or VariableCollection. </span><span class="si">{</span><span class="n">variable_or_collection</span><span class="si">}</span><span class="s1"> has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">variable_or_collection</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">collected</span>
 
@@ -375,7 +376,7 @@
             <span class="c1"># if just str or tuple is passed, parse and add directly to collection</span>
             <span class="n">collection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_definition_dict_tuple_or_str_to_variable</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid definition dict. only dicts, lists, strs, and tuples are allowed, got type {type(value)} for value </span><span class="si">{value}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid definition dict. only dicts, lists, strs, and tuples are allowed, got type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1"> for value </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">VariableCollection</span><span class="p">(</span><span class="o">*</span><span class="n">collection</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">default_attr</span><span class="o">=</span><span class="n">default_attr</span><span class="p">)</span>
 
@@ -390,7 +391,7 @@
         <span class="c1"># variable itself was in data, just return it</span>
         <span class="k">return</span> <span class="n">value</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;must pass str or tuple, got type {type(value)} for value </span><span class="si">{value}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;must pass str or tuple, got type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1"> for value </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="VariableDefaultCollection"><a class="viewcode-back" href="../../../../api/datacode.models.variables.html#datacode.models.variables.collection.VariableDefaultCollection">[docs]</a><span class="k">class</span> <span class="nc">VariableDefaultCollection</span><span class="p">(</span><span class="n">VariableCollection</span><span class="p">):</span>
 

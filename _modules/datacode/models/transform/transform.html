@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.transform.transform &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.models.transform.transform &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../../_static/language_data.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
         <script src="../../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -204,6 +205,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">symbol_func</span> <span class="o">=</span> <span class="n">symbol_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data_func_target</span><span class="p">(</span><span class="n">data_func_target</span><span class="p">)</span></div>
 
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">hash_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;data_func_target&#39;</span><span class="p">]</span>
+        <span class="n">hash_items</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">hash_attrs</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">hash_items</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_validate_data_func_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_func_target</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">data_func_target</span> <span class="o">=</span> <span class="n">data_func_target</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="n">cell_values</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;cell&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">)</span>
@@ -218,7 +224,7 @@
             <span class="k">return</span> <span class="s1">&#39;dataframe&#39;</span>
         <span class="k">if</span> <span class="n">data_func_target</span> <span class="ow">in</span> <span class="n">source_values</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">&#39;source&#39;</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not pass appropriate data_func_target to Transform </span><span class="si">{self}</span><span class="s1">, got </span><span class="si">{data_func_target}</span><span class="s1"> &#39;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not pass appropriate data_func_target to Transform </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s1">, got </span><span class="si">{</span><span class="n">data_func_target</span><span class="si">}</span><span class="s1"> &#39;</span>
                          <span class="sa">f</span><span class="s1">&#39;which should be one of cell, series, dataframe, or source&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Transform.apply_to_source"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.transform.Transform.apply_to_source">[docs]</a>    <span class="k">def</span> <span class="nf">apply_to_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">preserve_original</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -288,8 +294,8 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span> <span class="o">==</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span>
             <span class="n">source</span> <span class="o">=</span> <span class="n">data_func_with_col</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not pass appropriate data_func_target to Transform </span><span class="si">{self}</span><span class="s1">, got &#39;</span>
-                             <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{self.data_func_target}</span><span class="s1"> which should be one of cell, series, dataframe, or source&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Did not pass appropriate data_func_target to Transform </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s1">, got &#39;</span>
+                             <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_func_target</span><span class="si">}</span><span class="s1"> which should be one of cell, series, dataframe, or source&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">source</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>

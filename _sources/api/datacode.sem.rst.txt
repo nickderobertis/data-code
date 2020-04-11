@@ -1,0 +1,99 @@
+datacode.sem package
+====================
+
+.. automodule:: datacode.sem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.sem.constants module
+-----------------------------
+
+.. automodule:: datacode.sem.constants
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.df module
+----------------------
+
+.. automodule:: datacode.sem.df
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.eqs module
+-----------------------
+
+.. automodule:: datacode.sem.eqs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.exc module
+-----------------------
+
+.. automodule:: datacode.sem.exc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.latents module
+---------------------------
+
+.. automodule:: datacode.sem.latents
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.main module
+------------------------
+
+.. automodule:: datacode.sem.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.model module
+-------------------------
+
+.. automodule:: datacode.sem.model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.parse module
+-------------------------
+
+.. automodule:: datacode.sem.parse
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.run module
+-----------------------
+
+.. automodule:: datacode.sem.run
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.summary module
+---------------------------
+
+.. automodule:: datacode.sem.summary
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.sem.to\_tex module
+---------------------------
+
+.. automodule:: datacode.sem.to_tex
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

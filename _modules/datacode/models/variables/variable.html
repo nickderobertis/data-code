@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.variables.variable &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.models.variables.variable &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../../_static/language_data.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
         <script src="../../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -210,7 +211,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_from_transforms</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Variable(key=</span><span class="si">{self.key}</span><span class="s1">, name=</span><span class="si">{self.name}</span><span class="s1">, applied_transforms=</span><span class="si">{self.applied_transforms}</span><span class="s1">)&#39;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Variable(key=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s1">, name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">, applied_transforms=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">applied_transforms</span><span class="si">}</span><span class="s1">)&#39;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="n">compare_attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;applied_transforms&#39;</span><span class="p">)</span>
@@ -219,6 +220,10 @@
             <span class="k">return</span> <span class="kc">False</span>
         <span class="c1"># If all compare attributes are equal, objects are equal</span>
         <span class="k">return</span> <span class="nb">all</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="o">==</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">compare_attrs</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">applied_transform_hash</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">([</span><span class="nb">hash</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span> <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">applied_transform_hash</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Expression</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_expression_from_other_and_operator</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="s1">&#39;add&#39;</span><span class="p">)</span>
@@ -235,6 +240,16 @@
     <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_expression_from_other_and_operator</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">pow</span><span class="p">,</span> <span class="s1">&#39;exponentiate&#39;</span><span class="p">,</span> <span class="n">preposition</span><span class="o">=</span><span class="s1">&#39;by&#39;</span><span class="p">)</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unique_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">key</span>
+
+        <span class="n">transform_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">]</span>
+        <span class="n">full_key</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key</span><span class="p">]</span> <span class="o">+</span> <span class="n">transform_keys</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">full_key</span>
+
     <span class="k">def</span> <span class="nf">_create_expression_from_other_and_operator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">operator_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                                                    <span class="n">preposition</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;to&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Expression&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Variable</span><span class="p">):</span>
@@ -244,12 +259,12 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Expression</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">expr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cannot </span><span class="si">{operator_name}</span><span class="s1"> expression which does not have .expr, got </span><span class="si">{other}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cannot </span><span class="si">{</span><span class="n">operator_name</span><span class="si">}</span><span class="s1"> expression which does not have .expr, got </span><span class="si">{</span><span class="n">other</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">sympy_expr</span> <span class="o">=</span> <span class="n">op_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">expr</span><span class="p">)</span>
             <span class="n">expr</span> <span class="o">=</span> <span class="n">Expression</span><span class="o">.</span><span class="n">from_sympy_expr</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">variables</span><span class="p">],</span> <span class="n">sympy_expr</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">expr</span>
 
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cannot </span><span class="si">{operator_name}</span><span class="s1"> </span><span class="si">{other}</span><span class="s1"> of type {type(other)} </span><span class="si">{preposition}</span><span class="s1"> </span><span class="si">{self}</span><span class="s1">, &#39;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cannot </span><span class="si">{</span><span class="n">operator_name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">other</span><span class="si">}</span><span class="s1"> of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">preposition</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s1">, &#39;</span>
                          <span class="sa">f</span><span class="s1">&#39;must be Variable or Expression&#39;</span><span class="p">)</span>
 
 

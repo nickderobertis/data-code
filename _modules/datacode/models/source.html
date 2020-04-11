@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../_static/language_data.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -296,7 +297,7 @@
         <span class="n">existing_names</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">var_names</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">existing_names</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;variable name </span><span class="si">{name}</span><span class="s1"> repeated in load variables&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;variable name </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> repeated in load variables&#39;</span><span class="p">)</span>
             <span class="n">existing_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
 
@@ -352,20 +353,20 @@
                 <span class="n">run_pipeline</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">if</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">last_modified</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                    Was not able to determine last modified of pipeline </span><span class="si">{pipeline}</span><span class="s2">.</span>
+<span class="s2">                    Was not able to determine last modified of pipeline </span><span class="si">{</span><span class="n">pipeline</span><span class="si">}</span><span class="s2">.</span>
 <span class="s2">                    Will always run pipeline due to this. Consider manually setting last_modified when creating</span>
 <span class="s2">                    the pipeline.</span>
 <span class="s2">                    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_modified</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                   Was not able to determine last modified of source </span><span class="si">{self}</span><span class="s2">.</span>
+<span class="s2">                   Was not able to determine last modified of source </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">.</span>
 <span class="s2">                   Will run pipeline due to this. This is due to no file currently existing for this source.</span>
 <span class="s2">                   &quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">recent_obj</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">obj_last_modified</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{recent_obj}</span><span class="s1"> was modified at </span><span class="si">{recent_obj.last_modified}</span><span class="s1">.</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{</span><span class="n">recent_obj</span><span class="si">}</span><span class="s1"> was modified at </span><span class="si">{</span><span class="n">recent_obj</span><span class="o">.</span><span class="n">last_modified</span><span class="si">}</span><span class="s1">.</span>
 <span class="s1">    </span>
-<span class="s1">                    this data source </span><span class="si">{self}</span><span class="s1"> was modified at </span><span class="si">{self.last_modified}</span><span class="s1">.</span>
+<span class="s1">                    this data source </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s1"> was modified at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_modified</span><span class="si">}</span><span class="s1">.</span>
 <span class="s1">    </span>
 <span class="s1">                    to get new changes, will load this data source through pipeline rather than from file.&#39;&#39;&#39;</span><span class="p">)</span>
 
@@ -434,7 +435,7 @@
                 <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">var_applied_transform_keys</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
                     <span class="c1"># Mismatching transform between column and variable, must be incorrect column</span>
                     <span class="k">break</span>
-        <span class="k">raise</span> <span class="n">NoColumnForVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find untransformed col for </span><span class="si">{variable}</span><span class="s1"> in </span><span class="si">{self.columns}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="n">NoColumnForVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find untransformed col for </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataSource.col_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.col_for">[docs]</a>    <span class="k">def</span> <span class="nf">col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">orig_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
@@ -467,7 +468,7 @@
         <span class="k">if</span> <span class="n">variable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">possible_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">var_key</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_cols</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cannot look up col for key </span><span class="si">{var_key}</span><span class="s1"> as multiple columns match: </span><span class="si">{possible_cols}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cannot look up col for key </span><span class="si">{</span><span class="n">var_key</span><span class="si">}</span><span class="s1"> as multiple columns match: </span><span class="si">{</span><span class="n">possible_cols</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">variable</span> <span class="o">=</span> <span class="n">possible_cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">variable</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">col_list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">match_key_only</span><span class="p">:</span>
@@ -476,7 +477,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span> <span class="o">==</span> <span class="n">variable</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">col</span>
-        <span class="k">raise</span> <span class="n">NoColumnForVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find column matching </span><span class="si">{variable}</span><span class="s1"> in </span><span class="si">{self.columns}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">NoColumnForVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find column matching </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DataSource.col_key_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.col_key_for">[docs]</a>    <span class="k">def</span> <span class="nf">col_key_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                     <span class="n">orig_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
@@ -615,7 +616,7 @@
 
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataSource(name=</span><span class="si">{self.name}</span><span class="s1">, columns=</span><span class="si">{self.columns}</span><span class="s1">)&gt;&#39;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataSource(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">, columns=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">)&gt;&#39;</span></div>
 
 
 <div class="viewcode-block" id="NoColumnForVariableException"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.NoColumnForVariableException">[docs]</a><span class="k">class</span> <span class="nc">NoColumnForVariableException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>

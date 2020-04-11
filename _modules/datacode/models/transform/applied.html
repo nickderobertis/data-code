@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.transform.applied &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.models.transform.applied &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../../../../_static/language_data.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
         <script src="../../../../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -223,6 +224,15 @@
             <span class="k">return</span> <span class="n">same</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># TODO [#69]: should not be necessary to explicitly hash AppliedTransform</span>
+    <span class="c1">#</span>
+    <span class="c1"># Already hashing `Transform` base class. But was getting unhashable type: &#39;AppliedTransform&#39;</span>
+    <span class="c1"># even with that.</span>
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">hash_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;data_func_target&#39;</span><span class="p">]</span>
+        <span class="n">hash_items</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">hash_attrs</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">hash_items</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AppliedTransform.from_func"><a class="viewcode-back" href="../../../../api/datacode.models.transform.html#datacode.models.transform.applied.AppliedTransform.from_func">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_func</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;Column&#39;</span><span class="p">,</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">],</span>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize.subset.missing.summary.graphs package &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.summarize.subset.missing.summary.graphs package &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../_static/language_data.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="datacode.summarize.subset.missing.summary.tables package" href="datacode.summarize.subset.missing.summary.tables.html" />
@@ -68,7 +69,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -111,7 +112,9 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.sem.html">datacode.sem package</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="datacode.summarize.html">datacode.summarize package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.utils.html">datacode.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
@@ -205,9 +208,9 @@
 </div>
 <div class="section" id="module-datacode.summarize.subset.missing.summary.graphs.pctbyid">
 <span id="datacode-summarize-subset-missing-summary-graphs-pctbyid-module"></span><h2>datacode.summarize.subset.missing.summary.graphs.pctbyid module<a class="headerlink" href="#module-datacode.summarize.subset.missing.summary.graphs.pctbyid" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.summarize.subset.missing.summary.graphs.pctbyid.missing_pct_by_id_figure">
-<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.graphs.pctbyid.</code><code class="sig-name descname">missing_pct_by_id_figure</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">id_col</em>, <em class="sig-param">col_with_missings</em>, <em class="sig-param">outname='Percentage Missing Obs by Firm'</em>, <em class="sig-param">outfolder='.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/graphs/pctbyid.html#missing_pct_by_id_figure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.graphs.pctbyid.missing_pct_by_id_figure" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.graphs.pctbyid.</code><code class="sig-name descname">missing_pct_by_id_figure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">id_col</span></em>, <em class="sig-param"><span class="n">col_with_missings</span></em>, <em class="sig-param"><span class="n">outname</span><span class="o">=</span><span class="default_value">'Percentage Missing Obs by Firm'</span></em>, <em class="sig-param"><span class="n">outfolder</span><span class="o">=</span><span class="default_value">'.'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/graphs/pctbyid.html#missing_pct_by_id_figure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.graphs.pctbyid.missing_pct_by_id_figure" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Figure</span></code></p>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize.subset.missing.summary.tables.fullsample package &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.summarize.subset.missing.summary.tables.fullsample package &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../_static/language_data.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="datacode.summarize.subset.outliers package" href="datacode.summarize.subset.outliers.html" />
@@ -68,7 +69,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -111,7 +112,9 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.sem.html">datacode.sem package</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="datacode.summarize.html">datacode.summarize package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.utils.html">datacode.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
@@ -207,9 +210,9 @@
 </div>
 <div class="section" id="module-datacode.summarize.subset.missing.summary.tables.fullsample.idcount">
 <span id="datacode-summarize-subset-missing-summary-tables-fullsample-idcount-module"></span><h2>datacode.summarize.subset.missing.summary.tables.fullsample.idcount module<a class="headerlink" href="#module-datacode.summarize.subset.missing.summary.tables.fullsample.idcount" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.summarize.subset.missing.summary.tables.fullsample.idcount.by_id_count_data_table">
-<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.idcount.</code><code class="sig-name descname">by_id_count_data_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">id_col</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/idcount.html#by_id_count_data_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.idcount.by_id_count_data_table" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.idcount.</code><code class="sig-name descname">by_id_count_data_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">id_col</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/idcount.html#by_id_count_data_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.idcount.by_id_count_data_table" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></p>
@@ -220,9 +223,9 @@
 </div>
 <div class="section" id="module-datacode.summarize.subset.missing.summary.tables.fullsample.main">
 <span id="datacode-summarize-subset-missing-summary-tables-fullsample-main-module"></span><h2>datacode.summarize.subset.missing.summary.tables.fullsample.main module<a class="headerlink" href="#module-datacode.summarize.subset.missing.summary.tables.fullsample.main" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.summarize.subset.missing.summary.tables.fullsample.main.missing_full_sample_summary_panel">
-<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.main.</code><code class="sig-name descname">missing_full_sample_summary_panel</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">id_col</em>, <em class="sig-param">col_with_missings</em>, <em class="sig-param">missing_tolerances=(0</em>, <em class="sig-param">5</em>, <em class="sig-param">10)</em>, <em class="sig-param">missing_quantiles=None</em>, <em class="sig-param">missing_display_str='Missing'</em>, <em class="sig-param">datevar='Date'</em>, <em class="sig-param">pct_format_str='.1f'</em>, <em class="sig-param">period_display_name='Period'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/main.html#missing_full_sample_summary_panel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.main.missing_full_sample_summary_panel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.main.</code><code class="sig-name descname">missing_full_sample_summary_panel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">id_col</span></em>, <em class="sig-param"><span class="n">col_with_missings</span></em>, <em class="sig-param"><span class="n">missing_tolerances</span><span class="o">=</span><span class="default_value">0, 5, 10</span></em>, <em class="sig-param"><span class="n">missing_quantiles</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">missing_display_str</span><span class="o">=</span><span class="default_value">'Missing'</span></em>, <em class="sig-param"><span class="n">datevar</span><span class="o">=</span><span class="default_value">'Date'</span></em>, <em class="sig-param"><span class="n">pct_format_str</span><span class="o">=</span><span class="default_value">'.1f'</span></em>, <em class="sig-param"><span class="n">period_display_name</span><span class="o">=</span><span class="default_value">'Period'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/main.html#missing_full_sample_summary_panel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.main.missing_full_sample_summary_panel" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Panel</span></code></p>
@@ -233,9 +236,9 @@
 </div>
 <div class="section" id="module-datacode.summarize.subset.missing.summary.tables.fullsample.missingmore">
 <span id="datacode-summarize-subset-missing-summary-tables-fullsample-missingmore-module"></span><h2>datacode.summarize.subset.missing.summary.tables.fullsample.missingmore module<a class="headerlink" href="#module-datacode.summarize.subset.missing.summary.tables.fullsample.missingmore" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.summarize.subset.missing.summary.tables.fullsample.missingmore.missing_more_than_data_table">
-<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.missingmore.</code><code class="sig-name descname">missing_more_than_data_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">id_col</em>, <em class="sig-param">col_with_missings</em>, <em class="sig-param">missing_tolerances=(0</em>, <em class="sig-param">1</em>, <em class="sig-param">10</em>, <em class="sig-param">50)</em>, <em class="sig-param">missing_quantiles=None</em>, <em class="sig-param">missing_display_str='Missing'</em>, <em class="sig-param">period_display_name='Period'</em>, <em class="sig-param">pct_format_str='.1f'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/missingmore.html#missing_more_than_data_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.missingmore.missing_more_than_data_table" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.missingmore.</code><code class="sig-name descname">missing_more_than_data_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">id_col</span></em>, <em class="sig-param"><span class="n">col_with_missings</span></em>, <em class="sig-param"><span class="n">missing_tolerances</span><span class="o">=</span><span class="default_value">0, 1, 10, 50</span></em>, <em class="sig-param"><span class="n">missing_quantiles</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">missing_display_str</span><span class="o">=</span><span class="default_value">'Missing'</span></em>, <em class="sig-param"><span class="n">period_display_name</span><span class="o">=</span><span class="default_value">'Period'</span></em>, <em class="sig-param"><span class="n">pct_format_str</span><span class="o">=</span><span class="default_value">'.1f'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/missingmore.html#missing_more_than_data_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.missingmore.missing_more_than_data_table" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></p>
@@ -246,9 +249,9 @@
 </div>
 <div class="section" id="module-datacode.summarize.subset.missing.summary.tables.fullsample.obs">
 <span id="datacode-summarize-subset-missing-summary-tables-fullsample-obs-module"></span><h2>datacode.summarize.subset.missing.summary.tables.fullsample.obs module<a class="headerlink" href="#module-datacode.summarize.subset.missing.summary.tables.fullsample.obs" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.summarize.subset.missing.summary.tables.fullsample.obs.obs_count_and_missing_data_table">
-<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.obs.</code><code class="sig-name descname">obs_count_and_missing_data_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">col_with_missings</em>, <em class="sig-param">missing_display_str='Missing'</em>, <em class="sig-param">pct_format_str='.1f'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/obs.html#obs_count_and_missing_data_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.obs.obs_count_and_missing_data_table" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.obs.</code><code class="sig-name descname">obs_count_and_missing_data_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">col_with_missings</span></em>, <em class="sig-param"><span class="n">missing_display_str</span><span class="o">=</span><span class="default_value">'Missing'</span></em>, <em class="sig-param"><span class="n">pct_format_str</span><span class="o">=</span><span class="default_value">'.1f'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/obs.html#obs_count_and_missing_data_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.obs.obs_count_and_missing_data_table" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></p>
@@ -259,9 +262,9 @@
 </div>
 <div class="section" id="module-datacode.summarize.subset.missing.summary.tables.fullsample.periods">
 <span id="datacode-summarize-subset-missing-summary-tables-fullsample-periods-module"></span><h2>datacode.summarize.subset.missing.summary.tables.fullsample.periods module<a class="headerlink" href="#module-datacode.summarize.subset.missing.summary.tables.fullsample.periods" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.summarize.subset.missing.summary.tables.fullsample.periods.periods_data_table">
-<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.periods.</code><code class="sig-name descname">periods_data_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">id_col</em>, <em class="sig-param">datevar</em>, <em class="sig-param">period_display_name='Period'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/periods.html#periods_data_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.periods.periods_data_table" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.summarize.subset.missing.summary.tables.fullsample.periods.</code><code class="sig-name descname">periods_data_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">id_col</span></em>, <em class="sig-param"><span class="n">datevar</span></em>, <em class="sig-param"><span class="n">period_display_name</span><span class="o">=</span><span class="default_value">'Period'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize/subset/missing/summary/tables/fullsample/periods.html#periods_data_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.subset.missing.summary.tables.fullsample.periods.periods_data_table" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTable</span></code></p>

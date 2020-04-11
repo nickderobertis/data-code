@@ -1,9 +1,11 @@
-pd_utils
-mixins
-matplotlib
-pyexlatex
 pandas
-sympy
 datacode
-IPython
 regtools
+IPython
+sklearn
+matplotlib
+mixins
+sympy
+pd_utils
+semopy
+pyexlatex

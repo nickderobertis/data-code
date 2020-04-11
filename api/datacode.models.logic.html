@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.logic package &mdash; datacode 0.12.4 documentation</title>
+  <title>datacode.models.logic package &mdash; datacode 0.13.0 documentation</title>
   
 
   
@@ -28,7 +28,6 @@
         <script src="../_static/language_data.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
-        <script >var copybuttonSkipText = '>>> ';</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -37,10 +36,12 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="datacode.models.logic.merge package" href="datacode.models.logic.merge.html" />
@@ -68,7 +69,7 @@
             
             
               <div class="version">
-                0.12.4
+                0.13.0
               </div>
             
           
@@ -111,7 +112,9 @@
 <li class="toctree-l4"><a class="reference internal" href="datacode.panel.html">datacode.panel package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.portfolio.html">datacode.portfolio package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.psm.html">datacode.psm package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.sem.html">datacode.sem package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.summarize.html">datacode.summarize package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.utils.html">datacode.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
@@ -212,9 +215,9 @@
 </div>
 <div class="section" id="module-datacode.models.logic.partial">
 <span id="datacode-models-logic-partial-module"></span><h2>datacode.models.logic.partial module<a class="headerlink" href="#module-datacode.models.logic.partial" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.models.logic.partial.partial">
-<code class="sig-prename descclassname">datacode.models.logic.partial.</code><code class="sig-name descname">partial</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*args</em>, <em class="sig-param">**keywords</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/logic/partial.html#partial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.logic.partial.partial" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.models.logic.partial.</code><code class="sig-name descname">partial</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">keywords</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/logic/partial.html#partial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.logic.partial.partial" title="Permalink to this definition">¶</a></dt>
 <dd><p>A version of functools.partial that allows specifying positional arguments out of order using ellipses.</p>
 <p>See: <a class="reference external" href="https://stackoverflow.com/a/11173903">https://stackoverflow.com/a/11173903</a></p>
 <dl>
