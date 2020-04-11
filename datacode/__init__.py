@@ -37,3 +37,4 @@ from datacode.models.dtypes.timedelta_type import TimedeltaType
 from datacode.models.transform.plugin import register_transforms
 
 from datacode.sem import SEM, SEMSummary
+from datacode.summarize.coverage.main import variables_drop_obs_doc
