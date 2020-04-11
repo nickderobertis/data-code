@@ -16,7 +16,7 @@ from datacode.utils.suppress import no_stdout
 def structural_summary_dfs(opt: Optimizer, observed_endog_vars: Sequence[Variable],
                            all_vars: Sequence[Variable]) -> List[pd.DataFrame]:
     summ_dfs = _structural_summary_dfs(opt)
-    rename_dict = {var.key: var.name for var in all_vars}
+    rename_dict = {var.unique_key: var.name for var in all_vars}
     for i, summ_df in enumerate(summ_dfs):
         summ_df.index.name = observed_endog_vars[i].name
         summ_df.rename(index=rename_dict, inplace=True)
@@ -31,7 +31,7 @@ def _structural_summary_dfs(opt: Optimizer) -> List[pd.DataFrame]:
 def latent_summary_dfs(opt: Optimizer, measurement_dict: Dict[Variable, Sequence[Variable]],
                        all_vars: Sequence[Variable]) -> List[pd.DataFrame]:
     summ_dfs = _param_summary_dfs(opt, opt.model.vars['Latents'], operator='=~')
-    rename_dict = {var.key: var.name for var in all_vars}
+    rename_dict = {var.unique_key: var.name for var in all_vars}
     final_summ_dfs = []
     for summ_df in summ_dfs:
         # Need to add the missing 1 coefficient to the df
@@ -40,7 +40,7 @@ def latent_summary_dfs(opt: Optimizer, measurement_dict: Dict[Variable, Sequence
         missing_var = None
         measure_var = None
         for lhs_var, rhs_vars in measurement_dict.items():
-            if lhs_var.key == measure_var_key:
+            if lhs_var.unique_key == measure_var_key:
                 measure_var = lhs_var
                 missing_var = rhs_vars[0]
         if missing_var is None or measure_var is None:
@@ -73,7 +73,7 @@ def _param_summary_dfs(opt: Optimizer, var_keys: Sequence[str], operator: str = 
 
 def correlation_dfs(opt: Optimizer, all_vars: Sequence[Variable]) -> List[pd.DataFrame]:
     summ_dfs = _correlation_dfs(opt)
-    rename_dict = {var.key: var.name for var in all_vars}
+    rename_dict = {var.unique_key: var.name for var in all_vars}
     for i, summ_df in enumerate(summ_dfs):
         summ_df.index.name = rename_dict[summ_df.index.name]
         summ_df.rename(index=rename_dict, inplace=True)

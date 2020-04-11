@@ -24,7 +24,7 @@ def model_str(structural_dict: Dict[Variable, Sequence[Variable]],
 
 
 def _vars_to_add_keys_str(var_seq: Sequence[Variable]) -> str:
-    return ' + '.join([var.key for var in var_seq])
+    return ' + '.join([var.unique_key for var in var_seq])
 
 
 def _vars_to_structural_str(var_seq: Sequence[Variable]) -> str:
@@ -43,5 +43,5 @@ def _vars_to_eq_str(var_seq: Sequence[Variable], eq_sym: str = '~') -> str:
     if len(var_seq) < 2:
         return ''
 
-    return f'{var_seq[0].key} {eq_sym} ' + _vars_to_add_keys_str(var_seq[1:])
+    return f'{var_seq[0].unique_key} {eq_sym} ' + _vars_to_add_keys_str(var_seq[1:])
 

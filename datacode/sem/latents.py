@@ -9,7 +9,7 @@ from datacode.sem.parse import lambda_df_from_opt
 
 def get_latents(opt: Optimizer, mod_df: pd.DataFrame, latent_vars: Sequence[Variable]) -> pd.DataFrame:
     latent_df = _get_latents(opt, mod_df)
-    rename_dict = {var.key: var.name for var in latent_vars}
+    rename_dict = {var.unique_key: var.name for var in latent_vars}
     return latent_df.rename(columns=rename_dict)
 
 

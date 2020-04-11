@@ -20,7 +20,7 @@ def assemble_model_data(df: pd.DataFrame, variables: Sequence[Variable], scale: 
 
 def _assemble_model_data(df: pd.DataFrame, variables: Sequence[Variable]) -> pd.DataFrame:
     var_names = [var.name for var in variables]
-    rename_dict = {var.name: var.key for var in variables}
+    rename_dict = {var.name: var.unique_key for var in variables}
     return df[var_names].rename(columns=rename_dict).reset_index(drop=True)
 
 
