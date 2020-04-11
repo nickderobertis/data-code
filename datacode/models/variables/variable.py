@@ -55,6 +55,10 @@ class Variable:
         # If all compare attributes are equal, objects are equal
         return all([getattr(self, attr) == getattr(other, attr) for attr in compare_attrs])
 
+    def __hash__(self):
+        applied_transform_hash = hash(tuple([hash(transform) for transform in self.applied_transforms]))
+        return hash((self.key, applied_transform_hash))
+
     def __add__(self, other) -> Expression:
         return self._create_expression_from_other_and_operator(other, operator.add, 'add')
 
@@ -69,6 +73,16 @@ class Variable:
 
     def __pow__(self, other):
         return self._create_expression_from_other_and_operator(other, operator.pow, 'exponentiate', preposition='by')
+
+    @property
+    def unique_key(self) -> str:
+        key = self.key
+        if not self.applied_transforms:
+            return key
+
+        transform_keys = [transform.key for transform in self.applied_transforms]
+        full_key = '_'.join([key] + transform_keys)
+        return full_key
 
     def _create_expression_from_other_and_operator(self, other, op_func: Callable, operator_name: str,
                                                    preposition: str = 'to') -> 'Expression':

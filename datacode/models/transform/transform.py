@@ -39,6 +39,11 @@ class Transform(ReprMixin):
         self.symbol_func = symbol_func
         self.data_func_target = self._validate_data_func_target(data_func_target)
 
+    def __hash__(self):
+        hash_attrs = ['key', 'data_func_target']
+        hash_items = tuple([getattr(self, attr) for attr in hash_attrs])
+        return hash(hash_items)
+
     def _validate_data_func_target(self, data_func_target: str):
         data_func_target = data_func_target.lower()
         cell_values = ('cell', 'value', 'item', 'c', 'v')

@@ -17,7 +17,7 @@ REPO_MAINTAINERS = [
 ]
 
 # Package version in the format (major, minor, release)
-PACKAGE_VERSION_TUPLE = (0, 12, 4)
+PACKAGE_VERSION_TUPLE = (0, 13, 0)
 
 # Short description of the package
 PACKAGE_SHORT_DESCRIPTION = "High-level tools to analyze, summarize, and transform data"
@@ -67,6 +67,8 @@ PACKAGE_INSTALL_REQUIRES = [
     'sympy',
     'IPython',
     'mixins',
+    'semopy',
+    'sklearn',
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
