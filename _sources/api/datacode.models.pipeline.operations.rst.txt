@@ -17,6 +17,14 @@ datacode.models.pipeline.operations.analysis module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.pipeline.operations.combine module
+--------------------------------------------------
+
+.. automodule:: datacode.models.pipeline.operations.combine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.pipeline.operations.generate module
 ---------------------------------------------------
 

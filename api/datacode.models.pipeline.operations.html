@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations package &mdash; datacode 0.13.0 documentation</title>
+  <title>datacode.models.pipeline.operations package &mdash; datacode 0.14.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.13.0
+                0.14.0
               </div>
             
           
@@ -281,6 +281,79 @@
 <dt id="datacode.models.pipeline.operations.analysis.analysis_result_to_file">
 <code class="sig-prename descclassname">datacode.models.pipeline.operations.analysis.</code><code class="sig-name descname">analysis_result_to_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">result</span></em>, <em class="sig-param"><span class="n">out_path</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/analysis.html#analysis_result_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.analysis.analysis_result_to_file" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</div>
+<div class="section" id="module-datacode.models.pipeline.operations.combine">
+<span id="datacode-models-pipeline-operations-combine-module"></span><h2>datacode.models.pipeline.operations.combine module<a class="headerlink" href="#module-datacode.models.pipeline.operations.combine" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="datacode.models.pipeline.operations.combine.CombineOperation">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.combine.</code><code class="sig-name descname">CombineOperation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_sources</span></em>, <em class="sig-param"><span class="n">options</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/combine.html#CombineOperation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOperation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.operations.operation.DataOperation" title="datacode.models.pipeline.operations.operation.DataOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.operations.operation.DataOperation</span></code></a></p>
+<p>Data operation that combines data from two DataSources</p>
+<dl class="py method">
+<dt id="datacode.models.pipeline.operations.combine.CombineOperation.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_sources</span></em>, <em class="sig-param"><span class="n">options</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/combine.html#CombineOperation.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOperation.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="datacode.models.pipeline.operations.combine.CombineOperation.describe">
+<code class="sig-name descname">describe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/combine.html#CombineOperation.describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOperation.describe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="datacode.models.pipeline.operations.combine.CombineOperation.execute">
+<code class="sig-name descname">execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/combine.html#CombineOperation.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOperation.execute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="datacode.models.pipeline.operations.combine.CombineOperation.num_required_sources">
+<code class="sig-name descname">num_required_sources</code><em class="property"> = 2</em><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOperation.num_required_sources" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="datacode.models.pipeline.operations.combine.CombineOperation.options">
+<code class="sig-name descname">options</code><em class="property">: 'CombineOptions'</em><em class="property"> = None</em><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOperation.options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="datacode.models.pipeline.operations.combine.CombineOperation.result">
+<code class="sig-name descname">result</code><em class="property">: 'DataSource'</em><em class="property"> = None</em><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOperation.result" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="datacode.models.pipeline.operations.combine.CombineOperation.summary">
+<code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">summary_args</span></em>, <em class="sig-param"><span class="n">summary_method</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">summary_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">summary_attr</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">summary_method_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/combine.html#CombineOperation.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOperation.summary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="datacode.models.pipeline.operations.combine.CombineOptions">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.combine.</code><code class="sig-name descname">CombineOptions</code><span class="sig-paren">(</span><em class="sig-param">func=&lt;function combine_sources&gt;</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/combine.html#CombineOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.operations.operation.OperationOptions" title="datacode.models.pipeline.operations.operation.OperationOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.operations.operation.OperationOptions</span></code></a></p>
+<p>Class for options passed to AnalysisOperations</p>
+<dl class="py method">
+<dt id="datacode.models.pipeline.operations.combine.CombineOptions.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func=&lt;function combine_sources&gt;</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">**func_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/combine.html#CombineOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOptions.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.models.pipeline.operations.combine.CombineOptions.params.func"></span><strong>func</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.combine.CombineOptions.params.func">¶</a> (<a class="reference internal" href="datacode.models.logic.html#datacode.models.logic.combine.CombineFunction" title="datacode.models.logic.combine.CombineFunction"><code class="xref py py-class docutils literal notranslate"><span class="pre">CombineFunction</span></code></a>) – function which combines the DataSources</p></li>
+<li><p><span class="target" id="datacode.models.pipeline.operations.combine.CombineOptions.params.out_path"></span><strong>out_path</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.combine.CombineOptions.params.out_path">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – location for generated DataSource</p></li>
+<li><p><span class="target" id="datacode.models.pipeline.operations.combine.CombineOptions.params.func_kwargs"></span><strong>func_kwargs</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.combine.CombineOptions.params.func_kwargs">¶</a> – Keyword arguments to pass to the function which generates the DataSource</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="datacode.models.pipeline.operations.combine.CombineOptions.op_class">
+<code class="sig-name descname">op_class</code><a class="headerlink" href="#datacode.models.pipeline.operations.combine.CombineOptions.op_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#datacode.models.pipeline.operations.combine.CombineOperation" title="datacode.models.pipeline.operations.combine.CombineOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CombineOperation</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
 
 </div>
 <div class="section" id="module-datacode.models.pipeline.operations.generate">

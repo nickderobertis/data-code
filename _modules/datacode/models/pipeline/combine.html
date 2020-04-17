@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.dtypes.convert &mdash; datacode 0.14.0 documentation</title>
+  <title>datacode.models.pipeline.combine &mdash; datacode 0.14.0 documentation</title>
   
 
   
@@ -148,7 +148,7 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.models.dtypes.convert</li>
+      <li>datacode.models.pipeline.combine</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -163,41 +163,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.models.dtypes.convert</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+  <h1>Source code for datacode.models.pipeline.combine</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.bool_type</span> <span class="kn">import</span> <span class="n">BooleanType</span>
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.datetime_type</span> <span class="kn">import</span> <span class="n">DatetimeType</span>
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.float_type</span> <span class="kn">import</span> <span class="n">FloatType</span>
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.int_type</span> <span class="kn">import</span> <span class="n">IntType</span>
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.manager</span> <span class="kn">import</span> <span class="n">DataTypeManager</span>
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.obj_type</span> <span class="kn">import</span> <span class="n">ObjectType</span>
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.str_type</span> <span class="kn">import</span> <span class="n">StringType</span>
-<span class="kn">from</span> <span class="nn">datacode.models.dtypes.timedelta_type</span> <span class="kn">import</span> <span class="n">TimedeltaType</span>
+<span class="kn">from</span> <span class="nn">datacode.models.pipeline.base</span> <span class="kn">import</span> <span class="n">DataPipeline</span>
+<span class="kn">from</span> <span class="nn">datacode.models.pipeline.operations.combine</span> <span class="kn">import</span> <span class="n">CombineOptions</span>
+<span class="kn">from</span> <span class="nn">datacode.models.types</span> <span class="kn">import</span> <span class="n">DataSourcesOrPipelines</span>
 
 
-<div class="viewcode-block" id="convert_str_to_data_type_if_necessary"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.convert.convert_str_to_data_type_if_necessary">[docs]</a><span class="k">def</span> <span class="nf">convert_str_to_data_type_if_necessary</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataType</span><span class="p">]:</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">DataType</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">dtype</span>
+<div class="viewcode-block" id="DataCombinationPipeline"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.combine.DataCombinationPipeline">[docs]</a><span class="k">class</span> <span class="nc">DataCombinationPipeline</span><span class="p">(</span><span class="n">DataPipeline</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A DataPipeline which combines data from two or more DataSources</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
+<div class="viewcode-block" id="DataCombinationPipeline.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.combine.DataCombinationPipeline.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span>
+                 <span class="n">options_list</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">CombineOptions</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">data_sources</span><span class="p">,</span>
+            <span class="n">options_list</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span>
+        <span class="p">)</span></div>
 
-    <span class="k">return</span> <span class="n">convert_str_to_data_type</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DataCombinationPipeline.execute"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.combine.DataCombinationPipeline.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">)</span></div>
 
+    <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data_sources_combine_options</span><span class="p">()</span>
 
-<div class="viewcode-block" id="convert_str_to_data_type"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.convert.convert_str_to_data_type">[docs]</a><span class="k">def</span> <span class="nf">convert_str_to_data_type</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
-    <span class="n">manager</span> <span class="o">=</span> <span class="n">DataTypeManager</span><span class="p">([</span>
-        <span class="n">BooleanType</span><span class="p">(),</span>
-        <span class="n">DatetimeType</span><span class="p">(),</span>
-        <span class="n">FloatType</span><span class="p">(),</span>
-        <span class="n">IntType</span><span class="p">(),</span>
-        <span class="n">ObjectType</span><span class="p">(),</span>
-        <span class="n">StringType</span><span class="p">(),</span>
-        <span class="n">TimedeltaType</span><span class="p">(),</span>
-    <span class="p">])</span>
-    <span class="k">return</span> <span class="n">manager</span><span class="o">.</span><span class="n">get_by_name</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">_validate_data_sources_combine_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;must have one fewer combine options than data sources. Have </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">)</span><span class="si">}</span><span class="s1"> data &#39;</span>
+                             <span class="sa">f</span><span class="s1">&#39;sources and </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span><span class="p">)</span><span class="si">}</span><span class="s1"> combine options.&#39;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

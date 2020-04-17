@@ -16,6 +16,14 @@ Subpackages
 Submodules
 ----------
 
+datacode.models.logic.combine module
+------------------------------------
+
+.. automodule:: datacode.models.logic.combine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.logic.partial module
 ------------------------------------
 

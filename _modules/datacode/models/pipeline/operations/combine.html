@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.generate &mdash; datacode 0.14.0 documentation</title>
+  <title>datacode.models.pipeline.operations.combine &mdash; datacode 0.14.0 documentation</title>
   
 
   
@@ -148,7 +148,7 @@
         
           <li><a href="../../../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.models.pipeline.operations.generate</li>
+      <li>datacode.models.pipeline.operations.combine</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -163,71 +163,65 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.models.pipeline.operations.generate</h1><div class="highlight"><pre>
+  <h1>Source code for datacode.models.pipeline.operations.combine</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span>
 
+<span class="kn">from</span> <span class="nn">datacode.models.logic.combine</span> <span class="kn">import</span> <span class="n">CombineFunction</span><span class="p">,</span> <span class="n">combine_sources</span>
 <span class="kn">from</span> <span class="nn">datacode.models.pipeline.operations.operation</span> <span class="kn">import</span> <span class="n">DataOperation</span><span class="p">,</span> <span class="n">OperationOptions</span>
 <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
 
 
-<div class="viewcode-block" id="GenerationOperation"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOperation">[docs]</a><span class="k">class</span> <span class="nc">GenerationOperation</span><span class="p">(</span><span class="n">DataOperation</span><span class="p">):</span>
+<div class="viewcode-block" id="CombineOperation"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.combine.CombineOperation">[docs]</a><span class="k">class</span> <span class="nc">CombineOperation</span><span class="p">(</span><span class="n">DataOperation</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Data operation that takes one DataSource as an input and outputs a DataSource</span>
+<span class="sd">    Data operation that combines data from two DataSources</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">num_required_sources</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;GenerationOptions&#39;</span>
+    <span class="n">num_required_sources</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;CombineOptions&#39;</span>
     <span class="n">result</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span>
 
-<div class="viewcode-block" id="GenerationOperation.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOperation.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;GenerationOptions&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="CombineOperation.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.combine.CombineOperation.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataSource</span><span class="p">],</span> <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;CombineOptions&#39;</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="p">[],</span>
+            <span class="n">data_sources</span><span class="p">,</span>
             <span class="n">options</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">last_modified</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">last_modified</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span> <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">last_modified</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="GenerationOperation.execute"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOperation.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func_kwargs</span><span class="p">)</span>
+<div class="viewcode-block" id="CombineOperation.execute"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.combine.CombineOperation.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func_kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">update_from_source</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span></div>
 
-<div class="viewcode-block" id="GenerationOperation.summary"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOperation.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="CombineOperation.summary"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.combine.CombineOperation.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">summary_attr</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">summary_method_kwargs</span><span class="p">):</span>
-        <span class="c1"># TODO [#46]: better summary for DataGeneratorPipeline</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Calling function </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> with kwargs </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func_kwargs</span><span class="si">}</span><span class="s1"> to &#39;</span>
-              <span class="sa">f</span><span class="s1">&#39;generate a DataSource&#39;</span><span class="p">)</span></div>
+        <span class="c1"># TODO: better summary for DataCombinationPipeline</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Combining </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> with </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1"> with &#39;</span>
+              <span class="sa">f</span><span class="s1">&#39;options </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GenerationOperation.describe"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOperation.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CombineOperation.describe"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.combine.CombineOperation.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;GenerationOperation(options=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="si">}</span><span class="s1">)&gt;&#39;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;CombinationOperation(options=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="si">}</span><span class="s1">)&gt;&#39;</span></div>
 
 
-<div class="viewcode-block" id="GenerationOptions"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOptions">[docs]</a><span class="k">class</span> <span class="nc">GenerationOptions</span><span class="p">(</span><span class="n">OperationOptions</span><span class="p">):</span>
+<div class="viewcode-block" id="CombineOptions"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.combine.CombineOptions">[docs]</a><span class="k">class</span> <span class="nc">CombineOptions</span><span class="p">(</span><span class="n">OperationOptions</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for options passed to AnalysisOperations</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">op_class</span> <span class="o">=</span> <span class="n">GenerationOperation</span>
+    <span class="n">op_class</span> <span class="o">=</span> <span class="n">CombineOperation</span>
 
-<div class="viewcode-block" id="GenerationOptions.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.generate.GenerationOptions.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">DataSource</span><span class="p">],</span> <span class="n">last_modified</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">out_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">allow_modifying_result</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">func_kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="CombineOptions.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.combine.CombineOptions.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">CombineFunction</span> <span class="o">=</span> <span class="n">combine_sources</span><span class="p">,</span>
+                 <span class="n">out_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">func_kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        :param func: function which generates the DataSource</span>
-<span class="sd">        :param last_modified: by default, will always run pipeline when loading generated source, but by passing a</span>
-<span class="sd">            last_modified can avoid re-running and instead load from location</span>
+<span class="sd">        :param func: function which combines the DataSources</span>
 <span class="sd">        :param out_path: location for generated DataSource</span>
 <span class="sd">        :param func_kwargs: Keyword arguments to pass to the function which generates the DataSource</span>
-<span class="sd">        :param allow_modifying_result: When DataSources are directly linked to pipelines, loading</span>
-<span class="sd">            source from pipeline can cause modifications in the pipeline&#39;s result source. Set to False</span>
-<span class="sd">            to ensure it won&#39;t be modified (but uses more memory). Setting to False should only be needed</span>
-<span class="sd">            if multiple sources load from the same pipeline in one session</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func_kwargs</span> <span class="o">=</span> <span class="n">func_kwargs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">last_modified</span> <span class="o">=</span> <span class="n">last_modified</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">out_path</span> <span class="o">=</span> <span class="n">out_path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">allow_modifying_result</span> <span class="o">=</span> <span class="n">allow_modifying_result</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_path</span> <span class="o">=</span> <span class="n">out_path</span></div></div>
 </pre></div>
 
            </div>

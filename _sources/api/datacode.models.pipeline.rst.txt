@@ -32,6 +32,14 @@ datacode.models.pipeline.base module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.pipeline.combine module
+---------------------------------------
+
+.. automodule:: datacode.models.pipeline.combine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.pipeline.generate module
 ----------------------------------------
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline package &mdash; datacode 0.13.0 documentation</title>
+  <title>datacode.models.pipeline package &mdash; datacode 0.14.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.13.0
+                0.14.0
               </div>
             
           
@@ -204,6 +204,7 @@
 <li class="toctree-l1"><a class="reference internal" href="datacode.models.pipeline.operations.html">datacode.models.pipeline.operations package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.analysis">datacode.models.pipeline.operations.analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.combine">datacode.models.pipeline.operations.combine module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.generate">datacode.models.pipeline.operations.generate module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.merge">datacode.models.pipeline.operations.merge module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.operation">datacode.models.pipeline.operations.operation module</a></li>
@@ -357,6 +358,35 @@
 <dt id="datacode.models.pipeline.base.LastOperationFinishedException">
 <em class="property">exception </em><code class="sig-prename descclassname">datacode.models.pipeline.base.</code><code class="sig-name descname">LastOperationFinishedException</code><a class="reference internal" href="../_modules/datacode/models/pipeline/base.html#LastOperationFinishedException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.base.LastOperationFinishedException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacode.models.pipeline.combine">
+<span id="datacode-models-pipeline-combine-module"></span><h2>datacode.models.pipeline.combine module<a class="headerlink" href="#module-datacode.models.pipeline.combine" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="datacode.models.pipeline.combine.DataCombinationPipeline">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.combine.</code><code class="sig-name descname">DataCombinationPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_sources</span></em>, <em class="sig-param"><span class="n">options_list</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/combine.html#DataCombinationPipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.combine.DataCombinationPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.base.DataPipeline" title="datacode.models.pipeline.base.DataPipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.base.DataPipeline</span></code></a></p>
+<p>A DataPipeline which combines data from two or more DataSources</p>
+<dl class="py method">
+<dt id="datacode.models.pipeline.combine.DataCombinationPipeline.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_sources</span></em>, <em class="sig-param"><span class="n">options_list</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/combine.html#DataCombinationPipeline.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.combine.DataCombinationPipeline.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.models.pipeline.combine.DataCombinationPipeline.params.data_sources"></span><strong>data_sources</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.combine.DataCombinationPipeline.params.data_sources">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ForwardRef" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardRef</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ForwardRef" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardRef</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ForwardRef" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardRef</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ForwardRef" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardRef</span></code></a>]]) – </p></li>
+<li><p><span class="target" id="datacode.models.pipeline.combine.DataCombinationPipeline.params.operation_options"></span><strong>operation_options</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.combine.DataCombinationPipeline.params.operation_options">¶</a> – </p></li>
+<li><p><span class="target" id="datacode.models.pipeline.combine.DataCombinationPipeline.params.name"></span><strong>name</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.combine.DataCombinationPipeline.params.name">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="datacode.models.pipeline.combine.DataCombinationPipeline.execute">
+<code class="sig-name descname">execute</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">output</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/combine.html#DataCombinationPipeline.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.combine.DataCombinationPipeline.execute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
