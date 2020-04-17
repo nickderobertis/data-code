@@ -2,10 +2,13 @@ import os
 from typing import Optional, Tuple, Sequence, List
 
 import pandas as pd
+from numpy import nan
 
 from datacode import AnalysisOptions, DataSource, DataAnalysisPipeline, DataGeneratorPipeline, GenerationOptions, \
     Variable, Column, MergeOptions, DataMergePipeline, SourceTransform, DataTransformationPipeline, TransformOptions, \
     ColumnIndex
+from datacode.models.pipeline.combine import DataCombinationPipeline
+from datacode.models.pipeline.operations.combine import CombineOptions
 from datacode.models.types import DataSourceOrPipeline
 from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
@@ -136,6 +139,48 @@ class PipelineTest(SourceTest):
         ],
         columns=['a', 'b', 'C']
     )
+    expect_combined_rows_1_2 = pd.DataFrame(
+        [
+            (1.0, 2.0, 'd', nan, nan),
+            (3.0, 4.0, 'd', nan, nan),
+            (5.0, 6.0, 'e', nan, nan),
+            (nan, nan, 'd', 10.0, 20.0),
+            (nan, nan, 'e', 50.0, 60.0),
+        ],
+        columns=['A', 'B', 'C', 'E', 'F'],
+    )
+    expect_combined_rows_1_2_c_index = expect_combined_rows_1_2.set_index('C')
+    expect_combined_rows_1_2_3 = pd.DataFrame(
+        [
+            (1.0, 2.0, 'd', nan, nan, nan, nan),
+            (3.0, 4.0, 'd', nan, nan, nan, nan),
+            (5.0, 6.0, 'e', nan, nan, nan, nan),
+            (nan, nan, 'd', 10.0, 20.0, nan, nan),
+            (nan, nan, 'e', 50.0, 60.0, nan, nan),
+            (nan, nan, 'd', nan, nan, 100.0, 200.0),
+            (nan, nan, 'e', nan, nan, 500.0, 600.0),
+        ],
+        columns=['A', 'B', 'C', 'E', 'F', 'G', 'H']
+    )
+    expect_combined_rows_1_2_entity_drop_c = pd.DataFrame(
+        [
+            (1.0, 2.0, 'd', nan, nan),
+            (3.0, 4.0, 'd', nan, nan),
+            (5.0, 6.0, 'e', nan, nan),
+        ],
+        columns=['A', 'B', 'C', 'E', 'F']
+    )
+    expect_combined_rows_1_2_row_drop_c = pd.DataFrame(
+        [
+            (1.0, 2.0, 'd', nan, nan),
+            (5.0, 6.0, 'e', nan, nan),
+        ],
+        columns=['A', 'B', 'C', 'E', 'F']
+    )
+
+
+
+
 
     def create_csv_for_2(self, df: Optional[pd.DataFrame] = None, **to_csv_kwargs):
         if df is None:
@@ -330,3 +375,46 @@ class PipelineTest(SourceTest):
 
         dtp = DataTransformationPipeline(source, to)
         return dtp
+
+    def create_combine_pipeline(self, include_indices: Sequence[int] = (0, 1),
+                                data_sources: Optional[Sequence[DataSource]] = None,
+                                combine_options_list: Optional[Sequence[CombineOptions]] = None,
+                                indexed: bool = False):
+        if indexed:
+            col_func_1 = self.create_indexed_columns
+            col_func_2 = self.create_indexed_columns_for_2
+            col_func_3 = self.create_indexed_columns_for_3
+        else:
+            col_func_1 = self.create_columns
+            col_func_2 = self.create_columns_for_2
+            col_func_3 = self.create_columns_for_3
+
+
+        if data_sources is None:
+            self.create_csv()
+            ds1_cols = col_func_1()
+            ds1 = self.create_source(df=None, columns=ds1_cols, name='one')
+            self.create_csv_for_2()
+            ds2_cols = col_func_2()
+            ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
+            self.create_csv_for_3()
+            ds3_cols = col_func_3()
+            ds3 = self.create_source(df=None, location=self.csv_path3, columns=ds3_cols, name='three')
+
+
+            data_sources = [ds1, ds2, ds3]
+            selected_data_sources = []
+            for i, ds in enumerate(data_sources):
+                if i in include_indices:
+                    selected_data_sources.append(ds)
+        else:
+            selected_data_sources = data_sources
+
+        if combine_options_list is None:
+            mo = CombineOptions()
+            combine_options_list = [mo for _ in range(len(selected_data_sources) - 1)]
+
+        combine_options_list[-1].out_path = self.csv_path_output
+
+        dp = DataCombinationPipeline(selected_data_sources, combine_options_list)
+        return dp

@@ -11,10 +11,12 @@ from datacode.models.pipeline.merge import DataMergePipeline
 from datacode.models.pipeline.generate import DataGeneratorPipeline
 from datacode.models.pipeline.analysis import DataAnalysisPipeline
 from datacode.models.pipeline.transform import DataTransformationPipeline
+from datacode.models.pipeline.combine import DataCombinationPipeline
 from datacode.models.pipeline.operations.merge import MergeOptions
 from datacode.models.pipeline.operations.analysis import AnalysisOptions
 from datacode.models.pipeline.operations.transform import TransformOptions
 from datacode.models.pipeline.operations.generate import GenerationOptions
+from datacode.models.pipeline.operations.combine import CombineOptions
 from datacode.models.analysis import AnalysisResult
 from datacode.models.variables.variable import Variable
 from datacode.models.transform.transform import Transform
