@@ -14,7 +14,7 @@ class CombineOperation(DataOperation):
     options: 'CombineOptions'
     result: 'DataSource'
 
-    def __init__(self, data_sources: Sequence[DataSource], options: 'GenerationOptions'):
+    def __init__(self, data_sources: Sequence[DataSource], options: 'CombineOptions'):
         super().__init__(
             data_sources,
             options
