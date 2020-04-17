@@ -41,6 +41,14 @@ datacode.models.dtypes.convert module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.dtypes.date\_type module
+----------------------------------------
+
+.. automodule:: datacode.models.dtypes.date_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.dtypes.datetime\_type module
 --------------------------------------------
 

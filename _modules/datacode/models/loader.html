@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.14.1 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.14.2 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.1
+                0.14.2
               </div>
             
           
@@ -172,6 +172,7 @@
 <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
 <span class="kn">from</span> <span class="nn">pd_utils.optimize.load</span> <span class="kn">import</span> <span class="n">read_file</span>
 
+<span class="kn">from</span> <span class="nn">datacode.models.dtypes.date_type</span> <span class="kn">import</span> <span class="n">DateType</span>
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.datetime_type</span> <span class="kn">import</span> <span class="n">DatetimeType</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -285,6 +286,7 @@
             <span class="n">read_file_config</span><span class="p">[</span><span class="s1">&#39;usecols&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">usecols</span>
 
         <span class="c1"># Set the data types of the columns</span>
+        <span class="n">date_dtypes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="n">dtypes</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="n">datetime_dtypes</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># pandas requires separate handling for datetime</span>
@@ -295,6 +297,9 @@
                     <span class="k">elif</span> <span class="n">col</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">DatetimeType</span><span class="p">():</span>
                         <span class="c1"># Track datetime separately</span>
                         <span class="n">datetime_dtypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">load_key</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">col</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">DateType</span><span class="p">():</span>
+                        <span class="n">datetime_dtypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">load_key</span><span class="p">)</span>
+                        <span class="n">date_dtypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">load_key</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">dtypes</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">load_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">pd_class</span>
             <span class="k">if</span> <span class="n">dtypes</span><span class="p">:</span>
@@ -302,9 +307,17 @@
             <span class="k">if</span> <span class="n">datetime_dtypes</span><span class="p">:</span>
                 <span class="n">read_file_config</span><span class="p">[</span><span class="s1">&#39;parse_dates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime_dtypes</span>
 
+
         <span class="n">read_file_config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">read_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="o">**</span><span class="n">read_file_config</span><span class="p">)</span></div>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">read_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="o">**</span><span class="n">read_file_config</span><span class="p">)</span>
+
+        <span class="c1"># Remove timestamp portion from date types</span>
+        <span class="k">for</span> <span class="n">col_key</span> <span class="ow">in</span> <span class="n">date_dtypes</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">col_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col_key</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span></div>
+
 
 <div class="viewcode-block" id="DataLoader.set_df_index"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.loader.DataLoader.set_df_index">[docs]</a>    <span class="k">def</span> <span class="nf">set_df_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">index_vars</span><span class="p">:</span>

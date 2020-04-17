@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.dtypes.convert &mdash; datacode 0.14.1 documentation</title>
+  <title>datacode.models.dtypes.convert &mdash; datacode 0.14.2 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.1
+                0.14.2
               </div>
             
           
@@ -168,6 +168,7 @@
 
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.bool_type</span> <span class="kn">import</span> <span class="n">BooleanType</span>
+<span class="kn">from</span> <span class="nn">datacode.models.dtypes.date_type</span> <span class="kn">import</span> <span class="n">DateType</span>
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.datetime_type</span> <span class="kn">import</span> <span class="n">DatetimeType</span>
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.float_type</span> <span class="kn">import</span> <span class="n">FloatType</span>
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.int_type</span> <span class="kn">import</span> <span class="n">IntType</span>
@@ -190,6 +191,7 @@
 <div class="viewcode-block" id="convert_str_to_data_type"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.convert.convert_str_to_data_type">[docs]</a><span class="k">def</span> <span class="nf">convert_str_to_data_type</span><span class="p">(</span><span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
     <span class="n">manager</span> <span class="o">=</span> <span class="n">DataTypeManager</span><span class="p">([</span>
         <span class="n">BooleanType</span><span class="p">(),</span>
+        <span class="n">DateType</span><span class="p">(),</span>
         <span class="n">DatetimeType</span><span class="p">(),</span>
         <span class="n">FloatType</span><span class="p">(),</span>
         <span class="n">IntType</span><span class="p">(),</span>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.transform &mdash; datacode 0.14.2 documentation</title>
+  <title>datacode.models.dtypes.date_type &mdash; datacode 0.14.2 documentation</title>
   
 
   
@@ -148,7 +148,7 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.models.pipeline.transform</li>
+      <li>datacode.models.dtypes.date_type</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -163,34 +163,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.models.pipeline.transform</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+  <h1>Source code for datacode.models.dtypes.date_type</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
 
-<span class="kn">from</span> <span class="nn">datacode.models.pipeline.operations.transform</span> <span class="kn">import</span> <span class="n">TransformOptions</span>
-<span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">datacode.models.pipeline.base</span> <span class="kn">import</span> <span class="n">DataPipeline</span>
+<span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
 
 
-<div class="viewcode-block" id="DataTransformationPipeline"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline">[docs]</a><span class="k">class</span> <span class="nc">DataTransformationPipeline</span><span class="p">(</span><span class="n">DataPipeline</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A DataPipeline which creates a DataSource directly from a single other DataSource</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DateType"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.date_type.DateType">[docs]</a><span class="k">class</span> <span class="nc">DateType</span><span class="p">(</span><span class="n">DataType</span><span class="p">):</span>
 
-<div class="viewcode-block" id="DataTransformationPipeline.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.transform.DataTransformationPipeline.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_source</span><span class="p">:</span> <span class="n">DataSource</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">TransformOptions</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DateType.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.date_type.DateType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categorical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">data_source</span><span class="p">],</span>
-            <span class="p">[</span><span class="n">options</span><span class="p">],</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
+            <span class="n">pd_class</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">,</span>
+            <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,),</span>
+            <span class="n">categorical</span><span class="o">=</span><span class="n">categorical</span><span class="p">,</span>
+            <span class="n">ordered</span><span class="o">=</span><span class="n">ordered</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">data_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataSource</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-    <span class="nd">@data_source</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">data_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">DataSource</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span></div>
+<div class="viewcode-block" id="DateType.from_str"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.date_type.DateType.from_str">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_str</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">categorical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dtype </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1"> does not match valid names for </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">names</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">categorical</span><span class="o">=</span><span class="n">categorical</span><span class="p">,</span>
+            <span class="n">ordered</span><span class="o">=</span><span class="n">ordered</span>
+        <span class="p">)</span></div></div>
 </pre></div>
 
            </div>
