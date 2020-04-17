@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.14.0 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.14.1 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.0
+                0.14.1
               </div>
             
           
@@ -564,6 +564,10 @@
                     <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">col_idx</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">index_vars</span><span class="p">:</span>
                             <span class="n">index_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="c1"># Sort according to order passed in load_variables</span>
+        <span class="n">index_vars</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="n">index_vars</span>
 
     <span class="nd">@property</span>
