@@ -43,14 +43,16 @@ class DataType:
             'py_class',
             'pd_class',
             'categorical',
-            'ordered'
+            'ordered',
+            'names',
         ]
 
         for attr in check_attrs:
             try:
                 result = getattr(self, attr) == getattr(other, attr)
-                return result
+                if not result:
+                    return False
             except AttributeError as e:
                 return False
-
+        return True
 

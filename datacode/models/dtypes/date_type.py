@@ -5,13 +5,13 @@ import numpy as np
 from datacode.models.dtypes.base import DataType
 
 
-class DatetimeType(DataType):
+class DateType(DataType):
 
     def __init__(self, categorical: bool = False, ordered: bool = False):
         super().__init__(
-            datetime.datetime,
+            datetime.date,
             pd_class=np.datetime64,
-            names=('datetime', 'time', 'datetime64'),
+            names=('date',),
             categorical=categorical,
             ordered=ordered,
         )

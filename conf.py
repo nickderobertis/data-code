@@ -17,7 +17,7 @@ REPO_MAINTAINERS = [
 ]
 
 # Package version in the format (major, minor, release)
-PACKAGE_VERSION_TUPLE = (0, 14, 1)
+PACKAGE_VERSION_TUPLE = (0, 14, 2)
 
 # Short description of the package
 PACKAGE_SHORT_DESCRIPTION = "High-level tools to analyze, summarize, and transform data"

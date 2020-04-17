@@ -6,6 +6,7 @@ import pandas as pd
 from datacode.models.column.column import Column
 from pd_utils.optimize.load import read_file
 
+from datacode.models.dtypes.date_type import DateType
 from datacode.models.dtypes.datetime_type import DatetimeType
 
 if TYPE_CHECKING:
@@ -119,6 +120,7 @@ class DataLoader:
             read_file_config['usecols'] = usecols
 
         # Set the data types of the columns
+        date_dtypes = []
         if self.source.columns:
             dtypes = {}
             datetime_dtypes = []  # pandas requires separate handling for datetime
@@ -129,6 +131,9 @@ class DataLoader:
                     elif col.dtype == DatetimeType():
                         # Track datetime separately
                         datetime_dtypes.append(col.load_key)
+                    elif col.dtype == DateType():
+                        datetime_dtypes.append(col.load_key)
+                        date_dtypes.append(col.load_key)
                     else:
                         dtypes[col.load_key] = col.dtype.pd_class
             if dtypes:
@@ -136,9 +141,17 @@ class DataLoader:
             if datetime_dtypes:
                 read_file_config['parse_dates'] = datetime_dtypes
 
+
         read_file_config.update(self.read_file_kwargs)
 
-        return read_file(self.source.location, **read_file_config)
+        df = read_file(self.source.location, **read_file_config)
+
+        # Remove timestamp portion from date types
+        for col_key in date_dtypes:
+            df[col_key] = df[col_key].dt.floor('d')
+
+        return df
+
 
     def set_df_index(self, df: pd.DataFrame):
         if not self.source.index_vars:
