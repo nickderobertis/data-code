@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.logic.combine &mdash; datacode 0.14.2 documentation</title>
+  <title>datacode.models.logic.combine &mdash; datacode 0.14.3 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.2
+                0.14.3
               </div>
             
           
@@ -219,8 +219,8 @@
         <span class="n">new_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ds</span><span class="o">.</span><span class="n">df</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">data_sources</span><span class="p">])</span>
     <span class="k">elif</span> <span class="n">row_duplicate_vars</span><span class="p">:</span>
         <span class="c1"># Drop duplicates by rows matching row_duplicate_vars, take first source</span>
-        <span class="n">new_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ds</span><span class="o">.</span><span class="n">df</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">data_sources</span><span class="p">])</span>
-        <span class="n">new_df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">row_duplicate_vars</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">new_df</span> <span class="o">=</span> <span class="n">_append_handling_categorical_index</span><span class="p">(</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">_drop_duplicates_by_vars</span><span class="p">(</span><span class="n">new_df</span><span class="p">,</span> <span class="n">row_duplicate_vars</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span> <span class="c1"># entity_duplicate_vars</span>
         <span class="c1"># Select entities from the second data source which are not in the first data source, and only</span>
         <span class="c1"># add those</span>
@@ -238,6 +238,31 @@
 
 
     <span class="k">return</span> <span class="n">new_source</span>
+
+
+<span class="k">def</span> <span class="nf">_drop_duplicates_by_vars</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">variables</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Variable</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Drops duplicates on a subset of variables regardless of whether they are in the index</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        inplace</span>
+
+<span class="sd">    :param df:</span>
+<span class="sd">    :param variables:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">orig_index_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>
+    <span class="n">remove_index_name</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">orig_index_cols</span> <span class="o">==</span> <span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+        <span class="n">orig_index_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
+        <span class="n">remove_index_name</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">orig_index_cols</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">remove_index_name</span><span class="p">:</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <span class="k">def</span> <span class="nf">_append_handling_categorical_index</span><span class="p">(</span><span class="n">df1</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">df2</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>

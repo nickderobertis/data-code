@@ -1,12 +1,12 @@
-sklearn
-typing_extensions
 matplotlib
+semopy
 mixins
 regtools
-pd_utils
-sympy
+typing_extensions
 pandas
-semopy
 IPython
+pd_utils
 pyexlatex
+sklearn
 datacode
+sympy
