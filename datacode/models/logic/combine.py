@@ -53,8 +53,8 @@ def _combine_rows(
         new_df = pd.concat([ds.df for ds in data_sources])
     elif row_duplicate_vars:
         # Drop duplicates by rows matching row_duplicate_vars, take first source
-        new_df = pd.concat([ds.df for ds in data_sources])
-        new_df.drop_duplicates(subset=[var.name for var in row_duplicate_vars], inplace=True)
+        new_df = _append_handling_categorical_index(data_sources[0].df, data_sources[1].df)
+        _drop_duplicates_by_vars(new_df, row_duplicate_vars)
     else: # entity_duplicate_vars
         # Select entities from the second data source which are not in the first data source, and only
         # add those
@@ -72,6 +72,31 @@ def _combine_rows(
 
 
     return new_source
+
+
+def _drop_duplicates_by_vars(df: pd.DataFrame, variables: Sequence[Variable]):
+    """
+    Drops duplicates on a subset of variables regardless of whether they are in the index
+
+    Notes:
+        inplace
+
+    :param df:
+    :param variables:
+    :return:
+    """
+    orig_index_cols = df.index.names
+    remove_index_name = False
+    if orig_index_cols == [None]:
+        orig_index_cols = ['index']
+        remove_index_name = True
+
+    df.reset_index(inplace=True)
+    df.drop_duplicates(subset=[var.name for var in variables], inplace=True)
+    df.set_index(orig_index_cols, inplace=True)
+
+    if remove_index_name:
+        df.index.name = None
 
 
 def _append_handling_categorical_index(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
