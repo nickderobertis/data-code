@@ -11,3 +11,12 @@ class Index:
 
         self.key = key
         self.dtype = dtype
+
+    def __eq__(self, other):
+        if not isinstance(other, Index):
+            return False
+
+        return all([
+            self.key == other.key,
+            self.dtype == other.dtype
+        ])

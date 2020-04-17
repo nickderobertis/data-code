@@ -34,6 +34,18 @@ class Column:
         return f'<Column(variable={self.variable}, load_key={self.load_key}, indices={self.indices}, ' \
                f'applied_transform_keys={self.applied_transform_keys}, dtype={self.dtype}>'
 
+    def __eq__(self, other):
+        if not isinstance(other, Column):
+            return False
+
+        return all([
+            self.variable == other.variable,
+            self.indices == other.indices,
+            self.load_key == other.load_key,
+            self.applied_transform_keys == other.applied_transform_keys,
+            self.dtype == other.dtype
+        ])
+
     @property
     def index_vars(self) -> List[Variable]:
         if self.indices is None:
