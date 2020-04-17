@@ -398,6 +398,10 @@ class DataSource:
                     for var in col_idx.variables:
                         if var not in index_vars:
                             index_vars.append(var)
+
+        # Sort according to order passed in load_variables
+        index_vars.sort(key=lambda x: self.load_variables.index(x))
+
         return index_vars
 
     @property
