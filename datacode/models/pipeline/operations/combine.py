@@ -28,7 +28,7 @@ class CombineOperation(DataOperation):
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
-        # TODO: better summary for DataCombinationPipeline
+        # TODO [#73]: better summary for DataCombinationPipeline
         print(f'Combining {self.data_sources[0]} with {self.data_sources[1]} with '
               f'options {self.options}')
 
