@@ -60,10 +60,10 @@ def _combine_rows(
         # add those
         entity_col_names = [var.name for var in entity_duplicate_vars]
         existing_entities = _get_entities(data_sources[0].df, entity_col_names)
-        potential_entities = _get_entities(data_sources[0].df, entity_col_names)
+        potential_entities = _get_entities(data_sources[1].df, entity_col_names)
         new_entities = list(potential_entities - existing_entities)
         new_rows = _select_df_by_tuples(data_sources[1].df, new_entities, entity_col_names)
-        new_df = pd.concat([data_sources[0].df, new_rows])
+        new_df = _append_handling_categorical_index(data_sources[0].df, new_rows)
 
     if reset_index:
         new_df.reset_index(drop=True, inplace=True)
@@ -72,6 +72,34 @@ def _combine_rows(
 
 
     return new_source
+
+
+def _append_handling_categorical_index(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
+    """
+    Resets index, concatenates rows, then sets index back. Only necessary
+    because of this pandas issue: https://github.com/pandas-dev/pandas/issues/17629
+
+    Use a regular concat over axis=0 once this issue is resolved.
+
+    :param df:
+    :param df2:
+    :return:
+    """
+    if df1.index.names != df2.index.names:
+        raise ValueError('must append with identical index')
+
+    orig_index_cols = df1.index.names
+    remove_index_name = False
+    if orig_index_cols == [None]:
+        orig_index_cols = ['index']
+        remove_index_name = True
+
+    combined = pd.concat([df.reset_index() for df in [df1, df2]])
+
+    combined.set_index(orig_index_cols, inplace=True)
+    if remove_index_name:
+        combined.index.name = None
+    return combined
 
 
 def _get_entities(df: pd.DataFrame, entity_col_names: Sequence[str]) -> Set[Sequence[Any]]:
