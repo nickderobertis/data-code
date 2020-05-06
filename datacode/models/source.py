@@ -400,7 +400,7 @@ class DataSource:
                             index_vars.append(var)
 
         # Sort according to order passed in load_variables
-        index_vars.sort(key=lambda x: self.load_variables.index(x))
+        index_vars.sort(key=lambda x: self.load_var_keys.index(x.key))
 
         return index_vars
 
