@@ -33,17 +33,17 @@ class DataOutputter:
     def _check_safety(self):
         if not self.source.columns:
             raise DataOutputNotSafeException(f'DataSource {self.source} has no columns, '
-                                             f'cannot determine how to output safely')
+                                             f'cannot determine how to output safely. Pass safe=False to bypass')
 
         if self._output_exists and len(self.source.load_variables) < len(self.source.columns):
             raise DataOutputNotSafeException(f'DataSource {self.source} has {len(self.source.columns)} columns '
                                              f'but only {len(self.source.load_variables)} loaded variables, so '
-                                             f'would be deleting existing data')
+                                             f'would be deleting existing data. Pass safe=False to bypass')
 
         if len(self.source.load_variables) > len(self.source.columns):
             raise DataOutputNotSafeException(f'DataSource {self.source} has {len(self.source.columns)} columns '
                                              f'but {len(self.source.load_variables)} loaded variables, so '
-                                             f'some variables would not be outputted ')
+                                             f'some variables would not be outputted. Pass safe=False to bypass ')
 
     @property
     def _output_exists(self) -> bool:
@@ -78,10 +78,15 @@ class DataOutputter:
 
         keep_cols = [col for col in df.columns if col in self.source.col_load_keys]
 
-        if self.safe and len(keep_cols) + len(df.index.names) < len(self.source.columns):
-            raise DataOutputNotSafeException(f'After keeping necessary columns, only outputting {len(keep_cols)} '
+        num_cols = len(keep_cols) + len(df.index.names)
+        if self.safe and num_cols < len(self.source.columns):
+            missing_cols = [col for col in self.source.col_load_keys if col not in self.source.col_load_keys]
+            raise DataOutputNotSafeException(f'After keeping necessary columns, only outputting '
+                                             f'{num_cols} '
                                              f'columns when DataSource '
-                                             f'describes {len(self.source.columns)} columns')
+                                             f'describes {len(self.source.columns)} columns. '
+                                             f'Missing columns {missing_cols}. '
+                                             f'Pass safe=False to bypass.')
 
         drop_cols = [col for col in df.columns if col not in keep_cols]
         df.drop(drop_cols, axis=1, inplace=True)
