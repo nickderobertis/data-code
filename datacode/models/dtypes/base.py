@@ -1,4 +1,4 @@
-from typing import Type, Optional, Sequence
+from typing import Type, Optional, Sequence, Union
 
 from datacode.models.transform.transform import Transform
 
@@ -55,4 +55,14 @@ class DataType:
             except AttributeError as e:
                 return False
         return True
+
+    @property
+    def read_file_arg(self) -> Union[Type, str]:
+        """
+        The argument which should be passed to read_csv and other file reading
+        methods in Pandas to ensure the correct data type
+        """
+        if self.categorical:
+            return 'category'
+        return self.pd_class
 

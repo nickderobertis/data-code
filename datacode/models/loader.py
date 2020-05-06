@@ -126,16 +126,14 @@ class DataLoader:
             datetime_dtypes = []  # pandas requires separate handling for datetime
             for col in self.source.columns:
                 if col.dtype is not None:
-                    if col.dtype.categorical:
-                        dtypes[col.load_key] = 'category'
-                    elif col.dtype == DatetimeType():
+                    if col.dtype == DatetimeType():
                         # Track datetime separately
                         datetime_dtypes.append(col.load_key)
                     elif col.dtype == DateType():
                         datetime_dtypes.append(col.load_key)
                         date_dtypes.append(col.load_key)
                     else:
-                        dtypes[col.load_key] = col.dtype.pd_class
+                        dtypes[col.load_key] = col.dtype.read_file_arg
             if dtypes:
                 read_file_config['dtype'] = dtypes
             if datetime_dtypes:

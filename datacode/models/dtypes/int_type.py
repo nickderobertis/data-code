@@ -1,7 +1,8 @@
-from typing import Type
+from typing import Type, Union
 import re
 
 import numpy as np
+import pandas as pd
 
 from datacode.models.dtypes.base import DataType
 from datacode.models.dtypes.bit_size import get_bit_from_dtype
@@ -22,13 +23,30 @@ class IntType(DataType):
 
     def _get_pd_class(self) -> Type:
         if self.bit_size == 8:
-            return np.int8
+            return pd.Int8Dtype
         elif self.bit_size == 16:
-            return np.int16
+            return pd.Int16Dtype
         elif self.bit_size == 32:
-            return np.int32
+            return pd.Int32Dtype
         elif self.bit_size == 64:
-            return np.int64
+            return pd.Int64Dtype
+        else:
+            raise ValueError(f'must pass bit_size of 8, 16, 32, or 64. Got {self.bit_size}')
+
+    @property
+    def read_file_arg(self) -> Union[Type, str]:
+        """
+        Must use string for nullable int type loading
+        :return:
+        """
+        if self.bit_size == 8:
+            return 'Int8'
+        elif self.bit_size == 16:
+            return 'Int16'
+        elif self.bit_size == 32:
+            return 'Int32'
+        elif self.bit_size == 64:
+            return 'Int64'
         else:
             raise ValueError(f'must pass bit_size of 8, 16, 32, or 64. Got {self.bit_size}')
 
