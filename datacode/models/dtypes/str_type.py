@@ -10,7 +10,6 @@ class StringType(DataType):
         super().__init__(
             str,
             pd_class=object,
-            names=self.names,
             categorical=categorical,
             ordered=ordered
         )

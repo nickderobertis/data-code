@@ -7,6 +7,7 @@ from datacode.models.transform.transform import Transform
 
 class DataType(EqOnAttrsMixin):
     names: Sequence[str] = tuple()
+    name_roots: Sequence[str] = tuple()
     equal_attrs: List[str] = [
         'py_class',
         'pd_class',
@@ -15,13 +16,11 @@ class DataType(EqOnAttrsMixin):
         'names',
     ]
 
-    def __init__(self, py_class: Type, pd_class: Optional[Type] = None, names: Optional[Sequence[str]] = None,
+    def __init__(self, py_class: Type, pd_class: Optional[Type] = None,
                  transforms: Optional[Sequence[Transform]] = None, is_numeric: bool = False,
                  categorical: bool = False,
                  ordered: bool = False):
-        if names is None:
-            names = []
-        names = [name.lower() for name in names]
+        self.names = [name.lower() for name in self.names]
 
         if transforms is None:
             transforms = []
@@ -31,7 +30,6 @@ class DataType(EqOnAttrsMixin):
 
         self.py_class = py_class
         self.pd_class = pd_class
-        self.names = names
         self.transforms = transforms
         self.categorical = categorical
         self.ordered = ordered

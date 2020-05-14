@@ -7,13 +7,13 @@ from datacode.models.dtypes.bit_size import get_bit_from_dtype
 
 
 class FloatType(DataType):
+    names = ('float', 'decimal', 'float16', 'float32', 'float64', 'float128', 'floating')
 
     def __init__(self, categorical: bool = False, ordered: bool = False, bit_size: int = 64):
         self.bit_size = bit_size
         super().__init__(
             float,
             pd_class=self._get_pd_class(),
-            names=('float', 'decimal', 'float16', 'float32', 'float64', 'float128', 'floating'),
             categorical=categorical,
             ordered=ordered,
             is_numeric=True

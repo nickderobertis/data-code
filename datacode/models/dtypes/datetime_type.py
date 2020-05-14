@@ -8,13 +8,13 @@ from datacode.models.dtypes.base import DataType
 
 
 class DatetimeType(DataType):
+    names = ('datetime', 'time', 'datetime64')
 
     def __init__(self, categorical: bool = False, ordered: bool = False,
                  tz: Optional[Union[str, datetime.timezone]] = None):
         super().__init__(
             datetime.datetime,
             pd_class=np.datetime64,
-            names=('datetime', 'time', 'datetime64'),
             categorical=categorical,
             ordered=ordered,
         )

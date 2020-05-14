@@ -9,13 +9,13 @@ from datacode.models.dtypes.bit_size import get_bit_from_dtype
 
 
 class IntType(DataType):
+    names = ('int', 'integer', 'int_', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64')
 
     def __init__(self, categorical: bool = False, ordered: bool = False, bit_size: int = 64):
         self.bit_size = bit_size
         super().__init__(
             int,
             pd_class=self._get_pd_class(),
-            names=('int', 'integer', 'int_', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64'),
             categorical=categorical,
             ordered=ordered,
             is_numeric=True

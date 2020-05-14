@@ -3,11 +3,11 @@ from datacode.models.dtypes.base import DataType
 
 
 class BooleanType(DataType):
+    names = ('bool', 'bool_')
 
     def __init__(self, categorical: bool = False, ordered: bool = False):
         super().__init__(
             bool,
-            names=('bool', 'bool_'),
             categorical=categorical,
             ordered=ordered
         )

@@ -3,11 +3,11 @@ from datacode.models.dtypes.base import DataType
 
 
 class ObjectType(DataType):
+    names = ('obj', 'object', 'mixed', 'general')
 
     def __init__(self, categorical: bool = False, ordered: bool = False):
         super().__init__(
             object,
-            names=('obj', 'object', 'mixed', 'general'),
             categorical=categorical,
             ordered=ordered,
         )
