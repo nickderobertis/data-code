@@ -80,7 +80,8 @@ class DataOutputter:
 
         num_cols = len(keep_cols) + len(df.index.names)
         if self.safe and num_cols < len(self.source.columns):
-            missing_cols = [col for col in self.source.col_load_keys if col not in self.source.col_load_keys]
+            existing_cols = keep_cols + df.index.names
+            missing_cols = [col for col in self.source.col_load_keys if col not in existing_cols]
             raise DataOutputNotSafeException(f'After keeping necessary columns, only outputting '
                                              f'{num_cols} '
                                              f'columns when DataSource '
