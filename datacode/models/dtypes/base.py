@@ -1,10 +1,19 @@
-from typing import Type, Optional, Sequence, Union
+from typing import Type, Optional, Sequence, Union, List
+
+from mixins.attrequals import EqOnAttrsMixin
 
 from datacode.models.transform.transform import Transform
 
 
-class DataType:
+class DataType(EqOnAttrsMixin):
     names: Sequence[str] = tuple()
+    equal_attrs: List[str] = [
+        'py_class',
+        'pd_class',
+        'categorical',
+        'ordered',
+        'names',
+    ]
 
     def __init__(self, py_class: Type, pd_class: Optional[Type] = None, names: Optional[Sequence[str]] = None,
                  transforms: Optional[Sequence[Transform]] = None, is_numeric: bool = False,
@@ -36,25 +45,6 @@ class DataType:
         # Only int and float have different from_str methods, and both of those are the same. Create
         # mixin or intermediate classes to eliminate repeated code.
         raise NotImplementedError('must implement from_str in subclass of DataType')
-
-    def __eq__(self, other):
-
-        check_attrs = [
-            'py_class',
-            'pd_class',
-            'categorical',
-            'ordered',
-            'names',
-        ]
-
-        for attr in check_attrs:
-            try:
-                result = getattr(self, attr) == getattr(other, attr)
-                if not result:
-                    return False
-            except AttributeError as e:
-                return False
-        return True
 
     @property
     def read_file_arg(self) -> Union[Type, str]:
