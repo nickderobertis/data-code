@@ -28,7 +28,11 @@ def _combine_columns(data_sources: Sequence[DataSource]) -> DataSource:
         if _column_lists_match_excluding_load_keys(data_sources[0].index_cols, data_sources[1].index_cols):
             _warn_about_mismatching_load_keys(data_sources[0].index_cols, data_sources[1].index_cols)
         else:
-            raise ValueError('can only combine columns of data sources with overlapping indices')
+            mismatching_message = _mismatching_attributes_of_columns_message(
+                data_sources[0].index_cols, data_sources[1].index_cols
+            )
+            raise ValueError(f'can only combine columns of data sources with overlapping indices. '
+                             f'{mismatching_message}')
 
     new_vars, new_cols = _combine_variables_and_columns(data_sources, allow_overlap=False)
     # new_df = pd.concat([ds.df for ds in data_sources], axis=1)
@@ -199,13 +203,25 @@ def _column_lists_match_excluding_load_keys(cols1: Sequence[Column], cols2: Sequ
     return True
 
 
-def _warn_about_mismatching_load_keys(cols1: Sequence[Column], cols2: Sequence[Column]) -> bool:
+def _warn_about_mismatching_load_keys(cols1: Sequence[Column], cols2: Sequence[Column]):
     for col1, col2 in zip(cols1, cols2):
         if col1.variable != col2.variable:
             raise ValueError('warn about mismatching must be called only on columns which match other than load_key')
         if col1.load_key != col2.load_key:
             warnings.warn(f'Got both {col1.load_key} and {col2.load_key} as load_key for '
                           f'{col1.variable}, will use {col1.load_key}')
+
+
+def _mismatching_attributes_of_columns_message(cols1: Sequence[Column], cols2: Sequence[Column]) -> Optional[str]:
+    messages = []
+    for col1, col2 in zip(cols1, cols2):
+        for attr in col1.equal_attrs:
+            val1 = getattr(col1, attr)
+            val2 = getattr(col2, attr)
+            if val1 != val2:
+                messages.append(f'Column {col1.load_key} has {val1} for {attr} while {col2.load_key} has {val2}')
+    if messages:
+        return ', '.join(messages)
 
 
 class CombineFunction(Protocol):
