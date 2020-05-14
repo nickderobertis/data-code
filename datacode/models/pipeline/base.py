@@ -81,7 +81,7 @@ class DataPipeline:
 
     def _create_operations(self, data_sources: DataSourcesOrPipelines, options_list: List[OperationOptions]):
         if options_list[0].op_class.num_required_sources == 0:
-            operations = [options_list[0].op_class(options_list[0])]
+            operations = [options_list[0].get_operation(options_list[0])]
         elif options_list[0].op_class.num_required_sources == 1:
             operations = _get_operations_for_single(data_sources[0], options_list[0])
         elif options_list[0].op_class.num_required_sources == 2:
@@ -94,7 +94,7 @@ class DataPipeline:
 
         for i, options in enumerate(options_list[1:]):
             if options.op_class.num_required_sources == 0:
-                operations.append(options.op_class(options))
+                operations.append(options.get_operation(options))
             elif options.op_class.num_required_sources == 1:
                 operations += _get_operations_for_single(operations[-1].result, options)
             elif options.op_class.num_required_sources == 2:
@@ -245,7 +245,7 @@ def _get_operations_for_single(data_source: DataSourceOrPipeline, options: Opera
         final_operation_sources.append(data_source)  # type: ignore
 
     # Add last (or only) operation
-    operations.append(options.op_class(final_operation_sources, options))
+    operations.append(options.get_operation(final_operation_sources, options))
 
     return operations
 
@@ -281,7 +281,7 @@ def _get_operations_for_pair(data_source_1: DataSourceOrPipeline, data_source_2:
         final_operation_sources.append(data_source_2)
 
     # Add last (or only) operation
-    operations.append(options.op_class(final_operation_sources, options))
+    operations.append(options.get_operation(final_operation_sources, options))
 
     return operations
 

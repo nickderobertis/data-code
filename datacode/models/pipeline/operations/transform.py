@@ -1,4 +1,4 @@
-from typing import Callable, Optional, Any, Union
+from typing import Callable, Optional, Any, Union, Dict
 
 from datacode.models.transform.source import SourceTransform
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
@@ -13,10 +13,11 @@ class TransformOperation(DataOperation):
     options: 'TransformOptions'
     result: 'DataSource'
 
-    def __init__(self, data_sources: DataSourcesOrPipelines, options: 'TransformOptions'):
+    def __init__(self, data_sources: DataSourcesOrPipelines, options: 'TransformOptions', **result_kwargs):
         super().__init__(
             data_sources,
-            options
+            options,
+            **result_kwargs
         )
 
     @property
@@ -25,7 +26,7 @@ class TransformOperation(DataOperation):
 
     def execute(self):
         ds = self.options.transform.apply(self.data_source, preserve_original=self.options.preserve_original)
-        self.result.update_from_source(ds, exclude_attrs=('location',))
+        self.result.update_from_source(ds, exclude_attrs=('location', 'data_outputter_kwargs'))
         return self.result
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
@@ -54,10 +55,16 @@ class TransformOptions(OperationOptions):
     Class for options passed to AnalysisOperations
     """
     op_class = TransformOperation
+    repr_cols = [
+        'func',
+        'out_path',
+        'allow_modifying_result',
+        'preserve_original',
+    ]
 
     def __init__(self, func: Union[Callable[[DataSource, Any], DataSource], SourceTransform],
                  preserve_original: bool = True, out_path: Optional[str] = None,
-                 allow_modifying_result: bool = True):
+                 allow_modifying_result: bool = True, result_kwargs: Optional[Dict[str, Any]] = None):
         """
 
         :param func:
@@ -77,3 +84,4 @@ class TransformOptions(OperationOptions):
         self.preserve_original = preserve_original
         self.out_path = out_path
         self.allow_modifying_result = allow_modifying_result
+        self.result_kwargs = result_kwargs

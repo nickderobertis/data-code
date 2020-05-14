@@ -1,5 +1,5 @@
 import datetime
-from typing import Callable, Optional, Any
+from typing import Callable, Optional, Any, Dict
 
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
@@ -13,10 +13,11 @@ class GenerationOperation(DataOperation):
     options: 'GenerationOptions'
     result: 'DataSource'
 
-    def __init__(self, options: 'GenerationOptions'):
+    def __init__(self, options: 'GenerationOptions', **result_kwargs):
         super().__init__(
             [],
-            options
+            options,
+            **result_kwargs
         )
 
     def execute(self):
@@ -44,7 +45,9 @@ class GenerationOptions(OperationOptions):
     op_class = GenerationOperation
 
     def __init__(self, func: Callable[[Any], DataSource], last_modified: Optional[datetime.datetime] = None,
-                 out_path: Optional[str] = None, allow_modifying_result: bool = True, **func_kwargs):
+                 out_path: Optional[str] = None, allow_modifying_result: bool = True,
+                 result_kwargs: Optional[Dict[str, Any]] = None,
+                 **func_kwargs):
         """
 
         :param func: function which generates the DataSource
@@ -62,3 +65,4 @@ class GenerationOptions(OperationOptions):
         self.last_modified = last_modified
         self.out_path = out_path
         self.allow_modifying_result = allow_modifying_result
+        self.result_kwargs = result_kwargs

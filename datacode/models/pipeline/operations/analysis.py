@@ -1,4 +1,4 @@
-from typing import Sequence, Callable, Optional, Any
+from typing import Sequence, Callable, Optional, Any, Dict
 
 from datacode.models.analysis import AnalysisResult
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
@@ -11,10 +11,11 @@ class AnalysisOperation(DataOperation):
     Data operation that takes one DataSource as an input and does not output a DataSource
     """
 
-    def __init__(self, data_sources: DataSourcesOrPipelines, options: 'AnalysisOptions'):
+    def __init__(self, data_sources: DataSourcesOrPipelines, options: 'AnalysisOptions', **result_kwargs):
         super().__init__(
             data_sources,
-            options
+            options,
+            **result_kwargs
         )
 
     @property
@@ -60,11 +61,13 @@ class AnalysisOptions(OperationOptions):
 
     def __init__(self, func: Callable[[DataSource, Any], Any],
                  output_func: Optional[Callable[['AnalysisResult', str], None]] = analysis_result_to_file,
-                 out_path: Optional[str] = None, **func_kwargs):
+                 out_path: Optional[str] = None, result_kwargs: Optional[Dict[str, Any]] = None,
+                 **func_kwargs):
         self.func = func
         self.func_kwargs = func_kwargs
         self.analysis_output_func = output_func
         self.out_path = out_path
+        self.result_kwargs = result_kwargs
 
     @property
     def can_output(self) -> bool:
