@@ -29,6 +29,7 @@ class DataTypeManager:
         return name_map
 
     def get_by_name(self, name: str) -> DataType:
+        name = name.lower()
         # Try for exact match first
         try:
             cls = self.name_map[name]
