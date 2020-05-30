@@ -189,6 +189,8 @@ class SourceTest(unittest.TestCase):
     csv_path = os.path.join(GENERATED_PATH, 'data.csv')
 
     def setup_method(self, *args, **kwargs):
+        if os.path.exists(GENERATED_PATH):
+            shutil.rmtree(GENERATED_PATH)
         os.makedirs(GENERATED_PATH)
 
     def teardown_method(self, *args, **kwargs):
