@@ -33,6 +33,8 @@ mixins = "*"
 scikit-learn = "*"
 semopy = "*"
 typing_extensions = "*"
+jupyterlab = "*"
+graphviz = "*"
 
 [requires]
 python_version = "3.7"

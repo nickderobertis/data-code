@@ -7,6 +7,11 @@ import warnings
 import datetime
 from typing import List, Optional, Any, Dict, Sequence, Type
 
+from graphviz import Digraph
+
+from datacode.graph.base import GraphObject
+from datacode.graph.edge import Edge
+from datacode.graph.node import Node
 from datacode.models.outputter import DataOutputter
 from datacode.models.types import SourceCreatingPipeline
 from datacode.summarize import describe_df
@@ -116,6 +121,7 @@ class DataSource:
         self.read_file_kwargs = read_file_kwargs
         self.data_outputter_kwargs = data_outputter_kwargs
         self.optimize_size = optimize_size
+        self.primary_node = Node(self.name)
         self._df = df
 
         self._validate()
@@ -486,6 +492,22 @@ class DataSource:
             df[new_var.name] = deepcopy(df[existing_var_name])
 
         self.columns.append(col)
+
+    @property
+    def _graph_contents(self) -> Sequence[GraphObject]:
+        elems = [self.primary_node]
+        if self.pipeline is not None:
+            elems.extend(self.pipeline._graph_contents)
+            elems.append(Edge(self.pipeline.primary_node, self.primary_node))
+        return elems
+
+    @property
+    def graph(self) -> Digraph:
+        elems = self._graph_contents
+        graph = Digraph(self.name)
+        for elem in elems:
+            elem.add_to_graph(graph)
+        return graph
 
 
     def __repr__(self):
