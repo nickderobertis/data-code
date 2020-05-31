@@ -36,7 +36,7 @@ class SpecificTransformsTest(SourceTest):
             (3, 4, 'e')
         ],
         columns=['A$_{t - 1}$', 'B$_{t - 1}$', 'C'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_two_lags = pd.DataFrame(
         [
             (np.nan, np.nan, 'd'),
@@ -44,7 +44,7 @@ class SpecificTransformsTest(SourceTest):
             (1, 2, 'e')
         ],
         columns=['A$_{t - 2}$', 'B$_{t - 2}$', 'C'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_lags_and_by_var = pd.DataFrame(
         [
             (np.nan, np.nan),
@@ -53,7 +53,7 @@ class SpecificTransformsTest(SourceTest):
         ],
         columns=['A$_{t - 1}$', 'B$_{t - 1}$'],
         index=c_df_index,
-    )
+    ).convert_dtypes()
     expect_lag_df_with_ids_and_dates = pd.DataFrame(
         [
             (np.nan, np.nan, 'd'),
@@ -64,7 +64,7 @@ class SpecificTransformsTest(SourceTest):
             (5, 10, 'e'),
         ],
         columns=['A$_{t - 1}$', 'B$_{t - 1}$', 'C'],
-    )
+    ).convert_dtypes()
     expect_lag_df_with_ids_and_dates['Date'] = full_date_index
     expect_lag_df_with_ids_and_dates.set_index(['C', 'Date'], inplace=True)
     expect_loaded_df_with_change = pd.DataFrame(
@@ -74,7 +74,7 @@ class SpecificTransformsTest(SourceTest):
             (2, 2, 'e')
         ],
         columns=['A Change', 'B Change', 'C'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_dual_change = pd.DataFrame(
         [
             (np.nan, np.nan, 'd'),
@@ -82,7 +82,7 @@ class SpecificTransformsTest(SourceTest):
             (0, 0, 'e')
         ],
         columns=['A Change Change', 'B Change Change', 'C'],
-    )
+    ).convert_dtypes()
     expect_change_df_with_ids_and_dates = pd.DataFrame(
         [
             (np.nan, np.nan, 'd'),
@@ -93,7 +93,7 @@ class SpecificTransformsTest(SourceTest):
             (1, 2, 'e'),
         ],
         columns=['A Change', 'B Change', 'C'],
-    )
+    ).convert_dtypes()
     expect_change_df_with_ids_and_dates['Date'] = full_date_index
     expect_change_df_with_ids_and_dates.set_index(['C', 'Date'], inplace=True)
 

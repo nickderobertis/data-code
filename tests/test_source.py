@@ -64,7 +64,7 @@ class SourceTest(unittest.TestCase):
             (5, 6, 'e')
         ],
         columns=['A', 'B', 'C'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_rename_only_indexed_c = expect_loaded_df_rename_only.set_index('C')
     expect_loaded_df_rename_only_a_indexed_c = expect_loaded_df_rename_only_indexed_c.drop('B', axis=1)
     expect_loaded_df_rename_only_a_b = pd.DataFrame(
@@ -74,7 +74,7 @@ class SourceTest(unittest.TestCase):
             (5, 6,)
         ],
         columns=['A', 'B']
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_transform = pd.DataFrame(
         [
             (2, 3, 'd'),
@@ -82,7 +82,7 @@ class SourceTest(unittest.TestCase):
             (6, 7, 'e')
         ],
         columns=['A_1', 'B_1', 'C']
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_a_and_a_transform = pd.DataFrame(
         [
             (1, 2, 2, 'd'),
@@ -90,7 +90,7 @@ class SourceTest(unittest.TestCase):
             (5, 6, 6, 'e')
         ],
         columns=['A', 'A_1', 'B', 'C']
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_a_transform_and_a = pd.DataFrame(
         [
             (2, 1, 2, 'd'),
@@ -98,7 +98,7 @@ class SourceTest(unittest.TestCase):
             (6, 5, 6, 'e')
         ],
         columns=['A_1', 'A', 'B', 'C']
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_transform_only_a_b = pd.DataFrame(
         [
             (2, 3,),
@@ -106,7 +106,7 @@ class SourceTest(unittest.TestCase):
             (6, 7,)
         ],
         columns=['A_1', 'B_1']
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_transform_and_a_pre_transformed = pd.DataFrame(
         [
             (1, 3, 'd'),
@@ -114,7 +114,7 @@ class SourceTest(unittest.TestCase):
             (5, 7, 'e')
         ],
         columns=['A_1', 'B_1', 'C']
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_calculated = pd.DataFrame(
         [
             (1, 2, 'd', 3),
@@ -122,7 +122,7 @@ class SourceTest(unittest.TestCase):
             (5, 6, 'e', 11)
         ],
         columns=['A', 'B', 'C', 'D'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_calculated_c_d_only = pd.DataFrame(
         [
             ('d', 3),
@@ -130,7 +130,7 @@ class SourceTest(unittest.TestCase):
             ('e', 11)
         ],
         columns=['C', 'D'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_calculated_transformed = pd.DataFrame(
         [
             (1, 2, 'd', 4),
@@ -138,7 +138,7 @@ class SourceTest(unittest.TestCase):
             (5, 6, 'e', 12)
         ],
         columns=['A', 'B', 'C', 'D_1'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_calculated_and_calculated_transformed = pd.DataFrame(
         [
             (1, 2, 'd', 3, 4),
@@ -146,7 +146,7 @@ class SourceTest(unittest.TestCase):
             (5, 6, 'e', 11, 12)
         ],
         columns=['A', 'B', 'C', 'D', 'D_1'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_calculated_transformed_and_calculated = pd.DataFrame(
         [
             (1, 2, 'd', 4, 3),
@@ -154,7 +154,7 @@ class SourceTest(unittest.TestCase):
             (5, 6, 'e', 12, 11)
         ],
         columns=['A', 'B', 'C', 'D_1', 'D'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_calculate_on_transformed_before_transform = pd.DataFrame(
         [
             (2, 3, 'd', 3),
@@ -162,7 +162,7 @@ class SourceTest(unittest.TestCase):
             (6, 7, 'e', 11)
         ],
         columns=['A_1', 'B_1', 'C', 'D'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_calculate_on_transformed_after_transform = pd.DataFrame(
         [
             (2, 3, 'd', 5),
@@ -170,7 +170,7 @@ class SourceTest(unittest.TestCase):
             (6, 7, 'e', 13)
         ],
         columns=['A_1', 'B_1', 'C', 'D'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_calculate_on_transformed_before_and_after_transform = pd.DataFrame(
         [
             (2, 3, 'd', 4),
@@ -178,7 +178,7 @@ class SourceTest(unittest.TestCase):
             (6, 7, 'e', 12)
         ],
         columns=['A_1', 'B_1', 'C', 'D'],
-    )
+    ).convert_dtypes()
     expect_loaded_df_categorical = expect_loaded_df_rename_only.copy()
     expect_loaded_df_categorical['C'] = expect_loaded_df_categorical['C'].astype('category')
     transform_name_func = lambda x: f'{x}_1'
