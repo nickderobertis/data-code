@@ -39,6 +39,7 @@ class SourceTransform(Transform):
         memory usage but will cause the original source to be partially modified
         :return:
         """
+        from datacode.models.source import NoColumnForVariableException
         if preserve_original:
             source = deepcopy(source)
         else:
@@ -67,7 +68,11 @@ class SourceTransform(Transform):
         # Collect necessary renames
         rename_dict = {}
         for selected_var in subset:
-            col = source.col_for(variable=selected_var)
+            try:
+                col = source.col_for(variable=selected_var)
+            except NoColumnForVariableException:
+                # Must have removed this column in the transformation
+                continue
             var = col.variable  # Don't use variable directly besides key as may be different instance
 
             # Update variable

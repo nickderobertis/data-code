@@ -334,7 +334,7 @@ class DataLoader:
                     raise ValueError(f'passed variable {var} but not calculated and not '
                                      f'in columns {self.source.columns}')
                 continue
-            column = self.source.untransformed_col_for(var)
+            column = self.source.col_for(var)
             temp_source = _apply_transforms_to_var(var, column, temp_source)
         return temp_source.df
 
