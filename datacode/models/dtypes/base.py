@@ -1,11 +1,12 @@
 from typing import Type, Optional, Sequence, Union, List
 
-from mixins.attrequals import EqOnAttrsMixin
+from mixins.attrequals import EqOnAttrsMixin, EqHashMixin
 
 from datacode.models.transform.transform import Transform
 
 
-class DataType(EqOnAttrsMixin):
+class DataType(EqHashMixin, EqOnAttrsMixin):
+    _recursive_hash_convert = True
     names: Sequence[str] = tuple()
     name_roots: Sequence[str] = tuple()
     equal_attrs: List[str] = [

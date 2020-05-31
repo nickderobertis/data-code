@@ -1,12 +1,13 @@
 import warnings
 from typing import Sequence, Any, Optional, List, Tuple, Dict, Union, Set
 
+from datacode.models.dtypes.base import DataType
 from typing_extensions import Protocol
 import pandas as pd
 from datacode.models.column.column import Column
 
 from datacode.models.variables import Variable
-from datacode.models.source import DataSource
+from datacode.models.source import DataSource, NoColumnForVariableException
 
 
 def combine_sources(data_sources: Sequence[DataSource], rows: bool = True,
@@ -76,8 +77,42 @@ def _combine_rows(
     if reset_index:
         new_df.reset_index(drop=True, inplace=True)
 
-    new_source = DataSource(df=new_df, columns=new_cols, load_variables=new_vars)
+    # Set output data types
+    for col in new_cols:
+        col_from_all_sources = []
+        for ds in data_sources:
+            try:
+                col = ds.col_for(var_key=col.variable.unique_key, is_unique_key=True)
+            except NoColumnForVariableException:
+                # column was not in this source
+                continue
+            col_from_all_sources.append(col)
+        dtypes: Set[DataType] = set([v.dtype for v in col_from_all_sources])
+        if len(dtypes) > 1:
+            raise NotImplementedError(f'got multiple dtypes {dtypes} for {col} during combine, '
+                                      f'need to provide a way for the user to specify output type')
+        if len(dtypes) == 0:
+            raise ValueError(f'could not extract a data type for {col}')
 
+        dtype = list(dtypes)[0]
+        if col.variable.name in new_df.index.names:
+            # Variable is in index. Need to handle differently
+            if len(new_df.index.names) == 1:
+                # Variable is only index
+                new_df.index = new_df.index.astype(dtype.index_arg)
+                col.series = pd.Series(new_df.index)
+            else:
+                # Multi-index, need to replace only this level
+                idx_pos = new_df.index.names.index(col.variable.name)
+                converted = new_df.index.levels[idx_pos].astype(dtype.index_arg)
+                new_df.index = new_df.index.set_levels(converted, level=idx_pos)
+                col.series = pd.Series(converted)
+        else:
+            # Variable is in columns, not index
+            new_df[col.variable.name] = new_df[col.variable.name].astype(dtype.pd_class())
+            col.series = new_df[col.variable.name]
+
+    new_source = DataSource(df=new_df, columns=new_cols, load_variables=new_vars)
 
     return new_source
 
