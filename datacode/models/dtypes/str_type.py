@@ -1,3 +1,4 @@
+from typing import Union, Type
 
 import pandas as pd
 
@@ -31,3 +32,7 @@ class StringType(DataType):
         if self.categorical:
             return 'category'
         return 'string'
+
+    @property
+    def index_arg(self) -> Union[Type, str]:
+        return self.pd_class

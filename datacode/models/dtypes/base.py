@@ -54,3 +54,10 @@ class DataType(EqOnAttrsMixin):
             return 'category'
         return self.pd_class
 
+    @property
+    def index_arg(self) -> Union[Type, str]:
+        """
+        The argument which should be passed to index.astype
+        :return:
+        """
+        return self.read_file_arg

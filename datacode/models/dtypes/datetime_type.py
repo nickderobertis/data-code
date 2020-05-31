@@ -1,6 +1,6 @@
 import datetime
 from copy import deepcopy
-from typing import Union, Optional
+from typing import Union, Optional, Type
 
 import numpy as np
 
@@ -31,3 +31,7 @@ class DatetimeType(DataType):
             categorical=categorical,
             ordered=ordered
         )
+
+    @property
+    def index_arg(self) -> Union[Type, str]:
+        return 'datetime64[ns]'

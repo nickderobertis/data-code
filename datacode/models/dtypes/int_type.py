@@ -63,3 +63,7 @@ class IntType(DataType):
             ordered=ordered,
             bit_size=bit_or_none
         )
+
+    @property
+    def index_arg(self) -> Union[Type, str]:
+        return pd.Int64Index
