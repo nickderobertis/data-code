@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.15.0 documentation</title>
+  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.15.1 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.0
+                0.15.1
               </div>
             
           
@@ -209,7 +209,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">post_merge_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">post_merge_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
 
-        <span class="c1"># TODO: merge source variable combine logic doesn&#39;t seem to be working completely correctly</span>
+        <span class="c1"># TODO [#78]: merge source variable combine logic doesn&#39;t seem to be working completely correctly</span>
         <span class="c1">#</span>
         <span class="c1"># Had to put safe=False in merge pipeline output to make it happen</span>
         <span class="n">left_ds</span><span class="p">,</span> <span class="n">right_ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>

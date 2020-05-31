@@ -15,6 +15,7 @@ Subpackages
    datacode.display
    datacode.ff
    datacode.formatters
+   datacode.graph
    datacode.models
    datacode.panel
    datacode.portfolio

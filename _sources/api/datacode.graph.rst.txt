@@ -1,0 +1,43 @@
+datacode.graph package
+======================
+
+.. automodule:: datacode.graph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+datacode.graph.base module
+--------------------------
+
+.. automodule:: datacode.graph.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.graph.edge module
+--------------------------
+
+.. automodule:: datacode.graph.edge
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.graph.node module
+--------------------------
+
+.. automodule:: datacode.graph.node
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.graph.subgraph module
+------------------------------
+
+.. automodule:: datacode.graph.subgraph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

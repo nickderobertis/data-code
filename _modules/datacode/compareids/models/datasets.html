@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datacode.compareids.models.datasets &mdash; datacode 0.15.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/sphinx_paramlinks.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-dataframe.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> datacode
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.15.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Getting started with datacode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../auto_examples/index.html">This is my gallery</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/modules.html">datacode</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">datacode</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>datacode.compareids.models.datasets</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for datacode.compareids.models.datasets</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">..tools</span> <span class="kn">import</span> <span class="n">_ids_str_or_tuple_to_id_name</span>
+<span class="kn">from</span> <span class="nn">.flowchart</span> <span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">Subgraph</span>
+<span class="kn">from</span> <span class="nn">.interface</span> <span class="kn">import</span> <span class="n">PipelineOptions</span><span class="p">,</span> <span class="n">IDSet</span><span class="p">,</span> <span class="n">IDCollection</span>
+<span class="kn">from</span> <span class="nn">..backend</span> <span class="kn">import</span> <span class="n">compare_id_collections</span>
+<span class="kn">from</span> <span class="nn">.bars</span> <span class="kn">import</span> <span class="n">MatchComparisonBarGraph</span>
+
+
+<div class="viewcode-block" id="DataItem"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataItem">[docs]</a><span class="k">class</span> <span class="nc">DataItem</span><span class="p">:</span>
+
+<div class="viewcode-block" id="DataItem.__init__"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataItem.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></div></div>
+
+
+<div class="viewcode-block" id="DataSource"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource">[docs]</a><span class="k">class</span> <span class="nc">DataSource</span><span class="p">(</span><span class="n">DataItem</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataSource.__init__"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">id_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">data_loader_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param name:</span>
+<span class="sd">        :type name:</span>
+<span class="sd">        :param id_cols: list of tuples or strs of id sets to match on, e.g. [&#39;CUSIP6&#39;, (&#39;CUSIP6&#39;,&#39;Year&#39;), &#39;ISIN&#39;, (&#39;ISIN&#39;, &#39;Year&#39;)]</span>
+<span class="sd">        :type id_cols: list of tuples</span>
+<span class="sd">        :param data_source:</span>
+<span class="sd">        :type data_source:</span>
+<span class="sd">        :param data_loader: function that takes self.data_source as the arg, and usecols=self.id_cols as kwargs</span>
+<span class="sd">        :type data_loader: Function</span>
+<span class="sd">        :param data_loader_kwargs:</span>
+<span class="sd">        :type data_loader_kwargs:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_source</span> <span class="o">=</span> <span class="n">data_source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">id_cols</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id_cols</span> <span class="o">=</span> <span class="n">_id_cols_collection_to_flattened_list</span><span class="p">(</span><span class="n">id_cols</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_ids</span><span class="p">(</span><span class="n">id_cols</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id_cols</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">_data_loader_or_pd_read_csv</span><span class="p">(</span><span class="n">data_loader</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_loader_kwargs</span> <span class="o">=</span> <span class="n">data_loader_kwargs</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">_dummy_load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id_cols</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id_cols</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">data_loader_kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span>
+
+<div class="viewcode-block" id="DataSource.set_ids"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource.set_ids">[docs]</a>    <span class="k">def</span> <span class="nf">set_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_cols</span><span class="p">):</span>
+        <span class="n">id_sets</span> <span class="o">=</span> <span class="n">_extract_id_sets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">id_cols</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">IDCollection</span><span class="p">(</span><span class="n">id_sets</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataSource.to_node"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource.to_node">[docs]</a>    <span class="k">def</span> <span class="nf">to_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">node_kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">node_kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataSource(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">, data_source=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="si">}</span><span class="s1">)&gt;&#39;</span></div>
+
+<div class="viewcode-block" id="DataSubject"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataSubject">[docs]</a><span class="k">class</span> <span class="nc">DataSubject</span><span class="p">:</span>
+
+<div class="viewcode-block" id="DataSubject.__init__"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataSubject.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">sources</span><span class="p">:</span> <span class="p">[</span><span class="n">DataSource</span><span class="p">,</span> <span class="s1">&#39;DataCombination&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sources</span> <span class="o">=</span> <span class="n">sources</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></div>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+
+<div class="viewcode-block" id="DataSubject.to_subgraph"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataSubject.to_subgraph">[docs]</a>    <span class="k">def</span> <span class="nf">to_subgraph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">PipelineOptions</span><span class="p">):</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_nodes</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Subgraph</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">digraph</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">digraph</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="o">.</span><span class="n">graph_attr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataSubject.to_nodes"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataSubject.to_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">to_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">PipelineOptions</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">data_sources</span><span class="p">:</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">source</span><span class="o">.</span><span class="n">to_node</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="o">.</span><span class="n">node_attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node_kwargs</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">node_attr</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">_add_no_node_line_to_node_kwargs</span><span class="p">(</span><span class="n">node_kwargs</span><span class="p">)</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;DUMMY&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">node_kwargs</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">nodes</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataSubject(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">, sources=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sources</span><span class="si">}</span><span class="s1">)&gt;&#39;</span></div>
+
+<div class="viewcode-block" id="DataCombination"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataCombination">[docs]</a><span class="k">class</span> <span class="nc">DataCombination</span><span class="p">(</span><span class="n">DataItem</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataCombination.__init__"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataCombination.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_source</span><span class="p">:</span> <span class="n">DataSource</span><span class="p">,</span> <span class="n">other_data_source</span><span class="p">:</span> <span class="n">DataSource</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_source</span> <span class="o">=</span> <span class="n">data_source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">other_data_source</span> <span class="o">=</span> <span class="n">other_data_source</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="DataCombination.compare"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataCombination.compare">[docs]</a>    <span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">compare_id_collections</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_data_source</span><span class="o">.</span><span class="n">ids</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataCombination.to_node"><a class="viewcode-back" href="../../../../api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataCombination.to_node">[docs]</a>    <span class="k">def</span> <span class="nf">to_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">node_kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">plt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+        <span class="c1"># TODO [#3]: finish compare ids data combination to node</span>
+
+        <span class="c1">#### TEMP</span>
+        <span class="kn">import</span> <span class="nn">pdb</span>
+        <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+        <span class="c1">#### END TEMP</span>
+
+        <span class="n">comparison</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compare</span><span class="p">()</span>
+        <span class="c1"># No ids, could not generate comparison, display normal node</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">comparison</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">node_kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Implicit else, has ids, able to generate comparison, now put graph in node</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">MatchComparisonBarGraph</span><span class="o">.</span><span class="n">from_id_comparison_collection</span><span class="p">(</span><span class="n">comparison</span><span class="p">,</span> <span class="n">plt</span><span class="o">=</span><span class="n">plt</span><span class="p">)</span>
+
+        <span class="c1">#### TEMP</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">plt</span><span class="o">=</span><span class="n">plt</span><span class="p">)</span>
+        <span class="n">name_for_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span>
+        <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Users\derobertisna.UFAD\Dropbox (Personal)\UF\Andy\ETF Project\Temp\idcomp&#39;</span><span class="p">,</span> <span class="n">name_for_path</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Set node style</span>
+        <span class="n">this_node_kwargs</span> <span class="o">=</span> <span class="n">node_kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">_add_no_node_line_to_node_kwargs</span><span class="p">(</span><span class="n">this_node_kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">img_path</span><span class="p">,</span> <span class="o">**</span><span class="n">this_node_kwargs</span><span class="p">)</span></div>
+
+        <span class="c1">#### END TEMP</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Find overlapping id sets</span>
+            <span class="n">id_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">id_set</span> <span class="k">for</span> <span class="n">id_set</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">ids</span> <span class="k">if</span> <span class="n">id_set</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_data_source</span><span class="o">.</span><span class="n">ids</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span> <span class="o">=</span> <span class="n">IDCollection</span><span class="p">(</span><span class="n">id_sets</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataCombination(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">, data_source=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">, merge_source=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">other_data_source</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">)&gt;&#39;</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_data_loader_or_pd_read_csv</span><span class="p">(</span><span class="n">data_loader</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">data_loader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data_loader</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span>
+
+<span class="k">def</span> <span class="nf">_dummy_load</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">usecols</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">usecols</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_extract_id_sets</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">id_cols</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">collection_items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ids</span> <span class="ow">in</span> <span class="n">id_cols</span><span class="p">:</span>
+        <span class="n">id_set_name</span> <span class="o">=</span> <span class="n">_ids_str_or_tuple_to_id_name</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+        <span class="n">unique</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">ids</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="c1"># &#39;itertuples&#39; for dfs, &#39;tolist&#39; for series</span>
+        <span class="n">_extract_from_df_or_series_attr</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">_get_func_attr_and_kwargs_to_reduce_from_df_or_series</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span>
+        <span class="n">reduce_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">unique</span><span class="p">,</span> <span class="n">_extract_from_df_or_series_attr</span><span class="p">)</span>
+        <span class="n">id_rows</span> <span class="o">=</span> <span class="n">reduce_func</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">id_set</span> <span class="o">=</span> <span class="n">IDSet</span><span class="p">(</span><span class="n">id_rows</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">id_set_name</span><span class="p">)</span>
+        <span class="n">collection_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">id_set</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">IDCollection</span><span class="p">(</span><span class="n">collection_items</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_id_cols_collection_to_flattened_list</span><span class="p">(</span><span class="n">id_cols</span><span class="p">):</span>
+    <span class="n">out_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">col_or_tuple</span> <span class="ow">in</span> <span class="n">id_cols</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">col_or_tuple</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="p">[</span><span class="n">out_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">col_or_tuple</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col_or_tuple</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out_list</span>
+
+<span class="k">def</span> <span class="nf">_get_func_attr_and_kwargs_to_reduce_from_df_or_series</span><span class="p">(</span><span class="n">df_or_series</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df_or_series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;itertuples&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;ids&#39;</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df_or_series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;tolist&#39;</span><span class="p">,</span> <span class="p">{}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Must pass series or dataframe, got type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">df_or_series</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_add_no_node_line_to_node_kwargs</span><span class="p">(</span><span class="n">node_kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    NOTE: inplace</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Set node style</span>
+    <span class="n">no_line_str</span> <span class="o">=</span> <span class="s1">&#39;setlinewidth(0)&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;style&#39;</span> <span class="ow">in</span> <span class="n">node_kwargs</span><span class="p">:</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="n">node_kwargs</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="n">no_line_str</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="n">no_line_str</span>
+    <span class="n">node_kwargs</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">style</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Nick DeRobertis
+
+    </p>
+  </div>
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-157532545-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+   
+
+</body>
+</html>
