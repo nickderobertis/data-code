@@ -1,3 +1,6 @@
+from typing import Union, Type
+
+import pandas as pd
 
 from datacode.models.dtypes.base import DataType
 
@@ -9,8 +12,7 @@ class StringType(DataType):
         # TODO [#23]: add all string methods as available transforms
         super().__init__(
             str,
-            pd_class=object,
-            names=self.names,
+            pd_class=pd.StringDtype,
             categorical=categorical,
             ordered=ordered
         )
@@ -25,3 +27,12 @@ class StringType(DataType):
             ordered=ordered
         )
 
+    @property
+    def read_file_arg(self) -> Union[Type, str]:
+        if self.categorical:
+            return 'category'
+        return 'string'
+
+    @property
+    def index_arg(self) -> Union[Type, str]:
+        return self.pd_class

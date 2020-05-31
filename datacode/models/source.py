@@ -272,21 +272,28 @@ class DataSource:
         raise NoColumnForVariableException(f'could not find untransformed col for {variable} in {self.columns}')
 
     def col_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None,
-                orig_only: bool = False, for_calculate_only: bool = False) -> Column:
+                orig_only: bool = False, for_calculate_only: bool = False,
+                is_unique_key: bool = False) -> Column:
         try:
             # Prefer exact match, need to try this because there may be multiple columns with identical
             # variables besides the applied transforms
-            col = self._col_for(variable, var_key, orig_only=orig_only, for_calculate_only=for_calculate_only)
+            col = self._col_for(
+                variable, var_key, orig_only=orig_only,
+                for_calculate_only=for_calculate_only, is_unique_key=is_unique_key
+            )
         except NoColumnForVariableException:
             # Fall back to matching only on variable key as it may be that it is the correct column but
             # the transforms have not been applied yet
             col = self._col_for(
-                variable, var_key, match_key_only=True, orig_only=orig_only, for_calculate_only=for_calculate_only
+                variable, var_key, match_key_only=True,
+                orig_only=orig_only, for_calculate_only=for_calculate_only,
+                is_unique_key=is_unique_key,
             )
         return col
 
     def _col_for(self, variable: Optional[Variable] = None, var_key: Optional[str] = None,
-                match_key_only: bool = False, orig_only: bool = False, for_calculate_only: bool = False) -> Column:
+                 match_key_only: bool = False, orig_only: bool = False, for_calculate_only: bool = False,
+                 is_unique_key: bool = False) -> Column:
         if orig_only and for_calculate_only:
             raise ValueError('pass only one of orig_only and for_calculate_only')
         if variable is None and var_key is None:
@@ -299,14 +306,21 @@ class DataSource:
         else:
             col_list = self.columns
 
+        if is_unique_key:
+            key_attr = 'unique_key'
+        else:
+            key_attr = 'key'
+
         if variable is None:
-            possible_cols = [col for col in self.columns if col.variable.key == var_key]
-            if len(possible_cols) != 1:
+            possible_cols = [col for col in self.columns if getattr(col.variable, key_attr) == var_key]
+            if len(possible_cols) == 0:
+                raise NoColumnForVariableException(f'cannot look up col for key {var_key} as no columns match')
+            if len(possible_cols) > 1:
                 raise ValueError(f'cannot look up col for key {var_key} as multiple columns match: {possible_cols}')
             variable = possible_cols[0].variable
         for col in col_list:
             if match_key_only:
-                if col.variable.key == variable.key:
+                if getattr(col.variable, key_attr) == getattr(variable, key_attr):
                     return col
             else:
                 if col.variable == variable:
@@ -332,6 +346,27 @@ class DataSource:
             return []
 
         return [var.key for var in self.load_variables]
+
+    def get_var_by_key(self, key: str, is_unique_key: bool = False) -> Variable:
+        if is_unique_key:
+            attr = 'unique_key'
+        else:
+            attr = 'key'
+
+        collected_variables = []
+        for var in self.load_variables:
+            match_key = getattr(var, attr)
+            if key == match_key:
+                collected_variables.append(var)
+
+        matching_str = f'matching {"unique " if is_unique_key else ""}key {key}'
+        if len(collected_variables) == 0:
+            raise ValueError(f'could not find variable {matching_str}')
+        if len(collected_variables) > 1:
+            raise ValueError(f'got multiple variables {matching_str}')
+
+        selected_var = collected_variables[0]
+        return selected_var
 
     def get_series_for(self, var_name: Optional[str] = None, var: Optional[Variable] = None,
                        col: Optional[Column] = None, df: Optional[pd.DataFrame] = None) -> pd.Series:
@@ -400,7 +435,7 @@ class DataSource:
                             index_vars.append(var)
 
         # Sort according to order passed in load_variables
-        index_vars.sort(key=lambda x: self.load_variables.index(x))
+        index_vars.sort(key=lambda x: self.load_var_keys.index(x.key))
 
         return index_vars
 

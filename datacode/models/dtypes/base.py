@@ -1,18 +1,27 @@
-from typing import Type, Optional, Sequence
+from typing import Type, Optional, Sequence, Union, List
+
+from mixins.attrequals import EqOnAttrsMixin, EqHashMixin
 
 from datacode.models.transform.transform import Transform
 
 
-class DataType:
+class DataType(EqHashMixin, EqOnAttrsMixin):
+    _recursive_hash_convert = True
     names: Sequence[str] = tuple()
+    name_roots: Sequence[str] = tuple()
+    equal_attrs: List[str] = [
+        'py_class',
+        'pd_class',
+        'categorical',
+        'ordered',
+        'names',
+    ]
 
-    def __init__(self, py_class: Type, pd_class: Optional[Type] = None, names: Optional[Sequence[str]] = None,
+    def __init__(self, py_class: Type, pd_class: Optional[Type] = None,
                  transforms: Optional[Sequence[Transform]] = None, is_numeric: bool = False,
                  categorical: bool = False,
                  ordered: bool = False):
-        if names is None:
-            names = []
-        names = [name.lower() for name in names]
+        self.names = [name.lower() for name in self.names]
 
         if transforms is None:
             transforms = []
@@ -22,7 +31,6 @@ class DataType:
 
         self.py_class = py_class
         self.pd_class = pd_class
-        self.names = names
         self.transforms = transforms
         self.categorical = categorical
         self.ordered = ordered
@@ -37,22 +45,20 @@ class DataType:
         # mixin or intermediate classes to eliminate repeated code.
         raise NotImplementedError('must implement from_str in subclass of DataType')
 
-    def __eq__(self, other):
+    @property
+    def read_file_arg(self) -> Union[Type, str]:
+        """
+        The argument which should be passed to read_csv and other file reading
+        methods in Pandas to ensure the correct data type
+        """
+        if self.categorical:
+            return 'category'
+        return self.pd_class
 
-        check_attrs = [
-            'py_class',
-            'pd_class',
-            'categorical',
-            'ordered',
-            'names',
-        ]
-
-        for attr in check_attrs:
-            try:
-                result = getattr(self, attr) == getattr(other, attr)
-                if not result:
-                    return False
-            except AttributeError as e:
-                return False
-        return True
-
+    @property
+    def index_arg(self) -> Union[Type, str]:
+        """
+        The argument which should be passed to index.astype
+        :return:
+        """
+        return self.read_file_arg

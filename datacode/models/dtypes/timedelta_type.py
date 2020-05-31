@@ -6,12 +6,12 @@ from datacode.models.dtypes.base import DataType
 
 
 class TimedeltaType(DataType):
+    names = ('timedelta', 'timedelta[ns]')
 
     def __init__(self, categorical: bool = False, ordered: bool = False):
         super().__init__(
             datetime.timedelta,
             pd_class=pd.Timedelta,
-            names=('timedelta', 'timedelta[ns]'),
             categorical=categorical,
             ordered=ordered,
         )

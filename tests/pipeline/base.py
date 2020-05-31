@@ -28,7 +28,7 @@ EXPECT_GENERATED_DF = df = pd.DataFrame(
         (3, 4, 'e')
     ],
     columns=['a', 'b', 'C']
-)
+).convert_dtypes()
 
 
 def ds_generator_func(columns: Sequence[Column]) -> DataSource:
@@ -75,7 +75,7 @@ class PipelineTest(SourceTest):
             (5, 6, 'e', 50, 60),
         ],
         columns=['A', 'B', 'C', 'E', 'F']
-    )
+    ).convert_dtypes()
     expect_merged_1_2_c_index = expect_merged_1_2.set_index('C')
     expect_merged_1_transformed_2 = pd.DataFrame(
         [
@@ -84,7 +84,7 @@ class PipelineTest(SourceTest):
             (6, 7, 'e', 50, 60),
         ],
         columns=['A', 'B', 'C', 'E', 'F']
-    )
+    ).convert_dtypes()
     expect_merged_1_2_both_transformed = pd.DataFrame(
         [
             (2, 3, 'd', 11, 21),
@@ -92,14 +92,14 @@ class PipelineTest(SourceTest):
             (6, 7, 'e', 51, 61),
         ],
         columns=['A', 'B', 'C', 'E', 'F']
-    )
+    ).convert_dtypes()
     expect_merged_1_generated_2 = pd.DataFrame(
         [
             (1, 2, 'd', 10, 20),
             (3, 4, 'e', 50, 60),
         ],
         columns=['a', 'b', 'C', 'E', 'F']
-    )
+    ).convert_dtypes()
     expect_merged_1_2_3 = pd.DataFrame(
         [
             (1, 2, 'd', 10, 20, 100, 200),
@@ -107,7 +107,7 @@ class PipelineTest(SourceTest):
             (5, 6, 'e', 50, 60, 500, 600),
         ],
         columns=['A', 'B', 'C', 'E', 'F', 'G', 'H']
-    )
+    ).convert_dtypes()
     expect_func_df = df = pd.DataFrame(
         [
             (2, 3, 'd'),
@@ -115,7 +115,7 @@ class PipelineTest(SourceTest):
             (6, 7, 'e')
         ],
         columns=['A', 'B', 'C']
-    )
+    ).convert_dtypes()
     expect_func_df_with_a_and_a_transformed = pd.DataFrame(
         [
             (2, 3, 3, 'd'),
@@ -123,7 +123,7 @@ class PipelineTest(SourceTest):
             (6, 7, 7, 'e')
         ],
         columns=['A', 'A_1', 'B', 'C']
-    )
+    ).convert_dtypes()
     expect_loaded_df_with_transform = pd.DataFrame(
         [
             (2, 3, 'd'),
@@ -131,52 +131,52 @@ class PipelineTest(SourceTest):
             (6, 7, 'e')
         ],
         columns=['A_1', 'B_1', 'C_1']
-    )
+    ).convert_dtypes()
     expect_generated_transformed = pd.DataFrame(
         [
             (2, 3, 'd'),
             (4, 5, 'e')
         ],
         columns=['a', 'b', 'C']
-    )
+    ).convert_dtypes()
     expect_combined_rows_1_2 = pd.DataFrame(
         [
-            (1.0, 2.0, 'd', nan, nan),
-            (3.0, 4.0, 'd', nan, nan),
-            (5.0, 6.0, 'e', nan, nan),
-            (nan, nan, 'd', 10.0, 20.0),
-            (nan, nan, 'e', 50.0, 60.0),
+            (1, 2, 'd', nan, nan),
+            (3, 4, 'd', nan, nan),
+            (5, 6, 'e', nan, nan),
+            (nan, nan, 'd', 10, 20),
+            (nan, nan, 'e', 50, 60),
         ],
         columns=['A', 'B', 'C', 'E', 'F'],
-    )
+    ).convert_dtypes()
     expect_combined_rows_1_2_c_index = expect_combined_rows_1_2.set_index('C')
     expect_combined_rows_1_2_3 = pd.DataFrame(
         [
-            (1.0, 2.0, 'd', nan, nan, nan, nan),
-            (3.0, 4.0, 'd', nan, nan, nan, nan),
-            (5.0, 6.0, 'e', nan, nan, nan, nan),
-            (nan, nan, 'd', 10.0, 20.0, nan, nan),
-            (nan, nan, 'e', 50.0, 60.0, nan, nan),
-            (nan, nan, 'd', nan, nan, 100.0, 200.0),
-            (nan, nan, 'e', nan, nan, 500.0, 600.0),
+            (1, 2, 'd', nan, nan, nan, nan),
+            (3, 4, 'd', nan, nan, nan, nan),
+            (5, 6, 'e', nan, nan, nan, nan),
+            (nan, nan, 'd', 10, 20, nan, nan),
+            (nan, nan, 'e', 50, 60, nan, nan),
+            (nan, nan, 'd', nan, nan, 100, 200),
+            (nan, nan, 'e', nan, nan, 500, 600),
         ],
         columns=['A', 'B', 'C', 'E', 'F', 'G', 'H']
-    )
+    ).convert_dtypes()
     expect_combined_rows_1_2_entity_drop_c = pd.DataFrame(
         [
-            (1.0, 2.0, 'd', nan, nan),
-            (3.0, 4.0, 'd', nan, nan),
-            (5.0, 6.0, 'e', nan, nan),
+            (1, 2, 'd', nan, nan),
+            (3, 4, 'd', nan, nan),
+            (5, 6, 'e', nan, nan),
         ],
         columns=['A', 'B', 'C', 'E', 'F']
-    )
+    ).convert_dtypes()
     expect_combined_rows_1_2_row_drop_c = pd.DataFrame(
         [
-            (1.0, 2.0, 'd', nan, nan),
-            (5.0, 6.0, 'e', nan, nan),
+            (1, 2, 'd', nan, nan),
+            (5, 6, 'e', nan, nan),
         ],
         columns=['A', 'B', 'C', 'E', 'F']
-    )
+    ).convert_dtypes()
 
 
 

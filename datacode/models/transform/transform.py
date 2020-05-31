@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import Optional, Sequence, TYPE_CHECKING
+from typing import Optional, Sequence, TYPE_CHECKING, Union
 
 from mixins.repr import ReprMixin
 from sympy import Symbol
@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from datacode.models.variables.variable import Variable
     from datacode.models.column.column import Column
     from datacode.models.source import DataSource
+    from datacode.models.dtypes.base import DataType
 
 from datacode.models.logic.partial import partial
 from datacode.models.variables.compare import functions_are_equal
@@ -18,11 +19,15 @@ class Transform(ReprMixin):
     """
     Tracks and applies changes to variables for data, name, and symbol together
     """
-    repr_cols = ['key', 'name_func', 'data_func', 'symbol_func', 'data_func_target']
+    repr_cols = ['key', 'name_func', 'data_func', 'symbol_func', 'data_func_target', 'new_dtype']
 
     def __init__(self, key: str, name_func: StrFunc = None, data_func: ValueFunc = None,
                  symbol_func: SymbolFunc = None,
-                 data_func_target: str = 'series'):
+                 data_func_target: str = 'series', new_dtype: Optional[Union['DataType', str]] = None):
+        from datacode.models.dtypes.convert import convert_str_to_data_type_if_necessary
+        if new_dtype is not None:
+            new_dtype = convert_str_to_data_type_if_necessary(new_dtype)
+
         # If name func passed but not symbol func, convert name func to symbol func
         if name_func is not None and symbol_func is None:
             def sym_func_from_name_func(sym: Symbol, *args, **kwargs) -> Symbol:
@@ -38,6 +43,7 @@ class Transform(ReprMixin):
         self.data_func = data_func
         self.symbol_func = symbol_func
         self.data_func_target = self._validate_data_func_target(data_func_target)
+        self.new_dtype = new_dtype
 
     def __hash__(self):
         hash_attrs = ['key', 'data_func_target']
@@ -130,6 +136,15 @@ class Transform(ReprMixin):
         else:
             raise ValueError(f'Did not pass appropriate data_func_target to Transform {self}, got '
                              f'{self.data_func_target} which should be one of cell, series, dataframe, or source')
+
+        if self.new_dtype is not None:
+            dtype = self.new_dtype
+        else:
+            dtype = column.dtype
+        dtype_str = dtype.read_file_arg
+        source.df[variable.name] = source.df[variable.name].astype(dtype_str)
+
+        column.series = source.df[variable.name]
         return source
 
     def __eq__(self, other):

@@ -1,11 +1,13 @@
+import warnings
 from typing import Sequence, Any, Optional, List, Tuple, Dict, Union, Set
 
+from datacode.models.dtypes.base import DataType
 from typing_extensions import Protocol
 import pandas as pd
 from datacode.models.column.column import Column
 
 from datacode.models.variables import Variable
-from datacode.models.source import DataSource
+from datacode.models.source import DataSource, NoColumnForVariableException
 
 
 def combine_sources(data_sources: Sequence[DataSource], rows: bool = True,
@@ -24,7 +26,14 @@ def combine_sources(data_sources: Sequence[DataSource], rows: bool = True,
 
 def _combine_columns(data_sources: Sequence[DataSource]) -> DataSource:
     if data_sources[0].index_cols != data_sources[1].index_cols:
-        raise ValueError('can only combine columns of data sources with overlapping indices')
+        if _column_lists_match_excluding_load_keys(data_sources[0].index_cols, data_sources[1].index_cols):
+            _warn_about_mismatching_load_keys(data_sources[0].index_cols, data_sources[1].index_cols)
+        else:
+            mismatching_message = _mismatching_attributes_of_columns_message(
+                data_sources[0].index_cols, data_sources[1].index_cols
+            )
+            raise ValueError(f'can only combine columns of data sources with overlapping indices. '
+                             f'{mismatching_message}')
 
     new_vars, new_cols = _combine_variables_and_columns(data_sources, allow_overlap=False)
     # new_df = pd.concat([ds.df for ds in data_sources], axis=1)
@@ -68,8 +77,42 @@ def _combine_rows(
     if reset_index:
         new_df.reset_index(drop=True, inplace=True)
 
-    new_source = DataSource(df=new_df, columns=new_cols, load_variables=new_vars)
+    # Set output data types
+    for col in new_cols:
+        col_from_all_sources = []
+        for ds in data_sources:
+            try:
+                col = ds.col_for(var_key=col.variable.unique_key, is_unique_key=True)
+            except NoColumnForVariableException:
+                # column was not in this source
+                continue
+            col_from_all_sources.append(col)
+        dtypes: Set[DataType] = set([v.dtype for v in col_from_all_sources])
+        if len(dtypes) > 1:
+            raise NotImplementedError(f'got multiple dtypes {dtypes} for {col} during combine, '
+                                      f'need to provide a way for the user to specify output type')
+        if len(dtypes) == 0:
+            raise ValueError(f'could not extract a data type for {col}')
 
+        dtype = list(dtypes)[0]
+        if col.variable.name in new_df.index.names:
+            # Variable is in index. Need to handle differently
+            if len(new_df.index.names) == 1:
+                # Variable is only index
+                new_df.index = new_df.index.astype(dtype.index_arg)
+                col.series = pd.Series(new_df.index)
+            else:
+                # Multi-index, need to replace only this level
+                idx_pos = new_df.index.names.index(col.variable.name)
+                converted = new_df.index.levels[idx_pos].astype(dtype.index_arg)
+                new_df.index = new_df.index.set_levels(converted, level=idx_pos)
+                col.series = pd.Series(converted)
+        else:
+            # Variable is in columns, not index
+            new_df[col.variable.name] = new_df[col.variable.name].astype(dtype.pd_class())
+            col.series = new_df[col.variable.name]
+
+    new_source = DataSource(df=new_df, columns=new_cols, load_variables=new_vars)
 
     return new_source
 
@@ -180,6 +223,40 @@ def _combine_variables_and_columns(
             all_variables.append(var)
             all_columns.append(ds.col_for(var))
     return all_variables, all_columns
+
+
+def _column_lists_match_excluding_load_keys(cols1: Sequence[Column], cols2: Sequence[Column]) -> bool:
+    for col1, col2 in zip(cols1, cols2):
+        if not all([
+            col1.variable == col2.variable,
+            col1.indices == col2.indices,
+            col1.applied_transform_keys == col2.applied_transform_keys,
+            col1.dtype == col2.dtype
+        ]):
+            return False
+
+    return True
+
+
+def _warn_about_mismatching_load_keys(cols1: Sequence[Column], cols2: Sequence[Column]):
+    for col1, col2 in zip(cols1, cols2):
+        if col1.variable != col2.variable:
+            raise ValueError('warn about mismatching must be called only on columns which match other than load_key')
+        if col1.load_key != col2.load_key:
+            warnings.warn(f'Got both {col1.load_key} and {col2.load_key} as load_key for '
+                          f'{col1.variable}, will use {col1.load_key}')
+
+
+def _mismatching_attributes_of_columns_message(cols1: Sequence[Column], cols2: Sequence[Column]) -> Optional[str]:
+    messages = []
+    for col1, col2 in zip(cols1, cols2):
+        for attr in col1.equal_attrs:
+            val1 = getattr(col1, attr)
+            val2 = getattr(col2, attr)
+            if val1 != val2:
+                messages.append(f'Column {col1.load_key} has {val1} for {attr} while {col2.load_key} has {val2}')
+    if messages:
+        return ', '.join(messages)
 
 
 class CombineFunction(Protocol):

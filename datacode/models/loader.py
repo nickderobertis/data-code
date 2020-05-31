@@ -121,37 +121,45 @@ class DataLoader:
 
         # Set the data types of the columns
         date_dtypes = []
+        datetime_dtypes = {}  # pandas requires separate handling for datetime
         if self.source.columns:
             dtypes = {}
-            datetime_dtypes = []  # pandas requires separate handling for datetime
             for col in self.source.columns:
                 if col.dtype is not None:
-                    if col.dtype.categorical:
-                        dtypes[col.load_key] = 'category'
-                    elif col.dtype == DatetimeType():
+                    if isinstance(col.dtype, DatetimeType):
                         # Track datetime separately
-                        datetime_dtypes.append(col.load_key)
-                    elif col.dtype == DateType():
-                        datetime_dtypes.append(col.load_key)
+                        datetime_dtypes[col.load_key] = col.dtype
+                    elif isinstance(col.dtype, DateType):
+                        datetime_dtypes[col.load_key] = col.dtype
                         date_dtypes.append(col.load_key)
                     else:
-                        dtypes[col.load_key] = col.dtype.pd_class
+                        dtypes[col.load_key] = col.dtype.read_file_arg
             if dtypes:
                 read_file_config['dtype'] = dtypes
             if datetime_dtypes:
-                read_file_config['parse_dates'] = datetime_dtypes
+                read_file_config['parse_dates'] = list(datetime_dtypes.keys())
 
 
         read_file_config.update(self.read_file_kwargs)
 
         df = read_file(self.source.location, **read_file_config)
 
-        # Remove timestamp portion from date types
-        for col_key in date_dtypes:
-            df[col_key] = df[col_key].dt.floor('d')
+        # Extra cleanup for dates
+        for col_key, dtype in datetime_dtypes.items():
+            if isinstance(dtype, DateType):
+                # Remove timestamp portion from date types
+                df[col_key] = df[col_key].dt.floor('d')
+            elif isinstance(dtype, DatetimeType) and dtype.tz is not None:
+                # Convert to time zone stored in dtype
+                try:
+                    df[col_key] = df[col_key].dt.tz_localize(dtype.tz)
+                except TypeError as e:
+                    if 'Already tz-aware, use tz_convert' in str(e):
+                        df[col_key] = df[col_key].dt.tz_convert(dtype.tz)
+                    else:
+                        raise e
 
         return df
-
 
     def set_df_index(self, df: pd.DataFrame):
         if not self.source.index_vars:
@@ -326,7 +334,7 @@ class DataLoader:
                     raise ValueError(f'passed variable {var} but not calculated and not '
                                      f'in columns {self.source.columns}')
                 continue
-            column = self.source.untransformed_col_for(var)
+            column = self.source.col_for(var)
             temp_source = _apply_transforms_to_var(var, column, temp_source)
         return temp_source.df
 

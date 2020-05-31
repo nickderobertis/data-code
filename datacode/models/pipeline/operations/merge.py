@@ -21,13 +21,14 @@ class DataMerge(DataOperation):
     options: 'MergeOptions'
     result: 'DataSource'
 
-    def __init__(self, data_sources: Sequence[DataSource], merge_options: 'MergeOptions'):
+    def __init__(self, data_sources: Sequence[DataSource], merge_options: 'MergeOptions', **result_kwargs):
         self._merged_name = None
         self._merged_type = None
         self._merged_str = None
         super().__init__(
             data_sources,
-            merge_options
+            merge_options,
+            **result_kwargs
         )
         self.output_name = self.merged_name
 
@@ -42,6 +43,9 @@ class DataMerge(DataOperation):
         if self.options.post_merge_func is not None:
             self.result.df = self.options.post_merge_func(self.result.df)
 
+        # TODO: merge source variable combine logic doesn't seem to be working completely correctly
+        #
+        # Had to put safe=False in merge pipeline output to make it happen
         left_ds, right_ds = self.data_sources[0], self.data_sources[1]
         load_variables = []
         columns = []
@@ -139,7 +143,7 @@ class MergeOptions(OperationOptions):
                  left_df_pre_process_kwargs: Optional[Dict[str, Any]] = None,
                  right_df_pre_process_kwargs: Optional[Dict[str, Any]] = None,
                  post_merge_func: Callable = None, post_merge_func_kwargs: Optional[Dict[str, Any]] = None,
-                 allow_modifying_result: bool = True,
+                 allow_modifying_result: bool = True, result_kwargs: Optional[Dict[str, Any]] = None,
                  **merge_function_kwargs):
         """
 
@@ -211,7 +215,7 @@ class MergeOptions(OperationOptions):
         self.right_df_pre_process_func = partial(right_df_pre_process_func, **right_df_pre_process_kwargs)
         self.post_merge_func = partial(post_merge_func, **post_merge_func_kwargs)
         self.allow_modifying_result = allow_modifying_result
-
+        self.result_kwargs = result_kwargs
 
     def __repr__(self):
         return f'<DataMerge(on_names={self.on_names}, merge_function={self.merge_function.__name__}, ' \

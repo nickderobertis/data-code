@@ -1,17 +1,19 @@
 import datetime
+from typing import Union, Type
 
 import numpy as np
+import pandas as pd
 
 from datacode.models.dtypes.base import DataType
 
 
 class DateType(DataType):
+    names = ('date',)
 
     def __init__(self, categorical: bool = False, ordered: bool = False):
         super().__init__(
             datetime.date,
             pd_class=np.datetime64,
-            names=('date',),
             categorical=categorical,
             ordered=ordered,
         )
@@ -25,3 +27,7 @@ class DateType(DataType):
             categorical=categorical,
             ordered=ordered
         )
+
+    @property
+    def index_arg(self) -> Union[Type, str]:
+        return pd.DatetimeTZDtype

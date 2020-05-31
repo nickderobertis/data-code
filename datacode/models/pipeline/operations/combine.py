@@ -1,5 +1,5 @@
 import datetime
-from typing import Callable, Optional, Any, Sequence
+from typing import Callable, Optional, Any, Sequence, Dict
 
 from datacode.models.logic.combine import CombineFunction, combine_sources
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
@@ -14,10 +14,11 @@ class CombineOperation(DataOperation):
     options: 'CombineOptions'
     result: 'DataSource'
 
-    def __init__(self, data_sources: Sequence[DataSource], options: 'CombineOptions'):
+    def __init__(self, data_sources: Sequence[DataSource], options: 'CombineOptions', **result_kwargs):
         super().__init__(
             data_sources,
-            options
+            options,
+            **result_kwargs
         )
         self.options.last_modified = max([source.last_modified for source in self.data_sources if source.last_modified])
 
@@ -46,7 +47,9 @@ class CombineOptions(OperationOptions):
     op_class = CombineOperation
 
     def __init__(self, func: CombineFunction = combine_sources,
-                 out_path: Optional[str] = None, **func_kwargs):
+                 out_path: Optional[str] = None,
+                 result_kwargs: Optional[Dict[str, Any]] = None,
+                 **func_kwargs):
         """
 
         :param func: function which combines the DataSources
@@ -56,3 +59,4 @@ class CombineOptions(OperationOptions):
         self.func = func
         self.func_kwargs = func_kwargs
         self.out_path = out_path
+        self.result_kwargs = result_kwargs

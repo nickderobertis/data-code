@@ -2,36 +2,39 @@ import datetime
 from copy import deepcopy
 from typing import Union, Optional, Type
 
-import numpy as np
+import pandas as pd
 
 from datacode.models.dtypes.base import DataType
 
 
-class DatetimeType(DataType):
-    names = ('datetime', 'time', 'datetime64')
+class PeriodType(DataType):
+    name_roots = ('period',)
 
-    def __init__(self, categorical: bool = False, ordered: bool = False,
-                 tz: Optional[Union[str, datetime.timezone]] = None):
+    def __init__(self, freq: str, categorical: bool = False, ordered: bool = False):
         super().__init__(
             datetime.datetime,
-            pd_class=np.datetime64,
+            pd_class=pd.PeriodDtype,
             categorical=categorical,
             ordered=ordered,
         )
-        self.tz = tz
-        self.equal_attrs = deepcopy(self.equal_attrs)
-        self.equal_attrs.append('tz')
+        self.freq = freq
 
     @classmethod
     def from_str(cls, dtype: str, categorical: bool = False, ordered: bool = False):
         dtype = dtype.lower()
-        if dtype not in cls.names:
+        freq: Optional[str] = None
+        for name in cls.name_roots:
+            if dtype.startswith(name):
+                _, freq_extra = dtype.split('[')
+                freq = freq_extra.strip(']')
+        if freq is None:
             raise ValueError(f'Dtype {dtype} does not match valid names for {cls.__name__}: {cls.names}')
         return cls(
+            freq,
             categorical=categorical,
             ordered=ordered
         )
 
     @property
-    def index_arg(self) -> Union[Type, str]:
-        return 'datetime64[ns]'
+    def read_file_arg(self) -> Union[Type, str]:
+        return f'period[{self.freq}]'
