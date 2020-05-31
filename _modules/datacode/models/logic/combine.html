@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.logic.combine &mdash; datacode 0.14.3 documentation</title>
+  <title>datacode.models.logic.combine &mdash; datacode 0.15.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.3
+                0.15.0
               </div>
             
           
@@ -164,14 +164,16 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.models.logic.combine</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Set</span>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Set</span>
 
+<span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Protocol</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.variables</span> <span class="kn">import</span> <span class="n">Variable</span>
-<span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
+<span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span><span class="p">,</span> <span class="n">NoColumnForVariableException</span>
 
 
 <div class="viewcode-block" id="combine_sources"><a class="viewcode-back" href="../../../../api/datacode.models.logic.html#datacode.models.logic.combine.combine_sources">[docs]</a><span class="k">def</span> <span class="nf">combine_sources</span><span class="p">(</span><span class="n">data_sources</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataSource</span><span class="p">],</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -190,7 +192,14 @@
 
 <span class="k">def</span> <span class="nf">_combine_columns</span><span class="p">(</span><span class="n">data_sources</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataSource</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DataSource</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index_cols</span> <span class="o">!=</span> <span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index_cols</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;can only combine columns of data sources with overlapping indices&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_column_lists_match_excluding_load_keys</span><span class="p">(</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index_cols</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index_cols</span><span class="p">):</span>
+            <span class="n">_warn_about_mismatching_load_keys</span><span class="p">(</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index_cols</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index_cols</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mismatching_message</span> <span class="o">=</span> <span class="n">_mismatching_attributes_of_columns_message</span><span class="p">(</span>
+                <span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index_cols</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index_cols</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;can only combine columns of data sources with overlapping indices. &#39;</span>
+                             <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mismatching_message</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">new_vars</span><span class="p">,</span> <span class="n">new_cols</span> <span class="o">=</span> <span class="n">_combine_variables_and_columns</span><span class="p">(</span><span class="n">data_sources</span><span class="p">,</span> <span class="n">allow_overlap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="c1"># new_df = pd.concat([ds.df for ds in data_sources], axis=1)</span>
@@ -234,8 +243,42 @@
     <span class="k">if</span> <span class="n">reset_index</span><span class="p">:</span>
         <span class="n">new_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">new_source</span> <span class="o">=</span> <span class="n">DataSource</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">new_cols</span><span class="p">,</span> <span class="n">load_variables</span><span class="o">=</span><span class="n">new_vars</span><span class="p">)</span>
+    <span class="c1"># Set output data types</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">new_cols</span><span class="p">:</span>
+        <span class="n">col_from_all_sources</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">data_sources</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var_key</span><span class="o">=</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">unique_key</span><span class="p">,</span> <span class="n">is_unique_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">NoColumnForVariableException</span><span class="p">:</span>
+                <span class="c1"># column was not in this source</span>
+                <span class="k">continue</span>
+            <span class="n">col_from_all_sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+        <span class="n">dtypes</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">DataType</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">col_from_all_sources</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dtypes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;got multiple dtypes </span><span class="si">{</span><span class="n">dtypes</span><span class="si">}</span><span class="s1"> for </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1"> during combine, &#39;</span>
+                                      <span class="sa">f</span><span class="s1">&#39;need to provide a way for the user to specify output type&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dtypes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not extract a data type for </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
+        <span class="n">dtype</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dtypes</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">new_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="c1"># Variable is in index. Need to handle differently</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Variable is only index</span>
+                <span class="n">new_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">index_arg</span><span class="p">)</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Multi-index, need to replace only this level</span>
+                <span class="n">idx_pos</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">converted</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="n">idx_pos</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">index_arg</span><span class="p">)</span>
+                <span class="n">new_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">set_levels</span><span class="p">(</span><span class="n">converted</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">idx_pos</span><span class="p">)</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">converted</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Variable is in columns, not index</span>
+            <span class="n">new_df</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">pd_class</span><span class="p">())</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="n">new_source</span> <span class="o">=</span> <span class="n">DataSource</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">new_cols</span><span class="p">,</span> <span class="n">load_variables</span><span class="o">=</span><span class="n">new_vars</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">new_source</span>
 
@@ -346,6 +389,40 @@
             <span class="n">all_variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
             <span class="n">all_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">all_variables</span><span class="p">,</span> <span class="n">all_columns</span>
+
+
+<span class="k">def</span> <span class="nf">_column_lists_match_excluding_load_keys</span><span class="p">(</span><span class="n">cols1</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Column</span><span class="p">],</span> <span class="n">cols2</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Column</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cols1</span><span class="p">,</span> <span class="n">cols2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span>
+            <span class="n">col1</span><span class="o">.</span><span class="n">variable</span> <span class="o">==</span> <span class="n">col2</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span>
+            <span class="n">col1</span><span class="o">.</span><span class="n">indices</span> <span class="o">==</span> <span class="n">col2</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span>
+            <span class="n">col1</span><span class="o">.</span><span class="n">applied_transform_keys</span> <span class="o">==</span> <span class="n">col2</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">,</span>
+            <span class="n">col1</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">col2</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="p">]):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">_warn_about_mismatching_load_keys</span><span class="p">(</span><span class="n">cols1</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Column</span><span class="p">],</span> <span class="n">cols2</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Column</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cols1</span><span class="p">,</span> <span class="n">cols2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">col1</span><span class="o">.</span><span class="n">variable</span> <span class="o">!=</span> <span class="n">col2</span><span class="o">.</span><span class="n">variable</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;warn about mismatching must be called only on columns which match other than load_key&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">col1</span><span class="o">.</span><span class="n">load_key</span> <span class="o">!=</span> <span class="n">col2</span><span class="o">.</span><span class="n">load_key</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got both </span><span class="si">{</span><span class="n">col1</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="n">col2</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1"> as load_key for &#39;</span>
+                          <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">col1</span><span class="o">.</span><span class="n">variable</span><span class="si">}</span><span class="s1">, will use </span><span class="si">{</span><span class="n">col1</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_mismatching_attributes_of_columns_message</span><span class="p">(</span><span class="n">cols1</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Column</span><span class="p">],</span> <span class="n">cols2</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Column</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cols1</span><span class="p">,</span> <span class="n">cols2</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">col1</span><span class="o">.</span><span class="n">equal_attrs</span><span class="p">:</span>
+            <span class="n">val1</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">col1</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="n">val2</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">col2</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">val1</span> <span class="o">!=</span> <span class="n">val2</span><span class="p">:</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Column </span><span class="si">{</span><span class="n">col1</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1"> has </span><span class="si">{</span><span class="n">val1</span><span class="si">}</span><span class="s1"> for </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s1"> while </span><span class="si">{</span><span class="n">col2</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1"> has </span><span class="si">{</span><span class="n">val2</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">messages</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="CombineFunction"><a class="viewcode-back" href="../../../../api/datacode.models.logic.html#datacode.models.logic.combine.CombineFunction">[docs]</a><span class="k">class</span> <span class="nc">CombineFunction</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>

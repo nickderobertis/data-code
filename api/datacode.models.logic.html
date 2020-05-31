@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.logic package &mdash; datacode 0.14.3 documentation</title>
+  <title>datacode.models.logic package &mdash; datacode 0.15.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.14.3
+                0.15.0
               </div>
             
           
@@ -215,15 +215,15 @@
 </div>
 <div class="section" id="module-datacode.models.logic.combine">
 <span id="datacode-models-logic-combine-module"></span><h2>datacode.models.logic.combine module<a class="headerlink" href="#module-datacode.models.logic.combine" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
+<dl class="class">
 <dt id="datacode.models.logic.combine.CombineFunction">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.logic.combine.</code><code class="sig-name descname">CombineFunction</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/logic/combine.html#CombineFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.logic.combine.CombineFunction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.logic.combine.</code><code class="sig-name descname">CombineFunction</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/logic/combine.html#CombineFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.logic.combine.CombineFunction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">typing_extensions.Protocol</span></code></p>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="datacode.models.logic.combine.combine_sources">
-<code class="sig-prename descclassname">datacode.models.logic.combine.</code><code class="sig-name descname">combine_sources</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_sources</span></em>, <em class="sig-param"><span class="n">rows</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">row_duplicate_vars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">entity_duplicate_vars</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/logic/combine.html#combine_sources"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.logic.combine.combine_sources" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.models.logic.combine.</code><code class="sig-name descname">combine_sources</code><span class="sig-paren">(</span><em class="sig-param">data_sources</em>, <em class="sig-param">rows=True</em>, <em class="sig-param">row_duplicate_vars=None</em>, <em class="sig-param">entity_duplicate_vars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/logic/combine.html#combine_sources"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.logic.combine.combine_sources" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="datacode.models.html#datacode.models.source.DataSource" title="datacode.models.source.DataSource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSource</span></code></a></p>
@@ -234,9 +234,9 @@
 </div>
 <div class="section" id="module-datacode.models.logic.partial">
 <span id="datacode-models-logic-partial-module"></span><h2>datacode.models.logic.partial module<a class="headerlink" href="#module-datacode.models.logic.partial" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
+<dl class="function">
 <dt id="datacode.models.logic.partial.partial">
-<code class="sig-prename descclassname">datacode.models.logic.partial.</code><code class="sig-name descname">partial</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">keywords</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/logic/partial.html#partial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.logic.partial.partial" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.models.logic.partial.</code><code class="sig-name descname">partial</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*args</em>, <em class="sig-param">**keywords</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/logic/partial.html#partial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.logic.partial.partial" title="Permalink to this definition">¶</a></dt>
 <dd><p>A version of functools.partial that allows specifying positional arguments out of order using ellipses.</p>
 <p>See: <a class="reference external" href="https://stackoverflow.com/a/11173903">https://stackoverflow.com/a/11173903</a></p>
 <dl>

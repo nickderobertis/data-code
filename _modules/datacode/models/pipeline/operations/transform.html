@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.transform &mdash; datacode 0.14.3 documentation</title>
+  <title>datacode.models.pipeline.operations.transform &mdash; datacode 0.15.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.3
+                0.15.0
               </div>
             
           
@@ -164,7 +164,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.models.pipeline.operations.transform</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.transform.source</span> <span class="kn">import</span> <span class="n">SourceTransform</span>
 <span class="kn">from</span> <span class="nn">datacode.models.pipeline.operations.operation</span> <span class="kn">import</span> <span class="n">DataOperation</span><span class="p">,</span> <span class="n">OperationOptions</span>
@@ -179,10 +179,11 @@
     <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;TransformOptions&#39;</span>
     <span class="n">result</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span>
 
-<div class="viewcode-block" id="TransformOperation.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOperation.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;TransformOptions&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="TransformOperation.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOperation.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;TransformOptions&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">result_kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">data_sources</span><span class="p">,</span>
-            <span class="n">options</span>
+            <span class="n">options</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">result_kwargs</span>
         <span class="p">)</span></div>
 
     <span class="nd">@property</span>
@@ -191,7 +192,7 @@
 
 <div class="viewcode-block" id="TransformOperation.execute"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOperation.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="p">,</span> <span class="n">preserve_original</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">preserve_original</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">update_from_source</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">exclude_attrs</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">,))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">update_from_source</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">exclude_attrs</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="s1">&#39;data_outputter_kwargs&#39;</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span></div>
 
 <div class="viewcode-block" id="TransformOperation.summary"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOperation.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -220,10 +221,16 @@
 <span class="sd">    Class for options passed to AnalysisOperations</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">op_class</span> <span class="o">=</span> <span class="n">TransformOperation</span>
+    <span class="n">repr_cols</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;func&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;out_path&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;allow_modifying_result&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;preserve_original&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
 
 <div class="viewcode-block" id="TransformOptions.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOptions.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">DataSource</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">DataSource</span><span class="p">],</span> <span class="n">SourceTransform</span><span class="p">],</span>
                  <span class="n">preserve_original</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">out_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">allow_modifying_result</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+                 <span class="n">allow_modifying_result</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">result_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param func:</span>
@@ -242,7 +249,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preserve_original</span> <span class="o">=</span> <span class="n">preserve_original</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">out_path</span> <span class="o">=</span> <span class="n">out_path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">allow_modifying_result</span> <span class="o">=</span> <span class="n">allow_modifying_result</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allow_modifying_result</span> <span class="o">=</span> <span class="n">allow_modifying_result</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result_kwargs</span> <span class="o">=</span> <span class="n">result_kwargs</span></div></div>
 </pre></div>
 
            </div>

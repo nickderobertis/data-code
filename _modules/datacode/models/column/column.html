@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.column.column &mdash; datacode 0.14.3 documentation</title>
+  <title>datacode.models.column.column &mdash; datacode 0.15.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.3
+                0.15.0
               </div>
             
           
@@ -167,6 +167,7 @@
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">mixins.attrequals</span> <span class="kn">import</span> <span class="n">EqOnAttrsMixin</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.column.index</span> <span class="kn">import</span> <span class="n">ColumnIndex</span>
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
@@ -174,7 +175,14 @@
 <span class="kn">from</span> <span class="nn">datacode.models.variables</span> <span class="kn">import</span> <span class="n">Variable</span>
 
 
-<div class="viewcode-block" id="Column"><a class="viewcode-back" href="../../../../api/datacode.models.column.html#datacode.models.column.column.Column">[docs]</a><span class="k">class</span> <span class="nc">Column</span><span class="p">:</span>
+<div class="viewcode-block" id="Column"><a class="viewcode-back" href="../../../../api/datacode.models.column.html#datacode.models.column.column.Column">[docs]</a><span class="k">class</span> <span class="nc">Column</span><span class="p">(</span><span class="n">EqOnAttrsMixin</span><span class="p">):</span>
+    <span class="n">equal_attrs</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;variable&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;indices&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;load_key&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;applied_transform_keys&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;dtype&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
 
 <div class="viewcode-block" id="Column.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.column.html#datacode.models.column.column.Column.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Variable</span><span class="p">,</span> <span class="n">load_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">indices</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">ColumnIndex</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -199,18 +207,6 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;Column(variable=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="si">}</span><span class="s1">, load_key=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1">, indices=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="si">}</span><span class="s1">, &#39;</span> \
                <span class="sa">f</span><span class="s1">&#39;applied_transform_keys=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="si">}</span><span class="s1">, dtype=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Column</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="k">return</span> <span class="nb">all</span><span class="p">([</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">variable</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">load_key</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">load_key</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">applied_transform_keys</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">dtype</span>
-        <span class="p">])</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Variable</span><span class="p">]:</span>

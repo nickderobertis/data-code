@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.dtypes.timedelta_type &mdash; datacode 0.15.0 documentation</title>
+  <title>datacode.models.dtypes.period_type &mdash; datacode 0.15.0 documentation</title>
   
 
   
@@ -148,7 +148,7 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.models.dtypes.timedelta_type</li>
+      <li>datacode.models.dtypes.period_type</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -163,34 +163,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.models.dtypes.timedelta_type</h1><div class="highlight"><pre>
+  <h1>Source code for datacode.models.dtypes.period_type</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
 
 
-<div class="viewcode-block" id="TimedeltaType"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.timedelta_type.TimedeltaType">[docs]</a><span class="k">class</span> <span class="nc">TimedeltaType</span><span class="p">(</span><span class="n">DataType</span><span class="p">):</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;timedelta&#39;</span><span class="p">,</span> <span class="s1">&#39;timedelta[ns]&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="PeriodType"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.period_type.PeriodType">[docs]</a><span class="k">class</span> <span class="nc">PeriodType</span><span class="p">(</span><span class="n">DataType</span><span class="p">):</span>
+    <span class="n">name_roots</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;period&#39;</span><span class="p">,)</span>
 
-<div class="viewcode-block" id="TimedeltaType.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.timedelta_type.TimedeltaType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categorical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="PeriodType.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.period_type.PeriodType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">categorical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">,</span>
-            <span class="n">pd_class</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">,</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
+            <span class="n">pd_class</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">PeriodDtype</span><span class="p">,</span>
             <span class="n">categorical</span><span class="o">=</span><span class="n">categorical</span><span class="p">,</span>
             <span class="n">ordered</span><span class="o">=</span><span class="n">ordered</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span></div>
 
-<div class="viewcode-block" id="TimedeltaType.from_str"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.timedelta_type.TimedeltaType.from_str">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="PeriodType.from_str"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.period_type.PeriodType.from_str">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_str</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">categorical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+        <span class="n">freq</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">name_roots</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dtype</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">freq_extra</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span>
+                <span class="n">freq</span> <span class="o">=</span> <span class="n">freq_extra</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dtype </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1"> does not match valid names for </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">names</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">freq</span><span class="p">,</span>
             <span class="n">categorical</span><span class="o">=</span><span class="n">categorical</span><span class="p">,</span>
             <span class="n">ordered</span><span class="o">=</span><span class="n">ordered</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">read_file_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;period[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="si">}</span><span class="s1">]&#39;</span></div>
 </pre></div>
 
            </div>

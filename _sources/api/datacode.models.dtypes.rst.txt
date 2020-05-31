@@ -89,6 +89,14 @@ datacode.models.dtypes.obj\_type module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.dtypes.period\_type module
+------------------------------------------
+
+.. automodule:: datacode.models.dtypes.period_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.dtypes.str\_type module
 ---------------------------------------
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.dtypes.manager &mdash; datacode 0.14.3 documentation</title>
+  <title>datacode.models.dtypes.manager &mdash; datacode 0.15.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.3
+                0.15.0
               </div>
             
           
@@ -164,29 +164,53 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.models.dtypes.manager</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Dict</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
 
 
 <div class="viewcode-block" id="DataTypeManager"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.manager.DataTypeManager">[docs]</a><span class="k">class</span> <span class="nc">DataTypeManager</span><span class="p">:</span>
 
-<div class="viewcode-block" id="DataTypeManager.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.manager.DataTypeManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_types</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataType</span><span class="p">]):</span>
+<div class="viewcode-block" id="DataTypeManager.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.manager.DataTypeManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_types</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">DataType</span><span class="p">]]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_types</span> <span class="o">=</span> <span class="n">data_types</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_name_map</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_name_map</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root_name_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_name_map</span><span class="p">(</span><span class="s1">&#39;name_roots&#39;</span><span class="p">,</span> <span class="n">existing_maps</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">])</span></div>
 
-    <span class="k">def</span> <span class="nf">_create_name_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataType</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_create_name_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name_attr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;names&#39;</span><span class="p">,</span>
+                         <span class="n">existing_maps</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">DataType</span><span class="p">]]]]</span> <span class="o">=</span> <span class="kc">None</span>
+                         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">DataType</span><span class="p">]]:</span>
+        <span class="n">all_maps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">existing_maps</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">e_map</span> <span class="ow">in</span> <span class="n">existing_maps</span><span class="p">:</span>
+                <span class="n">all_maps</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">e_map</span><span class="p">)</span>
+
         <span class="n">name_map</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_types</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data_type</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">name_map</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data_type</span><span class="p">,</span> <span class="n">name_attr</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_maps</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got name </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> for data type </span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s1"> when it was already &#39;</span>
                                      <span class="sa">f</span><span class="s1">&#39;used by data type </span><span class="si">{</span><span class="n">name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_type</span>
+                <span class="n">all_maps</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_type</span>
         <span class="k">return</span> <span class="n">name_map</span>
 
-<div class="viewcode-block" id="DataTypeManager.get_by_name"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.manager.DataTypeManager.get_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div></div>
+<div class="viewcode-block" id="DataTypeManager.get_by_name"><a class="viewcode-back" href="../../../../api/datacode.models.dtypes.html#datacode.models.dtypes.manager.DataTypeManager.get_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataType</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="c1"># Try for exact match first</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Now look up in root name dict</span>
+        <span class="k">for</span> <span class="n">dt_name</span><span class="p">,</span> <span class="n">dt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_name_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">dt_name</span><span class="p">):</span>
+                <span class="bp">cls</span> <span class="o">=</span> <span class="n">dt</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="c1"># Didn&#39;t find in either dict</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

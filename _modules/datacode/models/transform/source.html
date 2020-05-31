@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.transform.source &mdash; datacode 0.14.3 documentation</title>
+  <title>datacode.models.transform.source &mdash; datacode 0.15.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.3
+                0.15.0
               </div>
             
           
@@ -205,6 +205,7 @@
 <span class="sd">        memory usage but will cause the original source to be partially modified</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">NoColumnForVariableException</span>
         <span class="k">if</span> <span class="n">preserve_original</span><span class="p">:</span>
             <span class="n">source</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -233,7 +234,11 @@
         <span class="c1"># Collect necessary renames</span>
         <span class="n">rename_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">selected_var</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">:</span>
-            <span class="n">col</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">selected_var</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">selected_var</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">NoColumnForVariableException</span><span class="p">:</span>
+                <span class="c1"># Must have removed this column in the transformation</span>
+                <span class="k">continue</span>
             <span class="n">var</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span>  <span class="c1"># Don&#39;t use variable directly besides key as may be different instance</span>
 
             <span class="c1"># Update variable</span>

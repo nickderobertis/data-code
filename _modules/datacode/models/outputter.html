@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.outputter &mdash; datacode 0.14.3 documentation</title>
+  <title>datacode.models.outputter &mdash; datacode 0.15.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.14.3
+                0.15.0
               </div>
             
           
@@ -199,17 +199,17 @@
     <span class="k">def</span> <span class="nf">_check_safety</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DataOutputNotSafeException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;DataSource </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="si">}</span><span class="s1"> has no columns, &#39;</span>
-                                             <span class="sa">f</span><span class="s1">&#39;cannot determine how to output safely&#39;</span><span class="p">)</span>
+                                             <span class="sa">f</span><span class="s1">&#39;cannot determine how to output safely. Pass safe=False to bypass&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_exists</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">DataOutputNotSafeException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;DataSource </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="si">}</span><span class="s1"> has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s1"> columns &#39;</span>
                                              <span class="sa">f</span><span class="s1">&#39;but only </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">)</span><span class="si">}</span><span class="s1"> loaded variables, so &#39;</span>
-                                             <span class="sa">f</span><span class="s1">&#39;would be deleting existing data&#39;</span><span class="p">)</span>
+                                             <span class="sa">f</span><span class="s1">&#39;would be deleting existing data. Pass safe=False to bypass&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">DataOutputNotSafeException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;DataSource </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="si">}</span><span class="s1"> has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s1"> columns &#39;</span>
                                              <span class="sa">f</span><span class="s1">&#39;but </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">load_variables</span><span class="p">)</span><span class="si">}</span><span class="s1"> loaded variables, so &#39;</span>
-                                             <span class="sa">f</span><span class="s1">&#39;some variables would not be outputted &#39;</span><span class="p">)</span>
+                                             <span class="sa">f</span><span class="s1">&#39;some variables would not be outputted. Pass safe=False to bypass &#39;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_output_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -244,10 +244,16 @@
 
         <span class="n">keep_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_load_keys</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keep_cols</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">DataOutputNotSafeException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;After keeping necessary columns, only outputting </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">keep_cols</span><span class="p">)</span><span class="si">}</span><span class="s1"> &#39;</span>
+        <span class="n">num_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keep_cols</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe</span> <span class="ow">and</span> <span class="n">num_cols</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+            <span class="n">existing_cols</span> <span class="o">=</span> <span class="n">keep_cols</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>
+            <span class="n">missing_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">col_load_keys</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">existing_cols</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="n">DataOutputNotSafeException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;After keeping necessary columns, only outputting &#39;</span>
+                                             <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">num_cols</span><span class="si">}</span><span class="s1"> &#39;</span>
                                              <span class="sa">f</span><span class="s1">&#39;columns when DataSource &#39;</span>
-                                             <span class="sa">f</span><span class="s1">&#39;describes </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s1"> columns&#39;</span><span class="p">)</span>
+                                             <span class="sa">f</span><span class="s1">&#39;describes </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s1"> columns. &#39;</span>
+                                             <span class="sa">f</span><span class="s1">&#39;Missing columns </span><span class="si">{</span><span class="n">missing_cols</span><span class="si">}</span><span class="s1">. &#39;</span>
+                                             <span class="sa">f</span><span class="s1">&#39;Pass safe=False to bypass.&#39;</span><span class="p">)</span>
 
         <span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keep_cols</span><span class="p">]</span>
         <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
