@@ -77,3 +77,15 @@ class TestDataMergePipeline(PipelineTest):
 
         assert_frame_equal(dp.df, self.expect_merged_1_generated_2)
 
+    def test_graph(self):
+        dp = self.create_merge_pipeline()
+
+        ds = DataSource(pipeline=dp, location=self.csv_path_output)
+        df = ds.df
+
+        # TODO [#80]: better tests for graph
+        #
+        # Currently just checking to make sure they can be generated with no errors.
+        # Should also check the contents of the graphs. Also see TestCreateSource.test_graph
+        ds.graph
+        dp.graph

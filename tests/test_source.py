@@ -297,6 +297,11 @@ class TestCreateSource(SourceTest):
         ds = self.create_source(location=None, columns=all_cols)
         assert ds.columns == all_cols
 
+    def test_graph(self):
+        ds = self.create_source(location=None)
+        # Need to do a better job with this test, see TestDataMergePipeline.test_graph
+        ds.graph
+
 
 class TestLoadSource(SourceTest):
 

@@ -2,6 +2,12 @@ import datetime
 from copy import deepcopy
 from typing import Sequence, List, Callable, Optional, Union
 
+from graphviz import Digraph
+
+from datacode.graph.base import GraphObject
+from datacode.graph.edge import Edge
+from datacode.graph.node import Node
+from datacode.graph.subgraph import Subgraph
 from datacode.models.analysis import AnalysisResult
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
@@ -39,6 +45,7 @@ class DataPipeline:
         self.df = None
         self._operation_index = 0
         self.result = None
+        self.primary_node = Node(self.name)
 
     def execute(self, output: bool = True):
         while True:
@@ -219,6 +226,23 @@ class DataPipeline:
 
     def copy(self):
         return deepcopy(self)
+
+    @property
+    def _graph_contents(self) -> Sequence[GraphObject]:
+        elems = [self.primary_node]
+        for source in self.data_sources:
+            elems.extend(source._graph_contents)
+            edge = Edge(source.primary_node, self.primary_node)
+            elems.append(edge)
+        return elems
+
+    @property
+    def graph(self) -> Digraph:
+        elems = self._graph_contents
+        graph = Digraph(self.name)
+        for elem in elems:
+            elem.add_to_graph(graph)
+        return graph
 
 
 class LastOperationFinishedException(Exception):

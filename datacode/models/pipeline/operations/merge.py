@@ -43,7 +43,7 @@ class DataMerge(DataOperation):
         if self.options.post_merge_func is not None:
             self.result.df = self.options.post_merge_func(self.result.df)
 
-        # TODO: merge source variable combine logic doesn't seem to be working completely correctly
+        # TODO [#78]: merge source variable combine logic doesn't seem to be working completely correctly
         #
         # Had to put safe=False in merge pipeline output to make it happen
         left_ds, right_ds = self.data_sources[0], self.data_sources[1]
