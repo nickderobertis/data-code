@@ -64,7 +64,8 @@ class TransformOptions(OperationOptions):
 
     def __init__(self, func: Union[Callable[[DataSource, Any], DataSource], SourceTransform],
                  preserve_original: bool = True, out_path: Optional[str] = None,
-                 allow_modifying_result: bool = True, result_kwargs: Optional[Dict[str, Any]] = None):
+                 allow_modifying_result: bool = True, result_kwargs: Optional[Dict[str, Any]] = None,
+                 transform_key: Optional[str] = None):
         """
 
         :param func:
@@ -74,11 +75,13 @@ class TransformOptions(OperationOptions):
             source from pipeline can cause modifications in the pipeline's result source. Set to False
             to ensure it won't be modified (but uses more memory). Setting to False should only be needed
             if multiple sources load from the same pipeline in one session
+        :param transform_key: Only used when passing callable instead of SourceTransform. Sets the key for the
+            generated SourceTransform
         """
         if isinstance(func, SourceTransform):
             self.transform = func
         else:
-            self.transform = SourceTransform.from_func(func)
+            self.transform = SourceTransform.from_func(func, key=transform_key)
 
         self.func = func
         self.preserve_original = preserve_original

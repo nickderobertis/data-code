@@ -148,7 +148,7 @@ class DataLoader:
         for col_key, dtype in datetime_dtypes.items():
             if isinstance(dtype, DateType):
                 # Remove timestamp portion from date types
-                df[col_key] = df[col_key].dt.floor('d')
+                df[col_key] = df[col_key].dt.date
             elif isinstance(dtype, DatetimeType) and dtype.tz is not None:
                 # Convert to time zone stored in dtype
                 try:
