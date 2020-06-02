@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations package &mdash; datacode 0.15.1 documentation</title>
+  <title>datacode.models.pipeline.operations package &mdash; datacode 0.15.2 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.15.1
+                0.15.2
               </div>
             
           
@@ -715,12 +715,12 @@ as the output.</p>
 
 <dl class="class">
 <dt id="datacode.models.pipeline.operations.transform.TransformOptions">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.transform.</code><code class="sig-name descname">TransformOptions</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">allow_modifying_result=True</em>, <em class="sig-param">result_kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/transform.html#TransformOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.transform.TransformOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.pipeline.operations.transform.</code><code class="sig-name descname">TransformOptions</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">allow_modifying_result=True</em>, <em class="sig-param">result_kwargs=None</em>, <em class="sig-param">transform_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/transform.html#TransformOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.transform.TransformOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datacode.models.pipeline.operations.operation.OperationOptions" title="datacode.models.pipeline.operations.operation.OperationOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.pipeline.operations.operation.OperationOptions</span></code></a></p>
 <p>Class for options passed to AnalysisOperations</p>
 <dl class="method">
 <dt id="datacode.models.pipeline.operations.transform.TransformOptions.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">allow_modifying_result=True</em>, <em class="sig-param">result_kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/transform.html#TransformOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.transform.TransformOptions.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">preserve_original=True</em>, <em class="sig-param">out_path=None</em>, <em class="sig-param">allow_modifying_result=True</em>, <em class="sig-param">result_kwargs=None</em>, <em class="sig-param">transform_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/pipeline/operations/transform.html#TransformOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.operations.transform.TransformOptions.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -731,6 +731,8 @@ as the output.</p>
 source from pipeline can cause modifications in the pipeline’s result source. Set to False
 to ensure it won’t be modified (but uses more memory). Setting to False should only be needed
 if multiple sources load from the same pipeline in one session</p></li>
+<li><p><span class="target" id="datacode.models.pipeline.operations.transform.TransformOptions.params.transform_key"></span><strong>transform_key</strong><a class="paramlink headerlink reference internal" href="#datacode.models.pipeline.operations.transform.TransformOptions.params.transform_key">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – Only used when passing callable instead of SourceTransform. Sets the key for the
+generated SourceTransform</p></li>
 </ul>
 </dd>
 </dl>

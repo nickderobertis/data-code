@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.transform &mdash; datacode 0.15.1 documentation</title>
+  <title>datacode.models.pipeline.operations.transform &mdash; datacode 0.15.2 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.1
+                0.15.2
               </div>
             
           
@@ -230,7 +230,8 @@
 
 <div class="viewcode-block" id="TransformOptions.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.transform.TransformOptions.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">DataSource</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">DataSource</span><span class="p">],</span> <span class="n">SourceTransform</span><span class="p">],</span>
                  <span class="n">preserve_original</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">out_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">allow_modifying_result</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">result_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                 <span class="n">allow_modifying_result</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">result_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">transform_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param func:</span>
@@ -240,11 +241,13 @@
 <span class="sd">            source from pipeline can cause modifications in the pipeline&#39;s result source. Set to False</span>
 <span class="sd">            to ensure it won&#39;t be modified (but uses more memory). Setting to False should only be needed</span>
 <span class="sd">            if multiple sources load from the same pipeline in one session</span>
+<span class="sd">        :param transform_key: Only used when passing callable instead of SourceTransform. Sets the key for the</span>
+<span class="sd">            generated SourceTransform</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">SourceTransform</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">func</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">SourceTransform</span><span class="o">.</span><span class="n">from_func</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">SourceTransform</span><span class="o">.</span><span class="n">from_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">transform_key</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preserve_original</span> <span class="o">=</span> <span class="n">preserve_original</span>

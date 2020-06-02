@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.loader &mdash; datacode 0.15.1 documentation</title>
+  <title>datacode.models.loader &mdash; datacode 0.15.2 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.1
+                0.15.2
               </div>
             
           
@@ -314,7 +314,7 @@
         <span class="k">for</span> <span class="n">col_key</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">datetime_dtypes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">DateType</span><span class="p">):</span>
                 <span class="c1"># Remove timestamp portion from date types</span>
-                <span class="n">df</span><span class="p">[</span><span class="n">col_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col_key</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+                <span class="n">df</span><span class="p">[</span><span class="n">col_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col_key</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">DatetimeType</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dtype</span><span class="o">.</span><span class="n">tz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># Convert to time zone stored in dtype</span>
                 <span class="k">try</span><span class="p">:</span>
