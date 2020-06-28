@@ -46,24 +46,25 @@ class DataMerge(DataOperation):
         # TODO [#78]: merge source variable combine logic doesn't seem to be working completely correctly
         #
         # Had to put safe=False in merge pipeline output to make it happen
-        left_ds, right_ds = self.data_sources[0], self.data_sources[1]
-        load_variables = []
-        columns = []
-        if left_ds.load_variables:
-            for var in left_ds.load_variables:
-                if self.options.left_df_keep_cols is None or var.name in self.options.left_df_keep_cols:
-                    load_variables.append(var)
-                    columns.append(left_ds.col_for(var))
-        if right_ds.load_variables:
-            for var in right_ds.load_variables:
-                if self.options.right_df_keep_cols is None or var.name in self.options.right_df_keep_cols:
-                    # don't repeat variables and columns. Merge on variables will be repeated,
-                    # perhaps even with different transformations, so explictly skip them
-                    if var not in load_variables and var.name not in self.options.on_names:
+        if 'columns' not in self.result_kwargs:
+            left_ds, right_ds = self.data_sources[0], self.data_sources[1]
+            load_variables = []
+            columns = []
+            if left_ds.load_variables:
+                for var in left_ds.load_variables:
+                    if self.options.left_df_keep_cols is None or var.name in self.options.left_df_keep_cols:
                         load_variables.append(var)
-                        columns.append(right_ds.col_for(var))
-        self.result.columns = columns
-        self.result.load_variables = load_variables
+                        columns.append(left_ds.col_for(var))
+            if right_ds.load_variables:
+                for var in right_ds.load_variables:
+                    if self.options.right_df_keep_cols is None or var.name in self.options.right_df_keep_cols:
+                        # don't repeat variables and columns. Merge on variables will be repeated,
+                        # perhaps even with different transformations, so explictly skip them
+                        if var not in load_variables and var.name not in self.options.on_names:
+                            load_variables.append(var)
+                            columns.append(right_ds.col_for(var))
+            self.result.columns = columns
+            self.result.load_variables = load_variables
 
         print(f"""
         {self.data_sources[0].name} obs: {len(left_df)}
