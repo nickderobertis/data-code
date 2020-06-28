@@ -8,6 +8,7 @@ from datacode.models.column.index import ColumnIndex
 from datacode.models.dtypes.base import DataType
 from datacode.models.dtypes.convert import convert_str_to_data_type_if_necessary
 from datacode.models.variables import Variable
+from datacode.models.transform.transform import Transform
 
 
 class Column(EqOnAttrsMixin, ReprMixin):
@@ -51,3 +52,8 @@ class Column(EqOnAttrsMixin, ReprMixin):
                 if var not in index_vars:
                     index_vars.append(var)
         return index_vars
+
+    def _add_applied_transform(self, transform: Transform, skip_variable: bool = False):
+        self.applied_transform_keys.append(transform.key)
+        if not skip_variable:
+            self.variable._add_applied_transform(transform)

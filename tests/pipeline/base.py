@@ -132,6 +132,14 @@ class PipelineTest(SourceTest):
         ],
         columns=['A_1', 'B_1', 'C_1']
     ).convert_dtypes()
+    expect_df_double_source_transform = pd.DataFrame(
+        [
+            (3, 4, 'd'),
+            (5, 6, 'd'),
+            (7, 8, 'e')
+        ],
+        columns=['A', 'B', 'C']
+    ).convert_dtypes()
     expect_generated_transformed = pd.DataFrame(
         [
             (2, 3, 'd'),
