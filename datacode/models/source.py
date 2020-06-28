@@ -152,6 +152,7 @@ class DataSource(ReprMixin):
     @df.setter
     def df(self, df):
         self._df = df
+        self.refresh_columns_series()
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
@@ -314,6 +315,9 @@ class DataSource(ReprMixin):
         else:
             col_list = self.columns
 
+        if col_list is None:
+            raise NoColumnForVariableException(f'no columns in {self.name}')
+
         if is_unique_key:
             key_attr = 'unique_key'
         else:
@@ -354,6 +358,18 @@ class DataSource(ReprMixin):
             return []
 
         return [var.key for var in self.load_variables]
+
+    def refresh_columns_series(self):
+        if self.columns is None:
+            return
+        for col in self.columns:
+            if col.variable not in self.load_variables:
+                continue
+            if col.variable.name not in list(self._df.columns) + list(self._df.index.names):
+                col.series = None
+                continue
+            series = self.get_series_for(var=col.variable)
+            col.series = series
 
     def get_var_by_key(self, key: str, is_unique_key: bool = False) -> Variable:
         if is_unique_key:
@@ -408,7 +424,7 @@ class DataSource(ReprMixin):
         if df is None:
             df = self.df
 
-        if var_name in self.index_var_names:
+        if var_name in df.index.names:
             # Need to get from index and convert to series
             return pd.Series(df.index.get_level_values(var_name))
         else:
