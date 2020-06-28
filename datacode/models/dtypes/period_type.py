@@ -18,6 +18,10 @@ class PeriodType(DataType):
             ordered=ordered,
         )
         self.freq = freq
+        self.equal_attrs = deepcopy(self.equal_attrs)
+        self.equal_attrs.append('freq')
+        self.repr_cols = deepcopy(self.repr_cols)
+        self.repr_cols.append('freq')
 
     @classmethod
     def from_str(cls, dtype: str, categorical: bool = False, ordered: bool = False):

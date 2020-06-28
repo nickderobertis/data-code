@@ -1,5 +1,7 @@
 from copy import deepcopy
-from typing import Sequence, Optional
+from typing import Sequence, Optional, List
+
+from mixins import ReprMixin
 
 from datacode.models.variables.tools import _get_obj_or_attr
 from datacode.models.transform.transform import Transform
@@ -8,7 +10,8 @@ from datacode.models.transform.specific import DEFAULT_TRANSFORMS
 from .variable import Variable
 
 
-class VariableCollection:
+class VariableCollection(ReprMixin):
+    repr_cols = ['name', 'keys']
 
     _default_attr = 'obj'
 
@@ -53,6 +56,10 @@ class VariableCollection:
     def items(self, variables):
         # Goes inside any collections which are inside this one to populate all nested variables as well as collections
         self._items = _create_variable_and_collection_list(variables)
+
+    @property
+    def keys(self) -> List[str]:
+        return [var.key for var in self.variables]
 
     # Must override the standard list methods which add and remove elements because
     # we must reflect those operations on the variable hash map
@@ -137,11 +144,6 @@ class VariableCollection:
 
     def __dir__(self):
         return self.variable_map.keys()
-
-    def __repr__(self):
-        variables_str = ','.join([str(variable) for variable in self.items])
-        return f'<VariableCollection(name={self.name},\n variables={variables_str})>'
-
 
     @classmethod
     def from_display_names(cls, *names):

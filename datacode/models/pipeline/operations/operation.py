@@ -10,11 +10,12 @@ if TYPE_CHECKING:
 from datacode.models.source import DataSource
 
 
-class DataOperation:
+class DataOperation(ReprMixin):
     """
     Base class for a singlar data process that takes one or more DataSources as inputs and has one DataSource
     as the output.
     """
+    repr_cols = ['options', 'output_name', 'data_sources']
     num_required_sources: int = 1
 
     def __init__(self, data_sources: Sequence[DataSource], options: 'OperationOptions',
@@ -26,6 +27,7 @@ class DataOperation:
         self.data_sources = data_sources
         self.output_name = output_name
         self.result = None
+        self.result_kwargs = result_kwargs
         self._set_result(**result_kwargs)
 
     def execute(self):

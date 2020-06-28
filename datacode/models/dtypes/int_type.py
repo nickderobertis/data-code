@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import Type, Union
 import re
 
@@ -20,6 +21,10 @@ class IntType(DataType):
             ordered=ordered,
             is_numeric=True
         )
+        self.equal_attrs = deepcopy(self.equal_attrs)
+        self.equal_attrs.append('bit_size')
+        self.repr_cols = deepcopy(self.repr_cols)
+        self.repr_cols.append('bit_size')
 
     def _get_pd_class(self) -> Type:
         if self.bit_size == 8:

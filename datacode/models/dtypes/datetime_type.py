@@ -21,6 +21,8 @@ class DatetimeType(DataType):
         self.tz = tz
         self.equal_attrs = deepcopy(self.equal_attrs)
         self.equal_attrs.append('tz')
+        self.repr_cols = deepcopy(self.repr_cols)
+        self.repr_cols.append('tz')
 
     @classmethod
     def from_str(cls, dtype: str, categorical: bool = False, ordered: bool = False):

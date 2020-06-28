@@ -7,7 +7,7 @@ verify_ssl = true
 pdbpp = "*"
 
 [packages]
-sphinx = "==2.4.3"
+sphinx = "*"
 sphinx-autobuild = "*"
 sphinx-autodoc-typehints = "*"
 sphinxcontrib-fulltoc = "*"

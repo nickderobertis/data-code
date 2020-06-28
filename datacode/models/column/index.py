@@ -1,10 +1,13 @@
 from typing import Sequence
 
+from mixins import ReprMixin
+
 from datacode.models.index import Index
 from datacode.models.variables import Variable
 
 
-class ColumnIndex:
+class ColumnIndex(ReprMixin):
+    repr_cols = ['index', 'variables']
 
     def __init__(self, index: Index, variables: Sequence[Variable]):
         self.index = index
