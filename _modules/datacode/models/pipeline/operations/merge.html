@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.15.2 documentation</title>
+  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.15.3 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.2
+                0.15.3
               </div>
             
           
@@ -182,12 +182,12 @@
 <span class="n">TwoDfTuple</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="DataMerge"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.DataMerge">[docs]</a><span class="k">class</span> <span class="nc">DataMerge</span><span class="p">(</span><span class="n">DataOperation</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">DataMerge</span><span class="p">(</span><span class="n">DataOperation</span><span class="p">):</span>
     <span class="n">num_required_sources</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">options</span><span class="p">:</span> <span class="s1">&#39;MergeOptions&#39;</span>
     <span class="n">result</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span>
 
-<div class="viewcode-block" id="DataMerge.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.DataMerge.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataSource</span><span class="p">],</span> <span class="n">merge_options</span><span class="p">:</span> <span class="s1">&#39;MergeOptions&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">result_kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">DataSource</span><span class="p">],</span> <span class="n">merge_options</span><span class="p">:</span> <span class="s1">&#39;MergeOptions&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">result_kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_merged_name</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_merged_type</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_merged_str</span> <span class="o">=</span> <span class="kc">None</span>
@@ -196,9 +196,9 @@
             <span class="n">merge_options</span><span class="p">,</span>
             <span class="o">**</span><span class="n">result_kwargs</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">merged_name</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">merged_name</span>
 
-<div class="viewcode-block" id="DataMerge.execute"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.DataMerge.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running merge function </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_str</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">left_df</span><span class="p">,</span> <span class="n">right_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_merge_dfs</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">merge_function</span><span class="p">(</span>
@@ -235,9 +235,9 @@
 <span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> obs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">left_df</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> obs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">right_df</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        Merged obs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span></div>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DataMerge.summary"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.DataMerge.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">summary_attr</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">summary_method_kwargs</span><span class="p">):</span>
         <span class="n">display_merge_summary</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
@@ -246,14 +246,14 @@
             <span class="n">summary_function</span><span class="o">=</span><span class="n">summary_function</span><span class="p">,</span>
             <span class="n">summary_attr</span><span class="o">=</span><span class="n">summary_attr</span><span class="p">,</span>
             <span class="o">**</span><span class="n">summary_method_kwargs</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="DataMerge.describe"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.DataMerge.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">display_merge_summary</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">summary_function</span><span class="o">=</span><span class="n">describe_df</span><span class="p">,</span>
             <span class="n">disp</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># don&#39;t display from describe_df as will display from display_merge_summary</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_merge_dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TwoDfTuple</span><span class="p">:</span>
         <span class="n">left_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">df</span>
@@ -293,17 +293,17 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merged_str</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataMerge(left=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">, right=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">)&gt;&#39;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataMerge(left=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">, right=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">)&gt;&#39;</span>
 
 
 <div class="viewcode-block" id="LastMergeFinishedException"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.LastMergeFinishedException">[docs]</a><span class="k">class</span> <span class="nc">LastMergeFinishedException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="MergeOptions"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.MergeOptions">[docs]</a><span class="k">class</span> <span class="nc">MergeOptions</span><span class="p">(</span><span class="n">OperationOptions</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">MergeOptions</span><span class="p">(</span><span class="n">OperationOptions</span><span class="p">):</span>
     <span class="n">op_class</span> <span class="o">=</span> <span class="n">DataMerge</span>
 
-<div class="viewcode-block" id="MergeOptions.__init__"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.MergeOptions.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="s1">&#39;Column&#39;</span><span class="p">]],</span> <span class="n">out_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">merge_function</span><span class="o">=</span><span class="n">left_merge_df</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="s1">&#39;Column&#39;</span><span class="p">]],</span> <span class="n">out_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">merge_function</span><span class="o">=</span><span class="n">left_merge_df</span><span class="p">,</span>
                  <span class="n">left_df_keep_cols</span><span class="p">:</span> <span class="n">StrListOrNone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">right_df_keep_cols</span><span class="p">:</span> <span class="n">StrListOrNone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">left_df_pre_process_func</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">right_df_pre_process_func</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">left_df_pre_process_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -381,14 +381,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">right_df_pre_process_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">right_df_pre_process_func</span><span class="p">,</span> <span class="o">**</span><span class="n">right_df_pre_process_kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">post_merge_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">post_merge_func</span><span class="p">,</span> <span class="o">**</span><span class="n">post_merge_func_kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">allow_modifying_result</span> <span class="o">=</span> <span class="n">allow_modifying_result</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">result_kwargs</span> <span class="o">=</span> <span class="n">result_kwargs</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result_kwargs</span> <span class="o">=</span> <span class="n">result_kwargs</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataMerge(on_names=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">on_names</span><span class="si">}</span><span class="s1">, merge_function=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_function</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">, &#39;</span> \
                <span class="sa">f</span><span class="s1">&#39;kwargs=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_function_kwargs</span><span class="si">}</span><span class="s1">)&gt;&#39;</span>
 
-<div class="viewcode-block" id="MergeOptions.update"><a class="viewcode-back" href="../../../../../api/datacode.models.pipeline.operations.html#datacode.models.pipeline.operations.merge.MergeOptions.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">merge_function_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">merge_function_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 
            </div>

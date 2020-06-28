@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to Data Analysis, Summarization, and Transformation Tools documentation!
-********************************************************************
+*************************************************************************************
 
 High-level tools to analyze, summarize, and transform data
 

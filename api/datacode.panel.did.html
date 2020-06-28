@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.panel.did package &mdash; datacode 0.15.2 documentation</title>
+  <title>datacode.panel.did package &mdash; datacode 0.15.3 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.15.2
+                0.15.3
               </div>
             
           
@@ -203,9 +203,9 @@
 </div>
 <div class="section" id="module-datacode.panel.did.dataprep">
 <span id="datacode-panel-did-dataprep-module"></span><h2>datacode.panel.did.dataprep module<a class="headerlink" href="#module-datacode.panel.did.dataprep" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.panel.did.dataprep.diff_df_from_panel_df">
-<code class="sig-prename descclassname">datacode.panel.did.dataprep.</code><code class="sig-name descname">diff_df_from_panel_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">entity_var</em>, <em class="sig-param">time_var</em>, <em class="sig-param">treated_var</em>, <em class="sig-param">treated_time_var='After'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/dataprep.html#diff_df_from_panel_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.dataprep.diff_df_from_panel_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.panel.did.dataprep.</code><code class="sig-name descname">diff_df_from_panel_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">entity_var</span></em>, <em class="sig-param"><span class="n">time_var</span></em>, <em class="sig-param"><span class="n">treated_var</span></em>, <em class="sig-param"><span class="n">treated_time_var</span><span class="o">=</span><span class="default_value">'After'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/dataprep.html#diff_df_from_panel_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.dataprep.diff_df_from_panel_df" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
@@ -216,14 +216,14 @@
 </div>
 <div class="section" id="module-datacode.panel.did.main">
 <span id="datacode-panel-did-main-module"></span><h2>datacode.panel.did.main module<a class="headerlink" href="#module-datacode.panel.did.main" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.panel.did.main.diff_reg_for_each_yvar_from_panel_df">
-<code class="sig-prename descclassname">datacode.panel.did.main.</code><code class="sig-name descname">diff_reg_for_each_yvar_from_panel_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">entity_var</em>, <em class="sig-param">time_var</em>, <em class="sig-param">treated_var</em>, <em class="sig-param">yvars</em>, <em class="sig-param">treated_time_var='After'</em>, <em class="sig-param">xvars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/main.html#diff_reg_for_each_yvar_from_panel_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.main.diff_reg_for_each_yvar_from_panel_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.panel.did.main.</code><code class="sig-name descname">diff_reg_for_each_yvar_from_panel_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">entity_var</span></em>, <em class="sig-param"><span class="n">time_var</span></em>, <em class="sig-param"><span class="n">treated_var</span></em>, <em class="sig-param"><span class="n">yvars</span></em>, <em class="sig-param"><span class="n">treated_time_var</span><span class="o">=</span><span class="default_value">'After'</span></em>, <em class="sig-param"><span class="n">xvars</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/main.html#diff_reg_for_each_yvar_from_panel_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.main.diff_reg_for_each_yvar_from_panel_df" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.panel.did.main.diff_reg_for_each_yvar_from_panel_df_latex_table">
-<code class="sig-prename descclassname">datacode.panel.did.main.</code><code class="sig-name descname">diff_reg_for_each_yvar_from_panel_df_latex_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">entity_var</em>, <em class="sig-param">time_var</em>, <em class="sig-param">treated_var</em>, <em class="sig-param">yvars</em>, <em class="sig-param">treated_time_var='After'</em>, <em class="sig-param">xvars=None</em>, <em class="sig-param">caption='Difference-in-Difference Regressions'</em>, <em class="sig-param">extraname=None</em>, <em class="sig-param">below_text=None</em>, <em class="sig-param">outfolder=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/main.html#diff_reg_for_each_yvar_from_panel_df_latex_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.main.diff_reg_for_each_yvar_from_panel_df_latex_table" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.panel.did.main.</code><code class="sig-name descname">diff_reg_for_each_yvar_from_panel_df_latex_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">entity_var</span></em>, <em class="sig-param"><span class="n">time_var</span></em>, <em class="sig-param"><span class="n">treated_var</span></em>, <em class="sig-param"><span class="n">yvars</span></em>, <em class="sig-param"><span class="n">treated_time_var</span><span class="o">=</span><span class="default_value">'After'</span></em>, <em class="sig-param"><span class="n">xvars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">caption</span><span class="o">=</span><span class="default_value">'Difference-in-Difference Regressions'</span></em>, <em class="sig-param"><span class="n">extraname</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">below_text</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outfolder</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/main.html#diff_reg_for_each_yvar_from_panel_df_latex_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.main.diff_reg_for_each_yvar_from_panel_df_latex_table" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></p>
@@ -234,17 +234,17 @@
 </div>
 <div class="section" id="module-datacode.panel.did.reg">
 <span id="datacode-panel-did-reg-module"></span><h2>datacode.panel.did.reg module<a class="headerlink" href="#module-datacode.panel.did.reg" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.panel.did.reg.diff_reg_for_each_yvar_and_produce_summary">
-<code class="sig-prename descclassname">datacode.panel.did.reg.</code><code class="sig-name descname">diff_reg_for_each_yvar_and_produce_summary</code><span class="sig-paren">(</span><em class="sig-param">diff_df</em>, <em class="sig-param">yvars</em>, <em class="sig-param">treated_var</em>, <em class="sig-param">treated_time_var='After'</em>, <em class="sig-param">xvars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/reg.html#diff_reg_for_each_yvar_and_produce_summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.reg.diff_reg_for_each_yvar_and_produce_summary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.panel.did.reg.</code><code class="sig-name descname">diff_reg_for_each_yvar_and_produce_summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diff_df</span></em>, <em class="sig-param"><span class="n">yvars</span></em>, <em class="sig-param"><span class="n">treated_var</span></em>, <em class="sig-param"><span class="n">treated_time_var</span><span class="o">=</span><span class="default_value">'After'</span></em>, <em class="sig-param"><span class="n">xvars</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/reg.html#diff_reg_for_each_yvar_and_produce_summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.reg.diff_reg_for_each_yvar_and_produce_summary" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="module-datacode.panel.did.totex">
 <span id="datacode-panel-did-totex-module"></span><h2>datacode.panel.did.totex module<a class="headerlink" href="#module-datacode.panel.did.totex" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.panel.did.totex.diff_reg_summary_to_latex_table_and_output">
-<code class="sig-prename descclassname">datacode.panel.did.totex.</code><code class="sig-name descname">diff_reg_summary_to_latex_table_and_output</code><span class="sig-paren">(</span><em class="sig-param">summ</em>, <em class="sig-param">entity_var</em>, <em class="sig-param">caption='Difference-in-Difference Regressions'</em>, <em class="sig-param">extraname=None</em>, <em class="sig-param">below_text=None</em>, <em class="sig-param">outfolder=None</em>, <em class="sig-param">xvars=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/totex.html#diff_reg_summary_to_latex_table_and_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.totex.diff_reg_summary_to_latex_table_and_output" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.panel.did.totex.</code><code class="sig-name descname">diff_reg_summary_to_latex_table_and_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">summ</span></em>, <em class="sig-param"><span class="n">entity_var</span></em>, <em class="sig-param"><span class="n">caption</span><span class="o">=</span><span class="default_value">'Difference-in-Difference Regressions'</span></em>, <em class="sig-param"><span class="n">extraname</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">below_text</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outfolder</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xvars</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/panel/did/totex.html#diff_reg_summary_to_latex_table_and_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.panel.did.totex.diff_reg_summary_to_latex_table_and_output" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></p>

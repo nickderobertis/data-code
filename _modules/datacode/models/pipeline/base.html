@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.base &mdash; datacode 0.15.2 documentation</title>
+  <title>datacode.models.pipeline.base &mdash; datacode 0.15.3 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.2
+                0.15.3
               </div>
             
           
@@ -169,6 +169,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
+<span class="kn">from</span> <span class="nn">mixins</span> <span class="kn">import</span> <span class="n">ReprMixin</span>
 
 <span class="kn">from</span> <span class="nn">datacode.graph.base</span> <span class="kn">import</span> <span class="n">GraphObject</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.edge</span> <span class="kn">import</span> <span class="n">Edge</span>
@@ -180,12 +181,13 @@
 <span class="kn">from</span> <span class="nn">datacode.models.types</span> <span class="kn">import</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span> <span class="n">DataSourceOrPipeline</span><span class="p">,</span> <span class="n">ObjWithLastModified</span>
 
 
-<div class="viewcode-block" id="DataPipeline"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline">[docs]</a><span class="k">class</span> <span class="nc">DataPipeline</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">DataPipeline</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for data pipelines. Should not be used directly.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">repr_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;data_sources&#39;</span><span class="p">,</span> <span class="s1">&#39;operation_options&#39;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="DataPipeline.__init__"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span>
                  <span class="n">operation_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">OperationOptions</span><span class="p">]],</span>
                  <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -211,9 +213,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_operation_index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DataPipeline.execute"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">next_operation</span><span class="p">()</span>
@@ -225,13 +227,13 @@
         <span class="k">if</span> <span class="n">output</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
 
-<div class="viewcode-block" id="DataPipeline.next_operation"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.next_operation">[docs]</a>    <span class="k">def</span> <span class="nf">next_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">next_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operation_index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_df_from_first_operation</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_do_operation</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_do_operation</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_do_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -316,7 +318,7 @@
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_operations&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_operations</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DataPipeline.output"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">AnalysisResult</span><span class="p">):</span>
@@ -341,9 +343,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">extra_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="o">**</span><span class="n">extra_kwargs</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="o">**</span><span class="n">extra_kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DataPipeline.summary"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">summary_attr</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">summary_method_kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">:</span>
             <span class="n">op</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span>
@@ -352,11 +354,11 @@
                 <span class="n">summary_function</span><span class="o">=</span><span class="n">summary_function</span><span class="p">,</span>
                 <span class="n">summary_attr</span><span class="o">=</span><span class="n">summary_attr</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">summary_method_kwargs</span>
-            <span class="p">)</span></div>
+            <span class="p">)</span>
 
-<div class="viewcode-block" id="DataPipeline.describe"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">:</span>
-            <span class="n">op</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span></div>
+            <span class="n">op</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]:</span>
@@ -390,8 +392,8 @@
     <span class="k">def</span> <span class="nf">allow_modifying_result</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">allow_modifying_result</span>
 
-<div class="viewcode-block" id="DataPipeline.copy"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.DataPipeline.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_graph_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">GraphObject</span><span class="p">]:</span>
@@ -408,7 +410,7 @@
         <span class="n">graph</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elems</span><span class="p">:</span>
             <span class="n">elem</span><span class="o">.</span><span class="n">add_to_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">graph</span></div>
+        <span class="k">return</span> <span class="n">graph</span>
 
 
 <div class="viewcode-block" id="LastOperationFinishedException"><a class="viewcode-back" href="../../../../api/datacode.models.pipeline.html#datacode.models.pipeline.base.LastOperationFinishedException">[docs]</a><span class="k">class</span> <span class="nc">LastOperationFinishedException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>

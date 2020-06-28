@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.15.2 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.15.3 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.2
+                0.15.3
               </div>
             
           
@@ -174,6 +174,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
+<span class="kn">from</span> <span class="nn">mixins</span> <span class="kn">import</span> <span class="n">ReprMixin</span>
 
 <span class="kn">from</span> <span class="nn">datacode.graph.base</span> <span class="kn">import</span> <span class="n">GraphObject</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.edge</span> <span class="kn">import</span> <span class="n">Edge</span>
@@ -187,7 +188,7 @@
 <span class="kn">from</span> <span class="nn">datacode.models.loader</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 
 
-<div class="viewcode-block" id="DataSource"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource">[docs]</a><span class="k">class</span> <span class="nc">DataSource</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">DataSource</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">):</span>
     <span class="n">copy_keys</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s1">&#39;location&#39;</span><span class="p">,</span>
         <span class="s1">&#39;name&#39;</span><span class="p">,</span>
@@ -207,8 +208,9 @@
         <span class="s1">&#39;_orig_load_variables&#39;</span><span class="p">,</span>
         <span class="s1">&#39;_vars_for_calculate&#39;</span><span class="p">,</span>
     <span class="p">]</span>
+    <span class="n">repr_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;pipeline&#39;</span><span class="p">,</span> <span class="s1">&#39;columns&#39;</span><span class="p">,</span> <span class="s1">&#39;load_variables&#39;</span><span class="p">,</span> <span class="s1">&#39;columns&#39;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="DataSource.__init__"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">pipeline</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SourceCreatingPipeline</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Column</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">load_variables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Variable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -290,7 +292,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">df</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_load_variables</span><span class="p">()</span>
@@ -330,11 +332,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DataSource.output"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data_outputter_kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data_outputter_kwargs</span><span class="p">):</span>
         <span class="n">config_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_outputter_kwargs</span><span class="p">)</span>
         <span class="n">config_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">data_outputter_kwargs</span><span class="p">)</span>
         <span class="n">outputter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputter_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">config_dict</span><span class="p">)</span>
-        <span class="n">outputter</span><span class="o">.</span><span class="n">output</span><span class="p">()</span></div>
+        <span class="n">outputter</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_check_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
         <span class="k">pass</span>
@@ -393,7 +395,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_from_location</span>
 
-<div class="viewcode-block" id="DataSource.update_from_source"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.update_from_source">[docs]</a>    <span class="k">def</span> <span class="nf">update_from_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">exclude_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(),</span>
+    <span class="k">def</span> <span class="nf">update_from_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">exclude_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(),</span>
                            <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates attributes of this DataSource with another DataSources attributes</span>
@@ -409,9 +411,9 @@
         <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">include_attrs</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">attr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude_attrs</span><span class="p">:</span>
                 <span class="n">other_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">other_value</span><span class="p">)</span></div>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">other_value</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DataSource.copy"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
@@ -424,9 +426,9 @@
         <span class="n">config_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="n">klass</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">klass</span><span class="p">(</span><span class="o">**</span><span class="n">config_dict</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">klass</span><span class="p">(</span><span class="o">**</span><span class="n">config_dict</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DataSource.untransformed_col_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.untransformed_col_for">[docs]</a>    <span class="k">def</span> <span class="nf">untransformed_col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Variable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">untransformed_col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Variable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
         <span class="n">possible_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">variable</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
         <span class="n">var_applied_transform_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">transform</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">applied_transforms</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">possible_cols</span><span class="p">:</span>
@@ -441,9 +443,9 @@
                 <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">applied_transform_keys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">var_applied_transform_keys</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
                     <span class="c1"># Mismatching transform between column and variable, must be incorrect column</span>
                     <span class="k">break</span>
-        <span class="k">raise</span> <span class="n">NoColumnForVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find untransformed col for </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="n">NoColumnForVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find untransformed col for </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DataSource.col_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.col_for">[docs]</a>    <span class="k">def</span> <span class="nf">col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">orig_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                 <span class="n">is_unique_key</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
@@ -461,7 +463,7 @@
                 <span class="n">orig_only</span><span class="o">=</span><span class="n">orig_only</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="o">=</span><span class="n">for_calculate_only</span><span class="p">,</span>
                 <span class="n">is_unique_key</span><span class="o">=</span><span class="n">is_unique_key</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">col</span></div>
+        <span class="k">return</span> <span class="n">col</span>
 
     <span class="k">def</span> <span class="nf">_col_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">match_key_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">orig_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -499,10 +501,10 @@
                     <span class="k">return</span> <span class="n">col</span>
         <span class="k">raise</span> <span class="n">NoColumnForVariableException</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find column matching </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DataSource.col_key_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.col_key_for">[docs]</a>    <span class="k">def</span> <span class="nf">col_key_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">col_key_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                     <span class="n">orig_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Column</span><span class="p">:</span>
         <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">var_key</span><span class="p">,</span> <span class="n">orig_only</span><span class="o">=</span><span class="n">orig_only</span><span class="p">,</span> <span class="n">for_calculate_only</span><span class="o">=</span><span class="n">for_calculate_only</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">col</span><span class="o">.</span><span class="n">load_key</span></div>
+        <span class="k">return</span> <span class="n">col</span><span class="o">.</span><span class="n">load_key</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">col_var_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -519,7 +521,7 @@
 
         <span class="k">return</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span><span class="p">]</span>
 
-<div class="viewcode-block" id="DataSource.get_var_by_key"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.get_var_by_key">[docs]</a>    <span class="k">def</span> <span class="nf">get_var_by_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_unique_key</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Variable</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_var_by_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_unique_key</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Variable</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">is_unique_key</span><span class="p">:</span>
             <span class="n">attr</span> <span class="o">=</span> <span class="s1">&#39;unique_key&#39;</span>
         <span class="k">else</span><span class="p">:</span>
@@ -538,9 +540,9 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;got multiple variables </span><span class="si">{</span><span class="n">matching_str</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="n">selected_var</span> <span class="o">=</span> <span class="n">collected_variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">selected_var</span></div>
+        <span class="k">return</span> <span class="n">selected_var</span>
 
-<div class="viewcode-block" id="DataSource.get_series_for"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.get_series_for">[docs]</a>    <span class="k">def</span> <span class="nf">get_series_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">get_series_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                        <span class="n">col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Column</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Extracts series for a variable or column, regardless of whether it is a column or index</span>
@@ -577,7 +579,7 @@
             <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">var_name</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Regular column, just look it up normally</span>
-            <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span></div>
+            <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Column</span><span class="p">]:</span>
@@ -626,9 +628,9 @@
             <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cols</span>
 
-<div class="viewcode-block" id="DataSource.describe"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.DataSource.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># TODO [#48]: use columns, variables, indices, etc. in describe</span>
-        <span class="k">return</span> <span class="n">describe_df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">describe_df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_create_series_in_df_for_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="n">Column</span><span class="p">):</span>
         <span class="n">new_key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>  <span class="c1"># temporary key for this variable</span>
@@ -674,10 +676,6 @@
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elems</span><span class="p">:</span>
             <span class="n">elem</span><span class="o">.</span><span class="n">add_to_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">graph</span>
-
-
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;DataSource(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">, columns=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="si">}</span><span class="s1">)&gt;&#39;</span></div>
 
 
 <div class="viewcode-block" id="NoColumnForVariableException"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.NoColumnForVariableException">[docs]</a><span class="k">class</span> <span class="nc">NoColumnForVariableException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>

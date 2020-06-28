@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.dtypes package &mdash; datacode 0.15.2 documentation</title>
+  <title>datacode.models.dtypes package &mdash; datacode 0.15.3 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.15.2
+                0.15.3
               </div>
             
           
@@ -203,64 +203,12 @@
 </div>
 <div class="section" id="module-datacode.models.dtypes.base">
 <span id="datacode-models-dtypes-base-module"></span><h2>datacode.models.dtypes.base module<a class="headerlink" href="#module-datacode.models.dtypes.base" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.base.DataType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.base.</code><code class="sig-name descname">DataType</code><span class="sig-paren">(</span><em class="sig-param">py_class</em>, <em class="sig-param">pd_class=None</em>, <em class="sig-param">transforms=None</em>, <em class="sig-param">is_numeric=False</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/base.html#DataType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.base.DataType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">mixins.attrequals.EqHashMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">mixins.attrequals.EqOnAttrsMixin</span></code></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.base.DataType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">py_class</em>, <em class="sig-param">pd_class=None</em>, <em class="sig-param">transforms=None</em>, <em class="sig-param">is_numeric=False</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/base.html#DataType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.base.DataType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.base.DataType.equal_attrs">
-<code class="sig-name descname">equal_attrs</code><em class="property">: List[str]</em><em class="property"> = ['py_class', 'pd_class', 'categorical', 'ordered', 'names']</em><a class="headerlink" href="#datacode.models.dtypes.base.DataType.equal_attrs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.base.DataType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/base.html#DataType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.base.DataType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.base.DataType.index_arg">
-<em class="property">property </em><code class="sig-name descname">index_arg</code><a class="headerlink" href="#datacode.models.dtypes.base.DataType.index_arg" title="Permalink to this definition">¶</a></dt>
-<dd><p>The argument which should be passed to index.astype
-:rtype: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]
-:return:</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.base.DataType.name_roots">
-<code class="sig-name descname">name_roots</code><em class="property">: Sequence[str]</em><em class="property"> = ()</em><a class="headerlink" href="#datacode.models.dtypes.base.DataType.name_roots" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.base.DataType.names">
-<code class="sig-name descname">names</code><em class="property">: Sequence[str]</em><em class="property"> = ()</em><a class="headerlink" href="#datacode.models.dtypes.base.DataType.names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.base.DataType.read_file_arg">
-<em class="property">property </em><code class="sig-name descname">read_file_arg</code><a class="headerlink" href="#datacode.models.dtypes.base.DataType.read_file_arg" title="Permalink to this definition">¶</a></dt>
-<dd><p>The argument which should be passed to read_csv and other file reading
-methods in Pandas to ensure the correct data type</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-datacode.models.dtypes.bit_size">
 <span id="datacode-models-dtypes-bit-size-module"></span><h2>datacode.models.dtypes.bit_size module<a class="headerlink" href="#module-datacode.models.dtypes.bit_size" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.models.dtypes.bit_size.get_bit_from_dtype">
-<code class="sig-prename descclassname">datacode.models.dtypes.bit_size.</code><code class="sig-name descname">get_bit_from_dtype</code><span class="sig-paren">(</span><em class="sig-param">dtype</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/bit_size.html#get_bit_from_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.bit_size.get_bit_from_dtype" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.models.dtypes.bit_size.</code><code class="sig-name descname">get_bit_from_dtype</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dtype</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/bit_size.html#get_bit_from_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.bit_size.get_bit_from_dtype" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]</p>
@@ -271,47 +219,25 @@ methods in Pandas to ensure the correct data type</p>
 </div>
 <div class="section" id="module-datacode.models.dtypes.bool_type">
 <span id="datacode-models-dtypes-bool-type-module"></span><h2>datacode.models.dtypes.bool_type module<a class="headerlink" href="#module-datacode.models.dtypes.bool_type" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.bool_type.BooleanType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.bool_type.</code><code class="sig-name descname">BooleanType</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/bool_type.html#BooleanType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.bool_type.BooleanType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.dtypes.base.DataType</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.bool_type.BooleanType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/bool_type.html#BooleanType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.bool_type.BooleanType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.bool_type.BooleanType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/bool_type.html#BooleanType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.bool_type.BooleanType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.bool_type.BooleanType.names">
-<code class="sig-name descname">names</code><em class="property">: Sequence[str]</em><em class="property"> = ('bool', 'bool_')</em><a class="headerlink" href="#datacode.models.dtypes.bool_type.BooleanType.names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-datacode.models.dtypes.convert">
 <span id="datacode-models-dtypes-convert-module"></span><h2>datacode.models.dtypes.convert module<a class="headerlink" href="#module-datacode.models.dtypes.convert" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.models.dtypes.convert.convert_str_to_data_type">
-<code class="sig-prename descclassname">datacode.models.dtypes.convert.</code><code class="sig-name descname">convert_str_to_data_type</code><span class="sig-paren">(</span><em class="sig-param">dtype</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/convert.html#convert_str_to_data_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.convert.convert_str_to_data_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.models.dtypes.convert.</code><code class="sig-name descname">convert_str_to_data_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dtype</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/convert.html#convert_str_to_data_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.convert.convert_str_to_data_type" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataType</span></code></a></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataType</span></code></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="datacode.models.dtypes.convert.convert_str_to_data_type_if_necessary">
-<code class="sig-prename descclassname">datacode.models.dtypes.convert.</code><code class="sig-name descname">convert_str_to_data_type_if_necessary</code><span class="sig-paren">(</span><em class="sig-param">dtype</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/convert.html#convert_str_to_data_type_if_necessary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.convert.convert_str_to_data_type_if_necessary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">datacode.models.dtypes.convert.</code><code class="sig-name descname">convert_str_to_data_type_if_necessary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dtype</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/convert.html#convert_str_to_data_type_if_necessary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.convert.convert_str_to_data_type_if_necessary" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataType</span></code></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataType</span></code>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -319,154 +245,34 @@ methods in Pandas to ensure the correct data type</p>
 </div>
 <div class="section" id="module-datacode.models.dtypes.date_type">
 <span id="datacode-models-dtypes-date-type-module"></span><h2>datacode.models.dtypes.date_type module<a class="headerlink" href="#module-datacode.models.dtypes.date_type" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.date_type.DateType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.date_type.</code><code class="sig-name descname">DateType</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/date_type.html#DateType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.date_type.DateType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.dtypes.base.DataType</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.date_type.DateType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/date_type.html#DateType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.date_type.DateType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.date_type.DateType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/date_type.html#DateType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.date_type.DateType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.date_type.DateType.index_arg">
-<em class="property">property </em><code class="sig-name descname">index_arg</code><a class="headerlink" href="#datacode.models.dtypes.date_type.DateType.index_arg" title="Permalink to this definition">¶</a></dt>
-<dd><p>The argument which should be passed to index.astype
-:rtype: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]
-:return:</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.date_type.DateType.names">
-<code class="sig-name descname">names</code><em class="property">: Sequence[str]</em><em class="property"> = ('date',)</em><a class="headerlink" href="#datacode.models.dtypes.date_type.DateType.names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-datacode.models.dtypes.datetime_type">
 <span id="datacode-models-dtypes-datetime-type-module"></span><h2>datacode.models.dtypes.datetime_type module<a class="headerlink" href="#module-datacode.models.dtypes.datetime_type" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.datetime_type.DatetimeType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.datetime_type.</code><code class="sig-name descname">DatetimeType</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em>, <em class="sig-param">tz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/datetime_type.html#DatetimeType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.datetime_type.DatetimeType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.dtypes.base.DataType</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.datetime_type.DatetimeType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em>, <em class="sig-param">tz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/datetime_type.html#DatetimeType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.datetime_type.DatetimeType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.datetime_type.DatetimeType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/datetime_type.html#DatetimeType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.datetime_type.DatetimeType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.datetime_type.DatetimeType.index_arg">
-<em class="property">property </em><code class="sig-name descname">index_arg</code><a class="headerlink" href="#datacode.models.dtypes.datetime_type.DatetimeType.index_arg" title="Permalink to this definition">¶</a></dt>
-<dd><p>The argument which should be passed to index.astype
-:rtype: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]
-:return:</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.datetime_type.DatetimeType.names">
-<code class="sig-name descname">names</code><em class="property">: Sequence[str]</em><em class="property"> = ('datetime', 'time', 'datetime64')</em><a class="headerlink" href="#datacode.models.dtypes.datetime_type.DatetimeType.names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-datacode.models.dtypes.float_type">
 <span id="datacode-models-dtypes-float-type-module"></span><h2>datacode.models.dtypes.float_type module<a class="headerlink" href="#module-datacode.models.dtypes.float_type" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.float_type.FloatType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.float_type.</code><code class="sig-name descname">FloatType</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em>, <em class="sig-param">bit_size=64</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/float_type.html#FloatType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.float_type.FloatType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.dtypes.base.DataType</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.float_type.FloatType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em>, <em class="sig-param">bit_size=64</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/float_type.html#FloatType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.float_type.FloatType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.float_type.FloatType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/float_type.html#FloatType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.float_type.FloatType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.float_type.FloatType.names">
-<code class="sig-name descname">names</code><em class="property">: Sequence[str]</em><em class="property"> = ('float', 'decimal', 'float16', 'float32', 'float64', 'float128', 'floating')</em><a class="headerlink" href="#datacode.models.dtypes.float_type.FloatType.names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-datacode.models.dtypes.int_type">
 <span id="datacode-models-dtypes-int-type-module"></span><h2>datacode.models.dtypes.int_type module<a class="headerlink" href="#module-datacode.models.dtypes.int_type" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.int_type.IntType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.int_type.</code><code class="sig-name descname">IntType</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em>, <em class="sig-param">bit_size=64</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/int_type.html#IntType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.int_type.IntType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.dtypes.base.DataType</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.int_type.IntType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em>, <em class="sig-param">bit_size=64</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/int_type.html#IntType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.int_type.IntType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.int_type.IntType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/int_type.html#IntType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.int_type.IntType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.int_type.IntType.index_arg">
-<em class="property">property </em><code class="sig-name descname">index_arg</code><a class="headerlink" href="#datacode.models.dtypes.int_type.IntType.index_arg" title="Permalink to this definition">¶</a></dt>
-<dd><p>The argument which should be passed to index.astype
-:rtype: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]
-:return:</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.int_type.IntType.names">
-<code class="sig-name descname">names</code><em class="property">: Sequence[str]</em><em class="property"> = ('int', 'integer', 'int_', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64')</em><a class="headerlink" href="#datacode.models.dtypes.int_type.IntType.names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.int_type.IntType.read_file_arg">
-<em class="property">property </em><code class="sig-name descname">read_file_arg</code><a class="headerlink" href="#datacode.models.dtypes.int_type.IntType.read_file_arg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Must use string for nullable int type loading
-:rtype: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]
-:return:</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-datacode.models.dtypes.manager">
 <span id="datacode-models-dtypes-manager-module"></span><h2>datacode.models.dtypes.manager module<a class="headerlink" href="#module-datacode.models.dtypes.manager" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="datacode.models.dtypes.manager.DataTypeManager">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.manager.</code><code class="sig-name descname">DataTypeManager</code><span class="sig-paren">(</span><em class="sig-param">data_types</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/manager.html#DataTypeManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.manager.DataTypeManager" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.manager.</code><code class="sig-name descname">DataTypeManager</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_types</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/manager.html#DataTypeManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.manager.DataTypeManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.models.dtypes.manager.DataTypeManager.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">data_types</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/manager.html#DataTypeManager.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.manager.DataTypeManager.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_types</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/manager.html#DataTypeManager.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.manager.DataTypeManager.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.models.dtypes.manager.DataTypeManager.get_by_name">
-<code class="sig-name descname">get_by_name</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/manager.html#DataTypeManager.get_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.manager.DataTypeManager.get_by_name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_by_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/manager.html#DataTypeManager.get_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.manager.DataTypeManager.get_by_name" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataType</span></code></a></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataType</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -476,135 +282,15 @@ methods in Pandas to ensure the correct data type</p>
 </div>
 <div class="section" id="module-datacode.models.dtypes.obj_type">
 <span id="datacode-models-dtypes-obj-type-module"></span><h2>datacode.models.dtypes.obj_type module<a class="headerlink" href="#module-datacode.models.dtypes.obj_type" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.obj_type.ObjectType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.obj_type.</code><code class="sig-name descname">ObjectType</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/obj_type.html#ObjectType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.obj_type.ObjectType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.dtypes.base.DataType</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.obj_type.ObjectType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/obj_type.html#ObjectType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.obj_type.ObjectType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.obj_type.ObjectType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/obj_type.html#ObjectType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.obj_type.ObjectType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.obj_type.ObjectType.names">
-<code class="sig-name descname">names</code><em class="property">: Sequence[str]</em><em class="property"> = ('obj', 'object', 'mixed', 'general')</em><a class="headerlink" href="#datacode.models.dtypes.obj_type.ObjectType.names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-datacode.models.dtypes.period_type">
 <span id="datacode-models-dtypes-period-type-module"></span><h2>datacode.models.dtypes.period_type module<a class="headerlink" href="#module-datacode.models.dtypes.period_type" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.period_type.PeriodType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.period_type.</code><code class="sig-name descname">PeriodType</code><span class="sig-paren">(</span><em class="sig-param">freq</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/period_type.html#PeriodType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.period_type.PeriodType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.dtypes.base.DataType</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.period_type.PeriodType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">freq</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/period_type.html#PeriodType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.period_type.PeriodType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.period_type.PeriodType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/period_type.html#PeriodType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.period_type.PeriodType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.period_type.PeriodType.name_roots">
-<code class="sig-name descname">name_roots</code><em class="property">: Sequence[str]</em><em class="property"> = ('period',)</em><a class="headerlink" href="#datacode.models.dtypes.period_type.PeriodType.name_roots" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.period_type.PeriodType.read_file_arg">
-<em class="property">property </em><code class="sig-name descname">read_file_arg</code><a class="headerlink" href="#datacode.models.dtypes.period_type.PeriodType.read_file_arg" title="Permalink to this definition">¶</a></dt>
-<dd><p>The argument which should be passed to read_csv and other file reading
-methods in Pandas to ensure the correct data type</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-datacode.models.dtypes.str_type">
 <span id="datacode-models-dtypes-str-type-module"></span><h2>datacode.models.dtypes.str_type module<a class="headerlink" href="#module-datacode.models.dtypes.str_type" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.str_type.StringType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.str_type.</code><code class="sig-name descname">StringType</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/str_type.html#StringType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.str_type.StringType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.dtypes.base.DataType</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.str_type.StringType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/str_type.html#StringType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.str_type.StringType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.str_type.StringType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/str_type.html#StringType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.str_type.StringType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.str_type.StringType.index_arg">
-<em class="property">property </em><code class="sig-name descname">index_arg</code><a class="headerlink" href="#datacode.models.dtypes.str_type.StringType.index_arg" title="Permalink to this definition">¶</a></dt>
-<dd><p>The argument which should be passed to index.astype
-:rtype: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]
-:return:</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.str_type.StringType.names">
-<code class="sig-name descname">names</code><em class="property">: Sequence[str]</em><em class="property"> = ('str', 'string', 'character', 'str_')</em><a class="headerlink" href="#datacode.models.dtypes.str_type.StringType.names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.str_type.StringType.read_file_arg">
-<em class="property">property </em><code class="sig-name descname">read_file_arg</code><a class="headerlink" href="#datacode.models.dtypes.str_type.StringType.read_file_arg" title="Permalink to this definition">¶</a></dt>
-<dd><p>The argument which should be passed to read_csv and other file reading
-methods in Pandas to ensure the correct data type</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-datacode.models.dtypes.timedelta_type">
 <span id="datacode-models-dtypes-timedelta-type-module"></span><h2>datacode.models.dtypes.timedelta_type module<a class="headerlink" href="#module-datacode.models.dtypes.timedelta_type" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="datacode.models.dtypes.timedelta_type.TimedeltaType">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.models.dtypes.timedelta_type.</code><code class="sig-name descname">TimedeltaType</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/timedelta_type.html#TimedeltaType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.timedelta_type.TimedeltaType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.models.dtypes.base.DataType" title="datacode.models.dtypes.base.DataType"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.models.dtypes.base.DataType</span></code></a></p>
-<dl class="method">
-<dt id="datacode.models.dtypes.timedelta_type.TimedeltaType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/timedelta_type.html#TimedeltaType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.timedelta_type.TimedeltaType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datacode.models.dtypes.timedelta_type.TimedeltaType.from_str">
-<em class="property">classmethod </em><code class="sig-name descname">from_str</code><span class="sig-paren">(</span><em class="sig-param">dtype</em>, <em class="sig-param">categorical=False</em>, <em class="sig-param">ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/dtypes/timedelta_type.html#TimedeltaType.from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.dtypes.timedelta_type.TimedeltaType.from_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="datacode.models.dtypes.timedelta_type.TimedeltaType.names">
-<code class="sig-name descname">names</code><em class="property">: Sequence[str]</em><em class="property"> = ('timedelta', 'timedelta[ns]')</em><a class="headerlink" href="#datacode.models.dtypes.timedelta_type.TimedeltaType.names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 </div>
 

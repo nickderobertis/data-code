@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.graph package &mdash; datacode 0.15.2 documentation</title>
+  <title>datacode.graph package &mdash; datacode 0.15.3 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.15.2
+                0.15.3
               </div>
             
           
@@ -201,13 +201,13 @@
 </div>
 <div class="section" id="module-datacode.graph.base">
 <span id="datacode-graph-base-module"></span><h2>datacode.graph.base module<a class="headerlink" href="#module-datacode.graph.base" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="datacode.graph.base.GraphObject">
 <em class="property">class </em><code class="sig-prename descclassname">datacode.graph.base.</code><code class="sig-name descname">GraphObject</code><a class="reference internal" href="../_modules/datacode/graph/base.html#GraphObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.base.GraphObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.graph.base.GraphObject.add_to_graph">
-<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/base.html#GraphObject.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.base.GraphObject.add_to_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/base.html#GraphObject.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.base.GraphObject.add_to_graph" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -215,19 +215,19 @@
 </div>
 <div class="section" id="module-datacode.graph.edge">
 <span id="datacode-graph-edge-module"></span><h2>datacode.graph.edge module<a class="headerlink" href="#module-datacode.graph.edge" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="datacode.graph.edge.Edge">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.graph.edge.</code><code class="sig-name descname">Edge</code><span class="sig-paren">(</span><em class="sig-param">start</em>, <em class="sig-param">end</em>, <em class="sig-param">for_subgraphs=None</em>, <em class="sig-param">**edge_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/edge.html#Edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.edge.Edge" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.graph.edge.</code><code class="sig-name descname">Edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">end</span></em>, <em class="sig-param"><span class="n">for_subgraphs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">edge_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/edge.html#Edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.edge.Edge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datacode.graph.base.GraphObject" title="datacode.graph.base.GraphObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.graph.base.GraphObject</span></code></a></p>
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.graph.edge.Edge.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">start</em>, <em class="sig-param">end</em>, <em class="sig-param">for_subgraphs=None</em>, <em class="sig-param">**edge_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/edge.html#Edge.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.edge.Edge.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">end</span></em>, <em class="sig-param"><span class="n">for_subgraphs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">edge_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/edge.html#Edge.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.edge.Edge.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.graph.edge.Edge.add_to_graph">
-<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/edge.html#Edge.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.edge.Edge.add_to_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/edge.html#Edge.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.edge.Edge.add_to_graph" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -235,19 +235,19 @@
 </div>
 <div class="section" id="module-datacode.graph.node">
 <span id="datacode-graph-node-module"></span><h2>datacode.graph.node module<a class="headerlink" href="#module-datacode.graph.node" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="datacode.graph.node.Node">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.graph.node.</code><code class="sig-name descname">Node</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">label='name'</em>, <em class="sig-param">**node_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/node.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.node.Node" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.graph.node.</code><code class="sig-name descname">Node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'name'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">node_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/node.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.node.Node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datacode.graph.base.GraphObject" title="datacode.graph.base.GraphObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.graph.base.GraphObject</span></code></a></p>
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.graph.node.Node.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">label='name'</em>, <em class="sig-param">**node_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/node.html#Node.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.node.Node.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'name'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">node_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/node.html#Node.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.node.Node.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.graph.node.Node.add_to_graph">
-<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/node.html#Node.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.node.Node.add_to_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/node.html#Node.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.node.Node.add_to_graph" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -255,19 +255,19 @@
 </div>
 <div class="section" id="module-datacode.graph.subgraph">
 <span id="datacode-graph-subgraph-module"></span><h2>datacode.graph.subgraph module<a class="headerlink" href="#module-datacode.graph.subgraph" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="datacode.graph.subgraph.Subgraph">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.graph.subgraph.</code><code class="sig-name descname">Subgraph</code><span class="sig-paren">(</span><em class="sig-param">elems</em>, <em class="sig-param">name=None</em>, <em class="sig-param">digraph=True</em>, <em class="sig-param">**graph_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/subgraph.html#Subgraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.subgraph.Subgraph" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datacode.graph.subgraph.</code><code class="sig-name descname">Subgraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">elems</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">digraph</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">graph_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/subgraph.html#Subgraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.subgraph.Subgraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#datacode.graph.base.GraphObject" title="datacode.graph.base.GraphObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.graph.base.GraphObject</span></code></a></p>
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.graph.subgraph.Subgraph.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">elems</em>, <em class="sig-param">name=None</em>, <em class="sig-param">digraph=True</em>, <em class="sig-param">**graph_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/subgraph.html#Subgraph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.subgraph.Subgraph.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">elems</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">digraph</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">graph_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/subgraph.html#Subgraph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.subgraph.Subgraph.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="datacode.graph.subgraph.Subgraph.add_to_graph">
-<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/subgraph.html#Subgraph.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.subgraph.Subgraph.add_to_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/graph/subgraph.html#Subgraph.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.graph.subgraph.Subgraph.add_to_graph" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
