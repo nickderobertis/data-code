@@ -1,12 +1,12 @@
 typing_extensions
 IPython
-mixins
+pyexlatex
 datacode
-pandas
-semopy
+pd_utils
 regtools
 sympy
 sklearn
-pd_utils
 matplotlib
-pyexlatex
+mixins
+pandas
+semopy
