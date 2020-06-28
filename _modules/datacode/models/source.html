@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.15.6 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.15.7 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.6
+                0.15.7
               </div>
             
           
@@ -208,7 +208,7 @@
         <span class="s1">&#39;_orig_load_variables&#39;</span><span class="p">,</span>
         <span class="s1">&#39;_vars_for_calculate&#39;</span><span class="p">,</span>
     <span class="p">]</span>
-    <span class="n">repr_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;pipeline&#39;</span><span class="p">,</span> <span class="s1">&#39;columns&#39;</span><span class="p">,</span> <span class="s1">&#39;load_variables&#39;</span><span class="p">,</span> <span class="s1">&#39;columns&#39;</span><span class="p">]</span>
+    <span class="n">repr_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;pipeline&#39;</span><span class="p">,</span> <span class="s1">&#39;columns&#39;</span><span class="p">,</span> <span class="s1">&#39;load_variables&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">pipeline</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SourceCreatingPipeline</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -362,20 +362,25 @@
                 <span class="n">run_pipeline</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">if</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">last_modified</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                    Was not able to determine last modified of pipeline </span><span class="si">{</span><span class="n">pipeline</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">                    Was not able to determine last modified of pipeline </span><span class="si">{</span><span class="n">pipeline</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span>
 <span class="s2">                    Will always run pipeline due to this. Consider manually setting last_modified when creating</span>
 <span class="s2">                    the pipeline.</span>
 <span class="s2">                    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_modified</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">                   Was not able to determine last modified of source </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">                   Was not able to determine last modified of source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span>
 <span class="s2">                   Will run pipeline due to this. This is due to no file currently existing for this source.</span>
 <span class="s2">                   &quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">recent_obj</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">obj_last_modified</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{</span><span class="n">recent_obj</span><span class="si">}</span><span class="s1"> was modified at </span><span class="si">{</span><span class="n">recent_obj</span><span class="o">.</span><span class="n">last_modified</span><span class="si">}</span><span class="s1">.</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">recent_obj_name</span> <span class="o">=</span> <span class="n">recent_obj</span><span class="o">.</span><span class="n">name</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="c1"># Must be Operation, get name from pipeline instead</span>
+                        <span class="n">recent_obj_name</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">name</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{</span><span class="n">recent_obj_name</span><span class="si">}</span><span class="s1"> was modified at </span><span class="si">{</span><span class="n">recent_obj</span><span class="o">.</span><span class="n">last_modified</span><span class="si">}</span><span class="s1">.</span>
 <span class="s1">    </span>
-<span class="s1">                    this data source </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s1"> was modified at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_modified</span><span class="si">}</span><span class="s1">.</span>
+<span class="s1">                    this data source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> was modified at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_modified</span><span class="si">}</span><span class="s1">.</span>
 <span class="s1">    </span>
 <span class="s1">                    to get new changes, will load this data source through pipeline rather than from file.&#39;&#39;&#39;</span><span class="p">)</span>
 
@@ -388,10 +393,11 @@
         <span class="k">if</span> <span class="n">run_pipeline</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">run_pipeline_then_load</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="n">SourceCreatingPipeline</span><span class="p">):</span>
                 <span class="n">pipeline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span> <span class="c1"># outputs to file</span>
-                <span class="k">return</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_from_existing_source</span><span class="p">(</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_from_existing_source</span><span class="p">(</span>
                     <span class="n">pipeline</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
                     <span class="n">preserve_original</span><span class="o">=</span><span class="ow">not</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">allow_modifying_result</span>
                 <span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">run_pipeline_then_load</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_from_location</span>
