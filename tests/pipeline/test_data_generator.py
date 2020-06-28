@@ -1,3 +1,5 @@
+import datetime
+
 from pandas.testing import assert_frame_equal
 
 from datacode import DataSource
@@ -17,4 +19,15 @@ class TestDataGeneratorPipeline(PipelineTest):
 
         ds = DataSource(pipeline=dgp, location=self.csv_path_output)
         df = ds.df
+        assert_frame_equal(df, EXPECT_GENERATED_DF)
+
+    def test_auto_run_pipeline_by_load_source_with_newer_pipeline(self):
+        now = datetime.datetime.now()
+        later = now + datetime.timedelta(minutes=5)
+        dgp = self.create_generator_pipeline(last_modified=later)
+
+        self.create_csv()
+        ds = self.create_source(pipeline=dgp, df=None)
+        df = ds.df
+        assert dgp._operation_index == 1
         assert_frame_equal(df, EXPECT_GENERATED_DF)

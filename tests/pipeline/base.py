@@ -361,9 +361,13 @@ class PipelineTest(SourceTest):
         dap = DataAnalysisPipeline(source, options)
         return dap
 
-    def create_generator_pipeline(self) -> DataGeneratorPipeline:
+    def create_generator_pipeline(self, **kwargs) -> DataGeneratorPipeline:
         gen_cols = self.create_columns_for_generated()
-        go = GenerationOptions(ds_generator_func, out_path=self.csv_path_output, columns=gen_cols)
+        config_dict = dict(
+            out_path=self.csv_path_output, columns=gen_cols
+        )
+        config_dict.update(**kwargs)
+        go = GenerationOptions(ds_generator_func, **config_dict)
         dgp = DataGeneratorPipeline(go)
         return dgp
 
