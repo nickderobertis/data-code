@@ -40,6 +40,17 @@ class DataOperation(ReprMixin):
     def describe(self):
         raise NotImplementedError('must implement describe in subclass of DataOperation')
 
+    @property
+    def last_modified(self) -> Optional[datetime.datetime]:
+        if self.options.last_modified is not None or not self.data_sources:
+            return self.options.last_modified
+
+        if any([ds.last_modified is None for ds in self.data_sources]):
+            return None
+
+        last_modified = max([ds.last_modified for ds in self.data_sources])
+        return last_modified
+
     def _set_result(self, **kwargs):
         self.result = self.options.result_class(name=self.output_name, location=self.options.out_path, **kwargs)
 

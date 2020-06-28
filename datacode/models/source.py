@@ -42,7 +42,7 @@ class DataSource(ReprMixin):
         '_orig_load_variables',
         '_vars_for_calculate',
     ]
-    repr_cols = ['name', 'pipeline', 'columns', 'load_variables', 'columns']
+    repr_cols = ['name', 'pipeline', 'columns', 'load_variables']
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
                  pipeline: Optional[SourceCreatingPipeline] = None,
@@ -196,20 +196,25 @@ class DataSource(ReprMixin):
                 run_pipeline = True
                 if pipeline.last_modified is None:
                     warnings.warn(f"""
-                    Was not able to determine last modified of pipeline {pipeline}.
+                    Was not able to determine last modified of pipeline {pipeline.name}.
                     Will always run pipeline due to this. Consider manually setting last_modified when creating
                     the pipeline.
                     """.strip())
                 elif self.last_modified is None:
                     warnings.warn(f"""
-                   Was not able to determine last modified of source {self}.
+                   Was not able to determine last modified of source {self.name}.
                    Will run pipeline due to this. This is due to no file currently existing for this source.
                    """.strip())
                 else:
                     recent_obj = pipeline.obj_last_modified
-                    warnings.warn(f'''{recent_obj} was modified at {recent_obj.last_modified}.
+                    try:
+                        recent_obj_name = recent_obj.name
+                    except AttributeError:
+                        # Must be Operation, get name from pipeline instead
+                        recent_obj_name = pipeline.name
+                    warnings.warn(f'''{recent_obj_name} was modified at {recent_obj.last_modified}.
     
-                    this data source {self} was modified at {self.last_modified}.
+                    this data source {self.name} was modified at {self.last_modified}.
     
                     to get new changes, will load this data source through pipeline rather than from file.''')
 
@@ -222,10 +227,11 @@ class DataSource(ReprMixin):
         if run_pipeline:
             def run_pipeline_then_load(pipeline: SourceCreatingPipeline):
                 pipeline.execute() # outputs to file
-                return loader.load_from_existing_source(
+                result = loader.load_from_existing_source(
                     pipeline.result,
                     preserve_original=not pipeline.allow_modifying_result
                 )
+                return result
             self.data_loader = partial(run_pipeline_then_load, self.pipeline)
         else:
             self.data_loader = loader.load_from_location

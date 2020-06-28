@@ -4,9 +4,9 @@ if TYPE_CHECKING:
     from datacode.models.pipeline.merge import DataMergePipeline
     from datacode.models.pipeline.generate import DataGeneratorPipeline
     from datacode.models.pipeline.transform import DataTransformationPipeline
-    from datacode.models.pipeline.operations.operation import OperationOptions
+    from datacode.models.pipeline.operations.operation import OperationOptions, DataOperation
 
 SourceCreatingPipeline = Union['DataMergePipeline', 'DataGeneratorPipeline', 'DataTransformationPipeline']
 DataSourceOrPipeline = Union['DataSource', SourceCreatingPipeline]
 DataSourcesOrPipelines = Sequence[DataSourceOrPipeline]
-ObjWithLastModified = Union[DataSourceOrPipeline, 'OperationOptions']
+ObjWithLastModified = Union[DataSourceOrPipeline, 'OperationOptions', 'DataOperation']
