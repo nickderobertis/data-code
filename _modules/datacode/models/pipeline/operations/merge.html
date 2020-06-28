@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.15.4 documentation</title>
+  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.15.5 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.4
+                0.15.5
               </div>
             
           
@@ -212,24 +212,25 @@
         <span class="c1"># TODO [#78]: merge source variable combine logic doesn&#39;t seem to be working completely correctly</span>
         <span class="c1">#</span>
         <span class="c1"># Had to put safe=False in merge pipeline output to make it happen</span>
-        <span class="n">left_ds</span><span class="p">,</span> <span class="n">right_ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">load_variables</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">left_ds</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">left_ds</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">left_df_keep_cols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">left_df_keep_cols</span><span class="p">:</span>
-                    <span class="n">load_variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-                    <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">left_ds</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">right_ds</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">right_ds</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">right_df_keep_cols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">right_df_keep_cols</span><span class="p">:</span>
-                    <span class="c1"># don&#39;t repeat variables and columns. Merge on variables will be repeated,</span>
-                    <span class="c1"># perhaps even with different transformations, so explictly skip them</span>
-                    <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">load_variables</span> <span class="ow">and</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">on_names</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;columns&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">result_kwargs</span><span class="p">:</span>
+            <span class="n">left_ds</span><span class="p">,</span> <span class="n">right_ds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">load_variables</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="n">left_ds</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">left_ds</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">left_df_keep_cols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">left_df_keep_cols</span><span class="p">:</span>
                         <span class="n">load_variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-                        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right_ds</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">load_variables</span> <span class="o">=</span> <span class="n">load_variables</span>
+                        <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">left_ds</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">right_ds</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">right_ds</span><span class="o">.</span><span class="n">load_variables</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">right_df_keep_cols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">right_df_keep_cols</span><span class="p">:</span>
+                        <span class="c1"># don&#39;t repeat variables and columns. Merge on variables will be repeated,</span>
+                        <span class="c1"># perhaps even with different transformations, so explictly skip them</span>
+                        <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">load_variables</span> <span class="ow">and</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">on_names</span><span class="p">:</span>
+                            <span class="n">load_variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                            <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right_ds</span><span class="o">.</span><span class="n">col_for</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">load_variables</span> <span class="o">=</span> <span class="n">load_variables</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> obs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">left_df</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
