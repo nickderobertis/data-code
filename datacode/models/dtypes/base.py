@@ -1,21 +1,23 @@
 from typing import Type, Optional, Sequence, Union, List
 
+from mixins import ReprMixin
 from mixins.attrequals import EqOnAttrsMixin, EqHashMixin
 
 from datacode.models.transform.transform import Transform
 
 
-class DataType(EqHashMixin, EqOnAttrsMixin):
+class DataType(EqHashMixin, EqOnAttrsMixin, ReprMixin):
     _recursive_hash_convert = True
     names: Sequence[str] = tuple()
     name_roots: Sequence[str] = tuple()
-    equal_attrs: List[str] = [
+    equal_attrs : List[str] = [
         'py_class',
         'pd_class',
         'categorical',
         'ordered',
         'names',
     ]
+    repr_cols = ['categorical', 'ordered']
 
     def __init__(self, py_class: Type, pd_class: Optional[Type] = None,
                  transforms: Optional[Sequence[Transform]] = None, is_numeric: bool = False,

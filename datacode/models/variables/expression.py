@@ -1,6 +1,7 @@
 import operator
 from typing import TYPE_CHECKING, Sequence, Callable, Optional
 
+from mixins import ReprMixin
 from sympy import Expr, lambdify, latex
 import pandas as pd
 
@@ -11,7 +12,8 @@ if TYPE_CHECKING:
     from datacode.models.column.column import Column
 
 
-class Expression:
+class Expression(ReprMixin):
+    repr_cols = ['explanation', 'variables']
 
     def __init__(self, variables: Sequence['Variable'], func: Callable[[Sequence['Column']], pd.Series],
                  expr: Optional[Expr] = None, summary: Optional[str] = None):
@@ -19,9 +21,6 @@ class Expression:
         self.func = func
         self.expr = expr
         self.summary = summary
-
-    def __repr__(self):
-        return f'<Expression(variables={self.variables}, explanation="{self.explanation}")>'
 
     @classmethod
     def from_sympy_expr(cls, variables: Sequence['Variable'], expr: Expr, **kwargs):

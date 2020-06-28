@@ -8,6 +8,7 @@ import datetime
 from typing import List, Optional, Any, Dict, Sequence, Type
 
 from graphviz import Digraph
+from mixins import ReprMixin
 
 from datacode.graph.base import GraphObject
 from datacode.graph.edge import Edge
@@ -21,7 +22,7 @@ from datacode.models.column.column import Column
 from datacode.models.loader import DataLoader
 
 
-class DataSource:
+class DataSource(ReprMixin):
     copy_keys = [
         'location',
         'name',
@@ -41,6 +42,7 @@ class DataSource:
         '_orig_load_variables',
         '_vars_for_calculate',
     ]
+    repr_cols = ['name', 'pipeline', 'columns', 'load_variables', 'columns']
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
                  pipeline: Optional[SourceCreatingPipeline] = None,
@@ -508,10 +510,6 @@ class DataSource:
         for elem in elems:
             elem.add_to_graph(graph)
         return graph
-
-
-    def __repr__(self):
-        return f'<DataSource(name={self.name}, columns={self.columns})>'
 
 
 class NoColumnForVariableException(Exception):

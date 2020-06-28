@@ -2,6 +2,8 @@ import operator
 from copy import deepcopy
 from typing import Sequence, Optional, Union, Callable
 
+from mixins import ReprMixin
+
 from datacode.models.dtypes.base import DataType
 from datacode.models.dtypes.convert import convert_str_to_data_type_if_necessary
 from datacode.models.variables.expression import Expression
@@ -10,7 +12,8 @@ from datacode.models.transform.applied import AppliedTransform
 from datacode.models.symbols import Symbol, var_key_to_symbol_str, to_symbol_if_necessary
 
 
-class Variable:
+class Variable(ReprMixin):
+    repr_cols = ['key', 'name', 'applied_transforms']
 
     def __init__(self, key: str, name: Optional[str]=None, symbol: Optional[Union[str, Symbol]] = None,
                  dtype: Optional[Union[str, DataType]] = None,
@@ -43,9 +46,6 @@ class Variable:
         self._orig_name = name
         self._orig_symbol = symbol
         self._update_from_transforms()
-
-    def __repr__(self):
-        return f'Variable(key={self.key}, name={self.name}, applied_transforms={self.applied_transforms})'
 
     def __eq__(self, other):
         compare_attrs = ('key', 'applied_transforms')

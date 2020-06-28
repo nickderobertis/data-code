@@ -1,6 +1,7 @@
 from typing import Optional, Sequence, Union, List
 
 import pandas as pd
+from mixins import ReprMixin
 from mixins.attrequals import EqOnAttrsMixin
 
 from datacode.models.column.index import ColumnIndex
@@ -9,7 +10,7 @@ from datacode.models.dtypes.convert import convert_str_to_data_type_if_necessary
 from datacode.models.variables import Variable
 
 
-class Column(EqOnAttrsMixin):
+class Column(EqOnAttrsMixin, ReprMixin):
     equal_attrs = [
         'variable',
         'indices',
@@ -17,6 +18,7 @@ class Column(EqOnAttrsMixin):
         'applied_transform_keys',
         'dtype',
     ]
+    repr_cols = ['variable', 'load_key', 'indices', 'applied_transform_keys', 'dtype']
 
     def __init__(self, variable: Variable, load_key: Optional[str] = None,
                  indices: Optional[Sequence[ColumnIndex]] = None,
@@ -37,10 +39,6 @@ class Column(EqOnAttrsMixin):
         self.applied_transform_keys = applied_transform_keys
         self.dtype = dtype
         self.series = series
-
-    def __repr__(self):
-        return f'<Column(variable={self.variable}, load_key={self.load_key}, indices={self.indices}, ' \
-               f'applied_transform_keys={self.applied_transform_keys}, dtype={self.dtype}>'
 
     @property
     def index_vars(self) -> List[Variable]:

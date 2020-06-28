@@ -3,13 +3,15 @@ from copy import deepcopy
 from typing import TYPE_CHECKING, Optional, Dict, Any
 
 import pandas as pd
+from mixins import ReprMixin
 
 if TYPE_CHECKING:
     from datacode.models.source import DataSource
     from datacode.models.variables.variable import Variable
 
 
-class DataOutputter:
+class DataOutputter(ReprMixin):
+    repr_cols = ['to_location_kwargs', 'safe', 'preserve_original', 'save_calculated']
 
     def __init__(self, source: 'DataSource', to_location_kwargs: Optional[Dict[str, Any]] = None,
                  safe: bool = True, preserve_original: bool = True, save_calculated: bool = False):

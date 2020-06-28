@@ -3,6 +3,7 @@ from copy import deepcopy
 from typing import Sequence, List, Callable, Optional, Union
 
 from graphviz import Digraph
+from mixins import ReprMixin
 
 from datacode.graph.base import GraphObject
 from datacode.graph.edge import Edge
@@ -14,10 +15,11 @@ from datacode.models.source import DataSource
 from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline, ObjWithLastModified
 
 
-class DataPipeline:
+class DataPipeline(ReprMixin):
     """
     Base class for data pipelines. Should not be used directly.
     """
+    repr_cols = ['name', 'data_sources', 'operation_options']
 
     def __init__(self, data_sources: DataSourcesOrPipelines,
                  operation_options: Optional[Sequence[OperationOptions]],

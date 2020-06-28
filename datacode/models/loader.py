@@ -3,6 +3,8 @@ from copy import deepcopy
 from typing import TYPE_CHECKING, Any, Dict, Optional, List, Tuple
 
 import pandas as pd
+from mixins import ReprMixin
+
 from datacode.models.column.column import Column
 from pd_utils.optimize.load import read_file
 
@@ -13,7 +15,9 @@ if TYPE_CHECKING:
     from datacode.models.source import DataSource
     from datacode.models.variables.variable import Variable
 
-class DataLoader:
+
+class DataLoader(ReprMixin):
+    repr_cols = ['read_file_kwargs']
 
     def __init__(self, source: 'DataSource', read_file_kwargs: Optional[Dict[str, Any]] = None,
                  optimize_size: bool = False):

@@ -17,6 +17,7 @@ class SourceTransform(Transform):
     """
     Tracks and applies changes to an entire data source for data, name, and symbol together
     """
+    repr_cols = ['key', 'name_func', 'data_func', 'symbol_func', 'subset']
 
     def __init__(self, key: str, name_func: StrFunc = None, data_func: ValueFunc = None,
                  symbol_func: SymbolFunc = None, subset: Sequence['Variable'] = None):
