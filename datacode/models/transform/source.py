@@ -79,7 +79,7 @@ class SourceTransform(Transform):
 
             # Update variable
             orig_name = var.name
-            var._add_applied_transform(self)
+            col._add_applied_transform(self)
             new_name = var.name
 
             # Update column name
