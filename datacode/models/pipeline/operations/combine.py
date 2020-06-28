@@ -20,7 +20,11 @@ class CombineOperation(DataOperation):
             options,
             **result_kwargs
         )
-        self.options.last_modified = max([source.last_modified for source in self.data_sources if source.last_modified])
+        possible_last_modified = [source.last_modified for source in self.data_sources if source.last_modified]
+        if possible_last_modified:
+            self.options.last_modified = max(possible_last_modified)
+        else:
+            self.options.last_modified = None
 
     def execute(self):
         ds = self.options.func(self.data_sources, **self.options.func_kwargs)
