@@ -69,6 +69,11 @@ class DataPipeline(ReprMixin):
 
         self._do_operation()
 
+    def reset(self):
+        self.df = None
+        self._operation_index = 0
+        self._set_operations()
+
     def _do_operation(self):
         try:
             operation = self.operations[self._operation_index]
@@ -119,7 +124,7 @@ class DataPipeline(ReprMixin):
             self.df = self.operations[0].data_sources[0].df
 
     @property
-    def operations(self):
+    def operations(self) -> List[DataOperation]:
         try:
             return self._operations
         except AttributeError:
