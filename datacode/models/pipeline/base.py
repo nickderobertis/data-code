@@ -201,7 +201,7 @@ class DataPipeline(ReprMixin):
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
-        if not self._objs_with_last_modified:
+        if any([obj.last_modified is None for obj in self.operations]):
             return None
 
         return max([source.last_modified for source in self._objs_with_last_modified])
@@ -223,7 +223,7 @@ class DataPipeline(ReprMixin):
     @property
     def _objs_with_last_modified(self) -> List[ObjWithLastModified]:
         objs_with_last_modified: List[ObjWithLastModified]
-        objs_with_last_modified = self.data_sources + self.operation_options
+        objs_with_last_modified = self.operations
         objs_with_last_modified = [obj for obj in objs_with_last_modified if obj.last_modified is not None]
         return objs_with_last_modified
 
