@@ -30,7 +30,6 @@ class SourceTransform(Transform):
         )
         self.subset = subset
 
-
     def apply(self, source: 'DataSource', preserve_original: bool = True) -> 'DataSource':
         """
         Applies transformation to data source
@@ -57,14 +56,16 @@ class SourceTransform(Transform):
             source.load_variables = deepcopy(source.load_variables)
             source.columns = deepcopy(source.columns)
 
+        # Call transformation on source data
+        if self.data_func is not None:
+            source = self.data_func(source)
+
         if self.subset is None:
             subset = source.load_variables
         else:
             subset = deepcopy(self.subset)
-
-        # Call transformation on source data
-        if self.data_func is not None:
-            source = self.data_func(source)
+        if subset is None:
+            subset = []
 
         # Collect necessary renames
         rename_dict = {}
