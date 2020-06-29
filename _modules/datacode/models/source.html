@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.16.0 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.16.1 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.16.0
+                0.16.1
               </div>
             
           
@@ -546,6 +546,33 @@
                 <span class="k">continue</span>
             <span class="n">series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_series_for</span><span class="p">(</span><span class="n">var</span><span class="o">=</span><span class="n">col</span><span class="o">.</span><span class="n">variable</span><span class="p">)</span>
             <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">series</span>
+
+    <span class="k">def</span> <span class="nf">_wipe_columns_series</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cols_attrs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;columns&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_orig_columns&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_columns_for_calculate&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">col_attr</span> <span class="ow">in</span> <span class="n">cols_attrs</span><span class="p">:</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col_attr</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">unlink_columns_and_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wipe_columns_series</span><span class="p">()</span>
+        <span class="n">copy_attrs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;columns&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;load_variables&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_orig_columns&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_columns_for_calculate&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_orig_load_variables&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_vars_for_calculate&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">copy_attrs</span><span class="p">:</span>
+            <span class="n">orig_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">orig_value</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh_columns_series</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">get_var_by_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_unique_key</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Variable</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">is_unique_key</span><span class="p">:</span>
