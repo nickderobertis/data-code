@@ -16,10 +16,13 @@ Hooks to run functions during datacode operations globally
     Here is the list of the hooks, along with the expected arguments and return values.
 
 """
+from copy import deepcopy
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from datacode.models.pipeline.base import DataPipeline
+
+_orig_locals = {key: value for key, value in locals().items() if not key.startswith('_')}
 
 
 def on_begin_execute_pipeline(pipeline: 'DataPipeline') -> None:
@@ -40,3 +43,27 @@ def on_end_execute_pipeline(pipeline: 'DataPipeline') -> None:
     :return: None
     """
     pass
+
+
+_new_locals = {key: value for key, value in locals().items() if not key.startswith('_')}
+_hook_keys = [key for key in _new_locals if key not in _orig_locals]
+_orig_hooks = deepcopy({key: value for key, value in _new_locals.items() if key in _hook_keys})
+
+
+def reset_hooks() -> None:
+    """
+    Go back to original dummy hooks, removes all user settings of hooks
+
+    :return: None
+
+    :Notes:
+
+        This is the only function in the module which is not a hook itself.
+        Instead it is a utility method meant to be called by the user.
+
+    """
+    for key, value in _orig_hooks.items():
+        globals()[key] = value
+
+
+__all__ = _hook_keys + ['reset_hooks']
