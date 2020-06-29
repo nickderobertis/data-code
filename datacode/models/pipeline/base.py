@@ -48,7 +48,7 @@ class DataPipeline(Graphable, ReprMixin):
         self.df = None
         self._operation_index = 0
         self.result = None
-        self.primary_node = Node(self.name)
+        super().__init__()
 
     def execute(self, output: bool = True):
         hooks.on_begin_execute_pipeline(self)
@@ -237,12 +237,12 @@ class DataPipeline(Graphable, ReprMixin):
     def copy(self):
         return deepcopy(self)
 
-    @property
-    def _graph_contents(self) -> Sequence[GraphObject]:
-        elems = [self.primary_node]
+    def _graph_contents(self, include_attrs: Optional[Sequence[str]] = None) -> List[GraphObject]:
+        pn = self.primary_node(include_attrs)
+        elems = [pn]
         for source in self.data_sources:
-            elems.extend(source._graph_contents)
-            edge = Edge(source.primary_node, self.primary_node)
+            elems.extend(source._graph_contents(include_attrs))
+            edge = Edge(source.primary_node(include_attrs), pn)
             elems.append(edge)
         return elems
 
