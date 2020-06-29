@@ -9,6 +9,7 @@ from datacode.graph.base import GraphObject
 from datacode.graph.edge import Edge
 from datacode.graph.node import Node
 from datacode.graph.subgraph import Subgraph
+import datacode.hooks as hooks
 from datacode.models.analysis import AnalysisResult
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
@@ -50,6 +51,7 @@ class DataPipeline(ReprMixin):
         self.primary_node = Node(self.name)
 
     def execute(self, output: bool = True):
+        hooks.on_begin_execute_pipeline(pipeline=self)
         while True:
             try:
                 self.next_operation()
@@ -61,6 +63,7 @@ class DataPipeline(ReprMixin):
         if output:
             self.output()
 
+        hooks.on_end_execute_pipeline(pipeline=self)
         return self.df
 
     def next_operation(self):
