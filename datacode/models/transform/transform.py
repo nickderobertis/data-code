@@ -84,10 +84,7 @@ class Transform(ReprMixin):
         else:
             # Even when not preserving original, don't want to modify original variables or columns
             # as they may be used in other sources
-
-            # NOTE: not working yet, see SourceTransform.apply
-            source.load_variables = deepcopy(source.load_variables)
-            source.columns = deepcopy(source.columns)
+            source.unlink_columns_and_variables()
 
         if subset:
             variables = deepcopy(subset)

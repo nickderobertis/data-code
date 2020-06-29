@@ -48,16 +48,7 @@ class SourceTransform(Transform):
         else:
             # Even when not preserving original, don't want to modify original variables or columns
             # as they may be used in other sources
-
-            # TODO [#64]: Preserving variables in transform apply to source inplace not working
-            #
-            # This code is supposed to prevent that but is not working as expected.
-            # The original variables are still being modified. The problem occurs with both
-            # SourceTransform.apply and Transform.apply_to_source. A test has been added which
-            # catches this issue in test_lags_as_source_transform_with_subset but it has been
-            # commented out for now.
-            source.load_variables = deepcopy(source.load_variables)
-            source.columns = deepcopy(source.columns)
+            source.unlink_columns_and_variables()
 
         # Call transformation on source data
         if self.data_func is not None:
