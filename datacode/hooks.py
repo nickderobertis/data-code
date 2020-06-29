@@ -17,7 +17,7 @@ Hooks to run functions during datacode operations globally
 
 """
 from copy import deepcopy
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple
 
 import pandas as pd
 
@@ -26,11 +26,16 @@ if TYPE_CHECKING:
     from datacode.models.pipeline.base import DataPipeline
     from datacode.models.pipeline.operations.operation import DataOperation
     from datacode.models.source import DataSource
+    from datacode.models.column.column import Column
+    from datacode.models.variables.variable import Variable
+    from datacode.models.transform.transform import Transform
 
-_orig_locals = {key: value for key, value in locals().items() if not key.startswith('_')}
+_orig_locals = {
+    key: value for key, value in locals().items() if not key.startswith("_")
+}
 
 
-def on_begin_execute_pipeline(pipeline: 'DataPipeline') -> None:
+def on_begin_execute_pipeline(pipeline: "DataPipeline") -> None:
     """
     Called at the beginning of :meth:`DataPipeline.execute`
 
@@ -40,7 +45,7 @@ def on_begin_execute_pipeline(pipeline: 'DataPipeline') -> None:
     pass
 
 
-def on_end_execute_pipeline(pipeline: 'DataPipeline') -> None:
+def on_end_execute_pipeline(pipeline: "DataPipeline") -> None:
     """
     Called at the end of :meth:`DataPipeline.execute`
 
@@ -50,7 +55,7 @@ def on_end_execute_pipeline(pipeline: 'DataPipeline') -> None:
     pass
 
 
-def on_begin_execute_operation(operation: 'DataOperation') -> None:
+def on_begin_execute_operation(operation: "DataOperation") -> None:
     """
     Called at the beginning of :meth:`DataOperation.execute`
 
@@ -60,7 +65,7 @@ def on_begin_execute_operation(operation: 'DataOperation') -> None:
     pass
 
 
-def on_end_execute_operation(operation: 'DataOperation') -> None:
+def on_end_execute_operation(operation: "DataOperation") -> None:
     """
     Called at the end of :meth:`DataOperation.execute`
 
@@ -70,7 +75,7 @@ def on_end_execute_operation(operation: 'DataOperation') -> None:
     pass
 
 
-def on_begin_load_source(source: 'DataSource') -> None:
+def on_begin_load_source(source: "DataSource") -> None:
     """
     Called at the beginning of :meth:`DataSource._load`, which
     is usually called when loading :paramref:`.DataSource.df`
@@ -82,7 +87,7 @@ def on_begin_load_source(source: 'DataSource') -> None:
     pass
 
 
-def on_end_load_source(source: 'DataSource', df: pd.DataFrame) -> pd.DataFrame:
+def on_end_load_source(source: "DataSource", df: pd.DataFrame) -> pd.DataFrame:
     """
     Called at the end of :meth:`DataSource._load`, which
     is usually called when loading :paramref:`.DataSource.df`
@@ -98,9 +103,50 @@ def on_end_load_source(source: 'DataSource', df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-_new_locals = {key: value for key, value in locals().items() if not key.startswith('_')}
+def on_begin_apply_variable_transform(
+    transform: "Transform", source: "DataSource", col: "Column", var: "Variable"
+) -> Tuple["DataSource", "Column", "Variable"]:
+    """
+    Called at the beginning of :meth:`Transform._apply_transform_for_column_and_variable_to_source`,
+    which is called while transforming variables.
+
+    The DataSource, Column, and Variable returned from this function will be used
+    to do the variable transform
+
+    :param transform: Transform which is about to be applied
+    :param source: DataSource in which the transform is about to be applied
+    :param col: Column on which the transform is about to be applied
+    :param var: Variable on which the transform is about to be applied
+    :return: The items which will be used to transform the variable
+    """
+    return source, col, var
+
+
+def on_end_apply_variable_transform(
+    transform: "Transform", source: "DataSource", col: "Column", var: "Variable"
+) -> "DataSource":
+    """
+    Called at the end of :meth:`Transform._apply_transform_for_column_and_variable_to_source`,
+    which is called while transforming variables.
+
+    The DataSource returned from this function will be used
+    as the results of the variable transform
+
+    :param transform: Transform which was just applied
+    :param source: DataSource in which the transform was just applied
+    :param col: Column on which the transform was just applied
+    :param var: Variable on which the transform was just applied
+    :return: The DataSource which will be used as the results
+    of the variable transform
+    """
+    return source
+
+
+_new_locals = {key: value for key, value in locals().items() if not key.startswith("_")}
 _hook_keys = [key for key in _new_locals if key not in _orig_locals]
-_orig_hooks = deepcopy({key: value for key, value in _new_locals.items() if key in _hook_keys})
+_orig_hooks = deepcopy(
+    {key: value for key, value in _new_locals.items() if key in _hook_keys}
+)
 
 
 def reset_hooks() -> None:
@@ -119,4 +165,4 @@ def reset_hooks() -> None:
         globals()[key] = value
 
 
-__all__ = _hook_keys + ['reset_hooks']
+__all__ = _hook_keys + ["reset_hooks"]

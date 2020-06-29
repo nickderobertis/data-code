@@ -15,6 +15,16 @@ def increase_counter_hook(*args, **kwargs):
     return kwargs
 
 
+def increase_counter_hook_discard_first_arg(*args):
+    increase_counter_hook()
+    return args[1:]
+
+
+def increase_counter_hook_return_only_second_arg(*args):
+    increase_counter_hook()
+    return args[1]
+
+
 def increment_df_a_variable_hook(source: DataSource, df: pd.DataFrame) -> pd.DataFrame:
     df['a'] += 1
     return df
@@ -85,3 +95,21 @@ class TestPipelineHooks(HooksTest):
         ds = self.create_source(df=None)
         df = ds.df
         assert_frame_equal(df, self.expect_df_no_rename_a_plus_1)
+
+    def test_on_begin_apply_variable_transform(self):
+        counter_value = COUNTER
+        dc_hooks.on_begin_apply_variable_transform = increase_counter_hook_discard_first_arg
+        self.create_csv()
+        cols = self.create_columns(transform_data='series')
+        ds = self.create_source(df=None, columns=cols)
+        df = ds.df
+        assert COUNTER == counter_value + 2
+
+    def test_on_end_apply_variable_transform(self):
+        counter_value = COUNTER
+        dc_hooks.on_end_apply_variable_transform = increase_counter_hook_return_only_second_arg
+        self.create_csv()
+        cols = self.create_columns(transform_data='series')
+        ds = self.create_source(df=None, columns=cols)
+        df = ds.df
+        assert COUNTER == counter_value + 2
