@@ -20,7 +20,7 @@ class GenerationOperation(DataOperation):
             **result_kwargs
         )
 
-    def execute(self):
+    def _execute(self):
         ds = self.options.func(**self.options.func_kwargs)
         self.result.update_from_source(ds)
         return self.result

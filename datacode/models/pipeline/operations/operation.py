@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from datacode.models.analysis import AnalysisResult
 
 from datacode.models.source import DataSource
+import datacode.hooks as hooks
 
 
 class DataOperation(ReprMixin):
@@ -31,7 +32,12 @@ class DataOperation(ReprMixin):
         self._set_result(**result_kwargs)
 
     def execute(self):
-        raise NotImplementedError('must implement execute in subclass of DataOperation')
+        hooks.on_begin_execute_operation(self)
+        self._execute()
+        hooks.on_end_execute_operation(self)
+
+    def _execute(self):
+        raise NotImplementedError('must implement _execute in subclass of DataOperation')
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):

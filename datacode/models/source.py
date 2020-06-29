@@ -20,6 +20,7 @@ from datacode.summarize import describe_df
 from datacode.models.variables.variable import Variable
 from datacode.models.column.column import Column
 from datacode.models.loader import DataLoader
+import datacode.hooks as hooks
 
 
 class DataSource(ReprMixin):
@@ -163,9 +164,12 @@ class DataSource(ReprMixin):
         return datetime.datetime.fromtimestamp(os.path.getmtime(self.location))
 
     def _load(self):
+        hooks.on_begin_load_source(self)
         if not hasattr(self, 'data_loader'):
             self._set_data_loader(self.loader_class, pipeline=self.pipeline, **self.read_file_kwargs)
-        return self.data_loader()
+        df = self.data_loader()
+        df = hooks.on_end_load_source(self, df)
+        return df
 
     def output(self, **data_outputter_kwargs):
         config_dict = deepcopy(self.data_outputter_kwargs)

@@ -11,6 +11,7 @@ if TYPE_CHECKING:
 
 from datacode.models.transform.transform import Transform
 from datacode.models.variables.typing import StrFunc, ValueFunc, SymbolFunc
+import datacode.hooks as hooks
 
 
 class SourceTransform(Transform):
@@ -39,6 +40,8 @@ class SourceTransform(Transform):
         memory usage but will cause the original source to be partially modified
         :return:
         """
+        source = hooks.on_begin_apply_source_transform(self, source)
+
         from datacode.models.source import NoColumnForVariableException
         if preserve_original:
             source = deepcopy(source)
@@ -89,6 +92,7 @@ class SourceTransform(Transform):
         if rename_dict:
             source.df.rename(columns=rename_dict, inplace=True)
 
+        source = hooks.on_end_apply_source_transform(self, source)
         return source
 
     @classmethod

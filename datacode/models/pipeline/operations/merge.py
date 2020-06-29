@@ -32,7 +32,7 @@ class DataMerge(DataOperation):
         )
         self.output_name = self.merged_name
 
-    def execute(self):
+    def _execute(self):
         print(f'Running merge function {self.merge_str}')
         left_df, right_df = self._get_merge_dfs()
         self.result.df = self.options.merge_function(

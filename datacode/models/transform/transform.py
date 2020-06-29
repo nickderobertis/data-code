@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 from datacode.models.logic.partial import partial
 from datacode.models.variables.compare import functions_are_equal
 from datacode.models.variables.typing import StrFunc, ValueFunc, SymbolFunc
+import datacode.hooks as hooks
 
 
 class Transform(ReprMixin):
@@ -117,7 +118,9 @@ class Transform(ReprMixin):
 
     def _apply_transform_for_column_and_variable_to_source(self, source: 'DataSource', column: 'Column',
                                                            variable: 'Variable') -> 'DataSource':
+        source, column, variable = hooks.on_begin_apply_variable_transform(self, source, column, variable)
         source = self._apply_data_transform_to_column_and_variable_in_source(source, column, variable)
+        source = hooks.on_end_apply_variable_transform(self, source, column, variable)
         return source
 
     def _apply_data_transform_to_column_and_variable_in_source(self, source: 'DataSource', column: 'Column',

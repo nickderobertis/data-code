@@ -26,7 +26,7 @@ class CombineOperation(DataOperation):
         else:
             self.options.last_modified = None
 
-    def execute(self):
+    def _execute(self):
         ds = self.options.func(self.data_sources, **self.options.func_kwargs)
         self.result.update_from_source(ds)
         return self.result
