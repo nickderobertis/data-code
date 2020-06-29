@@ -1,11 +1,14 @@
 import uuid
 
 from graphviz import Digraph
+from mixins import EqOnAttrsMixin, EqHashMixin
 
 from datacode.graph.base import GraphObject
 
 
-class Node(GraphObject):
+class Node(GraphObject, EqHashMixin, EqOnAttrsMixin):
+    _recursive_hash_convert = True
+    equal_attrs = ['label', 'name', 'id', 'node_kwargs']
 
     def __init__(self, name, label='name', **node_kwargs):
         if label == 'name':

@@ -1,13 +1,20 @@
 from typing import Tuple, Optional
 
 from graphviz import Digraph
+from mixins import EqOnAttrsMixin, EqHashMixin
 
 from datacode.graph.base import GraphObject
 from datacode.graph.node import Node
 from datacode.graph.subgraph import Subgraph
 
 
-class Edge(GraphObject):
+class Edge(GraphObject, EqHashMixin, EqOnAttrsMixin):
+    _recursive_hash_convert = True
+    equal_attrs = [
+        'start',
+        'end',
+        'edge_kwargs',
+    ]
 
     def __init__(self, start: Node, end: Node, for_subgraphs: Optional[Tuple[Subgraph, Subgraph]] = None, **edge_kwargs):
         self.start = start
