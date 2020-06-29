@@ -381,6 +381,33 @@ class DataSource(ReprMixin):
             series = self.get_series_for(var=col.variable)
             col.series = series
 
+    def _wipe_columns_series(self):
+        cols_attrs = [
+            'columns',
+            '_orig_columns',
+            '_columns_for_calculate',
+        ]
+        for col_attr in cols_attrs:
+            cols = getattr(self, col_attr)
+            for col in cols:
+                col.series = None
+
+    def unlink_columns_and_variables(self):
+        self._wipe_columns_series()
+        copy_attrs = [
+            'columns',
+            'load_variables',
+            '_orig_columns',
+            '_columns_for_calculate',
+            '_orig_load_variables',
+            '_vars_for_calculate',
+        ]
+        for attr in copy_attrs:
+            orig_value = getattr(self, attr)
+            setattr(self, attr, deepcopy(orig_value))
+        if self._df is not None:
+            self.refresh_columns_series()
+
     def get_var_by_key(self, key: str, is_unique_key: bool = False) -> Variable:
         if is_unique_key:
             attr = 'unique_key'
