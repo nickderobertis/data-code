@@ -1,3 +1,5 @@
+from typing import Dict, Callable
+
 import datacode as dc
 import datacode.hooks as dc_hooks
 
@@ -13,13 +15,18 @@ def increase_counter_hook(**kwargs):
 
 
 class HooksTest(PipelineTest):
+    hook_attrs = [key for key in dir(dc_hooks) if not key.startswith('_')]
+    orig_hook_dict: Dict[str, Callable]
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.orig_hook_dict = {key: getattr(dc_hooks, key) for key in self.hook_attrs}
 
     def teardown_method(self, *args, **kwargs):
         super().teardown_method(*args, **kwargs)
         # Reset hooks
-        hook_attrs = [key for key in dir(dc_hooks) if not key.startswith('_')]
-        for attr in hook_attrs:
-            setattr(dc_hooks, attr, dc_hooks._null_hook)
+        for attr in self.hook_attrs:
+            setattr(dc_hooks, attr, self.orig_hook_dict[attr])
 
 
 class TestPipelineHooks(HooksTest):
