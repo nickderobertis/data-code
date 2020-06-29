@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode package &mdash; datacode 0.15.7 documentation</title>
+  <title>datacode package &mdash; datacode 0.16.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.15.7
+                0.16.0
               </div>
             
           
@@ -119,6 +119,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-datacode.hooks">datacode.hooks module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-datacode.load">datacode.load module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-datacode.typing">datacode.typing module</a></li>
 </ul>
@@ -538,6 +539,253 @@
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacode.hooks">
+<span id="datacode-hooks-module"></span><h2>datacode.hooks module<a class="headerlink" href="#module-datacode.hooks" title="Permalink to this headline">¶</a></h2>
+<p>Hooks to run functions during datacode operations globally</p>
+<dl class="field-list">
+<dt class="field-odd">Usage</dt>
+<dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datacode.hooks</span> <span class="k">as</span> <span class="nn">dc_hooks</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">log_begin_execute</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="n">DataPipeline</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;running </span><span class="si">{</span><span class="n">pipeline</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dc_hooks</span><span class="o">.</span><span class="n">on_begin_execute_pipeline</span> <span class="o">=</span> <span class="n">log_begin_execute</span>
+</pre></div>
+</div>
+</dd>
+<dt class="field-even">All the Hooks</dt>
+<dd class="field-even"><p>Each hook may expect different arguments and have different return values.
+Here is the list of the hooks, along with the expected arguments and return values.</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt id="datacode.hooks.on_begin_apply_source_transform">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_begin_apply_source_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span></em>, <em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_begin_apply_source_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_begin_apply_source_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the beginning of <code class="xref py py-meth docutils literal notranslate"><span class="pre">SourceTransform.apply()</span></code>, which
+is called in TransformPipeline</p>
+<p>The DataSource returned from this function will be used
+to do the source transform</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.hooks.on_begin_apply_source_transform.params.transform"></span><strong>transform</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_begin_apply_source_transform.params.transform">¶</a> (<em>SourceTransform</em>) – SourceTransform which is about to be applied</p></li>
+<li><p><span class="target" id="datacode.hooks.on_begin_apply_source_transform.params.source"></span><strong>source</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_begin_apply_source_transform.params.source">¶</a> (<a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource" title="datacode.compareids.models.datasets.DataSource"><em>DataSource</em></a>) – DataSource on which the SourceTransform will be applied</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource" title="datacode.compareids.models.datasets.DataSource">DataSource</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The DataSource on which to apply the source transform</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.on_begin_apply_variable_transform">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_begin_apply_variable_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span></em>, <em class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">var</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_begin_apply_variable_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_begin_apply_variable_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the beginning of <code class="xref py py-meth docutils literal notranslate"><span class="pre">Transform._apply_transform_for_column_and_variable_to_source()</span></code>,
+which is called while transforming variables.</p>
+<p>The DataSource, Column, and Variable returned from this function will be used
+to do the variable transform</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.hooks.on_begin_apply_variable_transform.params.transform"></span><strong>transform</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_begin_apply_variable_transform.params.transform">¶</a> (<em>Transform</em>) – Transform which is about to be applied</p></li>
+<li><p><span class="target" id="datacode.hooks.on_begin_apply_variable_transform.params.source"></span><strong>source</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_begin_apply_variable_transform.params.source">¶</a> (<a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource" title="datacode.compareids.models.datasets.DataSource"><em>DataSource</em></a>) – DataSource in which the transform is about to be applied</p></li>
+<li><p><span class="target" id="datacode.hooks.on_begin_apply_variable_transform.params.col"></span><strong>col</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_begin_apply_variable_transform.params.col">¶</a> (<em>Column</em>) – Column on which the transform is about to be applied</p></li>
+<li><p><span class="target" id="datacode.hooks.on_begin_apply_variable_transform.params.var"></span><strong>var</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_begin_apply_variable_transform.params.var">¶</a> (<em>Variable</em>) – Variable on which the transform is about to be applied</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ForwardRef" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardRef</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ForwardRef" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardRef</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ForwardRef" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardRef</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The items which will be used to transform the variable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.on_begin_execute_operation">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_begin_execute_operation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operation</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_begin_execute_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_begin_execute_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the beginning of <code class="xref py py-meth docutils literal notranslate"><span class="pre">DataOperation.execute()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><span class="target" id="datacode.hooks.on_begin_execute_operation.params.operation"></span><strong>operation</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_begin_execute_operation.params.operation">¶</a> (<em>DataOperation</em>) – The operation which is about to be executed</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.on_begin_execute_pipeline">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_begin_execute_pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pipeline</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_begin_execute_pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_begin_execute_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the beginning of <code class="xref py py-meth docutils literal notranslate"><span class="pre">DataPipeline.execute()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><span class="target" id="datacode.hooks.on_begin_execute_pipeline.params.pipeline"></span><strong>pipeline</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_begin_execute_pipeline.params.pipeline">¶</a> (<em>DataPipeline</em>) – The pipeline which is about to be executed</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.on_begin_load_source">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_begin_load_source</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_begin_load_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_begin_load_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the beginning of <code class="xref py py-meth docutils literal notranslate"><span class="pre">DataSource._load()</span></code>, which
+is usually called when loading <a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource.params.df" title="datacode.compareids.models.datasets.DataSource"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">DataSource.df</span></code></a>
+from either location or pipeline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><span class="target" id="datacode.hooks.on_begin_load_source.params.source"></span><strong>source</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_begin_load_source.params.source">¶</a> (<a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource" title="datacode.compareids.models.datasets.DataSource"><em>DataSource</em></a>) – DataSource for which DataFrame is about to be loaded</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.on_end_apply_source_transform">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_end_apply_source_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span></em>, <em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_end_apply_source_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_end_apply_source_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the end of <code class="xref py py-meth docutils literal notranslate"><span class="pre">SourceTransform.apply()</span></code>, which
+is called in TransformPipeline</p>
+<p>The DataSource returned from this function will be used
+as the result of the source transform</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.hooks.on_end_apply_source_transform.params.transform"></span><strong>transform</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_apply_source_transform.params.transform">¶</a> (<em>SourceTransform</em>) – SourceTransform which was just applied</p></li>
+<li><p><span class="target" id="datacode.hooks.on_end_apply_source_transform.params.source"></span><strong>source</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_apply_source_transform.params.source">¶</a> (<a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource" title="datacode.compareids.models.datasets.DataSource"><em>DataSource</em></a>) – DataSource on which the SourceTransform was just applied</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource" title="datacode.compareids.models.datasets.DataSource">DataSource</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The DataSource which will become the result of
+the source transformation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.on_end_apply_variable_transform">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_end_apply_variable_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span></em>, <em class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">var</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_end_apply_variable_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_end_apply_variable_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the end of <code class="xref py py-meth docutils literal notranslate"><span class="pre">Transform._apply_transform_for_column_and_variable_to_source()</span></code>,
+which is called while transforming variables.</p>
+<p>The DataSource returned from this function will be used
+as the results of the variable transform</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.hooks.on_end_apply_variable_transform.params.transform"></span><strong>transform</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_apply_variable_transform.params.transform">¶</a> (<em>Transform</em>) – Transform which was just applied</p></li>
+<li><p><span class="target" id="datacode.hooks.on_end_apply_variable_transform.params.source"></span><strong>source</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_apply_variable_transform.params.source">¶</a> (<a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource" title="datacode.compareids.models.datasets.DataSource"><em>DataSource</em></a>) – DataSource in which the transform was just applied</p></li>
+<li><p><span class="target" id="datacode.hooks.on_end_apply_variable_transform.params.col"></span><strong>col</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_apply_variable_transform.params.col">¶</a> (<em>Column</em>) – Column on which the transform was just applied</p></li>
+<li><p><span class="target" id="datacode.hooks.on_end_apply_variable_transform.params.var"></span><strong>var</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_apply_variable_transform.params.var">¶</a> (<em>Variable</em>) – Variable on which the transform was just applied</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource" title="datacode.compareids.models.datasets.DataSource">DataSource</a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The DataSource which will be used as the results
+of the variable transform</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.on_end_execute_operation">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_end_execute_operation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operation</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_end_execute_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_end_execute_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the end of <code class="xref py py-meth docutils literal notranslate"><span class="pre">DataOperation.execute()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><span class="target" id="datacode.hooks.on_end_execute_operation.params.operation"></span><strong>operation</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_execute_operation.params.operation">¶</a> (<em>DataOperation</em>) – The operation which was just executed</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.on_end_execute_pipeline">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_end_execute_pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pipeline</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_end_execute_pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_end_execute_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the end of <code class="xref py py-meth docutils literal notranslate"><span class="pre">DataPipeline.execute()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><span class="target" id="datacode.hooks.on_end_execute_pipeline.params.pipeline"></span><strong>pipeline</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_execute_pipeline.params.pipeline">¶</a> (<em>DataPipeline</em>) – The pipeline which was just executed</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.on_end_load_source">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_end_load_source</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span></em>, <em class="sig-param"><span class="n">df</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_end_load_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_end_load_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the end of <code class="xref py py-meth docutils literal notranslate"><span class="pre">DataSource._load()</span></code>, which
+is usually called when loading <a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource.params.df" title="datacode.compareids.models.datasets.DataSource"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">DataSource.df</span></code></a>
+from either location or pipeline.</p>
+<p>The DataFrame returned from this function will be
+set as <a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource.params.df" title="datacode.compareids.models.datasets.DataSource"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">DataSource.df</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.hooks.on_end_load_source.params.source"></span><strong>source</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_load_source.params.source">¶</a> (<a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource" title="datacode.compareids.models.datasets.DataSource"><em>DataSource</em></a>) – DataSource for which DataFrame was just loaded</p></li>
+<li><p><span class="target" id="datacode.hooks.on_end_load_source.params.df"></span><strong>df</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.on_end_load_source.params.df">¶</a> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DataFrame which will be set as <a class="reference internal" href="datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource.params.df" title="datacode.compareids.models.datasets.DataSource"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">DataSource.df</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datacode.hooks.reset_hooks">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">reset_hooks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#reset_hooks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.reset_hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go back to original dummy hooks, removes all user settings of hooks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Notes</dt>
+<dd class="field-odd"><p>This is the only function in the module which is not a hook itself.
+Instead it is a utility method meant to be called by the user.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-datacode.load">
 <span id="datacode-load-module"></span><h2>datacode.load module<a class="headerlink" href="#module-datacode.load" title="Permalink to this headline">¶</a></h2>

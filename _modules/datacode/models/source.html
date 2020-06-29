@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.15.7 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.16.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.7
+                0.16.0
               </div>
             
           
@@ -186,6 +186,7 @@
 <span class="kn">from</span> <span class="nn">datacode.models.variables.variable</span> <span class="kn">import</span> <span class="n">Variable</span>
 <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
 <span class="kn">from</span> <span class="nn">datacode.models.loader</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">import</span> <span class="nn">datacode.hooks</span> <span class="k">as</span> <span class="nn">hooks</span>
 
 
 <span class="k">class</span> <span class="nc">DataSource</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">):</span>
@@ -329,9 +330,12 @@
         <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">hooks</span><span class="o">.</span><span class="n">on_begin_load_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;data_loader&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">()</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">()</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">hooks</span><span class="o">.</span><span class="n">on_end_load_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
 
     <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data_outputter_kwargs</span><span class="p">):</span>
         <span class="n">config_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_outputter_kwargs</span><span class="p">)</span>

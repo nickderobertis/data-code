@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.15.7 documentation</title>
+  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.16.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.7
+                0.16.0
               </div>
             
           
@@ -198,7 +198,7 @@
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">merged_name</span>
 
-    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running merge function </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_str</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">left_df</span><span class="p">,</span> <span class="n">right_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_merge_dfs</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">merge_function</span><span class="p">(</span>

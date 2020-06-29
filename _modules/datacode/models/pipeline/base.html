@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.base &mdash; datacode 0.15.7 documentation</title>
+  <title>datacode.models.pipeline.base &mdash; datacode 0.16.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.15.7
+                0.16.0
               </div>
             
           
@@ -175,6 +175,7 @@
 <span class="kn">from</span> <span class="nn">datacode.graph.edge</span> <span class="kn">import</span> <span class="n">Edge</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.node</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.subgraph</span> <span class="kn">import</span> <span class="n">Subgraph</span>
+<span class="kn">import</span> <span class="nn">datacode.hooks</span> <span class="k">as</span> <span class="nn">hooks</span>
 <span class="kn">from</span> <span class="nn">datacode.models.analysis</span> <span class="kn">import</span> <span class="n">AnalysisResult</span>
 <span class="kn">from</span> <span class="nn">datacode.models.pipeline.operations.operation</span> <span class="kn">import</span> <span class="n">DataOperation</span><span class="p">,</span> <span class="n">OperationOptions</span>
 <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
@@ -216,6 +217,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="n">hooks</span><span class="o">.</span><span class="n">on_begin_execute_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">next_operation</span><span class="p">()</span>
@@ -227,6 +229,7 @@
         <span class="k">if</span> <span class="n">output</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
 
+        <span class="n">hooks</span><span class="o">.</span><span class="n">on_end_execute_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
 
     <span class="k">def</span> <span class="nf">next_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

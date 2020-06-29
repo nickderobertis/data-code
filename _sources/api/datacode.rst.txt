@@ -27,6 +27,14 @@ Subpackages
 Submodules
 ----------
 
+datacode.hooks module
+---------------------
+
+.. automodule:: datacode.hooks
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.load module
 --------------------
 
