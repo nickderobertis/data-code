@@ -19,10 +19,13 @@ Hooks to run functions during datacode operations globally
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
+import pandas as pd
+
 
 if TYPE_CHECKING:
     from datacode.models.pipeline.base import DataPipeline
     from datacode.models.pipeline.operations.operation import DataOperation
+    from datacode.models.source import DataSource
 
 _orig_locals = {key: value for key, value in locals().items() if not key.startswith('_')}
 
@@ -65,6 +68,34 @@ def on_end_execute_operation(operation: 'DataOperation') -> None:
     :return: None
     """
     pass
+
+
+def on_begin_load_source(source: 'DataSource') -> None:
+    """
+    Called at the beginning of :meth:`DataSource._load`, which
+    is usually called when loading :paramref:`.DataSource.df`
+    from either location or pipeline.
+
+    :param source: DataSource for which DataFrame is about to be loaded
+    :return:
+    """
+    pass
+
+
+def on_end_load_source(source: 'DataSource', df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Called at the end of :meth:`DataSource._load`, which
+    is usually called when loading :paramref:`.DataSource.df`
+    from either location or pipeline.
+
+    The DataFrame returned from this function will be
+    set as :paramref:`.DataSource.df`
+
+    :param source: DataSource for which DataFrame was just loaded
+    :param df:
+    :return: DataFrame which will be set as :paramref:`.DataSource.df`
+    """
+    return df
 
 
 _new_locals = {key: value for key, value in locals().items() if not key.startswith('_')}
