@@ -137,7 +137,38 @@ def on_end_apply_variable_transform(
     :param col: Column on which the transform was just applied
     :param var: Variable on which the transform was just applied
     :return: The DataSource which will be used as the results
-    of the variable transform
+        of the variable transform
+    """
+    return source
+
+
+def on_begin_apply_source_transform(transform: 'SourceTransform', source: 'DataSource') -> 'DataSource':
+    """
+    Called at the beginning of :meth:`SourceTransform.apply`, which
+    is called in TransformPipeline
+
+    The DataSource returned from this function will be used
+    to do the source transform
+
+    :param transform: SourceTransform which is about to be applied
+    :param source: DataSource on which the SourceTransform will be applied
+    :return: The DataSource on which to apply the source transform
+    """
+    return source
+
+
+def on_end_apply_source_transform(transform: 'SourceTransform', source: 'DataSource') -> 'DataSource':
+    """
+    Called at the end of :meth:`SourceTransform.apply`, which
+    is called in TransformPipeline
+
+    The DataSource returned from this function will be used
+    as the result of the source transform
+
+    :param transform: SourceTransform which was just applied
+    :param source: DataSource on which the SourceTransform was just applied
+    :return: The DataSource which will become the result of
+        the source transformation
     """
     return source
 

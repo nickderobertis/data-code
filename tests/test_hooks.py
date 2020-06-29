@@ -113,3 +113,17 @@ class TestPipelineHooks(HooksTest):
         ds = self.create_source(df=None, columns=cols)
         df = ds.df
         assert COUNTER == counter_value + 2
+
+    def test_on_begin_apply_source_transform(self):
+        counter_value = COUNTER
+        dc_hooks.on_begin_apply_source_transform = increase_counter_hook_return_only_second_arg
+        dtp = self.create_transformation_pipeline()
+        dtp.execute()
+        assert COUNTER == counter_value + 1
+
+    def test_on_end_apply_source_transform(self):
+        counter_value = COUNTER
+        dc_hooks.on_end_apply_source_transform = increase_counter_hook_return_only_second_arg
+        dtp = self.create_transformation_pipeline()
+        dtp.execute()
+        assert COUNTER == counter_value + 1
