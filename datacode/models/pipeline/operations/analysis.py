@@ -22,7 +22,7 @@ class AnalysisOperation(DataOperation):
     def data_source(self) -> DataSource:
         return self.data_sources[0]
 
-    def execute(self):
+    def _execute(self):
         self.result.result = self.options.func(self.data_source, **self.options.func_kwargs)
         return self.result
 

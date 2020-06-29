@@ -24,7 +24,7 @@ class TransformOperation(DataOperation):
     def data_source(self) -> DataSource:
         return self.data_sources[0]
 
-    def execute(self):
+    def _execute(self):
         ds = self.options.transform.apply(self.data_source, preserve_original=self.options.preserve_original)
         self.result.update_from_source(ds, exclude_attrs=('location', 'data_outputter_kwargs'))
         return self.result

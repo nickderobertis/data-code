@@ -51,7 +51,7 @@ class DataPipeline(ReprMixin):
         self.primary_node = Node(self.name)
 
     def execute(self, output: bool = True):
-        hooks.on_begin_execute_pipeline(pipeline=self)
+        hooks.on_begin_execute_pipeline(self)
         while True:
             try:
                 self.next_operation()
@@ -63,7 +63,7 @@ class DataPipeline(ReprMixin):
         if output:
             self.output()
 
-        hooks.on_end_execute_pipeline(pipeline=self)
+        hooks.on_end_execute_pipeline(self)
         return self.df
 
     def next_operation(self):

@@ -5,7 +5,7 @@ from tests.pipeline.base import PipelineTest
 COUNTER = 0
 
 
-def increase_counter_hook(**kwargs):
+def increase_counter_hook(*args, **kwargs):
     global COUNTER
     COUNTER += 1
     return kwargs
@@ -44,6 +44,20 @@ class TestPipelineHooks(HooksTest):
     def test_on_end_execute_pipeline(self):
         counter_value = COUNTER
         dc_hooks.on_end_execute_pipeline = increase_counter_hook
+        dgp = self.create_generator_pipeline()
+        dgp.execute()
+        assert COUNTER == counter_value + 1
+
+    def test_on_begin_execute_operation(self):
+        counter_value = COUNTER
+        dc_hooks.on_begin_execute_operation = increase_counter_hook
+        dgp = self.create_generator_pipeline()
+        dgp.execute()
+        assert COUNTER == counter_value + 1
+
+    def test_on_end_execute_operation(self):
+        counter_value = COUNTER
+        dc_hooks.on_end_execute_operation = increase_counter_hook
         dgp = self.create_generator_pipeline()
         dgp.execute()
         assert COUNTER == counter_value + 1

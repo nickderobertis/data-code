@@ -19,8 +19,10 @@ Hooks to run functions during datacode operations globally
 from copy import deepcopy
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from datacode.models.pipeline.base import DataPipeline
+    from datacode.models.pipeline.operations.operation import DataOperation
 
 _orig_locals = {key: value for key, value in locals().items() if not key.startswith('_')}
 
@@ -40,6 +42,26 @@ def on_end_execute_pipeline(pipeline: 'DataPipeline') -> None:
     Called at the end of :meth:`DataPipeline.execute`
 
     :param pipeline: The pipeline which was just executed
+    :return: None
+    """
+    pass
+
+
+def on_begin_execute_operation(operation: 'DataOperation') -> None:
+    """
+    Called at the beginning of :meth:`DataOperation.execute`
+
+    :param operation: The operation which is about to be executed
+    :return: None
+    """
+    pass
+
+
+def on_end_execute_operation(operation: 'DataOperation') -> None:
+    """
+    Called at the end of :meth:`DataOperation.execute`
+
+    :param operation: The operation which was just executed
     :return: None
     """
     pass
