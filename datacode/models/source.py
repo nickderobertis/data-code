@@ -10,7 +10,7 @@ from typing import List, Optional, Any, Dict, Sequence, Type
 from graphviz import Digraph
 from mixins import ReprMixin
 
-from datacode.graph.base import GraphObject
+from datacode.graph.base import GraphObject, Graphable
 from datacode.graph.edge import Edge
 from datacode.graph.node import Node
 from datacode.models.outputter import DataOutputter
@@ -23,7 +23,7 @@ from datacode.models.loader import DataLoader
 import datacode.hooks as hooks
 
 
-class DataSource(ReprMixin):
+class DataSource(Graphable, ReprMixin):
     copy_keys = [
         'location',
         'name',
@@ -555,14 +555,6 @@ class DataSource(ReprMixin):
             elems.extend(self.pipeline._graph_contents)
             elems.append(Edge(self.pipeline.primary_node, self.primary_node))
         return elems
-
-    @property
-    def graph(self) -> Digraph:
-        elems = self._graph_contents
-        graph = Digraph(self.name)
-        for elem in elems:
-            elem.add_to_graph(graph)
-        return graph
 
 
 class NoColumnForVariableException(Exception):
