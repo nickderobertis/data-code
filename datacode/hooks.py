@@ -29,6 +29,7 @@ if TYPE_CHECKING:
     from datacode.models.column.column import Column
     from datacode.models.variables.variable import Variable
     from datacode.models.transform.transform import Transform
+    from datacode.models.transform.source import SourceTransform
 
 _orig_locals = {
     key: value for key, value in locals().items() if not key.startswith("_")
