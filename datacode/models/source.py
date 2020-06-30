@@ -258,10 +258,22 @@ class DataSource(Graphable, ReprMixin):
                 other_value = getattr(other, attr)
                 setattr(self, attr, other_value)
 
-    def copy(self, **kwargs):
+    def copy(self, keep_refs: Sequence[str] = ('pipeline',), **kwargs) -> 'DataSource':
+        """
+        Create a new DataSource from this DataSource
+
+        :param keep_refs: Any attributes for which the original reference should
+            be kept rather than deep copying
+        :param kwargs: DataSource kwargs which should be taken rather than copying
+        :return:
+        """
         self._wipe_columns_series()
+        detached_attrs: Dict[str, Any] = {}
+        if keep_refs:
+            detached_attrs = self._detach_attrs(keep_refs)
         if not kwargs:
             obj = deepcopy(self)
+            obj.update(detached_attrs)
             obj.refresh_columns_series()
             return obj
 
@@ -275,8 +287,22 @@ class DataSource(Graphable, ReprMixin):
 
         klass = type(self)
         obj = klass(**config_dict)
+        obj.update(detached_attrs)
         obj.refresh_columns_series()
         return obj
+
+    def _detach_attr(self, attr: str) -> Any:
+        value = getattr(self, attr)
+        setattr(self, attr, None)
+        return value
+
+    def _detach_attrs(self, attrs: Sequence[str]) -> Dict[str, Any]:
+        collected_attrs = {attr: self._detach_attr(attr) for attr in attrs}
+        return collected_attrs
+
+    def update(self, attrs_dict: Dict[str, Any]):
+        for attr, value in attrs_dict.items():
+            setattr(self, attr, value)
 
     def untransformed_col_for(self, variable: Variable) -> Column:
         possible_cols = [col for col in self.columns if col.variable.key == variable.key]
