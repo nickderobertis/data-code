@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; datacode 0.16.1 documentation</title>
+  <title>Index &mdash; datacode 0.17.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.16.1
+                0.17.0
               </div>
             
           
@@ -242,9 +242,7 @@
 </li>
         <li><a href="api/datacode.formatters.models.html#datacode.formatters.models.result.Result.__init__">(datacode.formatters.models.result.Result method)</a>
 </li>
-        <li><a href="api/datacode.graph.html#datacode.graph.edge.Edge.__init__">(datacode.graph.edge.Edge method)</a>
-</li>
-        <li><a href="api/datacode.graph.html#datacode.graph.node.Node.__init__">(datacode.graph.node.Node method)</a>
+        <li><a href="api/datacode.graph.html#datacode.graph.base.Graphable.__init__">(datacode.graph.base.Graphable method)</a>
 </li>
         <li><a href="api/datacode.graph.html#datacode.graph.subgraph.Subgraph.__init__">(datacode.graph.subgraph.Subgraph method)</a>
 </li>
@@ -271,10 +269,6 @@
         <li><a href="api/datacode.compareids.models.html#datacode.compareids.models.flowchart.Subgraph.add_to_graph">(datacode.compareids.models.flowchart.Subgraph method)</a>
 </li>
         <li><a href="api/datacode.graph.html#datacode.graph.base.GraphObject.add_to_graph">(datacode.graph.base.GraphObject method)</a>
-</li>
-        <li><a href="api/datacode.graph.html#datacode.graph.edge.Edge.add_to_graph">(datacode.graph.edge.Edge method)</a>
-</li>
-        <li><a href="api/datacode.graph.html#datacode.graph.node.Node.add_to_graph">(datacode.graph.node.Node method)</a>
 </li>
         <li><a href="api/datacode.graph.html#datacode.graph.subgraph.Subgraph.add_to_graph">(datacode.graph.subgraph.Subgraph method)</a>
 </li>
@@ -812,6 +806,13 @@
 
       <ul>
         <li><a href="api/datacode.models.dtypes.html#module-datacode.models.dtypes.timedelta_type">module</a>
+</li>
+      </ul></li>
+      <li>
+    datacode.models.explorer
+
+      <ul>
+        <li><a href="api/datacode.models.html#module-datacode.models.explorer">module</a>
 </li>
       </ul></li>
       <li>
@@ -1707,15 +1708,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.compareids.models.html#datacode.compareids.models.flowchart.Edge">Edge (class in datacode.compareids.models.flowchart)</a>
-
-      <ul>
-        <li><a href="api/datacode.graph.html#datacode.graph.edge.Edge">(class in datacode.graph.edge)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.psm.html#datacode.psm.score.EmptyArraysException">EmptyArraysException</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.sem.html#datacode.sem.summary.SEMSummary.eqs">eqs() (datacode.sem.summary.SEMSummary property)</a>
 </li>
       <li><a href="api/datacode.panel.html#datacode.panel.expandselect.expand_entity_date_selections">expand_entity_date_selections() (in module datacode.panel.expandselect)</a>
@@ -1762,10 +1759,10 @@
 </li>
       <li><a href="api/datacode.sem.html#datacode.sem.summary.get_fit_statistics">get_fit_statistics() (in module datacode.sem.summary)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.html#datacode.load.get_gvkey_or_permno">get_gvkey_or_permno() (in module datacode.load)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.sem.html#datacode.sem.latents.get_latents">get_latents() (in module datacode.sem.latents)</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.names.get_prob_treated_varname">get_prob_treated_varname() (in module datacode.psm.names)</a>
@@ -1773,6 +1770,10 @@
       <li><a href="api/datacode.models.logic.merge.html#datacode.models.logic.merge.summarize.get_summary_of_df">get_summary_of_df() (in module datacode.models.logic.merge.summarize)</a>
 </li>
       <li><a href="api/datacode.html#datacode.load.GetCRSP">GetCRSP (class in datacode.load)</a>
+</li>
+      <li><a href="api/datacode.graph.html#datacode.graph.base.Graphable.graph">graph() (datacode.graph.base.Graphable method)</a>
+</li>
+      <li><a href="api/datacode.graph.html#datacode.graph.base.Graphable">Graphable (class in datacode.graph.base)</a>
 </li>
       <li><a href="api/datacode.graph.html#datacode.graph.base.GraphObject">GraphObject (class in datacode.graph.base)</a>
 </li>
@@ -2032,6 +2033,8 @@
 </li>
         <li><a href="api/datacode.models.dtypes.html#module-datacode.models.dtypes.timedelta_type">datacode.models.dtypes.timedelta_type</a>
 </li>
+        <li><a href="api/datacode.models.html#module-datacode.models.explorer">datacode.models.explorer</a>
+</li>
         <li><a href="api/datacode.models.html#module-datacode.models.index">datacode.models.index</a>
 </li>
         <li><a href="api/datacode.models.html#module-datacode.models.loader">datacode.models.loader</a>
@@ -2276,7 +2279,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datacode.compareids.models.html#datacode.compareids.models.datasets.DataSource.params.name">name (datacode.compareids.models.datasets.DataSource parameter)</a>
+
+      <ul>
+        <li><a href="api/datacode.graph.html#datacode.graph.base.Graphable.name">(datacode.graph.base.Graphable attribute)</a>
 </li>
+      </ul></li>
       <li><a href="api/datacode.compareids.models.html#datacode.compareids.models.base.NamedBase">NamedBase (class in datacode.compareids.models.base)</a>
 </li>
       <li><a href="api/datacode.compareids.models.html#datacode.compareids.models.base.NamedList">NamedList (class in datacode.compareids.models.base)</a>
@@ -2285,16 +2292,12 @@
 </li>
       <li><a href="api/datacode.utils.html#datacode.utils.suppress.no_stdout">no_stdout() (in module datacode.utils.suppress)</a>
 </li>
-      <li><a href="api/datacode.models.html#datacode.models.source.NoColumnForVariableException">NoColumnForVariableException</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datacode.compareids.models.html#datacode.compareids.models.flowchart.Node">Node (class in datacode.compareids.models.flowchart)</a>
-
-      <ul>
-        <li><a href="api/datacode.graph.html#datacode.graph.node.Node">(class in datacode.graph.node)</a>
+      <li><a href="api/datacode.models.html#datacode.models.source.NoColumnForVariableException">NoColumnForVariableException</a>
 </li>
-      </ul></li>
+      <li><a href="api/datacode.compareids.models.html#datacode.compareids.models.flowchart.Node">Node (class in datacode.compareids.models.flowchart)</a>
+</li>
       <li><a href="api/datacode.compareids.models.html#datacode.compareids.models.flowchart.NodeCollection">NodeCollection (class in datacode.compareids.models.flowchart)</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.score.NotEnoughTimeObservationsException">NotEnoughTimeObservationsException</a>
@@ -2402,6 +2405,8 @@
       <li><a href="api/datacode.ff.create.html#datacode.ff.create.average.portfolio_returns">portfolio_returns() (in module datacode.ff.create.average)</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.names.predict_treated_varname">predict_treated_varname() (in module datacode.psm.names)</a>
+</li>
+      <li><a href="api/datacode.graph.html#datacode.graph.base.Graphable.primary_node">primary_node() (datacode.graph.base.Graphable method)</a>
 </li>
       <li><a href="api/datacode.psm.html#datacode.psm.names.prob_treated_varname">prob_treated_varname() (in module datacode.psm.names)</a>
 </li>

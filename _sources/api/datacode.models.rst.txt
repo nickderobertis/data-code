@@ -29,6 +29,14 @@ datacode.models.analysis module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.explorer module
+-------------------------------
+
+.. automodule:: datacode.models.explorer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.index module
 ----------------------------
 

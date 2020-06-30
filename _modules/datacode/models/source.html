@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.16.1 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.17.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.16.1
+                0.17.0
               </div>
             
           
@@ -176,7 +176,7 @@
 <span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
 <span class="kn">from</span> <span class="nn">mixins</span> <span class="kn">import</span> <span class="n">ReprMixin</span>
 
-<span class="kn">from</span> <span class="nn">datacode.graph.base</span> <span class="kn">import</span> <span class="n">GraphObject</span>
+<span class="kn">from</span> <span class="nn">datacode.graph.base</span> <span class="kn">import</span> <span class="n">GraphObject</span><span class="p">,</span> <span class="n">Graphable</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.edge</span> <span class="kn">import</span> <span class="n">Edge</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.node</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">datacode.models.outputter</span> <span class="kn">import</span> <span class="n">DataOutputter</span>
@@ -189,7 +189,7 @@
 <span class="kn">import</span> <span class="nn">datacode.hooks</span> <span class="k">as</span> <span class="nn">hooks</span>
 
 
-<span class="k">class</span> <span class="nc">DataSource</span><span class="p">(</span><span class="n">ReprMixin</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">DataSource</span><span class="p">(</span><span class="n">Graphable</span><span class="p">,</span> <span class="n">ReprMixin</span><span class="p">):</span>
     <span class="n">copy_keys</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s1">&#39;location&#39;</span><span class="p">,</span>
         <span class="s1">&#39;name&#39;</span><span class="p">,</span>
@@ -290,10 +290,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span> <span class="o">=</span> <span class="n">read_file_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_outputter_kwargs</span> <span class="o">=</span> <span class="n">data_outputter_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimize_size</span> <span class="o">=</span> <span class="n">optimize_size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="n">df</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_load_variables</span><span class="p">()</span>
@@ -714,21 +714,13 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">_graph_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">GraphObject</span><span class="p">]:</span>
-        <span class="n">elems</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">_graph_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">GraphObject</span><span class="p">]:</span>
+        <span class="n">pn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">)</span>
+        <span class="n">elems</span> <span class="o">=</span> <span class="p">[</span><span class="n">pn</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">elems</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">_graph_contents</span><span class="p">)</span>
-            <span class="n">elems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">primary_node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span><span class="p">))</span>
+            <span class="n">elems</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">_graph_contents</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">))</span>
+            <span class="n">elems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">primary_node</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">),</span> <span class="n">pn</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">elems</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Digraph</span><span class="p">:</span>
-        <span class="n">elems</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_contents</span>
-        <span class="n">graph</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elems</span><span class="p">:</span>
-            <span class="n">elem</span><span class="o">.</span><span class="n">add_to_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">graph</span>
 
 
 <div class="viewcode-block" id="NoColumnForVariableException"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.source.NoColumnForVariableException">[docs]</a><span class="k">class</span> <span class="nc">NoColumnForVariableException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>

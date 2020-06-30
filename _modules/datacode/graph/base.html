@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.graph.base &mdash; datacode 0.16.1 documentation</title>
+  <title>datacode.graph.base &mdash; datacode 0.17.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.16.1
+                0.17.0
               </div>
             
           
@@ -164,13 +164,61 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.graph.base</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
+<span></span><span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">datacode.graph.node</span> <span class="kn">import</span> <span class="n">Node</span>
+
+<span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
+
+<span class="n">ESCAPE_CHARS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="GraphObject"><a class="viewcode-back" href="../../../api/datacode.graph.html#datacode.graph.base.GraphObject">[docs]</a><span class="k">class</span> <span class="nc">GraphObject</span><span class="p">:</span>
 
 <div class="viewcode-block" id="GraphObject.add_to_graph"><a class="viewcode-back" href="../../../api/datacode.graph.html#datacode.graph.base.GraphObject.add_to_graph">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">Digraph</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+
+<div class="viewcode-block" id="Graphable"><a class="viewcode-back" href="../../../api/datacode.graph.html#datacode.graph.base.Graphable">[docs]</a><span class="k">class</span> <span class="nc">Graphable</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="Graphable.__init__"><a class="viewcode-back" href="../../../api/datacode.graph.html#datacode.graph.base.Graphable.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_node_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span></div>
+
+    <span class="k">def</span> <span class="nf">_graph_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">GraphObject</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="Graphable.graph"><a class="viewcode-back" href="../../../api/datacode.graph.html#datacode.graph.base.Graphable.graph">[docs]</a>    <span class="k">def</span> <span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Digraph</span><span class="p">:</span>
+        <span class="n">elems</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_contents</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">)</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elems</span><span class="p">:</span>
+            <span class="n">elem</span><span class="o">.</span><span class="n">add_to_graph</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">graph</span></div>
+
+<div class="viewcode-block" id="Graphable.primary_node"><a class="viewcode-back" href="../../../api/datacode.graph.html#datacode.graph.base.Graphable.primary_node">[docs]</a>    <span class="k">def</span> <span class="nf">primary_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Node&#39;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">datacode.graph.node</span> <span class="kn">import</span> <span class="n">Node</span>
+
+        <span class="k">if</span> <span class="n">include_attrs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_node_id</span><span class="p">)</span>
+
+        <span class="n">label_parts</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">include_attrs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+                <span class="n">str_value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">replace_char</span> <span class="ow">in</span> <span class="n">ESCAPE_CHARS</span><span class="p">:</span>
+                    <span class="n">str_value</span> <span class="o">=</span> <span class="n">str_value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">replace_char</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">replace_char</span><span class="p">)</span>
+                <span class="n">value_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">str_value</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">label_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value_label</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label_parts</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;{ &#39;</span> <span class="o">+</span> <span class="n">label</span> <span class="o">+</span> <span class="s1">&#39; }&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Did not find any included attributes</span>
+            <span class="k">return</span> <span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_node_id</span><span class="p">)</span>
+
+        <span class="c1"># Has valid included attributes</span>
+        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;Mrecord&#39;</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_node_id</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>
