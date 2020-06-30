@@ -53,14 +53,17 @@ class CombineOptions(OperationOptions):
     def __init__(self, func: CombineFunction = combine_sources,
                  out_path: Optional[str] = None,
                  result_kwargs: Optional[Dict[str, Any]] = None,
+                 always_rerun: bool = False,
                  **func_kwargs):
         """
 
         :param func: function which combines the DataSources
         :param out_path: location for generated DataSource
         :param func_kwargs: Keyword arguments to pass to the function which generates the DataSource
+        :param always_rerun: Whether to re-run operation if executed multiple times
         """
         self.func = func
         self.func_kwargs = func_kwargs
         self.out_path = out_path
         self.result_kwargs = result_kwargs
+        self.always_rerun = always_rerun

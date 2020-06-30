@@ -30,10 +30,15 @@ class DataOperation(ReprMixin):
         self.result = None
         self.result_kwargs = result_kwargs
         self._set_result(**result_kwargs)
+        self._has_been_executed = False
 
     def execute(self):
+        if self._has_been_executed and not self.options.always_rerun:
+            return
+
         hooks.on_begin_execute_operation(self)
         self._execute()
+        self._has_been_executed = True
         hooks.on_end_execute_operation(self)
 
     def _execute(self):
@@ -75,6 +80,7 @@ class OperationOptions(ReprMixin):
     last_modified: Optional[datetime.datetime] = None
     allow_modifying_result: bool = True
     analysis_output_func: Optional[Callable[['AnalysisResult', str], None]] = None
+    always_rerun: bool = False
     repr_cols = [
         'out_path',
         'last_modified',

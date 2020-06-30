@@ -60,6 +60,30 @@ class TestDataAnalysisPipeline(PipelineTest):
 
         dc_hooks.reset_hooks()
 
+        assert dap1.operations[0] is dap2.operations[0]
+        assert dap1.operations[0].data_source is dap2.operations[0].data_source
         assert dap1.result.result == self.ds_one_transformed_analysis_result
         assert dap2.result.result == self.ds_one_transformed_analysis_result_offset_10
         assert th.COUNTER == counter_value + 1  # transform operation called only once
+
+    def test_create_and_run_multiple_analysis_pipelines_from_same_transformation_pipeline_with_always_rerun(self):
+        dtp = self.create_transformation_pipeline(always_rerun=True)
+        dap1 = self.create_analysis_pipeline(source=dtp)
+
+        analysis_from_source_2 = partial(analysis_from_source, sum_offset=10)
+        ao2 = AnalysisOptions(analysis_from_source_2)
+        dap2 = self.create_analysis_pipeline(source=dtp, options=ao2)
+
+        counter_value = th.COUNTER
+        dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
+
+        dap1.execute()
+        dap2.execute()
+
+        dc_hooks.reset_hooks()
+
+        assert dap1.operations[0] is dap2.operations[0]
+        assert dap1.operations[0].data_source is dap2.operations[0].data_source
+        assert dap1.result.result == self.ds_one_transformed_analysis_result
+        assert dap2.result.result == self.ds_one_transformed_analysis_result_offset_10
+        assert th.COUNTER == counter_value + 2  # transform operation called twice as always rerun
