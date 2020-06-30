@@ -10,7 +10,7 @@ from typing import List, Optional, Any, Dict, Sequence, Type
 from graphviz import Digraph
 from mixins import ReprMixin
 
-from datacode.graph.base import GraphObject
+from datacode.graph.base import GraphObject, Graphable
 from datacode.graph.edge import Edge
 from datacode.graph.node import Node
 from datacode.models.outputter import DataOutputter
@@ -23,7 +23,7 @@ from datacode.models.loader import DataLoader
 import datacode.hooks as hooks
 
 
-class DataSource(ReprMixin):
+class DataSource(Graphable, ReprMixin):
     copy_keys = [
         'location',
         'name',
@@ -124,10 +124,10 @@ class DataSource(ReprMixin):
         self.read_file_kwargs = read_file_kwargs
         self.data_outputter_kwargs = data_outputter_kwargs
         self.optimize_size = optimize_size
-        self.primary_node = Node(self.name)
         self._df = df
 
         self._validate()
+        super().__init__()
 
     def _validate(self):
         self._validate_load_variables()
@@ -548,21 +548,13 @@ class DataSource(ReprMixin):
 
         self.columns.append(col)
 
-    @property
-    def _graph_contents(self) -> Sequence[GraphObject]:
-        elems = [self.primary_node]
+    def _graph_contents(self, include_attrs: Optional[Sequence[str]] = None) -> List[GraphObject]:
+        pn = self.primary_node(include_attrs)
+        elems = [pn]
         if self.pipeline is not None:
-            elems.extend(self.pipeline._graph_contents)
-            elems.append(Edge(self.pipeline.primary_node, self.primary_node))
+            elems.extend(self.pipeline._graph_contents(include_attrs))
+            elems.append(Edge(self.pipeline.primary_node(include_attrs), pn))
         return elems
-
-    @property
-    def graph(self) -> Digraph:
-        elems = self._graph_contents
-        graph = Digraph(self.name)
-        for elem in elems:
-            elem.add_to_graph(graph)
-        return graph
 
 
 class NoColumnForVariableException(Exception):

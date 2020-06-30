@@ -5,7 +5,7 @@ from typing import Sequence, List, Callable, Optional, Union
 from graphviz import Digraph
 from mixins import ReprMixin
 
-from datacode.graph.base import GraphObject
+from datacode.graph.base import GraphObject, Graphable
 from datacode.graph.edge import Edge
 from datacode.graph.node import Node
 from datacode.graph.subgraph import Subgraph
@@ -16,7 +16,7 @@ from datacode.models.source import DataSource
 from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline, ObjWithLastModified
 
 
-class DataPipeline(ReprMixin):
+class DataPipeline(Graphable, ReprMixin):
     """
     Base class for data pipelines. Should not be used directly.
     """
@@ -48,7 +48,7 @@ class DataPipeline(ReprMixin):
         self.df = None
         self._operation_index = 0
         self.result = None
-        self.primary_node = Node(self.name)
+        super().__init__()
 
     def execute(self, output: bool = True):
         hooks.on_begin_execute_pipeline(self)
@@ -237,22 +237,14 @@ class DataPipeline(ReprMixin):
     def copy(self):
         return deepcopy(self)
 
-    @property
-    def _graph_contents(self) -> Sequence[GraphObject]:
-        elems = [self.primary_node]
+    def _graph_contents(self, include_attrs: Optional[Sequence[str]] = None) -> List[GraphObject]:
+        pn = self.primary_node(include_attrs)
+        elems = [pn]
         for source in self.data_sources:
-            elems.extend(source._graph_contents)
-            edge = Edge(source.primary_node, self.primary_node)
+            elems.extend(source._graph_contents(include_attrs))
+            edge = Edge(source.primary_node(include_attrs), pn)
             elems.append(edge)
         return elems
-
-    @property
-    def graph(self) -> Digraph:
-        elems = self._graph_contents
-        graph = Digraph(self.name)
-        for elem in elems:
-            elem.add_to_graph(graph)
-        return graph
 
 
 class LastOperationFinishedException(Exception):
