@@ -80,7 +80,7 @@ class Transform(ReprMixin):
         :return:
         """
         if preserve_original:
-            source = deepcopy(source)
+            source = source.copy()
         else:
             # Even when not preserving original, don't want to modify original variables or columns
             # as they may be used in other sources
