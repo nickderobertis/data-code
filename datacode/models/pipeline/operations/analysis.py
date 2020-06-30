@@ -62,12 +62,23 @@ class AnalysisOptions(OperationOptions):
     def __init__(self, func: Callable[[DataSource, Any], Any],
                  output_func: Optional[Callable[['AnalysisResult', str], None]] = analysis_result_to_file,
                  out_path: Optional[str] = None, result_kwargs: Optional[Dict[str, Any]] = None,
+                 always_rerun: bool = False,
                  **func_kwargs):
+        """
+
+        :param func:
+        :param output_func:
+        :param out_path:
+        :param result_kwargs:
+        :param always_rerun: Whether to re-run operation if executed multiple times
+        :param func_kwargs:
+        """
         self.func = func
         self.func_kwargs = func_kwargs
         self.analysis_output_func = output_func
         self.out_path = out_path
         self.result_kwargs = result_kwargs
+        self.always_rerun = always_rerun
 
     @property
     def can_output(self) -> bool:

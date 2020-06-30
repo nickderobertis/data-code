@@ -14,8 +14,8 @@ from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
 
 
-def analysis_from_source(ds: DataSource) -> float:
-    running_sum = 0
+def analysis_from_source(ds: DataSource, sum_offset: int = 0) -> float:
+    running_sum = sum_offset
     for var in ds.load_variables:
         if var.dtype.is_numeric:
             running_sum += ds.df[var.name].sum()
@@ -49,6 +49,7 @@ class PipelineTest(SourceTest):
     ds_one_analysis_result = 21
     ds_one_and_two_analysis_result = 191
     ds_one_transformed_analysis_result = 27
+    ds_one_transformed_analysis_result_offset_10 = ds_one_transformed_analysis_result + 10
     ds_one_generated_analysis_result = 10
     csv_path2 = os.path.join(GENERATED_PATH, 'data2.csv')
     csv_path3 = os.path.join(GENERATED_PATH, 'data3.csv')

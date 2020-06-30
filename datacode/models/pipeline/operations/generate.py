@@ -46,7 +46,7 @@ class GenerationOptions(OperationOptions):
 
     def __init__(self, func: Callable[[Any], DataSource], last_modified: Optional[datetime.datetime] = None,
                  out_path: Optional[str] = None, allow_modifying_result: bool = True,
-                 result_kwargs: Optional[Dict[str, Any]] = None,
+                 result_kwargs: Optional[Dict[str, Any]] = None, always_rerun: bool = False,
                  **func_kwargs):
         """
 
@@ -59,6 +59,7 @@ class GenerationOptions(OperationOptions):
             source from pipeline can cause modifications in the pipeline's result source. Set to False
             to ensure it won't be modified (but uses more memory). Setting to False should only be needed
             if multiple sources load from the same pipeline in one session
+        :param always_rerun: Whether to re-run operation if executed multiple times
         """
         self.func = func
         self.func_kwargs = func_kwargs
@@ -66,3 +67,4 @@ class GenerationOptions(OperationOptions):
         self.out_path = out_path
         self.allow_modifying_result = allow_modifying_result
         self.result_kwargs = result_kwargs
+        self.always_rerun = always_rerun

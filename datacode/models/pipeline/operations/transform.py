@@ -65,7 +65,7 @@ class TransformOptions(OperationOptions):
     def __init__(self, func: Union[Callable[[DataSource, Any], DataSource], SourceTransform],
                  preserve_original: bool = True, out_path: Optional[str] = None,
                  allow_modifying_result: bool = True, result_kwargs: Optional[Dict[str, Any]] = None,
-                 transform_key: Optional[str] = None):
+                 transform_key: Optional[str] = None, always_rerun: bool = False):
         """
 
         :param func:
@@ -77,6 +77,7 @@ class TransformOptions(OperationOptions):
             if multiple sources load from the same pipeline in one session
         :param transform_key: Only used when passing callable instead of SourceTransform. Sets the key for the
             generated SourceTransform
+        :param always_rerun: Whether to re-run operation if executed multiple times
         """
         if isinstance(func, SourceTransform):
             self.transform = func
@@ -88,3 +89,4 @@ class TransformOptions(OperationOptions):
         self.out_path = out_path
         self.allow_modifying_result = allow_modifying_result
         self.result_kwargs = result_kwargs
+        self.always_rerun = always_rerun

@@ -145,6 +145,7 @@ class MergeOptions(OperationOptions):
                  right_df_pre_process_kwargs: Optional[Dict[str, Any]] = None,
                  post_merge_func: Callable = None, post_merge_func_kwargs: Optional[Dict[str, Any]] = None,
                  allow_modifying_result: bool = True, result_kwargs: Optional[Dict[str, Any]] = None,
+                 always_rerun: bool = False,
                  **merge_function_kwargs):
         """
 
@@ -174,6 +175,7 @@ class MergeOptions(OperationOptions):
             source from pipeline can cause modifications in the pipeline's result source. Set to False
             to ensure it won't be modified (but uses more memory). Setting to False should only be needed
             if multiple sources load from the same pipeline in one session
+        :param always_rerun: Whether to re-run operation if executed multiple times
         """
         from datacode.models.variables.variable import Variable
         from datacode.models.column.column import Column
@@ -217,6 +219,7 @@ class MergeOptions(OperationOptions):
         self.post_merge_func = partial(post_merge_func, **post_merge_func_kwargs)
         self.allow_modifying_result = allow_modifying_result
         self.result_kwargs = result_kwargs
+        self.always_rerun = always_rerun
 
     def __repr__(self):
         return f'<DataMerge(on_names={self.on_names}, merge_function={self.merge_function.__name__}, ' \
