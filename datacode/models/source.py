@@ -258,9 +258,24 @@ class DataSource(Graphable, ReprMixin):
                 other_value = getattr(other, attr)
                 setattr(self, attr, other_value)
 
-    def copy(self, **kwargs):
+    def copy(self, keep_refs: Sequence[str] = ('pipeline',), **kwargs) -> 'DataSource':
+        """
+        Create a new DataSource from this DataSource
+
+        :param keep_refs: Any attributes for which the original reference should
+            be kept rather than deep copying
+        :param kwargs: DataSource kwargs which should be taken rather than copying
+        :return:
+        """
+        self._wipe_columns_series()
+        detached_attrs: Dict[str, Any] = {}
+        if keep_refs:
+            detached_attrs = self._detach_attrs(keep_refs)
         if not kwargs:
-            return deepcopy(self)
+            obj = deepcopy(self)
+            obj.update(detached_attrs)
+            obj.refresh_columns_series()
+            return obj
 
         config_dict = {attr: deepcopy(getattr(self, attr)) for attr in self.copy_keys}
 
@@ -271,7 +286,23 @@ class DataSource(Graphable, ReprMixin):
         config_dict.update(kwargs)
 
         klass = type(self)
-        return klass(**config_dict)
+        obj = klass(**config_dict)
+        obj.update(detached_attrs)
+        obj.refresh_columns_series()
+        return obj
+
+    def _detach_attr(self, attr: str) -> Any:
+        value = getattr(self, attr)
+        setattr(self, attr, None)
+        return value
+
+    def _detach_attrs(self, attrs: Sequence[str]) -> Dict[str, Any]:
+        collected_attrs = {attr: self._detach_attr(attr) for attr in attrs}
+        return collected_attrs
+
+    def update(self, attrs_dict: Dict[str, Any]):
+        for attr, value in attrs_dict.items():
+            setattr(self, attr, value)
 
     def untransformed_col_for(self, variable: Variable) -> Column:
         possible_cols = [col for col in self.columns if col.variable.key == variable.key]
@@ -370,7 +401,7 @@ class DataSource(Graphable, ReprMixin):
         return [var.key for var in self.load_variables]
 
     def refresh_columns_series(self):
-        if self.columns is None:
+        if self._df is None or self.columns is None:
             return
         for col in self.columns:
             if col.variable not in self.load_variables:
@@ -389,8 +420,9 @@ class DataSource(Graphable, ReprMixin):
         ]
         for col_attr in cols_attrs:
             cols = getattr(self, col_attr)
-            for col in cols:
-                col.series = None
+            if cols is not None:
+                for col in cols:
+                    col.series = None
 
     def unlink_columns_and_variables(self):
         self._wipe_columns_series()
@@ -405,8 +437,7 @@ class DataSource(Graphable, ReprMixin):
         for attr in copy_attrs:
             orig_value = getattr(self, attr)
             setattr(self, attr, deepcopy(orig_value))
-        if self._df is not None:
-            self.refresh_columns_series()
+        self.refresh_columns_series()
 
     def get_var_by_key(self, key: str, is_unique_key: bool = False) -> Variable:
         if is_unique_key:
