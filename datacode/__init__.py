@@ -25,6 +25,7 @@ from datacode.models.transform.source import SourceTransform
 from datacode.models.transform.specific import DEFAULT_TRANSFORMS
 from datacode.models.variables.collection import VariableCollection
 from datacode.models.variables.expression import Expression
+from datacode.models.explorer import DataExplorer
 from datacode.summarize import describe_df
 
 from datacode.models.dtypes.base import DataType

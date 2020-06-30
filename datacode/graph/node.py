@@ -21,7 +21,7 @@ class Node(GraphObject, EqHashMixin, EqOnAttrsMixin):
 
         self.name = name
         if id_ is None:
-            self.id = str(uuid.uuid1())
+            self.id = str(uuid.uuid4())
         else:
             self.id = id_
         self.node_kwargs = node_kwargs
