@@ -1,7 +1,9 @@
 from pandas.testing import assert_frame_equal
 
 from datacode import DataSource, Column
+import datacode.hooks as dc_hooks
 from tests.pipeline.base import PipelineTest
+import tests.test_hooks as th
 
 
 class TestDataTransformationPipeline(PipelineTest):
@@ -95,3 +97,20 @@ class TestDataTransformationPipeline(PipelineTest):
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_func_df_with_a_and_a_transformed)
+
+    def test_nested_last_modified(self):
+        counter_value = th.COUNTER
+        dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
+
+        dmp = self.create_merge_pipeline()
+
+        dtp = self.create_transformation_pipeline(source=dmp)
+        self.create_csv_for_2()
+        ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp)
+
+        # Should not run pipeline as source is newer
+        df = ds.df
+
+        dc_hooks.reset_hooks()
+        assert_frame_equal(df, self.test_df2)
+        assert th.COUNTER == counter_value  # transform operation not called

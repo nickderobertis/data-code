@@ -63,7 +63,12 @@ class DataOperation(ReprMixin):
         return last_modified
 
     def _set_result(self, **kwargs):
-        self.result = self.options.result_class(name=self.output_name, location=self.options.out_path, **kwargs)
+        self.result = self.options.result_class(
+            name=self.output_name,
+            location=self.options.out_path,
+            last_modified=self.last_modified,
+            **kwargs
+        )
 
     def __repr__(self):
         return f'<DataOperation(data_sources={self.data_sources}, result={self.result})>'
