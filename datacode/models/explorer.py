@@ -34,6 +34,13 @@ class DataExplorer(Graphable, ReprMixin):
     def _graph_contents(
         self, include_attrs: Optional[Sequence[str]] = None
     ) -> List[GraphObject]:
+        # TODO: more efficient DataExplorer.graph
+        #
+        # Examining last_modified or pipeline_last_modified on
+        # a large pipeline structure is extremely slow. Performance
+        # of DataExplorer graphing could be improved if it first found
+        # only the terminal pipelines and sources and used only those,
+        # as the nested is included anyway.
         all_contents = []
         for item in self.items:
             all_contents.extend(item._graph_contents(include_attrs))

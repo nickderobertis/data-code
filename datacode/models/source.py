@@ -171,6 +171,13 @@ class DataSource(Graphable, ReprMixin):
     def last_modified(self, value: Optional[datetime.datetime]):
         self._last_modified = value
 
+    @property
+    def pipeline_last_modified(self):
+        if self.pipeline is None:
+            return None
+
+        return self.pipeline.last_modified
+
     def _load(self):
         hooks.on_begin_load_source(self)
         if not hasattr(self, 'data_loader'):
