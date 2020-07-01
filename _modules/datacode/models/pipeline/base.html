@@ -370,7 +370,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]:</span>
-        <span class="c1"># TODO: more efficient last_modified</span>
+        <span class="c1"># TODO [#95]: more efficient last_modified</span>
         <span class="c1">#</span>
         <span class="c1"># `last_modified` is calculated a lot and goes through the</span>
         <span class="c1"># entire pipeline each time. Caching the result of the</span>
