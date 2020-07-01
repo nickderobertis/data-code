@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.base &mdash; datacode 0.17.3 documentation</title>
+  <title>datacode.models.pipeline.base &mdash; datacode 0.17.4 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.17.3
+                0.17.4
               </div>
             
           
@@ -370,10 +370,22 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="c1"># TODO: more efficient last_modified</span>
+        <span class="c1">#</span>
+        <span class="c1"># `last_modified` is calculated a lot and goes through the</span>
+        <span class="c1"># entire pipeline each time. Caching the result of the</span>
+        <span class="c1"># calculations will give a significant speed up, especially</span>
+        <span class="c1"># in `DataExplorer.graph`. Need to handle updating the cache</span>
+        <span class="c1"># whenever data sources or operations change, and somehow</span>
+        <span class="c1"># also when OS modified time of file changes (fs events?).</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">obj</span><span class="o">.</span><span class="n">last_modified</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">]):</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">return</span> <span class="nb">max</span><span class="p">([</span><span class="n">source</span><span class="o">.</span><span class="n">last_modified</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objs_with_last_modified</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pipeline_last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_modified</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">obj_last_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ObjWithLastModified</span><span class="p">]:</span>
