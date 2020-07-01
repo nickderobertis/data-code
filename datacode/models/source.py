@@ -53,7 +53,7 @@ class DataSource(Graphable, ReprMixin):
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
                  outputter_class: Optional[Type[DataOutputter]] = None,
                  data_outputter_kwargs: Optional[Dict[str, Any]] = None,
-                 optimize_size: bool = False):
+                 optimize_size: bool = False, last_modified: Optional[datetime.datetime] = None):
 
         if read_file_kwargs is None:
             read_file_kwargs = {}
@@ -124,6 +124,7 @@ class DataSource(Graphable, ReprMixin):
         self.read_file_kwargs = read_file_kwargs
         self.data_outputter_kwargs = data_outputter_kwargs
         self.optimize_size = optimize_size
+        self._last_modified = last_modified
         self._df = df
 
         self._validate()
@@ -157,11 +158,18 @@ class DataSource(Graphable, ReprMixin):
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
+        if self._last_modified is not None:
+            return self._last_modified
+
         if self.location is None or not os.path.exists(self.location):
             # No location. Will trigger pipeline instead
             return None
 
         return datetime.datetime.fromtimestamp(os.path.getmtime(self.location))
+
+    @last_modified.setter
+    def last_modified(self, value: Optional[datetime.datetime]):
+        self._last_modified = value
 
     def _load(self):
         hooks.on_begin_load_source(self)
