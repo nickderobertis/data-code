@@ -34,7 +34,7 @@ class DataExplorer(Graphable, ReprMixin):
     def _graph_contents(
         self, include_attrs: Optional[Sequence[str]] = None
     ) -> List[GraphObject]:
-        # TODO: more efficient DataExplorer.graph
+        # TODO [$5efd1f3402578d0007e24a93]: more efficient DataExplorer.graph
         #
         # Examining last_modified or pipeline_last_modified on
         # a large pipeline structure is extremely slow. Performance
