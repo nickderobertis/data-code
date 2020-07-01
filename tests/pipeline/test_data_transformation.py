@@ -1,3 +1,6 @@
+import datetime
+import time
+
 from pandas.testing import assert_frame_equal
 
 from datacode import DataSource, Column
@@ -98,7 +101,7 @@ class TestDataTransformationPipeline(PipelineTest):
 
         assert_frame_equal(dtp.df, self.expect_func_df_with_a_and_a_transformed)
 
-    def test_nested_last_modified(self):
+    def test_nested_last_modified_of_source_greater_than_pipeline(self):
         counter_value = th.COUNTER
         dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
 
@@ -114,3 +117,51 @@ class TestDataTransformationPipeline(PipelineTest):
         dc_hooks.reset_hooks()
         assert_frame_equal(df, self.test_df2)
         assert th.COUNTER == counter_value  # transform operation not called
+
+    def test_nested_last_modified_of_source_less_than_pipeline(self):
+        counter_value = th.COUNTER
+        dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
+
+        dmp = self.create_merge_pipeline()
+
+        dtp = self.create_transformation_pipeline(source=dmp)
+        self.create_csv_for_2()
+        ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp)
+
+        time.sleep(0.01)
+        self.create_csv()  # now earlier source is more recently modified
+        assert dmp.data_sources[0].last_modified > ds.last_modified
+
+        # Should run pipeline as original source is newer
+        df = ds.df
+
+        dc_hooks.reset_hooks()
+        assert_frame_equal(df, self.expect_merged_1_2_both_transformed)
+        assert th.COUNTER == counter_value + 1  # transform operation called once
+
+    def test_nested_last_modified_of_source_less_than_earlier_source(self):
+        counter_value = th.COUNTER
+        dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
+
+        dtp = self.create_transformation_pipeline()
+        self.create_csv_for_2()
+        cols2 = self.create_columns()
+        ds2 = self.create_source(df=None, location=self.csv_path2, pipeline=dtp, columns=cols2)
+        dtp2 = self.create_transformation_pipeline(source=ds2)
+        time.sleep(0.01)
+        self.create_csv_for_3()
+        ds3 = self.create_source(df=None, location=self.csv_path3, pipeline=dtp2)
+
+        time.sleep(0.01)
+        self.create_csv()
+        ds1 = dtp.data_sources[0]
+        # now first source is most recently modified, followed by third source. Middle source is oldest
+        assert ds1.last_modified > ds2.last_modified
+        assert ds3.last_modified > ds2.last_modified
+
+        # Should run both pipelines as original source is newest
+        df = ds3.df
+
+        dc_hooks.reset_hooks()
+        assert_frame_equal(df, self.expect_df_double_source_transform)
+        assert th.COUNTER == counter_value + 2  # transform operation called once
