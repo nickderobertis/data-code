@@ -204,10 +204,22 @@ class DataPipeline(Graphable, ReprMixin):
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
+        # TODO: more efficient last_modified
+        #
+        # `last_modified` is calculated a lot and goes through the
+        # entire pipeline each time. Caching the result of the
+        # calculations will give a significant speed up, especially
+        # in `DataExplorer.graph`. Need to handle updating the cache
+        # whenever data sources or operations change, and somehow
+        # also when OS modified time of file changes (fs events?).
         if any([obj.last_modified is None for obj in self.operations]):
             return None
 
         return max([source.last_modified for source in self._objs_with_last_modified])
+
+    @property
+    def pipeline_last_modified(self) -> Optional[datetime.datetime]:
+        return self.last_modified
 
     @property
     def obj_last_modified(self) -> Optional[ObjWithLastModified]:

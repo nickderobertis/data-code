@@ -59,7 +59,10 @@ class DataOperation(ReprMixin):
         if any([ds.last_modified is None for ds in self.data_sources]):
             return None
 
-        last_modified = max([ds.last_modified for ds in self.data_sources])
+        lm_choices = [ds.pipeline_last_modified for ds in self.data_sources] + [ds.last_modified for ds in self.data_sources]
+        valid_choices = [lm for lm in lm_choices if lm is not None]
+
+        last_modified = max(valid_choices)
         return last_modified
 
     def _set_result(self, **kwargs):
