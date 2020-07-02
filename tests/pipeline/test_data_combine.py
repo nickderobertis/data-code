@@ -1,9 +1,20 @@
+from typing import Sequence
+
 from pandas.testing import assert_frame_equal
 
-from datacode import DataSource
+from datacode import DataSource, Variable
 from datacode.models.pipeline.operations.combine import CombineOptions
 from datacode.models.pipeline.operations.merge import MergeOptions
 from tests.pipeline.base import PipelineTest
+
+
+def select_variables_not_in_index(source: DataSource) -> Sequence[Variable]:
+    selected_vars = []
+    for col in source.columns:
+        if not col.indices:
+            continue
+        selected_vars.append(col.variable)
+    return selected_vars
 
 
 class TestDataCombinationPipeline(PipelineTest):
@@ -86,3 +97,53 @@ class TestDataCombinationPipeline(PipelineTest):
 
         assert_frame_equal(dp2.df, self.expect_combined_rows_1_2_3)
 
+    def test_create_nested_transform_pipeline(self):
+        self.create_csv_for_2()
+        ds2_cols = self.create_indexed_columns_for_2()
+        ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
+        dtp = self.create_transformation_pipeline(source=ds2)
+
+        self.create_csv_for_3()
+        ds3_cols = self.create_indexed_columns_for_3()
+        ds3 = self.create_source(df=None, location=self.csv_path3, columns=ds3_cols, name='three')
+
+        co = CombineOptions(rows=False)
+        dp2 = self.create_combine_pipeline(data_sources=[dtp, ds3], combine_options_list=[co])
+
+        with self.assertRaises(ValueError) as cm:
+            dp2.execute()
+            exc = cm.exception
+            assert 'can only combine columns of data sources with overlapping indices. Column c has' in str(exc)
+
+    def test_create_nested_transform_pipeline_with_variable_subset(self):
+        self.create_csv_for_2()
+        ds2_cols = self.create_indexed_columns_for_2()
+        a, b, c = ds2_cols
+        ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
+        dtp = self.create_transformation_pipeline(source=ds2, subset=[a.variable, b.variable])
+
+        self.create_csv_for_3()
+        ds3_cols = self.create_indexed_columns_for_3()
+        ds3 = self.create_source(df=None, location=self.csv_path3, columns=ds3_cols, name='three')
+
+        co = CombineOptions(rows=False)
+        dp2 = self.create_combine_pipeline(data_sources=[dtp, ds3], combine_options_list=[co])
+        dp2.execute()
+
+        assert_frame_equal(dp2.df, self.expect_combined_cols_2_3)
+
+    def test_create_nested_transform_pipeline_with_function_subset(self):
+        self.create_csv_for_2()
+        ds2_cols = self.create_indexed_columns_for_2()
+        ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
+        dtp = self.create_transformation_pipeline(source=ds2, subset=select_variables_not_in_index)
+
+        self.create_csv_for_3()
+        ds3_cols = self.create_indexed_columns_for_3()
+        ds3 = self.create_source(df=None, location=self.csv_path3, columns=ds3_cols, name='three')
+
+        co = CombineOptions(rows=False)
+        dp2 = self.create_combine_pipeline(data_sources=[dtp, ds3], combine_options_list=[co])
+        dp2.execute()
+
+        assert_frame_equal(dp2.df, self.expect_combined_cols_2_3)

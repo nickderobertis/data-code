@@ -1,9 +1,10 @@
-from typing import Callable, Optional, Any, Union, Dict
+from typing import Callable, Optional, Any, Union, Dict, Sequence
 
 from datacode.models.transform.source import SourceTransform
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
 from datacode.models.types import DataSourcesOrPipelines
+from datacode.models.variables.variable import Variable
 
 
 class TransformOperation(DataOperation):
@@ -65,7 +66,11 @@ class TransformOptions(OperationOptions):
     def __init__(self, func: Union[Callable[[DataSource, Any], DataSource], SourceTransform],
                  preserve_original: bool = True, out_path: Optional[str] = None,
                  allow_modifying_result: bool = True, result_kwargs: Optional[Dict[str, Any]] = None,
-                 transform_key: Optional[str] = None, always_rerun: bool = False):
+                 transform_key: Optional[str] = None, always_rerun: bool = False,
+                 subset: Optional[Union[
+                     Sequence[Variable],
+                     Callable[[DataSource], Sequence[Variable]]
+                 ]] = None):
         """
 
         :param func:
@@ -78,11 +83,12 @@ class TransformOptions(OperationOptions):
         :param transform_key: Only used when passing callable instead of SourceTransform. Sets the key for the
             generated SourceTransform
         :param always_rerun: Whether to re-run operation if executed multiple times
+        :param subset: Only applies when function is passed rather than SourceTransform. See SourceTransform.subset
         """
         if isinstance(func, SourceTransform):
             self.transform = func
         else:
-            self.transform = SourceTransform.from_func(func, key=transform_key)
+            self.transform = SourceTransform.from_func(func, key=transform_key, subset=subset)
 
         self.func = func
         self.preserve_original = preserve_original
