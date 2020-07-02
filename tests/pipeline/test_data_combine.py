@@ -86,3 +86,18 @@ class TestDataCombinationPipeline(PipelineTest):
 
         assert_frame_equal(dp2.df, self.expect_combined_rows_1_2_3)
 
+    def test_create_nested_transform_pipeline(self):
+        self.create_csv_for_2()
+        ds2_cols = self.create_indexed_columns_for_2()
+        ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
+        dtp = self.create_transformation_pipeline(source=ds2)
+
+        self.create_csv_for_3()
+        ds3_cols = self.create_indexed_columns_for_3()
+        ds3 = self.create_source(df=None, location=self.csv_path3, columns=ds3_cols, name='three')
+
+        co = CombineOptions(rows=False)
+        dp2 = self.create_combine_pipeline(data_sources=[dtp, ds3], combine_options_list=[co])
+        dp2.execute()
+
+        assert_frame_equal(dp2.df, self.expect_combined_rows_1_2_3)
