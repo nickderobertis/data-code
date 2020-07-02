@@ -186,6 +186,13 @@ class PipelineTest(SourceTest):
         ],
         columns=['A', 'B', 'C', 'E', 'F']
     ).convert_dtypes()
+    expect_combined_cols_2_3 = pd.DataFrame(
+        [
+            ('d', 11, 21, 100, 200),
+            ('e', 51, 61, 500, 600),
+        ],
+        columns = ['C', 'E', 'F', 'G', 'H']
+    ).convert_dtypes().set_index('C')
 
 
 
