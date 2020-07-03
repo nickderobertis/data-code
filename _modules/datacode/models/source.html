@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.17.5 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.17.6 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.17.5
+                0.17.6
               </div>
             
           
@@ -176,7 +176,7 @@
 <span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Digraph</span>
 <span class="kn">from</span> <span class="nn">mixins</span> <span class="kn">import</span> <span class="n">ReprMixin</span>
 
-<span class="kn">from</span> <span class="nn">datacode.graph.base</span> <span class="kn">import</span> <span class="n">GraphObject</span><span class="p">,</span> <span class="n">Graphable</span>
+<span class="kn">from</span> <span class="nn">datacode.graph.base</span> <span class="kn">import</span> <span class="n">GraphObject</span><span class="p">,</span> <span class="n">Graphable</span><span class="p">,</span> <span class="n">GraphFunction</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.edge</span> <span class="kn">import</span> <span class="n">Edge</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.node</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">datacode.models.outputter</span> <span class="kn">import</span> <span class="n">DataOutputter</span>
@@ -398,9 +398,9 @@
                         <span class="c1"># Must be Operation, get name from pipeline instead</span>
                         <span class="n">recent_obj_name</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">name</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span><span class="si">{</span><span class="n">recent_obj_name</span><span class="si">}</span><span class="s1"> was modified at </span><span class="si">{</span><span class="n">recent_obj</span><span class="o">.</span><span class="n">last_modified</span><span class="si">}</span><span class="s1">.</span>
-<span class="s1">    </span>
+
 <span class="s1">                    this data source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> was modified at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_modified</span><span class="si">}</span><span class="s1">.</span>
-<span class="s1">    </span>
+
 <span class="s1">                    to get new changes, will load this data source through pipeline rather than from file.&#39;&#39;&#39;</span><span class="p">)</span>
 
             <span class="c1"># otherwise, don&#39;t need to worry about pipeline, continue handling</span>
@@ -760,12 +760,13 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_graph_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">GraphObject</span><span class="p">]:</span>
-        <span class="n">pn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_graph_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">func_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GraphFunction</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">GraphObject</span><span class="p">]:</span>
+        <span class="n">pn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary_node</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">,</span> <span class="n">func_dict</span><span class="p">)</span>
         <span class="n">elems</span> <span class="o">=</span> <span class="p">[</span><span class="n">pn</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">elems</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">_graph_contents</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">))</span>
-            <span class="n">elems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">primary_node</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">),</span> <span class="n">pn</span><span class="p">))</span>
+            <span class="n">elems</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">_graph_contents</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">,</span> <span class="n">func_dict</span><span class="p">))</span>
+            <span class="n">elems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Edge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="o">.</span><span class="n">primary_node</span><span class="p">(</span><span class="n">include_attrs</span><span class="p">,</span> <span class="n">func_dict</span><span class="p">),</span> <span class="n">pn</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">elems</span>
 
 
