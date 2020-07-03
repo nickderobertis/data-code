@@ -10,7 +10,7 @@ from typing import List, Optional, Any, Dict, Sequence, Type
 from graphviz import Digraph
 from mixins import ReprMixin
 
-from datacode.graph.base import GraphObject, Graphable
+from datacode.graph.base import GraphObject, Graphable, GraphFunction
 from datacode.graph.edge import Edge
 from datacode.graph.node import Node
 from datacode.models.outputter import DataOutputter
@@ -232,9 +232,9 @@ class DataSource(Graphable, ReprMixin):
                         # Must be Operation, get name from pipeline instead
                         recent_obj_name = pipeline.name
                     warnings.warn(f'''{recent_obj_name} was modified at {recent_obj.last_modified}.
-    
+
                     this data source {self.name} was modified at {self.last_modified}.
-    
+
                     to get new changes, will load this data source through pipeline rather than from file.''')
 
             # otherwise, don't need to worry about pipeline, continue handling
@@ -594,12 +594,13 @@ class DataSource(Graphable, ReprMixin):
 
         self.columns.append(col)
 
-    def _graph_contents(self, include_attrs: Optional[Sequence[str]] = None) -> List[GraphObject]:
-        pn = self.primary_node(include_attrs)
+    def _graph_contents(self, include_attrs: Optional[Sequence[str]] = None,
+                        func_dict: Optional[Dict[str, GraphFunction]] = None) -> List[GraphObject]:
+        pn = self.primary_node(include_attrs, func_dict)
         elems = [pn]
         if self.pipeline is not None:
-            elems.extend(self.pipeline._graph_contents(include_attrs))
-            elems.append(Edge(self.pipeline.primary_node(include_attrs), pn))
+            elems.extend(self.pipeline._graph_contents(include_attrs, func_dict))
+            elems.append(Edge(self.pipeline.primary_node(include_attrs, func_dict), pn))
         return elems
 
 
