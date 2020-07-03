@@ -1,10 +1,10 @@
-from typing import Sequence, Union, List, Optional
+from typing import Sequence, Union, List, Optional, Dict
 
 from mixins import ReprMixin
 
 from datacode.models.source import DataSource
 from datacode.models.pipeline.base import DataPipeline
-from datacode.graph.base import GraphObject, Graphable
+from datacode.graph.base import GraphObject, Graphable, GraphFunction
 
 
 class DataExplorer(Graphable, ReprMixin):
@@ -32,7 +32,8 @@ class DataExplorer(Graphable, ReprMixin):
         return [item.name for item in self.items]
 
     def _graph_contents(
-        self, include_attrs: Optional[Sequence[str]] = None
+        self, include_attrs: Optional[Sequence[str]] = None,
+        func_dict: Optional[Dict[str, GraphFunction]] = None
     ) -> List[GraphObject]:
         # TODO [#94]: more efficient DataExplorer.graph
         #
@@ -43,7 +44,7 @@ class DataExplorer(Graphable, ReprMixin):
         # as the nested is included anyway.
         all_contents = []
         for item in self.items:
-            all_contents.extend(item._graph_contents(include_attrs))
+            all_contents.extend(item._graph_contents(include_attrs, func_dict))
         all_contents = list(set(all_contents))
         return all_contents
 

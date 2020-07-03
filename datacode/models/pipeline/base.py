@@ -1,11 +1,11 @@
 import datetime
 from copy import deepcopy
-from typing import Sequence, List, Callable, Optional, Union
+from typing import Sequence, List, Callable, Optional, Union, Dict
 
 from graphviz import Digraph
 from mixins import ReprMixin
 
-from datacode.graph.base import GraphObject, Graphable
+from datacode.graph.base import GraphObject, Graphable, GraphFunction
 from datacode.graph.edge import Edge
 from datacode.graph.node import Node
 from datacode.graph.subgraph import Subgraph
@@ -249,12 +249,13 @@ class DataPipeline(Graphable, ReprMixin):
     def copy(self):
         return deepcopy(self)
 
-    def _graph_contents(self, include_attrs: Optional[Sequence[str]] = None) -> List[GraphObject]:
-        pn = self.primary_node(include_attrs)
+    def _graph_contents(self, include_attrs: Optional[Sequence[str]] = None,
+                        func_dict: Optional[Dict[str, GraphFunction]] = None) -> List[GraphObject]:
+        pn = self.primary_node(include_attrs, func_dict)
         elems = [pn]
         for source in self.data_sources:
-            elems.extend(source._graph_contents(include_attrs))
-            edge = Edge(source.primary_node(include_attrs), pn)
+            elems.extend(source._graph_contents(include_attrs, func_dict))
+            edge = Edge(source.primary_node(include_attrs, func_dict), pn)
             elems.append(edge)
         return elems
 
