@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models package &mdash; datacode 0.17.6 documentation</title>
+  <title>datacode.models package &mdash; datacode 0.18.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.17.6
+                0.18.0
               </div>
             
           
@@ -306,6 +306,66 @@
 </div>
 <div class="section" id="module-datacode.models.loader">
 <span id="datacode-models-loader-module"></span><h2>datacode.models.loader module<a class="headerlink" href="#module-datacode.models.loader" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacode.models.options">
+<span id="datacode-models-options-module"></span><h2>datacode.models.options module<a class="headerlink" href="#module-datacode.models.options" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="datacode.models.options.DatacodeOptions">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.models.options.</code><code class="sig-name descname">DatacodeOptions</code><a class="reference internal" href="../_modules/datacode/models/options.html#DatacodeOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.options.DatacodeOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Allows setting options for the datacode library</p>
+<dl class="field-list simple">
+<dt class="field-odd">Usage</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>Use as a context manager with a single change:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">dc</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">set_class_attr</span><span class="p">(</span><span class="s2">&quot;DataSource&quot;</span><span class="p">,</span> <span class="s2">&quot;copy_keys&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># Do something</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Now options have been reset</span>
+</pre></div>
+</div>
+<p>Usage as a context manager with multiple changes:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">dc</span><span class="o">.</span><span class="n">options</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">dc</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">set_class_attr</span><span class="p">(</span><span class="s2">&quot;DataSource&quot;</span><span class="p">,</span> <span class="s2">&quot;copy_keys&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># More options changes, then desired operations</span>
+</pre></div>
+</div>
+<p>Plain usage:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dc</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">set_class_attr</span><span class="p">(</span><span class="s2">&quot;DataSource&quot;</span><span class="p">,</span> <span class="s2">&quot;copy_keys&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Now change lasts, until (optionally) calling</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dc</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="datacode.models.options.DatacodeOptions.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/options.html#DatacodeOptions.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.options.DatacodeOptions.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undo any changes made through the options interface
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="datacode.models.options.DatacodeOptions.set_class_attr">
+<code class="sig-name descname">set_class_attr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">class_name</span></em>, <em class="sig-param"><span class="n">attr</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/models/options.html#DatacodeOptions.set_class_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.options.DatacodeOptions.set_class_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets an attribute on a datacode class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.models.options.DatacodeOptions.set_class_attr.params.class_name"></span><strong>class_name</strong><a class="paramlink headerlink reference internal" href="#datacode.models.options.DatacodeOptions.set_class_attr.params.class_name">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of a class in the main datacode namespace</p></li>
+<li><p><span class="target" id="datacode.models.options.DatacodeOptions.set_class_attr.params.attr"></span><strong>attr</strong><a class="paramlink headerlink reference internal" href="#datacode.models.options.DatacodeOptions.set_class_attr.params.attr">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Attribute to be updated on the class</p></li>
+<li><p><span class="target" id="datacode.models.options.DatacodeOptions.set_class_attr.params.value"></span><strong>value</strong><a class="paramlink headerlink reference internal" href="#datacode.models.options.DatacodeOptions.set_class_attr.params.value">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>) – Value to set the attribute to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#datacode.models.options.DatacodeOptions" title="datacode.models.options.DatacodeOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatacodeOptions</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>same options instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-datacode.models.outputter">
 <span id="datacode-models-outputter-module"></span><h2>datacode.models.outputter module<a class="headerlink" href="#module-datacode.models.outputter" title="Permalink to this headline">¶</a></h2>
