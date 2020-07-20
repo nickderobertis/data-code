@@ -14,7 +14,8 @@ class DataMergePipeline(DataPipeline):
     def __init__(self, data_sources: DataSourcesOrPipelines = None,
                  merge_options_list: Optional[Sequence[MergeOptions]] = None,
                  post_merge_cleanup_func: Optional[Callable] = None,
-                 name: Optional[str] = None, cleanup_kwargs: Optional[Dict[str, Any]] = None):
+                 name: Optional[str] = None, cleanup_kwargs: Optional[Dict[str, Any]] = None,
+                 difficulty: float = 50):
 
         if cleanup_kwargs is None:
             cleanup_kwargs = {}
@@ -27,7 +28,7 @@ class DataMergePipeline(DataPipeline):
         self.cleanup_kwargs = cleanup_kwargs
         self.data_sources = data_sources
 
-        super().__init__(data_sources, merge_options_list, name=name)
+        super().__init__(data_sources, merge_options_list, name=name, difficulty=difficulty)
 
     def _validate(self):
         self._validate_data_sources_merge_options()

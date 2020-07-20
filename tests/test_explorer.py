@@ -6,6 +6,7 @@ from datacode.models.pipeline.base import DataPipeline
 from tests.pipeline.base import PipelineTest
 
 COUNT = 0
+EXPECT_DIFFICULTY = 50
 
 
 def str_counter() -> str:
@@ -98,3 +99,60 @@ class TestExplorerGraph(ExplorerTest):
         assert '2 [label="{ two | obs_0 = 2 | obs_1 = 2 }" shape=Mrecord]' in graph_str
         assert '1 [label="{ one | obs_0 = 3 | obs_1 = 3 }' in graph_str
         assert graph_str.endswith("\n}")
+
+
+class TestDifficulty(ExplorerTest):
+
+    def test_get_difficulty_by_property(self):
+        explorer = self.create_explorer()
+        assert explorer.difficulty == EXPECT_DIFFICULTY
+
+    def test_get_difficulty_by_class_method(self):
+        dp = self.create_merge_pipeline()
+        ds = self.create_source()
+
+        difficulty = DataExplorer.get_difficulty_for([dp, ds])
+        assert difficulty == EXPECT_DIFFICULTY
+
+    def test_get_custom_difficulty(self):
+        dp = self.create_merge_pipeline()
+        dp.difficulty = 15
+        ds = self.create_source()
+        ds.difficulty = 5
+
+        difficulty = DataExplorer.get_difficulty_for([dp, ds])
+        assert difficulty == 20
+
+    def test_no_overlapping_difficulty(self):
+        dp = self.create_merge_pipeline()
+        ds = self.create_source()
+        da1 = self.create_analysis_pipeline(source=ds)
+        da1.name = 'Analysis One'
+        da2 = self.create_analysis_pipeline(source=ds)
+        da2.name = 'Analysis Two'
+
+        difficulty = DataExplorer.get_difficulty_for([dp, ds, da1, da2])
+        assert difficulty == EXPECT_DIFFICULTY + 100
+
+    def test_get_difficulty_between(self):
+        ds = self.create_source(name='one', difficulty=10)
+        gp = self.create_generator_pipeline()
+        gp.name = 'Generate One'
+        ds2 = self.create_source(pipeline=gp, name='two', difficulty=20)
+        dp = self.create_merge_pipeline(data_sources=[ds, ds2])
+        dp.name = 'Merge One Two'
+        da1 = self.create_analysis_pipeline(source=dp)
+        da1.name = 'Analysis'
+        ds3 = self.create_source(name='three', difficulty=70)
+
+        de = DataExplorer([ds, gp, ds2, dp, da1])
+        difficulty = de.difficulty_between(ds2, da1)
+        assert difficulty == 120
+        difficulty = de.difficulty_between(gp, da1)
+        assert difficulty == 170
+        difficulty = de.difficulty_between(ds, dp)
+        assert difficulty == 60
+        with self.assertRaises(ValueError) as cm:
+            difficulty = de.difficulty_between(ds3, da1)
+            exc = cm.exception
+            assert 'no direct link between the items could be determined' == str(exc)

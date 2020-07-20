@@ -36,6 +36,7 @@ class DataSource(Graphable, ReprMixin):
         'read_file_kwargs',
         'data_outputter_kwargs',
         'optimize_size',
+        'difficulty'
     ]
     update_keys = copy_keys + [
         '_orig_columns',
@@ -53,7 +54,8 @@ class DataSource(Graphable, ReprMixin):
                  loader_class: Optional[Type[DataLoader]] = None, read_file_kwargs: Optional[Dict[str, Any]] = None,
                  outputter_class: Optional[Type[DataOutputter]] = None,
                  data_outputter_kwargs: Optional[Dict[str, Any]] = None,
-                 optimize_size: bool = False, last_modified: Optional[datetime.datetime] = None):
+                 optimize_size: bool = False, last_modified: Optional[datetime.datetime] = None,
+                 difficulty: float = 0):
 
         if read_file_kwargs is None:
             read_file_kwargs = {}
@@ -124,6 +126,7 @@ class DataSource(Graphable, ReprMixin):
         self.read_file_kwargs = read_file_kwargs
         self.data_outputter_kwargs = data_outputter_kwargs
         self.optimize_size = optimize_size
+        self.difficulty = difficulty
         self._last_modified = last_modified
         self._df = df
 

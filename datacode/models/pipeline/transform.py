@@ -11,11 +11,13 @@ class DataTransformationPipeline(DataPipeline):
     A DataPipeline which creates a DataSource directly from a single other DataSource
     """
 
-    def __init__(self, data_source: DataSource, options: TransformOptions, name: Optional[str] = None):
+    def __init__(self, data_source: DataSource, options: TransformOptions, name: Optional[str] = None,
+                 difficulty: float = 50):
         super().__init__(
             [data_source],
             [options],
-            name=name
+            name=name,
+            difficulty=difficulty
         )
 
     @property
