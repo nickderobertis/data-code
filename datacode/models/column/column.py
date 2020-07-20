@@ -31,7 +31,7 @@ class Column(EqOnAttrsMixin, ReprMixin):
 
         dtype = convert_str_to_data_type_if_necessary(dtype)
 
-        if dtype is None:
+        if dtype is None and variable is not None:
             dtype = variable.dtype
 
         self.load_key = load_key

@@ -1,7 +1,7 @@
 import pandas as pd
 import pd_utils
 
-from pd_utils.pdutils import _to_list_if_str
+from pd_utils.utils import _to_list_if_str
 from datacode.ff.create.model import parse_model
 from datacode.ff.fftypes import ListOrStr, DfListListStrTuple, GroupvarNgroupsDict, StrOrInt
 
@@ -129,7 +129,7 @@ def _create_df_for_port_sort_byvars_result_byvars_port_datevar(df: pd.DataFrame,
 
     # create dataframe which has only the beginning of period values for each company
     df_for_port_sort = df.sort_values([id_var, date_var]).groupby(
-        result_byvars, as_index=False)[result_byvars + [groupvar, date_var]].first()
+        result_byvars, as_index=False)[[groupvar, date_var]].first()
 
     # Rename date variable
     port_datevar = portvar + ' Formation Date'

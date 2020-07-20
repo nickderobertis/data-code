@@ -1,7 +1,7 @@
 import pandas as pd
 
 import pd_utils
-from pd_utils.pdutils import _to_list_if_str
+from pd_utils.utils import _to_list_if_str
 from datacode.ff.fftypes import ListOrStr
 
 def long_averages_to_wide_averages(df: pd.DataFrame, datevar: str='Date', byvars: ListOrStr=None,

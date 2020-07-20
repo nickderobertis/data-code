@@ -17,7 +17,7 @@ REPO_MAINTAINERS = [
 ]
 
 # Package version in the format (major, minor, release)
-PACKAGE_VERSION_TUPLE = (0, 18, 0)
+PACKAGE_VERSION_TUPLE = (0, 18, 1)
 
 # Short description of the package
 PACKAGE_SHORT_DESCRIPTION = "High-level tools to analyze, summarize, and transform data"
@@ -70,6 +70,7 @@ PACKAGE_INSTALL_REQUIRES = [
     'semopy',
     'sklearn',
     'typing_extensions',
+    'graphviz',
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
