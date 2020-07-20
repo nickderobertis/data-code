@@ -11,11 +11,13 @@ class DataCombinationPipeline(DataPipeline):
     """
 
     def __init__(self, data_sources: DataSourcesOrPipelines,
-                 options_list: Sequence[CombineOptions], name: Optional[str] = None):
+                 options_list: Sequence[CombineOptions], name: Optional[str] = None,
+                 difficulty: float = 50):
         super().__init__(
             data_sources,
             options_list,
-            name=name
+            name=name,
+            difficulty=difficulty
         )
 
     def execute(self, output: bool = True):

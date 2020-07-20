@@ -10,9 +10,10 @@ class DataGeneratorPipeline(DataPipeline):
     A DataPipeline which creates a DataSource without using any other DataSource
     """
 
-    def __init__(self, options: GenerationOptions, name: Optional[str] = None):
+    def __init__(self, options: GenerationOptions, name: Optional[str] = None, difficulty: float = 50):
         super().__init__(
             [],
             [options],
-            name=name
+            name=name,
+            difficulty=difficulty
         )

@@ -14,11 +14,12 @@ class DataAnalysisPipeline(DataPipeline):
     """
 
     def __init__(self, data_source: DataSourceOrPipeline, options: AnalysisOptions,
-                 name: Optional[str] = None):
+                 name: Optional[str] = None, difficulty: float = 50):
         super().__init__(
             [data_source],
             [options],
-            name=name
+            name=name,
+            difficulty=difficulty
         )
 
     @property

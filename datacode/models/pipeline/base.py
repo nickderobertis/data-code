@@ -24,7 +24,7 @@ class DataPipeline(Graphable, ReprMixin):
 
     def __init__(self, data_sources: DataSourcesOrPipelines,
                  operation_options: Optional[Sequence[OperationOptions]],
-                 name: Optional[str] = None):
+                 name: Optional[str] = None, difficulty: float = 50):
         """
 
         :param data_sources:
@@ -48,6 +48,7 @@ class DataPipeline(Graphable, ReprMixin):
         self.df = None
         self._operation_index = 0
         self.result = None
+        self.difficulty = difficulty
         super().__init__()
 
     def execute(self, output: bool = True):
