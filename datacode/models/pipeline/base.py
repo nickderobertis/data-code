@@ -64,7 +64,7 @@ class DataPipeline(Graphable, ReprMixin):
             self.output()
 
         hooks.on_end_execute_pipeline(self)
-        return self.df
+        return self.result
 
     def next_operation(self):
         if self._operation_index == 0:
