@@ -1,6 +1,6 @@
 import pandas as pd
 
-from pd_utils.pdutils import _to_list_if_str
+from pd_utils.utils import _to_list_if_str
 from datacode.ff.fftypes import (
     ListOrStr,
     StrOrInt,
