@@ -70,6 +70,7 @@ PACKAGE_INSTALL_REQUIRES = [
     'semopy',
     'sklearn',
     'typing_extensions',
+    'graphviz',
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here
