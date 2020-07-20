@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.base &mdash; datacode 0.18.1 documentation</title>
+  <title>datacode.models.pipeline.base &mdash; datacode 0.18.2 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.18.1
+                0.18.2
               </div>
             
           
@@ -230,7 +230,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
 
         <span class="n">hooks</span><span class="o">.</span><span class="n">on_end_execute_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span>
 
     <span class="k">def</span> <span class="nf">next_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operation_index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
