@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.ff.create.sort &mdash; datacode 0.18.0 documentation</title>
+  <title>datacode.ff.create.sort &mdash; datacode 0.18.1 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.18.0
+                0.18.1
               </div>
             
           
@@ -167,7 +167,7 @@
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pd_utils</span>
 
-<span class="kn">from</span> <span class="nn">pd_utils.pdutils</span> <span class="kn">import</span> <span class="n">_to_list_if_str</span>
+<span class="kn">from</span> <span class="nn">pd_utils.utils</span> <span class="kn">import</span> <span class="n">_to_list_if_str</span>
 <span class="kn">from</span> <span class="nn">datacode.ff.create.model</span> <span class="kn">import</span> <span class="n">parse_model</span>
 <span class="kn">from</span> <span class="nn">datacode.ff.fftypes</span> <span class="kn">import</span> <span class="n">ListOrStr</span><span class="p">,</span> <span class="n">DfListListStrTuple</span><span class="p">,</span> <span class="n">GroupvarNgroupsDict</span><span class="p">,</span> <span class="n">StrOrInt</span>
 
@@ -295,7 +295,7 @@
 
     <span class="c1"># create dataframe which has only the beginning of period values for each company</span>
     <span class="n">df_for_port_sort</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="n">id_var</span><span class="p">,</span> <span class="n">date_var</span><span class="p">])</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
-        <span class="n">result_byvars</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="n">result_byvars</span> <span class="o">+</span> <span class="p">[</span><span class="n">groupvar</span><span class="p">,</span> <span class="n">date_var</span><span class="p">]]</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">result_byvars</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[[</span><span class="n">groupvar</span><span class="p">,</span> <span class="n">date_var</span><span class="p">]]</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
 
     <span class="c1"># Rename date variable</span>
     <span class="n">port_datevar</span> <span class="o">=</span> <span class="n">portvar</span> <span class="o">+</span> <span class="s1">&#39; Formation Date&#39;</span>
