@@ -17,7 +17,7 @@ Hooks to run functions during datacode operations globally
 
 """
 from copy import deepcopy
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING, Tuple, Callable
 
 import pandas as pd
 
@@ -179,6 +179,22 @@ _hook_keys = [key for key in _new_locals if key not in _orig_locals]
 _orig_hooks = deepcopy(
     {key: value for key, value in _new_locals.items() if key in _hook_keys}
 )
+_return_none_hook_names = [
+    'on_begin_execute_pipeline',
+    'on_end_execute_pipeline',
+    'on_begin_execute_operation',
+    'on_end_execute_operation',
+    'on_begin_load_source',
+]
+_skip_first_arg_return_rest_hook_names = [
+    'on_begin_apply_variable_transform',
+]
+_return_argument_2_hook_names = [
+    'on_end_load_source',
+    'on_end_apply_variable_transform',
+    'on_begin_apply_source_transform',
+    'on_end_apply_source_transform',
+]
 
 
 def reset_hooks() -> None:
@@ -189,7 +205,7 @@ def reset_hooks() -> None:
 
     :Notes:
 
-        This is the only function in the module which is not a hook itself.
+        This function is not a hook itself.
         Instead it is a utility method meant to be called by the user.
 
     """
@@ -197,4 +213,57 @@ def reset_hooks() -> None:
         globals()[key] = value
 
 
-__all__ = _hook_keys + ["reset_hooks"]
+def chain(hook_name: str, func: Callable, at_end: bool = True) -> None:
+    """
+    Add a function to a hook to be called at the end
+    of the prior registered function(s), rather than
+    replacing the hook entirely
+
+    :param hook_name: Name of hook in the hooks module
+    :param func: Function to be added in the call chain
+        for the hook. Must have the same call signature
+        as the hook.
+    :param at_end: Whether to call this new function
+        after the existing hook. Pass False to call this
+        new function before the existing hook.
+    :return:
+
+    :Notes:
+
+        This function is not a hook itself.
+        Instead it is a utility method meant to be called by the user.
+
+    """
+    if hook_name not in _hook_keys:
+        raise ValueError(f'could not find hook with name {hook_name}')
+
+    existing_hook = globals()[hook_name]
+    if at_end:
+        first = existing_hook
+        last = func
+    else:
+        first = func
+        last = existing_hook
+
+    if hook_name in _return_none_hook_names:
+        def chained_hook(*args, **kwargs):
+            first(*args, **kwargs)
+            last(*args, **kwargs)
+    elif hook_name in _return_argument_2_hook_names:
+        def chained_hook(*args, **kwargs):
+            arg_2 = first(*args, **kwargs)
+            new_args = (args[0], arg_2)
+            if len(args) > 2:
+                new_args = new_args + args[1:]
+            return last(*new_args, **kwargs)
+    elif hook_name in _skip_first_arg_return_rest_hook_names:
+        def chained_hook(*args, **kwargs):
+            ret = first(*args, **kwargs)
+            return last(args[0], *ret)
+    else:
+        raise NotImplementedError(f'hook {hook_name} has not been classified according to its return values')
+
+    globals()[hook_name] = chained_hook
+
+
+__all__ = _hook_keys + ["reset_hooks", "chain"]

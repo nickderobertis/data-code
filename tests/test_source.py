@@ -65,6 +65,14 @@ class SourceTest(unittest.TestCase):
         ],
         columns=['a', 'b', 'c']
     )
+    expect_df_no_rename_a_plus_2 = pd.DataFrame(
+        [
+            (3, 2, 'd'),
+            (5, 4, 'd'),
+            (7, 6, 'e')
+        ],
+        columns=['a', 'b', 'c']
+    )
     expect_loaded_df_rename_only = pd.DataFrame(
         [
             (1, 2, 'd'),
