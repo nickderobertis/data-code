@@ -156,3 +156,8 @@ class TestDifficulty(ExplorerTest):
             difficulty = de.difficulty_between(ds3, da1)
             exc = cm.exception
             assert 'no direct link between the items could be determined' == str(exc)
+        ds4 = self.create_source(name='four')
+        with self.assertRaises(ValueError) as cm:
+            difficulty = de.difficulty_between(ds4, da1)
+            exc = cm.exception
+            assert f'must pass items which are already in DataExplorer, but got {ds4}' == str(exc)
