@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.hooks &mdash; datacode 0.18.4 documentation</title>
+  <title>datacode.hooks &mdash; datacode 0.18.5 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.18.4
+                0.18.5
               </div>
             
           
@@ -183,7 +183,7 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
@@ -345,6 +345,22 @@
 <span class="n">_orig_hooks</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span>
     <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">_new_locals</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_hook_keys</span><span class="p">}</span>
 <span class="p">)</span>
+<span class="n">_return_none_hook_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;on_begin_execute_pipeline&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;on_end_execute_pipeline&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;on_begin_execute_operation&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;on_end_execute_operation&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;on_begin_load_source&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">_skip_first_arg_return_rest_hook_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;on_begin_apply_variable_transform&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">_return_argument_2_hook_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;on_end_load_source&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;on_end_apply_variable_transform&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;on_begin_apply_source_transform&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;on_end_apply_source_transform&#39;</span><span class="p">,</span>
+<span class="p">]</span>
 
 
 <div class="viewcode-block" id="reset_hooks"><a class="viewcode-back" href="../../api/datacode.html#datacode.hooks.reset_hooks">[docs]</a><span class="k">def</span> <span class="nf">reset_hooks</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -355,7 +371,7 @@
 
 <span class="sd">    :Notes:</span>
 
-<span class="sd">        This is the only function in the module which is not a hook itself.</span>
+<span class="sd">        This function is not a hook itself.</span>
 <span class="sd">        Instead it is a utility method meant to be called by the user.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -363,7 +379,60 @@
         <span class="nb">globals</span><span class="p">()[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="n">_hook_keys</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;reset_hooks&quot;</span><span class="p">]</span>
+<div class="viewcode-block" id="chain"><a class="viewcode-back" href="../../api/datacode.html#datacode.hooks.chain">[docs]</a><span class="k">def</span> <span class="nf">chain</span><span class="p">(</span><span class="n">hook_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">at_end</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add a function to a hook to be called at the end</span>
+<span class="sd">    of the prior registered function(s), rather than</span>
+<span class="sd">    replacing the hook entirely</span>
+
+<span class="sd">    :param hook_name: Name of hook in the hooks module</span>
+<span class="sd">    :param func: Function to be added in the call chain</span>
+<span class="sd">        for the hook. Must have the same call signature</span>
+<span class="sd">        as the hook.</span>
+<span class="sd">    :param at_end: Whether to call this new function</span>
+<span class="sd">        after the existing hook. Pass False to call this</span>
+<span class="sd">        new function before the existing hook.</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    :Notes:</span>
+
+<span class="sd">        This function is not a hook itself.</span>
+<span class="sd">        Instead it is a utility method meant to be called by the user.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">hook_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_hook_keys</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;could not find hook with name </span><span class="si">{</span><span class="n">hook_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">existing_hook</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">hook_name</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">at_end</span><span class="p">:</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">existing_hook</span>
+        <span class="n">last</span> <span class="o">=</span> <span class="n">func</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="n">last</span> <span class="o">=</span> <span class="n">existing_hook</span>
+
+    <span class="k">if</span> <span class="n">hook_name</span> <span class="ow">in</span> <span class="n">_return_none_hook_names</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">chained_hook</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">first</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">last</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">hook_name</span> <span class="ow">in</span> <span class="n">_return_argument_2_hook_names</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">chained_hook</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">arg_2</span> <span class="o">=</span> <span class="n">first</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">new_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg_2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">new_args</span> <span class="o">=</span> <span class="n">new_args</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">return</span> <span class="n">last</span><span class="p">(</span><span class="o">*</span><span class="n">new_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">hook_name</span> <span class="ow">in</span> <span class="n">_skip_first_arg_return_rest_hook_names</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">chained_hook</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">first</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">last</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">ret</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hook </span><span class="si">{</span><span class="n">hook_name</span><span class="si">}</span><span class="s1"> has not been classified according to its return values&#39;</span><span class="p">)</span>
+
+    <span class="nb">globals</span><span class="p">()[</span><span class="n">hook_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">chained_hook</span></div>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="n">_hook_keys</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;reset_hooks&quot;</span><span class="p">,</span> <span class="s2">&quot;chain&quot;</span><span class="p">]</span>
 </pre></div>
 
            </div>

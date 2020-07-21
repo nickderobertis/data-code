@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode package &mdash; datacode 0.18.4 documentation</title>
+  <title>datacode package &mdash; datacode 0.18.5 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.18.4
+                0.18.5
               </div>
             
           
@@ -562,6 +562,37 @@ Here is the list of the hooks, along with the expected arguments and return valu
 </dd>
 </dl>
 <dl class="py function">
+<dt id="datacode.hooks.chain">
+<code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">chain</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hook_name</span></em>, <em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">at_end</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#chain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.chain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a function to a hook to be called at the end
+of the prior registered function(s), rather than
+replacing the hook entirely</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="datacode.hooks.chain.params.hook_name"></span><strong>hook_name</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.chain.params.hook_name">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of hook in the hooks module</p></li>
+<li><p><span class="target" id="datacode.hooks.chain.params.func"></span><strong>func</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.chain.params.func">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>) – Function to be added in the call chain
+for the hook. Must have the same call signature
+as the hook.</p></li>
+<li><p><span class="target" id="datacode.hooks.chain.params.at_end"></span><strong>at_end</strong><a class="paramlink headerlink reference internal" href="#datacode.hooks.chain.params.at_end">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to call this new function
+after the existing hook. Pass False to call this
+new function before the existing hook.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Notes</dt>
+<dd class="field-even"><p>This function is not a hook itself.
+Instead it is a utility method meant to be called by the user.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="datacode.hooks.on_begin_apply_source_transform">
 <code class="sig-prename descclassname">datacode.hooks.</code><code class="sig-name descname">on_begin_apply_source_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span></em>, <em class="sig-param"><span class="n">source</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/hooks.html#on_begin_apply_source_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.hooks.on_begin_apply_source_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called at the beginning of <code class="xref py py-meth docutils literal notranslate"><span class="pre">SourceTransform.apply()</span></code>, which
@@ -782,7 +813,7 @@ set as <a class="reference internal" href="datacode.compareids.models.html#datac
 <dd class="field-even"><p>None</p>
 </dd>
 <dt class="field-odd">Notes</dt>
-<dd class="field-odd"><p>This is the only function in the module which is not a hook itself.
+<dd class="field-odd"><p>This function is not a hook itself.
 Instead it is a utility method meant to be called by the user.</p>
 </dd>
 </dl>
