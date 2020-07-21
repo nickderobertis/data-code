@@ -47,15 +47,16 @@ class DataExplorer(Graphable, ReprMixin):
         de = cls(items)
         return de.difficulty
 
-    def difficulty_between(self, begin: Union[DataSource, DataPipeline], end: Union[DataSource, DataPipeline]) -> float:
-        if begin not in self:
-            raise ValueError(f'must pass items which are already in DataExplorer, but got {begin}')
-        if end not in self:
-            raise ValueError(f'must pass items which are already in DataExplorer, but got {end}')
+    def difficulty_between(self, begin: Sequence[Union[DataSource, DataPipeline]],
+                           end: Sequence[Union[DataSource, DataPipeline]]) -> float:
+        for item in list(begin) + list(end):
+            if item not in self:
+                raise ValueError(f'must pass items which are already in DataExplorer, but got {item}')
 
         # Start from end, working back to beginning in a tree search. Once the path has been
         # found, then work back up to add up the difficulties
-        total, found = _work_back_through_pipelines_totaling_difficulty_until(end, begin)
+        # TODO: handle multiple items
+        total, found = _work_back_through_pipelines_totaling_difficulty_until(end[0], begin[0])
         if not found:
             raise ValueError(f'no direct link between the items could be determined')
         return total
