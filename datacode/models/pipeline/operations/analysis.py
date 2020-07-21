@@ -1,4 +1,6 @@
-from typing import Sequence, Callable, Optional, Any, Dict
+from typing import Sequence, Callable, Optional, Any, Dict, TYPE_CHECKING
+if TYPE_CHECKING:
+    from datacode.models.pipeline.analysis import DataAnalysisPipeline
 
 from datacode.models.analysis import AnalysisResult
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
@@ -11,8 +13,11 @@ class AnalysisOperation(DataOperation):
     Data operation that takes one DataSource as an input and does not output a DataSource
     """
 
-    def __init__(self, data_sources: DataSourcesOrPipelines, options: 'AnalysisOptions', **result_kwargs):
+    def __init__(self, pipeline: 'DataAnalysisPipeline',
+                 data_sources: DataSourcesOrPipelines, options: 'AnalysisOptions',
+                  **result_kwargs):
         super().__init__(
+            pipeline,
             data_sources,
             options,
             **result_kwargs

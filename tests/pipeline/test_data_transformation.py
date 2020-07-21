@@ -16,12 +16,14 @@ class TestDataTransformationPipeline(PipelineTest):
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_func_df)
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
 
     def test_create_and_run_transformation_pipeline_from_transform(self):
         dtp = self.create_transformation_pipeline(func=self.source_transform)
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_loaded_df_with_transform)
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
 
     def test_auto_run_pipeline_by_load_source_with_no_location(self):
         dtp = self.create_transformation_pipeline()
@@ -29,6 +31,7 @@ class TestDataTransformationPipeline(PipelineTest):
         ds = DataSource(pipeline=dtp, location=self.csv_path_output)
         df = ds.df
         assert_frame_equal(df, self.expect_func_df)
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
 
     def test_auto_run_pipeline_by_load_source_with_no_location_and_shared_columns(self):
         self.create_csv()
@@ -43,6 +46,7 @@ class TestDataTransformationPipeline(PipelineTest):
         ds = DataSource(pipeline=dtp, location=self.csv_path_output, columns=all_cols)
         df = ds.df
         assert_frame_equal(df, self.expect_loaded_df_rename_only)
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
 
     def test_create_nested_transformation_pipeline(self):
         dtp = self.create_transformation_pipeline()
@@ -50,6 +54,7 @@ class TestDataTransformationPipeline(PipelineTest):
         dtp2 = self.create_transformation_pipeline(source=dtp)
         dtp2.execute()
         assert_frame_equal(dtp2.df, self.expect_df_double_source_transform)
+        self.assert_ordered_pipeline_operations(dtp2, [dtp, dtp2])
 
     def test_create_nested_generation_pipeline(self):
         dgp = self.create_generator_pipeline()
@@ -58,6 +63,7 @@ class TestDataTransformationPipeline(PipelineTest):
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_generated_transformed)
+        self.assert_ordered_pipeline_operations(dtp, [dgp, dtp])
 
     def test_create_nested_merge_pipeline(self):
         dmp = self.create_merge_pipeline()
@@ -66,6 +72,7 @@ class TestDataTransformationPipeline(PipelineTest):
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_merged_1_2_both_transformed)
+        self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
 
     def test_original_variables_not_affected_by_transform(self):
         self.create_csv()
@@ -81,6 +88,8 @@ class TestDataTransformationPipeline(PipelineTest):
         assert not a.applied_transforms
         assert not b.applied_transforms
         assert not c.applied_transforms
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
+
 
     def test_transform_on_source_with_normal_and_transformed_of_same_variable(self):
         self.create_csv()
@@ -100,6 +109,7 @@ class TestDataTransformationPipeline(PipelineTest):
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_func_df_with_a_and_a_transformed)
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
 
     def test_nested_last_modified_of_source_greater_than_pipeline(self):
         counter_value = th.COUNTER
@@ -117,6 +127,7 @@ class TestDataTransformationPipeline(PipelineTest):
         dc_hooks.reset_hooks()
         assert_frame_equal(df, self.test_df2)
         assert th.COUNTER == counter_value  # transform operation not called
+        self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
 
     def test_nested_last_modified_of_source_less_than_pipeline(self):
         counter_value = th.COUNTER
@@ -138,6 +149,7 @@ class TestDataTransformationPipeline(PipelineTest):
         dc_hooks.reset_hooks()
         assert_frame_equal(df, self.expect_merged_1_2_both_transformed)
         assert th.COUNTER == counter_value + 1  # transform operation called once
+        self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
 
     def test_nested_last_modified_of_source_less_than_earlier_source(self):
         counter_value = th.COUNTER
@@ -165,3 +177,5 @@ class TestDataTransformationPipeline(PipelineTest):
         dc_hooks.reset_hooks()
         assert_frame_equal(df, self.expect_df_double_source_transform)
         assert th.COUNTER == counter_value + 2  # transform operation called once
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
+        self.assert_all_pipeline_operations_have_pipeline(dtp2)

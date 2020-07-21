@@ -1,5 +1,7 @@
 import datetime
-from typing import Callable, Optional, Any, Sequence, Dict
+from typing import Callable, Optional, Any, Sequence, Dict, TYPE_CHECKING
+if TYPE_CHECKING:
+    from datacode.models.pipeline.combine import DataCombinationPipeline
 
 from datacode.models.logic.combine import CombineFunction, combine_sources
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
@@ -14,8 +16,11 @@ class CombineOperation(DataOperation):
     options: 'CombineOptions'
     result: 'DataSource'
 
-    def __init__(self, data_sources: Sequence[DataSource], options: 'CombineOptions', **result_kwargs):
+    def __init__(self, pipeline: 'DataCombinationPipeline',
+                 data_sources: Sequence[DataSource], options: 'CombineOptions',
+                 **result_kwargs):
         super().__init__(
+            pipeline,
             data_sources,
             options,
             **result_kwargs

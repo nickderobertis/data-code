@@ -1,5 +1,7 @@
 import datetime
-from typing import Callable, Optional, Any, Dict
+from typing import Callable, Optional, Any, Dict, TYPE_CHECKING
+if TYPE_CHECKING:
+    from datacode.models.pipeline.generate import DataGeneratorPipeline
 
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
@@ -13,8 +15,10 @@ class GenerationOperation(DataOperation):
     options: 'GenerationOptions'
     result: 'DataSource'
 
-    def __init__(self, options: 'GenerationOptions', **result_kwargs):
+    def __init__(self, pipeline: 'DataGeneratorPipeline', options: 'GenerationOptions',
+                 **result_kwargs):
         super().__init__(
+            pipeline,
             [],
             options,
             **result_kwargs

@@ -99,11 +99,11 @@ class DataPipeline(Graphable, ReprMixin):
 
     def _create_operations(self, data_sources: DataSourcesOrPipelines, options_list: List[OperationOptions]):
         if options_list[0].op_class.num_required_sources == 0:
-            operations = [options_list[0].get_operation(options_list[0])]
+            operations = [options_list[0].get_operation(self, options_list[0])]
         elif options_list[0].op_class.num_required_sources == 1:
-            operations = _get_operations_for_single(data_sources[0], options_list[0])
+            operations = _get_operations_for_single(data_sources[0], options_list[0], self)
         elif options_list[0].op_class.num_required_sources == 2:
-            operations = _get_operations_for_pair(data_sources[0], data_sources[1], options_list[0])
+            operations = _get_operations_for_pair(data_sources[0], data_sources[1], options_list[0], self)
         else:
             raise ValueError('DataPipeline cannot handle operations with more than two sources')
 
@@ -112,11 +112,11 @@ class DataPipeline(Graphable, ReprMixin):
 
         for i, options in enumerate(options_list[1:]):
             if options.op_class.num_required_sources == 0:
-                operations.append(options.get_operation(options))
+                operations.append(options.get_operation(self, options))
             elif options.op_class.num_required_sources == 1:
-                operations += _get_operations_for_single(operations[-1].result, options)
+                operations += _get_operations_for_single(operations[-1].result, options, self)
             elif options.op_class.num_required_sources == 2:
-                operations += _get_operations_for_pair(operations[-1].result, data_sources[i + 2], options)
+                operations += _get_operations_for_pair(operations[-1].result, data_sources[i + 2], options, self)
             else:
                 raise ValueError('DataPipeline cannot handle operations with more than two sources')
 
@@ -265,7 +265,8 @@ class LastOperationFinishedException(Exception):
     pass
 
 
-def _get_operations_for_single(data_source: DataSourceOrPipeline, options: OperationOptions) -> List[DataOperation]:
+def _get_operations_for_single(data_source: DataSourceOrPipeline, options: OperationOptions,
+                               current_pipeline: DataPipeline) -> List[DataOperation]:
     """
      Creates a list of DataOperation/subclass objects from a single DataSource or DataPipeline object
     :param data_source:
@@ -285,13 +286,13 @@ def _get_operations_for_single(data_source: DataSourceOrPipeline, options: Opera
         final_operation_sources.append(data_source)  # type: ignore
 
     # Add last (or only) operation
-    operations.append(options.get_operation(final_operation_sources, options))
+    operations.append(options.get_operation(current_pipeline, final_operation_sources, options))
 
     return operations
 
 
 def _get_operations_for_pair(data_source_1: DataSourceOrPipeline, data_source_2: DataSourceOrPipeline,
-                             options: OperationOptions) -> List[DataOperation]:
+                             options: OperationOptions, current_pipeline: DataPipeline) -> List[DataOperation]:
     """
     Creates a list of DataOperation/subclass objects from a paring of two DataSource objects, a DataSource and a
     DataPipeline, or two DataPipeline objects.
@@ -321,7 +322,7 @@ def _get_operations_for_pair(data_source_1: DataSourceOrPipeline, data_source_2:
         final_operation_sources.append(data_source_2)
 
     # Add last (or only) operation
-    operations.append(options.get_operation(final_operation_sources, options))
+    operations.append(options.get_operation(current_pipeline, final_operation_sources, options))
 
     return operations
 
