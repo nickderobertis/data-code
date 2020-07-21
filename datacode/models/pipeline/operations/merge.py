@@ -2,6 +2,7 @@ from typing import Callable, List, Union, Tuple, Optional, Dict, Any, Sequence, 
 if TYPE_CHECKING:
     from datacode.models.variables.variable import Variable
     from datacode.models.column.column import Column
+    from datacode.models.pipeline.merge import DataMergePipeline
 import pandas as pd
 from functools import partial
 
@@ -21,11 +22,13 @@ class DataMerge(DataOperation):
     options: 'MergeOptions'
     result: 'DataSource'
 
-    def __init__(self, data_sources: Sequence[DataSource], merge_options: 'MergeOptions', **result_kwargs):
+    def __init__(self, pipeline: 'DataMergePipeline', data_sources: Sequence[DataSource],
+                 merge_options: 'MergeOptions', **result_kwargs):
         self._merged_name = None
         self._merged_type = None
         self._merged_str = None
         super().__init__(
+            pipeline,
             data_sources,
             merge_options,
             **result_kwargs

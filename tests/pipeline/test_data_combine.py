@@ -24,6 +24,7 @@ class TestDataCombinationPipeline(PipelineTest):
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_combined_rows_1_2)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_create_and_run_combine_rows_drop_rows_pipeline_from_sources(self):
         a, b, c = self.create_variables()
@@ -32,6 +33,7 @@ class TestDataCombinationPipeline(PipelineTest):
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_combined_rows_1_2_row_drop_c)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_create_and_run_combine_rows_drop_entities_pipeline_from_sources(self):
         a, b, c = self.create_variables()
@@ -40,6 +42,7 @@ class TestDataCombinationPipeline(PipelineTest):
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_combined_rows_1_2_entity_drop_c)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_create_and_run_combine_cols_pipeline_from_sources(self):
         co = CombineOptions(rows=False)
@@ -55,6 +58,7 @@ class TestDataCombinationPipeline(PipelineTest):
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_combined_rows_1_2_c_index)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_create_and_run_combine_cols_pipeline_with_indices(self):
         co = CombineOptions(rows=False)
@@ -62,6 +66,7 @@ class TestDataCombinationPipeline(PipelineTest):
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_merged_1_2_c_index)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_auto_run_pipeline_by_load_source_with_no_location(self):
         dp = self.create_combine_pipeline()
@@ -69,12 +74,14 @@ class TestDataCombinationPipeline(PipelineTest):
         ds = DataSource(pipeline=dp, location=self.csv_path_output)
         df = ds.df
         assert_frame_equal(df, self.expect_combined_rows_1_2)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_create_and_run_combine_pipeline_three_sources(self):
         dp = self.create_combine_pipeline(include_indices=(0, 1, 2))
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_combined_rows_1_2_3)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_raises_error_for_mismatching_data_sources_merge_options(self):
         co = CombineOptions()
@@ -96,6 +103,7 @@ class TestDataCombinationPipeline(PipelineTest):
         dp2.execute()
 
         assert_frame_equal(dp2.df, self.expect_combined_rows_1_2_3)
+        self.assert_ordered_pipeline_operations(dp2, [dp1, dp2])
 
     def test_create_nested_transform_pipeline(self):
         self.create_csv_for_2()
@@ -131,6 +139,7 @@ class TestDataCombinationPipeline(PipelineTest):
         dp2.execute()
 
         assert_frame_equal(dp2.df, self.expect_combined_cols_2_3)
+        self.assert_ordered_pipeline_operations(dp2, [dtp, dp2])
 
     def test_create_nested_transform_pipeline_with_function_subset(self):
         self.create_csv_for_2()
@@ -147,3 +156,4 @@ class TestDataCombinationPipeline(PipelineTest):
         dp2.execute()
 
         assert_frame_equal(dp2.df, self.expect_combined_cols_2_3)
+        self.assert_ordered_pipeline_operations(dp2, [dtp, dp2])

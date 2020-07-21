@@ -12,12 +12,14 @@ class TestDataMergePipeline(PipelineTest):
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_merged_1_2)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_create_and_run_merge_pipeline_with_indices(self):
         dp = self.create_merge_pipeline(indexed=True)
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_merged_1_2_c_index)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_auto_run_pipeline_by_load_source_with_no_location(self):
         dp = self.create_merge_pipeline()
@@ -25,12 +27,14 @@ class TestDataMergePipeline(PipelineTest):
         ds = DataSource(pipeline=dp, location=self.csv_path_output)
         df = ds.df
         assert_frame_equal(df, self.expect_merged_1_2)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_create_and_run_merge_pipeline_three_sources(self):
         dp = self.create_merge_pipeline(include_indices=(0, 1, 2))
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_merged_1_2_3)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
 
     def test_raises_error_for_mismatching_data_sources_merge_options(self):
         mo = MergeOptions([self.merge_var.name])
@@ -52,6 +56,7 @@ class TestDataMergePipeline(PipelineTest):
         dp2.execute()
 
         assert_frame_equal(dp2.df, self.expect_merged_1_2_3)
+        self.assert_ordered_pipeline_operations(dp2, [dp1, dp2])
 
     def test_create_nested_transformation_pipeline(self):
         dtp = self.create_transformation_pipeline()
@@ -64,6 +69,7 @@ class TestDataMergePipeline(PipelineTest):
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_merged_1_transformed_2)
+        self.assert_ordered_pipeline_operations(dp, [dtp, dp])
 
     def test_create_nested_generation_pipeline(self):
         dgp = self.create_generator_pipeline()
@@ -76,6 +82,7 @@ class TestDataMergePipeline(PipelineTest):
         dp.execute()
 
         assert_frame_equal(dp.df, self.expect_merged_1_generated_2)
+        self.assert_ordered_pipeline_operations(dp, [dgp, dp])
 
     def test_graph(self):
         dp = self.create_merge_pipeline()

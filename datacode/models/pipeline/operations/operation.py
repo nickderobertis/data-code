@@ -6,6 +6,7 @@ from mixins.repr import ReprMixin
 
 if TYPE_CHECKING:
     from datacode.models.analysis import AnalysisResult
+    from datacode.models.pipeline.base import DataPipeline
 
 from datacode.models.source import DataSource
 import datacode.hooks as hooks
@@ -16,17 +17,20 @@ class DataOperation(ReprMixin):
     Base class for a singlar data process that takes one or more DataSources as inputs and has one DataSource
     as the output.
     """
-    repr_cols = ['options', 'output_name', 'data_sources']
+    repr_cols = ['options', 'output_name', 'pipeline', 'data_sources']
     num_required_sources: int = 1
 
-    def __init__(self, data_sources: Sequence[DataSource], options: 'OperationOptions',
-                 output_name: Optional[str] = None, **result_kwargs):
+    def __init__(self, pipeline: 'DataPipeline',
+                 data_sources: Sequence[DataSource], options: 'OperationOptions',
+                 output_name: Optional[str] = None,
+                 **result_kwargs):
         if output_name is None:
             names = [ds.name if ds.name is not None else 'unnamed' for ds in data_sources]
             output_name = ' & '.join(names) + ' Post-Operation'
         self.options = options
         self.data_sources = data_sources
         self.output_name = output_name
+        self.pipeline = pipeline
         self.result = None
         self.result_kwargs = result_kwargs
         self._set_result(**result_kwargs)
@@ -103,8 +107,8 @@ class OperationOptions(ReprMixin):
     def can_output(self) -> bool:
         return self.out_path is not None
 
-    def get_operation(self, *args) -> DataOperation:
+    def get_operation(self, pipeline: 'DataPipeline', *args) -> DataOperation:
         kwargs = {}
         if self.result_kwargs is not None:
             kwargs = self.result_kwargs
-        return self.op_class(*args, **kwargs)
+        return self.op_class(pipeline, *args, **kwargs)

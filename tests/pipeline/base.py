@@ -7,6 +7,7 @@ from numpy import nan
 from datacode import AnalysisOptions, DataSource, DataAnalysisPipeline, DataGeneratorPipeline, GenerationOptions, \
     Variable, Column, MergeOptions, DataMergePipeline, SourceTransform, DataTransformationPipeline, TransformOptions, \
     ColumnIndex
+from datacode.models.pipeline.base import DataPipeline
 from datacode.models.pipeline.combine import DataCombinationPipeline
 from datacode.models.pipeline.operations.combine import CombineOptions
 from datacode.models.types import DataSourceOrPipeline
@@ -438,3 +439,15 @@ class PipelineTest(SourceTest):
 
         dp = DataCombinationPipeline(selected_data_sources, combine_options_list)
         return dp
+
+    def assert_all_pipeline_operations_have_pipeline(self, pipeline: DataPipeline):
+        for operation in pipeline.operations:
+            assert operation.pipeline is pipeline
+
+    def assert_ordered_pipeline_operations(self, pipeline: DataPipeline, matched_pipelines: List[DataPipeline]):
+        if len(pipeline.operations) != len(matched_pipelines):
+            raise ValueError(f'different number of operations compared to matched '
+                             f'pipelines. Got {len(pipeline.operations)} operations '
+                             f'and {len(matched_pipelines)} matched pipelines')
+        for operation, matched_pipeline in zip(pipeline.operations, matched_pipelines):
+            assert operation.pipeline is matched_pipeline

@@ -1,4 +1,6 @@
-from typing import Callable, Optional, Any, Union, Dict, Sequence
+from typing import Callable, Optional, Any, Union, Dict, Sequence, TYPE_CHECKING
+if TYPE_CHECKING:
+    from datacode.models.pipeline.transform import DataTransformationPipeline
 
 from datacode.models.transform.source import SourceTransform
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
@@ -14,8 +16,10 @@ class TransformOperation(DataOperation):
     options: 'TransformOptions'
     result: 'DataSource'
 
-    def __init__(self, data_sources: DataSourcesOrPipelines, options: 'TransformOptions', **result_kwargs):
+    def __init__(self, pipeline: 'DataTransformationPipeline', data_sources: DataSourcesOrPipelines,
+                 options: 'TransformOptions', **result_kwargs):
         super().__init__(
+            pipeline,
             data_sources,
             options,
             **result_kwargs
