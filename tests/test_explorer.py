@@ -142,16 +142,33 @@ class TestDifficulty(ExplorerTest):
         dp = self.create_merge_pipeline(data_sources=[ds, ds2])
         dp.name = 'Merge One Two'
         da1 = self.create_analysis_pipeline(source=dp)
-        da1.name = 'Analysis'
+        da1.name = 'Analysis One'
         ds3 = self.create_source(name='three', difficulty=70)
+        da2 = self.create_analysis_pipeline(source=ds2)
+        da2.name = 'Analysis Two'
 
-        de = DataExplorer([ds, gp, ds2, dp, da1])
+        de = DataExplorer([ds, gp, ds2, dp, da1, da2])
+        # Single on each side
         difficulty = de.difficulty_between([ds2], [da1])
         assert difficulty == 120
         difficulty = de.difficulty_between([gp], [da1])
         assert difficulty == 170
         difficulty = de.difficulty_between([ds], [dp])
         assert difficulty == 60
+
+        # Multiple begins, single end
+        difficulty = de.difficulty_between([ds, ds2], [da1])
+        assert difficulty == 130
+
+        # Multiple ends, single begin
+        difficulty = de.difficulty_between([ds2], [da1, da2])
+        assert difficulty == 170
+
+        # Multiple begins, multiple ends
+        difficulty = de.difficulty_between([ds, ds2], [da1, da2])
+        assert difficulty == 180
+
+        # Test errors
         with self.assertRaises(ValueError) as cm:
             difficulty = de.difficulty_between([ds3], [da1])
             exc = cm.exception
