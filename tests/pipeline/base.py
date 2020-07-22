@@ -11,6 +11,7 @@ from datacode.models.pipeline.base import DataPipeline
 from datacode.models.pipeline.combine import DataCombinationPipeline
 from datacode.models.pipeline.operations.combine import CombineOptions
 from datacode.models.types import DataSourceOrPipeline
+import datacode.hooks as dc_hooks
 from tests.test_source import SourceTest
 from tests.utils import GENERATED_PATH
 
@@ -195,9 +196,11 @@ class PipelineTest(SourceTest):
         columns = ['C', 'E', 'F', 'G', 'H']
     ).convert_dtypes().set_index('C')
 
-
-
-
+    def teardown_method(self, *args, **kwargs):
+        import tests.test_hooks as th
+        super().teardown_method(*args, **kwargs)
+        dc_hooks.reset_hooks()
+        th.COUNTER = 0
 
     def create_csv_for_2(self, df: Optional[pd.DataFrame] = None, **to_csv_kwargs):
         if df is None:

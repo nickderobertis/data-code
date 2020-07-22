@@ -9,7 +9,7 @@ from tests.pipeline.base import PipelineTest
 import tests.test_hooks as th
 
 
-class TestPipelineReset(th.HooksTest):
+class TestPipelineReset(PipelineTest):
 
     def test_reset_pipeline_causes_run_of_same_pipeline_again(self):
         dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
