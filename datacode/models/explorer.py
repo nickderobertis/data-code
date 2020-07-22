@@ -1,3 +1,4 @@
+import itertools
 from typing import Sequence, Union, List, Optional, Dict, Tuple
 
 from mixins import ReprMixin
@@ -56,7 +57,7 @@ class DataExplorer(Graphable, ReprMixin):
         # Start from end, working back to beginning in a tree search. Once the path has been
         # found, then work back up to add up the difficulties
         # TODO: handle multiple items
-        total, found = _work_back_through_pipelines_totaling_difficulty_until(end[0], begin[0])
+        total, found = _work_back_through_pipelines_totaling_difficulty_until(end, begin)
         if not found:
             raise ValueError(f'no direct link between the items could be determined')
         return total
@@ -93,8 +94,23 @@ def _get_list_of_items_from_nested_dict(data: dict):
     return all_items
 
 
-def _work_back_through_pipelines_totaling_difficulty_until(item: Union[DataSource, DataPipeline],
-                                                           end: Union[DataSource, DataPipeline]) -> Tuple[float, bool]:
+def _work_back_through_pipelines_totaling_difficulty_until(items: Sequence[Union[DataSource, DataPipeline]],
+                                                          end_items: Sequence[Union[DataSource, DataPipeline]]) -> Tuple[float, bool]:
+    any_found = False
+    total = 0
+    counted_item_ids: List[int] = []
+    for item, end in itertools.product(items, end_items):
+        sub_total, found = _work_back_through_pipeline_totaling_difficulty_until(item, end, counted_item_ids)
+        if found:
+            any_found = True
+            total += sub_total
+    return total, any_found
+
+
+
+def _work_back_through_pipeline_totaling_difficulty_until(item: Union[DataSource, DataPipeline],
+                                                          end: Union[DataSource, DataPipeline],
+                                                          counted_item_ids: List[int]) -> Tuple[float, bool]:
     total = 0
     if isinstance(item, DataSource):
         if item.pipeline is None:
@@ -106,10 +122,14 @@ def _work_back_through_pipelines_totaling_difficulty_until(item: Union[DataSourc
             total += item.difficulty
             return total, True
         # There is a pipeline, and it is not the end, so continue recursively
-        sub_total, sub_found = _work_back_through_pipelines_totaling_difficulty_until(item.pipeline, end)
+        sub_total, sub_found = _work_back_through_pipeline_totaling_difficulty_until(item.pipeline, end, counted_item_ids)
         if sub_found:
-            total += item.difficulty  # now we are on the correct path, so add this item
+            # now we are on the correct path
             total += sub_total
+            if id(item) not in counted_item_ids:
+                # This item was not previously added, so add this item's difficulty
+                total += item.difficulty
+                counted_item_ids.append(id(item))
             return total, True
         # Did not find in nested pipeline, this layer is also invalid
         return total, False
@@ -117,13 +137,23 @@ def _work_back_through_pipelines_totaling_difficulty_until(item: Union[DataSourc
         for sub_item in item.data_sources:
             if sub_item == end:
                 # Hit the end of this branch and found
-                total += item.difficulty
-                total += sub_item.difficulty
+                if id(item) not in counted_item_ids:
+                    # This item was not previously added, so add this item's difficulty
+                    total += item.difficulty
+                    counted_item_ids.append(id(item))
+                if id(sub_item) not in counted_item_ids:
+                    # The sub-item was not previously added, so add the sub-item's difficulty
+                    total += sub_item.difficulty
+                    counted_item_ids.append(id(sub_item))
                 return total, True
-            sub_total, sub_found = _work_back_through_pipelines_totaling_difficulty_until(sub_item, end)
+            sub_total, sub_found = _work_back_through_pipeline_totaling_difficulty_until(sub_item, end, counted_item_ids)
             if sub_found:
-                total += item.difficulty  # now we are on the correct path, so add this item
+                # now we are on the correct path,
                 total += sub_total
+                if id(item) not in counted_item_ids:
+                    # This item was not previously added, so add this item's difficulty
+                    total += item.difficulty
+                    counted_item_ids.append(id(item))
                 return total, True
         # Did not find in nested pipeline, this layer is also invalid
         return total, False
