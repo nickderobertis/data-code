@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.utils.suppress &mdash; datacode 0.18.8 documentation</title>
+  <title>datacode.models.links &mdash; datacode 0.18.8 documentation</title>
   
 
   
@@ -148,7 +148,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>datacode.utils.suppress</li>
+      <li>datacode.models.links</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -163,21 +163,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datacode.utils.suppress</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">contextlib</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+  <h1>Source code for datacode.models.links</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">WeakSet</span>
 
 
-<div class="viewcode-block" id="DummyFile"><a class="viewcode-back" href="../../../api/datacode.utils.html#datacode.utils.suppress.DummyFile">[docs]</a><span class="k">class</span> <span class="nc">DummyFile</span><span class="p">:</span>
-<div class="viewcode-block" id="DummyFile.write"><a class="viewcode-back" href="../../../api/datacode.utils.html#datacode.utils.suppress.DummyFile.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> <span class="k">pass</span></div></div>
+<div class="viewcode-block" id="LinkedItem"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.links.LinkedItem">[docs]</a><span class="k">class</span> <span class="nc">LinkedItem</span><span class="p">:</span>
+    <span class="n">forward_links</span><span class="p">:</span> <span class="n">WeakSet</span>
+    <span class="n">back_links</span><span class="p">:</span> <span class="n">WeakSet</span>
 
+<div class="viewcode-block" id="LinkedItem.__init__"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.links.LinkedItem.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forward_links</span> <span class="o">=</span> <span class="n">WeakSet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">back_links</span> <span class="o">=</span> <span class="n">WeakSet</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="no_stdout"><a class="viewcode-back" href="../../../api/datacode.utils.html#datacode.utils.suppress.no_stdout">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-<span class="k">def</span> <span class="nf">no_stdout</span><span class="p">():</span>
-    <span class="n">save_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">DummyFile</span><span class="p">()</span>
-    <span class="k">yield</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">save_stdout</span></div>
+    <span class="k">def</span> <span class="nf">_add_forward_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forward_links</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_back_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">back_links</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

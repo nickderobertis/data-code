@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.base &mdash; datacode 0.18.7 documentation</title>
+  <title>datacode.models.pipeline.base &mdash; datacode 0.18.8 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.18.7
+                0.18.8
               </div>
             
           
@@ -177,12 +177,13 @@
 <span class="kn">from</span> <span class="nn">datacode.graph.subgraph</span> <span class="kn">import</span> <span class="n">Subgraph</span>
 <span class="kn">import</span> <span class="nn">datacode.hooks</span> <span class="k">as</span> <span class="nn">hooks</span>
 <span class="kn">from</span> <span class="nn">datacode.models.analysis</span> <span class="kn">import</span> <span class="n">AnalysisResult</span>
+<span class="kn">from</span> <span class="nn">datacode.models.links</span> <span class="kn">import</span> <span class="n">LinkedItem</span>
 <span class="kn">from</span> <span class="nn">datacode.models.pipeline.operations.operation</span> <span class="kn">import</span> <span class="n">DataOperation</span><span class="p">,</span> <span class="n">OperationOptions</span>
 <span class="kn">from</span> <span class="nn">datacode.models.source</span> <span class="kn">import</span> <span class="n">DataSource</span>
 <span class="kn">from</span> <span class="nn">datacode.models.types</span> <span class="kn">import</span> <span class="n">DataSourcesOrPipelines</span><span class="p">,</span> <span class="n">DataSourceOrPipeline</span><span class="p">,</span> <span class="n">ObjWithLastModified</span>
 
 
-<span class="k">class</span> <span class="nc">DataPipeline</span><span class="p">(</span><span class="n">Graphable</span><span class="p">,</span> <span class="n">ReprMixin</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">DataPipeline</span><span class="p">(</span><span class="n">LinkedItem</span><span class="p">,</span> <span class="n">Graphable</span><span class="p">,</span> <span class="n">ReprMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for data pipelines. Should not be used directly.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -197,6 +198,8 @@
 <span class="sd">        :param operation_options:</span>
 <span class="sd">        :param name:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="n">operation_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">operation_options</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">data_sources</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -215,7 +218,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_operation_index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">difficulty</span> <span class="o">=</span> <span class="n">difficulty</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="n">hooks</span><span class="o">.</span><span class="n">on_begin_execute_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -239,10 +241,13 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_do_operation</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forward</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_operation_index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_operations</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">forward</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_links</span><span class="p">:</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">forward</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_do_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -312,7 +317,12 @@
     <span class="nd">@data_sources</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">data_sources</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_sources</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DataSourceOrPipeline</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data_sources</span> <span class="o">=</span> <span class="n">data_sources</span>
-        <span class="c1"># only set merges if previously set. otherwise no need to worry about updating cached result</span>
+        <span class="k">if</span> <span class="n">data_sources</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">data_sources</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_add_back_link</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">_add_forward_link</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c1"># only set operations if previously set. otherwise no need to worry about updating cached result</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_operations&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_operations</span><span class="p">()</span>
 
@@ -412,6 +422,12 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">allow_modifying_result</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">operation_options</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">allow_modifying_result</span>
+
+    <span class="k">def</span> <span class="nf">touch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mark last_modified as now</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">last_modified</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>

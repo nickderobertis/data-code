@@ -45,6 +45,14 @@ datacode.models.index module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.links module
+----------------------------
+
+.. automodule:: datacode.models.links
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.loader module
 -----------------------------
 
