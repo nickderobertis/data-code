@@ -101,6 +101,10 @@ class DataExplorer(Graphable, ReprMixin):
             raise ValueError(f"no direct link between the items could be determined")
         return total
 
+    @property
+    def roots(self) -> List[Union[DataSource, DataPipeline]]:
+        pass
+
     def _graph_contents(
         self,
         include_attrs: Optional[Sequence[str]] = None,

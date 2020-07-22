@@ -178,3 +178,43 @@ class TestDifficulty(ExplorerTest):
             difficulty = de.difficulty_between([ds4], [da1])
             exc = cm.exception
             assert f'must pass items which are already in DataExplorer, but got {ds4}' == str(exc)
+
+
+class TestRoots(ExplorerTest):
+
+    def test_get_roots(self):
+        ds = self.create_source(name='one', difficulty=10)
+        gp = self.create_generator_pipeline()
+        gp.name = 'Generate One'
+        ds2 = self.create_source(pipeline=gp, name='two', difficulty=20)
+        dp = self.create_merge_pipeline(data_sources=[ds, ds2])
+        dp.name = 'Merge One Two'
+        da1 = self.create_analysis_pipeline(source=dp)
+        da1.name = 'Analysis One'
+        ds3 = self.create_source(name='three', difficulty=70)
+        da2 = self.create_analysis_pipeline(source=ds2)
+        da2.name = 'Analysis Two'
+
+        de = DataExplorer([ds, gp, ds2, dp, da1, da2])
+        roots = de.roots
+        assert len(roots) == 2
+        assert ds in roots
+        assert gp in roots
+
+        de = DataExplorer([ds, ds2, dp, da1, da2])
+        roots = de.roots
+        assert len(roots) == 2
+        assert ds in roots
+        assert ds2 in roots
+
+        de = DataExplorer([ds, gp, dp, da1, da2])
+        roots = de.roots
+        assert len(roots) == 3
+        assert ds in roots
+        assert gp in roots
+        assert da2 in roots
+
+        de = DataExplorer([da1])
+        roots = de.roots
+        assert len(roots) == 1
+        assert da1 in roots
