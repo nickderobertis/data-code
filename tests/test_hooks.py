@@ -39,6 +39,8 @@ class HooksTest(PipelineTest):
     def teardown_method(self, *args, **kwargs):
         super().teardown_method(*args, **kwargs)
         dc_hooks.reset_hooks()
+        global COUNTER
+        COUNTER = 0
 
 
 class TestPipelineHooks(HooksTest):
