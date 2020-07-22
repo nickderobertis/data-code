@@ -34,14 +34,7 @@ def increment_df_a_variable_hook(source: DataSource, df: pd.DataFrame) -> pd.Dat
     return df
 
 
-class HooksTest(PipelineTest):
-
-    def teardown_method(self, *args, **kwargs):
-        super().teardown_method(*args, **kwargs)
-        dc_hooks.reset_hooks()
-
-
-class TestPipelineHooks(HooksTest):
+class TestPipelineHooks(PipelineTest):
 
     def test_no_pipeline_hook(self):
         counter_value = COUNTER

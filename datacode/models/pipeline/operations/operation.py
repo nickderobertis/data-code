@@ -69,6 +69,10 @@ class DataOperation(ReprMixin):
         last_modified = max(valid_choices)
         return last_modified
 
+    @last_modified.setter
+    def last_modified(self, value: Optional[datetime.datetime]):
+        self.options.last_modified = value
+
     def _set_result(self, **kwargs):
         self.result = self.options.result_class(
             name=self.output_name,

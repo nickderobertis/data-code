@@ -13,6 +13,7 @@ from mixins import ReprMixin
 from datacode.graph.base import GraphObject, Graphable, GraphFunction
 from datacode.graph.edge import Edge
 from datacode.graph.node import Node
+from datacode.models.links import LinkedItem
 from datacode.models.outputter import DataOutputter
 from datacode.models.types import SourceCreatingPipeline
 from datacode.summarize import describe_df
@@ -23,7 +24,7 @@ from datacode.models.loader import DataLoader
 import datacode.hooks as hooks
 
 
-class DataSource(Graphable, ReprMixin):
+class DataSource(LinkedItem, Graphable, ReprMixin):
     copy_keys = [
         'location',
         'name',
@@ -45,6 +46,7 @@ class DataSource(Graphable, ReprMixin):
         '_vars_for_calculate',
     ]
     repr_cols = ['name', 'pipeline', 'columns', 'load_variables']
+    _pipeline: Optional[SourceCreatingPipeline] = None
 
     def __init__(self, location: Optional[str] = None, df: Optional[pd.DataFrame] = None,
                  pipeline: Optional[SourceCreatingPipeline] = None,
@@ -56,6 +58,7 @@ class DataSource(Graphable, ReprMixin):
                  data_outputter_kwargs: Optional[Dict[str, Any]] = None,
                  optimize_size: bool = False, last_modified: Optional[datetime.datetime] = None,
                  difficulty: float = 0):
+        super().__init__()
 
         if read_file_kwargs is None:
             read_file_kwargs = {}
@@ -131,7 +134,6 @@ class DataSource(Graphable, ReprMixin):
         self._df = df
 
         self._validate()
-        super().__init__()
 
     def _validate(self):
         self._validate_load_variables()
@@ -181,6 +183,17 @@ class DataSource(Graphable, ReprMixin):
 
         return self.pipeline.last_modified
 
+    @property
+    def pipeline(self) -> Optional[SourceCreatingPipeline]:
+        return self._pipeline
+
+    @pipeline.setter
+    def pipeline(self, item: SourceCreatingPipeline):
+        self._pipeline = item
+        if item is not None:
+            self._add_back_link(item)
+            item._add_forward_link(self)
+
     def _load(self):
         hooks.on_begin_load_source(self)
         if not hasattr(self, 'data_loader'):
@@ -194,6 +207,19 @@ class DataSource(Graphable, ReprMixin):
         config_dict.update(**data_outputter_kwargs)
         outputter = self.outputter_class(self, **config_dict)
         outputter.output()
+
+    def reset(self, forward: bool = False):
+        del self._df
+        self._df = None
+        if forward:
+            for item in self.forward_links:
+                item.reset(forward=True)
+
+    def touch(self):
+        """
+        Mark last_modified as now
+        """
+        self.last_modified = datetime.datetime.now()
 
     def _check_inputs(self, filepath, df):
         pass
