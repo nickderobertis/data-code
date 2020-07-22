@@ -4,6 +4,7 @@ from typing import Sequence, Union, List, Optional, Dict, Tuple, cast
 from mixins import ReprMixin
 from typing_extensions import Protocol, runtime_checkable
 
+from datacode.models.links import ILinkedItem
 from datacode.models.source import DataSource
 from datacode.models.pipeline.base import DataPipeline
 from datacode.graph.base import GraphObject, Graphable, GraphFunction
@@ -11,16 +12,8 @@ from datacode.models.types import HasDifficulty, HasDataSources, HasPipeline
 
 
 @runtime_checkable
-class IDataSource(HasDifficulty, HasPipeline, Protocol):
+class HasDifficultyAndOrigin(HasDifficulty, ILinkedItem, Protocol):
     pass
-
-
-@runtime_checkable
-class IDataPipeline(HasDifficulty, HasDataSources, Protocol):
-    pass
-
-
-HasDifficultyAndOrigin = Union[IDataSource, IDataPipeline]
 
 
 class DataExplorer(Graphable, ReprMixin):
@@ -162,46 +155,8 @@ def _work_back_through_data_totaling_difficulty_until(
     end: HasDifficultyAndOrigin,
     counted_item_ids: List[int],
 ) -> Tuple[float, bool]:
-    if isinstance(item, IDataSource):
-        return _work_back_through_data_source_totaling_difficulty_until(
-            item, end, counted_item_ids
-        )
-    elif isinstance(item, IDataPipeline):
-        return _work_back_through_pipeline_totaling_difficulty_until(
-            item, end, counted_item_ids
-        )
-    else:
-        raise ValueError(
-            f"expected DataSource or DataPipeline, got {item} of type {type(item)}"
-        )
-
-
-def _work_back_through_data_source_totaling_difficulty_until(
-    item: IDataSource, end: Union[IDataSource, IDataPipeline], counted_item_ids: List[int]
-) -> Tuple[float, bool]:
     total: float = 0
-    if item.pipeline is None:
-        # Hit end of this branch but did not find
-        return total, False
-    if item.pipeline == end:
-        # Hit end of this branch and found
-        total += item.pipeline.difficulty
-        total += item.difficulty
-        return total, True
-    # There is a pipeline, and it is not the end, so continue recursively
-    sub_total, sub_found = _work_back_through_data_totaling_difficulty_until(
-        item.pipeline, end, counted_item_ids
-    )
-    return _aggregate_subtotal(item, total, sub_total, sub_found, counted_item_ids)
-
-
-def _work_back_through_pipeline_totaling_difficulty_until(
-    item: IDataPipeline,
-    end: Union[IDataSource, IDataPipeline],
-    counted_item_ids: List[int],
-) -> Tuple[float, bool]:
-    total: float = 0
-    for sub_item in item.data_sources:
+    for sub_item in item.back_links:
         if sub_item == end:
             # Hit the end of this branch and found
             if id(item) not in counted_item_ids:
@@ -226,7 +181,7 @@ def _work_back_through_pipeline_totaling_difficulty_until(
 
 
 def _aggregate_subtotal(
-    item: Union[IDataSource, IDataPipeline],
+    item: HasDifficultyAndOrigin,
     total: float,
     sub_total: float,
     sub_found: bool,
