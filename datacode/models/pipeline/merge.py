@@ -26,7 +26,6 @@ class DataMergePipeline(DataPipeline):
 
         self._set_cleanup_func(post_merge_cleanup_func, **cleanup_kwargs)
         self.cleanup_kwargs = cleanup_kwargs
-        self.data_sources = data_sources
 
         super().__init__(data_sources, merge_options_list, name=name, difficulty=difficulty)
 

@@ -11,12 +11,13 @@ from datacode.graph.node import Node
 from datacode.graph.subgraph import Subgraph
 import datacode.hooks as hooks
 from datacode.models.analysis import AnalysisResult
+from datacode.models.links import LinkedItem
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
 from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline, ObjWithLastModified
 
 
-class DataPipeline(Graphable, ReprMixin):
+class DataPipeline(LinkedItem, Graphable, ReprMixin):
     """
     Base class for data pipelines. Should not be used directly.
     """
@@ -31,6 +32,8 @@ class DataPipeline(Graphable, ReprMixin):
         :param operation_options:
         :param name:
         """
+        super().__init__()
+
         if operation_options is None:
             operation_options = []
         if data_sources is None:
@@ -49,7 +52,6 @@ class DataPipeline(Graphable, ReprMixin):
         self._operation_index = 0
         self.result = None
         self.difficulty = difficulty
-        super().__init__()
 
     def execute(self, output: bool = True):
         hooks.on_begin_execute_pipeline(self)
@@ -146,7 +148,12 @@ class DataPipeline(Graphable, ReprMixin):
     @data_sources.setter
     def data_sources(self, data_sources: List[DataSourceOrPipeline]):
         self._data_sources = data_sources
-        # only set merges if previously set. otherwise no need to worry about updating cached result
+        if data_sources is not None:
+            for ds in data_sources:
+                if ds is not None:
+                    self._add_back_link(ds)
+                    ds._add_forward_link(self)
+        # only set operations if previously set. otherwise no need to worry about updating cached result
         if hasattr(self, '_operations'):
             self._set_operations()
 
