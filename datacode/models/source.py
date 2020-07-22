@@ -208,6 +208,13 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
         outputter = self.outputter_class(self, **config_dict)
         outputter.output()
 
+    def reset(self, forward: bool = False):
+        del self._df
+        self._df = None
+        if forward:
+            for item in self.forward_links:
+                item.reset(forward=True)
+
     def _check_inputs(self, filepath, df):
         pass
         # assert not (filepath is None) and (df is None)

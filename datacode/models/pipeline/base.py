@@ -75,10 +75,13 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
 
         self._do_operation()
 
-    def reset(self):
+    def reset(self, forward: bool = False):
         self.df = None
         self._operation_index = 0
         self._set_operations()
+        if forward:
+            for item in self.forward_links:
+                item.reset(forward=True)
 
     def _do_operation(self):
         try:
