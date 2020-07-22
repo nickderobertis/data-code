@@ -72,6 +72,13 @@ class DataExplorer(Graphable, ReprMixin):
         :param begin: Items which are earlier in the pipelines
         :param end: Items which are later in the pipelines
         :return: Total difficulty
+
+        :Notes:
+
+            Items will not be double counted. If a pipeline is on the path
+            to run between multiple begin and end items, its difficulty will
+            be added only once.
+
         """
         for item in list(begin) + list(end):
             if item not in self:
