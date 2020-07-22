@@ -129,6 +129,25 @@ class TestDataTransformationPipeline(PipelineTest):
         assert th.COUNTER == counter_value  # transform operation not called
         self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
 
+    def test_nested_last_modified_of_pipeline_touched_to_be_greater_than_source(self):
+        counter_value = th.COUNTER
+        dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
+
+        dmp = self.create_merge_pipeline()
+
+        dtp = self.create_transformation_pipeline(source=dmp)
+        self.create_csv_for_2()
+        ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp)
+
+        dtp.touch()
+        # Should run pipeline as was just touched
+        df = ds.df
+
+        dc_hooks.reset_hooks()
+        assert_frame_equal(df, self.expect_merged_1_2_both_transformed)
+        assert th.COUNTER == counter_value + 1  # transform operation called once
+        self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
+
     def test_nested_last_modified_of_source_less_than_pipeline(self):
         counter_value = th.COUNTER
         dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
@@ -149,6 +168,29 @@ class TestDataTransformationPipeline(PipelineTest):
         dc_hooks.reset_hooks()
         assert_frame_equal(df, self.expect_merged_1_2_both_transformed)
         assert th.COUNTER == counter_value + 1  # transform operation called once
+        self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
+
+    def test_nested_last_modified_of_source_touched_to_be_greater_than_pipeline(self):
+        counter_value = th.COUNTER
+        dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
+
+        dmp = self.create_merge_pipeline()
+
+        dtp = self.create_transformation_pipeline(source=dmp)
+        self.create_csv_for_2()
+        ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp)
+
+        time.sleep(0.01)
+        self.create_csv()  # now earlier source is more recently modified
+        assert dmp.data_sources[0].last_modified > ds.last_modified
+
+        ds.touch()
+        # Should not run pipeline as source was touched to be newer
+        df = ds.df
+
+        dc_hooks.reset_hooks()
+        assert_frame_equal(df, self.test_df2)
+        assert th.COUNTER == counter_value  # transform operation not called
         self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
 
     def test_nested_last_modified_of_source_less_than_earlier_source(self):

@@ -215,6 +215,12 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
             for item in self.forward_links:
                 item.reset(forward=True)
 
+    def touch(self):
+        """
+        Mark last_modified as now
+        """
+        self.last_modified = datetime.datetime.now()
+
     def _check_inputs(self, filepath, df):
         pass
         # assert not (filepath is None) and (df is None)

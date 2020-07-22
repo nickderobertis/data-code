@@ -257,6 +257,12 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
     def allow_modifying_result(self) -> bool:
         return self.operation_options[-1].allow_modifying_result
 
+    def touch(self):
+        """
+        Mark last_modified as now
+        """
+        self.operations[0].last_modified = datetime.datetime.now()
+
     def copy(self):
         return deepcopy(self)
 
