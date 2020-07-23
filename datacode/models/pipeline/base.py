@@ -261,7 +261,10 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
         """
         Mark last_modified as now
         """
-        self.operations[0].last_modified = datetime.datetime.now()
+        for op in self.operations:
+            # Don't mark last_modified on operations belonging to other pipelines
+            if op.pipeline is self:
+                op.last_modified = datetime.datetime.now()
 
     def copy(self):
         return deepcopy(self)
