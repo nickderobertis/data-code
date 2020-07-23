@@ -103,7 +103,12 @@ class DataExplorer(Graphable, ReprMixin):
 
     @property
     def roots(self) -> List[Union[DataSource, DataPipeline]]:
-        pass
+        """
+        The items passed to the explorer which do not have any
+        prior items also in the explorer
+        :return: root items
+        """
+        return _work_back_through_all_data_finding_roots(self.items)
 
     def _graph_contents(
         self,
@@ -202,3 +207,32 @@ def _aggregate_subtotal(
 
     # Did not find in nested pipeline, this layer is also invalid
     return total, False
+
+
+def _work_back_through_all_data_finding_roots(
+    items: Sequence[HasDifficultyAndOrigin],
+) -> List[Union[DataSource, DataPipeline]]:
+    roots: List[Union[DataSource, DataPipeline]] = []
+    found_item_ids: List[int] = []
+    for item in items:
+        roots.extend(_work_back_through_data_finding_roots(item, items, found_item_ids))
+    return roots
+
+
+def _work_back_through_data_finding_roots(
+    item: HasDifficultyAndOrigin, items: Sequence[HasDifficultyAndOrigin], found_item_ids: List[int],
+) -> List[Union[DataSource, DataPipeline]]:
+    collected_items = []
+    has_valid_back_link = False
+    for sub_item in item.back_links:
+        if sub_item in items:
+            # We are still navigating down the tree, call recursively
+            has_valid_back_link = True
+            collected_items.extend(_work_back_through_data_finding_roots(sub_item, items, found_item_ids))
+    if not has_valid_back_link:
+        # Hit the end of this branch
+        if id(item) not in found_item_ids:
+            # This item was not previously added, so add this item
+            found_item_ids.append(id(item))
+            collected_items.append(item)
+    return collected_items
