@@ -140,6 +140,8 @@ class TestDataTransformationPipeline(PipelineTest):
         ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp)
 
         dtp.touch()
+        assert dtp.last_modified > dmp.last_modified
+        assert dtp.last_modified > ds.last_modified
         # Should run pipeline as was just touched
         df = ds.df
 
@@ -185,6 +187,8 @@ class TestDataTransformationPipeline(PipelineTest):
         assert dmp.data_sources[0].last_modified > ds.last_modified
 
         ds.touch()
+        assert ds.last_modified > dtp.last_modified
+        assert ds.last_modified > dmp.last_modified
         # Should not run pipeline as source was touched to be newer
         df = ds.df
 
