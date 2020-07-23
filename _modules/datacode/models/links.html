@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.links &mdash; datacode 0.18.8 documentation</title>
+  <title>datacode.models.links &mdash; datacode 0.18.9 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.18.8
+                0.18.9
               </div>
             
           
@@ -166,6 +166,13 @@
   <h1>Source code for datacode.models.links</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">WeakSet</span>
+
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Protocol</span>
+
+
+<span class="k">class</span> <span class="nc">ILinkedItem</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="n">forward_links</span><span class="p">:</span> <span class="n">WeakSet</span>
+    <span class="n">back_links</span><span class="p">:</span> <span class="n">WeakSet</span>
 
 
 <div class="viewcode-block" id="LinkedItem"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.links.LinkedItem">[docs]</a><span class="k">class</span> <span class="nc">LinkedItem</span><span class="p">:</span>
