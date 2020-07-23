@@ -4,6 +4,7 @@ from typing import Sequence, Union, List, Optional, Dict, Tuple, cast
 from mixins import ReprMixin
 from typing_extensions import Protocol, runtime_checkable
 
+from datacode.models.links import ILinkedItem
 from datacode.models.source import DataSource
 from datacode.models.pipeline.base import DataPipeline
 from datacode.graph.base import GraphObject, Graphable, GraphFunction
@@ -11,16 +12,8 @@ from datacode.models.types import HasDifficulty, HasDataSources, HasPipeline
 
 
 @runtime_checkable
-class IDataSource(HasDifficulty, HasPipeline, Protocol):
+class HasDifficultyAndOrigin(HasDifficulty, ILinkedItem, Protocol):
     pass
-
-
-@runtime_checkable
-class IDataPipeline(HasDifficulty, HasDataSources, Protocol):
-    pass
-
-
-HasDifficultyAndOrigin = Union[IDataSource, IDataPipeline]
 
 
 class DataExplorer(Graphable, ReprMixin):
@@ -108,6 +101,15 @@ class DataExplorer(Graphable, ReprMixin):
             raise ValueError(f"no direct link between the items could be determined")
         return total
 
+    @property
+    def roots(self) -> List[Union[DataSource, DataPipeline]]:
+        """
+        The items passed to the explorer which do not have any
+        prior items also in the explorer
+        :return: root items
+        """
+        return _work_back_through_all_data_finding_roots(self.items)
+
     def _graph_contents(
         self,
         include_attrs: Optional[Sequence[str]] = None,
@@ -162,46 +164,8 @@ def _work_back_through_data_totaling_difficulty_until(
     end: HasDifficultyAndOrigin,
     counted_item_ids: List[int],
 ) -> Tuple[float, bool]:
-    if isinstance(item, IDataSource):
-        return _work_back_through_data_source_totaling_difficulty_until(
-            item, end, counted_item_ids
-        )
-    elif isinstance(item, IDataPipeline):
-        return _work_back_through_pipeline_totaling_difficulty_until(
-            item, end, counted_item_ids
-        )
-    else:
-        raise ValueError(
-            f"expected DataSource or DataPipeline, got {item} of type {type(item)}"
-        )
-
-
-def _work_back_through_data_source_totaling_difficulty_until(
-    item: IDataSource, end: Union[IDataSource, IDataPipeline], counted_item_ids: List[int]
-) -> Tuple[float, bool]:
     total: float = 0
-    if item.pipeline is None:
-        # Hit end of this branch but did not find
-        return total, False
-    if item.pipeline == end:
-        # Hit end of this branch and found
-        total += item.pipeline.difficulty
-        total += item.difficulty
-        return total, True
-    # There is a pipeline, and it is not the end, so continue recursively
-    sub_total, sub_found = _work_back_through_data_totaling_difficulty_until(
-        item.pipeline, end, counted_item_ids
-    )
-    return _aggregate_subtotal(item, total, sub_total, sub_found, counted_item_ids)
-
-
-def _work_back_through_pipeline_totaling_difficulty_until(
-    item: IDataPipeline,
-    end: Union[IDataSource, IDataPipeline],
-    counted_item_ids: List[int],
-) -> Tuple[float, bool]:
-    total: float = 0
-    for sub_item in item.data_sources:
+    for sub_item in item.back_links:
         if sub_item == end:
             # Hit the end of this branch and found
             if id(item) not in counted_item_ids:
@@ -226,7 +190,7 @@ def _work_back_through_pipeline_totaling_difficulty_until(
 
 
 def _aggregate_subtotal(
-    item: Union[IDataSource, IDataPipeline],
+    item: HasDifficultyAndOrigin,
     total: float,
     sub_total: float,
     sub_found: bool,
@@ -243,3 +207,32 @@ def _aggregate_subtotal(
 
     # Did not find in nested pipeline, this layer is also invalid
     return total, False
+
+
+def _work_back_through_all_data_finding_roots(
+    items: Sequence[HasDifficultyAndOrigin],
+) -> List[Union[DataSource, DataPipeline]]:
+    roots: List[Union[DataSource, DataPipeline]] = []
+    found_item_ids: List[int] = []
+    for item in items:
+        roots.extend(_work_back_through_data_finding_roots(item, items, found_item_ids))
+    return roots
+
+
+def _work_back_through_data_finding_roots(
+    item: HasDifficultyAndOrigin, items: Sequence[HasDifficultyAndOrigin], found_item_ids: List[int],
+) -> List[Union[DataSource, DataPipeline]]:
+    collected_items = []
+    has_valid_back_link = False
+    for sub_item in item.back_links:
+        if sub_item in items:
+            # We are still navigating down the tree, call recursively
+            has_valid_back_link = True
+            collected_items.extend(_work_back_through_data_finding_roots(sub_item, items, found_item_ids))
+    if not has_valid_back_link:
+        # Hit the end of this branch
+        if id(item) not in found_item_ids:
+            # This item was not previously added, so add this item
+            found_item_ids.append(id(item))
+            collected_items.append(item)
+    return collected_items

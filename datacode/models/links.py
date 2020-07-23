@@ -1,6 +1,13 @@
 from typing import Any
 from weakref import WeakSet
 
+from typing_extensions import Protocol
+
+
+class ILinkedItem(Protocol):
+    forward_links: WeakSet
+    back_links: WeakSet
+
 
 class LinkedItem:
     forward_links: WeakSet
