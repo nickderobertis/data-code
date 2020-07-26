@@ -7,6 +7,7 @@ from datacode.models.outputter import DataOutputter, DataOutputNotSafeException
 from datacode.models.index import Index
 from datacode.models.column.column import Column
 from datacode.models.column.index import ColumnIndex
+from datacode.models.pipeline.base import DataPipeline
 from datacode.models.pipeline.merge import DataMergePipeline
 from datacode.models.pipeline.generate import DataGeneratorPipeline
 from datacode.models.pipeline.analysis import DataAnalysisPipeline
