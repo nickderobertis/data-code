@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.options &mdash; datacode 0.18.11 documentation</title>
+  <title>datacode.models.options &mdash; datacode 0.18.12 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.18.11
+                0.18.12
               </div>
             
           
@@ -167,6 +167,13 @@
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span>
 
 
+<div class="viewcode-block" id="PreservedAttribute"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.options.PreservedAttribute">[docs]</a><span class="k">class</span> <span class="nc">PreservedAttribute</span><span class="p">:</span>
+<div class="viewcode-block" id="PreservedAttribute.__init__"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.options.PreservedAttribute.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">attr_existed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attr</span> <span class="o">=</span> <span class="n">attr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attr_existed</span> <span class="o">=</span> <span class="n">attr_existed</span></div></div>
+
+
 <div class="viewcode-block" id="DatacodeOptions"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.options.DatacodeOptions">[docs]</a><span class="k">class</span> <span class="nc">DatacodeOptions</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allows setting options for the datacode library</span>
@@ -192,7 +199,7 @@
 <span class="sd">    &gt;&gt;&gt; dc.options.reset()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_orig_class_attrs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">_orig_class_attrs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">PreservedAttribute</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="DatacodeOptions.reset"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.options.DatacodeOptions.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -200,7 +207,14 @@
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="n">attr</span><span class="p">),</span> <span class="n">orig_value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig_class_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_set_class_attr</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">orig_value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">orig_value</span><span class="o">.</span><span class="n">attr_existed</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_set_class_attr</span><span class="p">(</span>
+                    <span class="n">class_name</span><span class="p">,</span>
+                    <span class="n">attr</span><span class="p">,</span>
+                    <span class="n">orig_value</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_delete_class_attr</span><span class="p">(</span><span class="n">class_name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_orig_class_attrs</span> <span class="o">=</span> <span class="p">{}</span></div>
 
 <div class="viewcode-block" id="DatacodeOptions.set_class_attr"><a class="viewcode-back" href="../../../api/datacode.models.html#datacode.models.options.DatacodeOptions.set_class_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_class_attr</span><span class="p">(</span>
@@ -218,13 +232,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_orig_class_attrs</span><span class="p">[(</span><span class="n">class_name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)]</span> <span class="o">=</span> <span class="n">orig_value</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="k">def</span> <span class="nf">_set_class_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_set_class_attr</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PreservedAttribute</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">datacode</span> <span class="k">as</span> <span class="nn">dc</span>
 
         <span class="n">klass</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">dc</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
-        <span class="n">orig_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">klass</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">orig_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">klass</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="n">has_attr</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">orig_value</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">has_attr</span> <span class="o">=</span> <span class="kc">False</span>
+
         <span class="nb">setattr</span><span class="p">(</span><span class="n">klass</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">orig_value</span>
+        <span class="k">return</span> <span class="n">PreservedAttribute</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">orig_value</span><span class="p">,</span> <span class="n">attr_existed</span><span class="o">=</span><span class="n">has_attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_delete_class_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">datacode</span> <span class="k">as</span> <span class="nn">dc</span>
+
+        <span class="n">klass</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">dc</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+        <span class="nb">delattr</span><span class="p">(</span><span class="n">klass</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
