@@ -21,6 +21,14 @@ class TestOptions(OptionsTest):
         dc.options.reset()
         assert DataSource.copy_keys == ORIG_COPY_KEYS
 
+    def test_set_non_existing_class_attr_and_reset(self):
+        new_value = ["a", "b"]
+        assert not hasattr(DataSource, '_something_unused')
+        dc.options.set_class_attr("DataSource", "_something_unused", new_value)
+        assert DataSource._something_unused == new_value
+        dc.options.reset()
+        assert not hasattr(DataSource, '_something_unused')
+
     def test_set_class_attr_context_manager(self):
         new_value = ["a", "b"]
         assert DataSource.copy_keys == ORIG_COPY_KEYS
