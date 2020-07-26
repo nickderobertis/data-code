@@ -17,7 +17,7 @@ REPO_MAINTAINERS = [
 ]
 
 # Package version in the format (major, minor, release)
-PACKAGE_VERSION_TUPLE = (0, 18, 12)
+PACKAGE_VERSION_TUPLE = (0, 18, 13)
 
 # Short description of the package
 PACKAGE_SHORT_DESCRIPTION = "High-level tools to analyze, summarize, and transform data"
@@ -67,7 +67,7 @@ PACKAGE_INSTALL_REQUIRES = [
     'sympy',
     'IPython',
     'mixins',
-    'semopy',
+    'semopy<2',
     'sklearn',
     'typing_extensions',
     'graphviz',
