@@ -1,6 +1,13 @@
 from typing import Any, Tuple, Dict
 
 
+class PreservedAttribute:
+    def __init__(self, attr: str, value: Any, attr_existed: bool = True):
+        self.attr = attr
+        self.value = value
+        self.attr_existed = attr_existed
+
+
 class DatacodeOptions:
     """
     Allows setting options for the datacode library
@@ -26,7 +33,7 @@ class DatacodeOptions:
     >>> dc.options.reset()
     """
 
-    _orig_class_attrs: Dict[Tuple[str, str], Any] = {}
+    _orig_class_attrs: Dict[Tuple[str, str], PreservedAttribute] = {}
 
     def reset(self):
         """
@@ -34,7 +41,14 @@ class DatacodeOptions:
         :return:
         """
         for (class_name, attr), orig_value in self._orig_class_attrs.items():
-            self._set_class_attr(class_name, attr, orig_value)
+            if orig_value.attr_existed:
+                self._set_class_attr(
+                    class_name,
+                    attr,
+                    orig_value.value,
+                )
+            else:
+                self._delete_class_attr(class_name, attr)
         self._orig_class_attrs = {}
 
     def set_class_attr(
@@ -52,13 +66,28 @@ class DatacodeOptions:
         self._orig_class_attrs[(class_name, attr)] = orig_value
         return self
 
-    def _set_class_attr(self, class_name: str, attr: str, value: Any) -> Any:
+    def _set_class_attr(
+        self, class_name: str, attr: str, value: Any,
+    ) -> PreservedAttribute:
         import datacode as dc
 
         klass = getattr(dc, class_name)
-        orig_value = getattr(klass, attr)
+
+        try:
+            orig_value = getattr(klass, attr)
+            has_attr = True
+        except AttributeError:
+            orig_value = None
+            has_attr = False
+
         setattr(klass, attr, value)
-        return orig_value
+        return PreservedAttribute(attr, orig_value, attr_existed=has_attr)
+
+    def _delete_class_attr(self, class_name: str, attr: str):
+        import datacode as dc
+
+        klass = getattr(dc, class_name)
+        delattr(klass, attr)
 
     def __enter__(self):
         return self
