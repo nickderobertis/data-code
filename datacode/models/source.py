@@ -317,6 +317,7 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
             detached_attrs = self._detach_attrs(keep_refs)
         if not kwargs:
             obj = deepcopy(self)
+            self.update(detached_attrs)
             obj.update(detached_attrs)
             obj.refresh_columns_series()
             return obj
@@ -332,7 +333,9 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
         klass = type(self)
         obj = klass(**config_dict)
         obj.update(detached_attrs)
+        self.update(detached_attrs)
         obj.refresh_columns_series()
+        self.refresh_columns_series()
         return obj
 
     def _detach_attr(self, attr: str) -> Any:
