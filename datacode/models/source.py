@@ -73,6 +73,11 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
         if columns is not None and not isinstance(columns, list):
             columns = list(columns)
 
+        # In case columns are shared between sources, don't modify the
+        # existing columns. Copy the passed columns
+        if columns is not None:
+            columns = [col.copy() for col in columns]
+
         # Handle setup for loading columns needed only for calculations
         extra_cols_for_calcs = []
         extra_vars_for_calcs = []
