@@ -1,4 +1,4 @@
-from typing import Optional, Sequence, Union, List
+from typing import Optional, Sequence, Union, List, Iterable, Dict, Any
 
 import pandas as pd
 from mixins import ReprMixin
@@ -20,6 +20,7 @@ class Column(EqOnAttrsMixin, ReprMixin):
         'dtype',
     ]
     repr_cols = ['variable', 'load_key', 'indices', 'applied_transform_keys', 'dtype']
+    copy_attrs = equal_attrs + ['series']
 
     def __init__(self, variable: Variable, load_key: Optional[str] = None,
                  indices: Optional[Sequence[ColumnIndex]] = None,
@@ -57,3 +58,11 @@ class Column(EqOnAttrsMixin, ReprMixin):
         self.applied_transform_keys.append(transform.key)
         if not skip_variable:
             self.variable._add_applied_transform(transform)
+
+    def copy(self, exclude_attrs: Iterable[str] = ('series',)):
+        data: Dict[str, Any] = {}
+        for attr in self.copy_attrs:
+            if attr in exclude_attrs:
+                continue
+            data[attr] = getattr(self, attr)
+        return self.__class__(**data)
