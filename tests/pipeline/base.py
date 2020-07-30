@@ -45,6 +45,14 @@ def source_transform_func(ds: DataSource) -> DataSource:
     return ds
 
 
+def source_transform_func2(ds: DataSource) -> DataSource:
+    # Does the same thing as version 1 but has a comment added
+    for variable in ds.load_variables:
+        if variable.dtype.is_numeric:
+            ds.df[variable.name] += 1
+    return ds
+
+
 class PipelineTest(SourceTest):
     merge_var = Variable('c', 'C', dtype='str')
     source_transform = SourceTransform('st', name_func=SourceTest.transform_name_func, data_func=source_transform_func)

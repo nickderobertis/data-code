@@ -1,11 +1,12 @@
 import datetime
 import time
+from copy import deepcopy
 
 from pandas.testing import assert_frame_equal
 
 from datacode import DataSource, Column
 import datacode.hooks as dc_hooks
-from tests.pipeline.base import PipelineTest
+from tests.pipeline.base import PipelineTest, source_transform_func2, source_transform_func
 import tests.test_hooks as th
 
 
@@ -225,3 +226,36 @@ class TestDataTransformationPipeline(PipelineTest):
         assert th.COUNTER == counter_value + 2  # transform operation called once
         self.assert_all_pipeline_operations_have_pipeline(dtp)
         self.assert_all_pipeline_operations_have_pipeline(dtp2)
+
+    def test_transformation_pipeline_cache(self):
+        counter_value = th.COUNTER
+        dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
+
+        # Run initial pipeline
+        dtp = self.create_transformation_pipeline()
+        dtp.execute()
+
+        assert_frame_equal(dtp.df, self.expect_func_df)
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
+        assert th.COUNTER == counter_value + 2  # transform operation called once
+
+        # Now result should be cached to file. Running a new pipeline with
+        # the same options should load from cache
+        # Options should be checked for equality, so passing deepcopy it should
+        # still cache
+        dtp = self.create_transformation_pipeline(func=deepcopy(source_transform_func))
+        dtp.execute()
+
+        assert_frame_equal(dtp.df, self.expect_func_df)
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
+        assert th.COUNTER == counter_value + 2  # transform operation not called again
+
+        # Running with different options should run operations again
+        dtp = self.create_transformation_pipeline(func=source_transform_func2)
+        dtp.execute()
+
+        assert_frame_equal(dtp.df, self.expect_func_df)
+        self.assert_all_pipeline_operations_have_pipeline(dtp)
+        assert th.COUNTER == counter_value + 4  # transform operation called again
+
+        dc_hooks.reset_hooks()
