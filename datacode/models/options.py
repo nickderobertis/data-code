@@ -1,5 +1,7 @@
 from typing import Any, Tuple, Dict
 
+from datacode.logger import logger
+
 
 class PreservedAttribute:
     def __init__(self, attr: str, value: Any, attr_existed: bool = True):
@@ -40,6 +42,7 @@ class DatacodeOptions:
         Undo any changes made through the options interface
         :return:
         """
+        logger.debug(f'Resetting datacode options')
         for (class_name, attr), orig_value in self._orig_class_attrs.items():
             if orig_value.attr_existed:
                 self._set_class_attr(
@@ -62,6 +65,7 @@ class DatacodeOptions:
         :param value: Value to set the attribute to
         :return: same options instance
         """
+        logger.debug(f'Setting datacode options for class attr {class_name}.{attr} to {value}')
         orig_value = self._set_class_attr(class_name, attr, value)
         self._orig_class_attrs[(class_name, attr)] = orig_value
         return self

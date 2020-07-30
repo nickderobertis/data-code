@@ -1,4 +1,7 @@
 from typing import Callable, List, Union, Tuple, Optional, Dict, Any, Sequence, TYPE_CHECKING
+
+from datacode.logger import logger
+
 if TYPE_CHECKING:
     from datacode.models.variables.variable import Variable
     from datacode.models.column.column import Column
@@ -36,7 +39,7 @@ class DataMerge(DataOperation):
         self.output_name = self.merged_name
 
     def _execute(self):
-        print(f'Running merge function {self.merge_str}')
+        logger.info(f'Running merge function {self.merge_str}')
         left_df, right_df = self._get_merge_dfs()
         self.result.df = self.options.merge_function(
             left_df, right_df,
@@ -69,7 +72,7 @@ class DataMerge(DataOperation):
             self.result.columns = columns
             self.result.load_variables = load_variables
 
-        print(f"""
+        logger.info(f"""
         {self.data_sources[0].name} obs: {len(left_df)}
         {self.data_sources[1].name} obs: {len(right_df)}
         Merged obs: {len(self.result.df)}

@@ -13,6 +13,7 @@ from mixins import ReprMixin
 from datacode.graph.base import GraphObject, Graphable, GraphFunction
 from datacode.graph.edge import Edge
 from datacode.graph.node import Node
+from datacode.logger import logger
 from datacode.models.links import LinkedItem
 from datacode.models.outputter import DataOutputter
 from datacode.models.types import SourceCreatingPipeline
@@ -200,20 +201,24 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
             item._add_forward_link(self)
 
     def _load(self):
+        logger.debug(f'Started loading source {self}')
         hooks.on_begin_load_source(self)
         if not hasattr(self, 'data_loader'):
             self._set_data_loader(self.loader_class, pipeline=self.pipeline, **self.read_file_kwargs)
         df = self.data_loader()
         df = hooks.on_end_load_source(self, df)
+        logger.debug(f'Finished loading source {self}')
         return df
 
     def output(self, **data_outputter_kwargs):
+        logger.debug(f'Outputting source {self.name}')
         config_dict = deepcopy(self.data_outputter_kwargs)
         config_dict.update(**data_outputter_kwargs)
         outputter = self.outputter_class(self, **config_dict)
         outputter.output()
 
     def reset(self, forward: bool = False):
+        logger.debug(f'Resetting source {self.name}')
         del self._df
         self._df = None
         if forward:
@@ -224,6 +229,7 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
         """
         Mark last_modified as now
         """
+        logger.debug(f'Touching source {self.name}')
         self.last_modified = datetime.datetime.now()
 
     def _check_inputs(self, filepath, df):
@@ -232,6 +238,7 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
 
     def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: SourceCreatingPipeline = None,
                          **read_file_kwargs):
+        logger.debug(f'Setting data loader for source {self.name}')
         run_pipeline = False
         if pipeline is not None:
             # if a source in the pipeline to create this data source was modified more recently than this data source
@@ -279,6 +286,7 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
         # Still necessary to use loader as may be transforming the data
         if run_pipeline:
             def run_pipeline_then_load(pipeline: SourceCreatingPipeline):
+                logger.info(f'Running pipeline then loading source {self.name}')
                 pipeline.execute() # outputs to file
                 result = loader.load_from_existing_source(
                     pipeline.result,
@@ -288,6 +296,7 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
             self.data_loader = partial(run_pipeline_then_load, self.pipeline)
         else:
             self.data_loader = loader.load_from_location
+        logger.debug(f'Finished setting data loader {self.data_loader} for source {self.name}')
 
     def update_from_source(self, other: 'DataSource', exclude_attrs: Optional[Sequence[str]] = tuple(),
                            include_attrs: Optional[Sequence[str]] = tuple()):
@@ -453,6 +462,7 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
         return [var.key for var in self.load_variables]
 
     def refresh_columns_series(self):
+        logger.debug(f'Refreshing columns series in source {self.name}')
         if self._df is None or self.columns is None:
             return
         for col in self.columns:
@@ -465,6 +475,7 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
             col.series = series
 
     def _wipe_columns_series(self):
+        logger.debug(f'Wiping columns series in source {self.name}')
         cols_attrs = [
             'columns',
             '_orig_columns',

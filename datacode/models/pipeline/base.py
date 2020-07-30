@@ -10,6 +10,7 @@ from datacode.graph.edge import Edge
 from datacode.graph.node import Node
 from datacode.graph.subgraph import Subgraph
 import datacode.hooks as hooks
+from datacode.logger import logger
 from datacode.models.analysis import AnalysisResult
 from datacode.models.links import LinkedItem
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
@@ -54,6 +55,7 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
         self.difficulty = difficulty
 
     def execute(self, output: bool = True):
+        logger.debug(f'Executing pipeline {self}')
         hooks.on_begin_execute_pipeline(self)
         while True:
             try:
@@ -67,6 +69,7 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
             self.output()
 
         hooks.on_end_execute_pipeline(self)
+        logger.debug(f'Finished executing pipeline {self}')
         return self.result
 
     def next_operation(self):
@@ -86,7 +89,7 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
     def _do_operation(self):
         try:
             operation = self.operations[self._operation_index]
-            print(f'Now running operation {self._operation_index + 1}: {operation}')
+            logger.info(f'Now running operation {self._operation_index + 1}: {operation}')
         except IndexError:
             raise LastOperationFinishedException
 
@@ -103,6 +106,7 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
         self._operations = self._create_operations(self.data_sources, self.operation_options)
 
     def _create_operations(self, data_sources: DataSourcesOrPipelines, options_list: List[OperationOptions]):
+        logger.debug(f'Creating operations for pipeline {self.name}')
         if options_list[0].op_class.num_required_sources == 0:
             operations = [options_list[0].get_operation(self, options_list[0])]
         elif options_list[0].op_class.num_required_sources == 1:
@@ -113,6 +117,7 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
             raise ValueError('DataPipeline cannot handle operations with more than two sources')
 
         if len(options_list) == 1:
+            logger.debug(f'Created single operation for pipeline {self.name}: {operations[0]}')
             return operations
 
         for i, options in enumerate(options_list[1:]):
@@ -125,9 +130,11 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
             else:
                 raise ValueError('DataPipeline cannot handle operations with more than two sources')
 
+        logger.debug(f'Created operations for pipeline {self.name}: {operations}')
         return operations
 
     def _set_df_from_first_operation(self):
+        logger.debug(f'Setting pipeline {self.name} df from first operation')
         # Need to check as may be generation pipeline which would not have a df to start from
         if hasattr(self.operations[0], 'data_sources') and self.operations[0].data_sources:
             self.df = self.operations[0].data_sources[0].df
@@ -172,11 +179,13 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
             self._set_operations()
 
     def output(self):
+
         if self.result is None:
             return
         if isinstance(self.result, AnalysisResult):
             if not self.operation_options[-1].can_output:
                 return
+            logger.debug(f'Outputting analysis result {self.result} from pipeline {self.name}')
             self.operation_options[-1].analysis_output_func(self.result, self.operation_options[-1].out_path)
             return
         if not isinstance(self.result, DataSource):
@@ -186,6 +195,7 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
                 return
             self.result.location = self.operation_options[-1].out_path
 
+        logger.debug(f'Outputting data source result {self.result} from pipeline {self.name}')
         # By default, save calculated variables, unless user explicitly passes to not save them
         # Essentially setting the opposite default versus working directly with the DataSource since
         # usually DataSource calculations are done on loading and it is assumed if the pipeline result
@@ -215,6 +225,7 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
+        logger.debug(f'Determining last_modified in pipeline {self.name}')
         # TODO [#95]: more efficient last_modified
         #
         # `last_modified` is calculated a lot and goes through the

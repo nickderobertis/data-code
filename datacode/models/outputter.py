@@ -5,6 +5,8 @@ from typing import TYPE_CHECKING, Optional, Dict, Any
 import pandas as pd
 from mixins import ReprMixin
 
+from datacode.logger import logger
+
 if TYPE_CHECKING:
     from datacode.models.source import DataSource
     from datacode.models.variables.variable import Variable
@@ -52,6 +54,7 @@ class DataOutputter(ReprMixin):
         return os.path.exists(self.source.location)
 
     def output(self):
+        logger.debug(f'Outputting source {self.source.name} from outputter {self}')
         if self.preserve_original:
             df = deepcopy(self.source.df)
         else:
@@ -59,6 +62,7 @@ class DataOutputter(ReprMixin):
         self.rename_columns(df)
         self.keep_necessary_cols(df)
         self.output_to_location(df)
+        logger.debug(f'Finished outputting source {self.source.name} from outputter {self}')
 
     def rename_columns(self, df: pd.DataFrame):
         if not self.source.columns:
