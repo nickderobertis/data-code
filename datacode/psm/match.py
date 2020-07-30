@@ -1,7 +1,7 @@
-from typing import Optional
-import warnings
 import math
 import pandas as pd
+
+from datacode.logger import logger
 from datacode.psm.score import (
     merge_treated_and_control_calculate_comparison_score,
     EmptyArraysException,
@@ -98,7 +98,7 @@ def create_matched_id_dict_using_propensity_scores(treated_df: pd.DataFrame,
                 # Not enough overlapping time observations, cannot be a match
                 continue
         if comparison_scores == {}:
-            warnings.warn(f'Could not find another {entity_var} to pair with {treated_entity_id} that has'
+            logger.warning(f'Could not find another {entity_var} to pair with {treated_entity_id} that has'
                           f' {min_matching_time} overlapping {time_var} obs.')
             continue
         all_scores = list(comparison_scores.values())

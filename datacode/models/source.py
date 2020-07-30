@@ -3,7 +3,6 @@ from copy import deepcopy
 import pandas as pd
 from functools import partial
 import os
-import warnings
 import datetime
 from typing import List, Optional, Any, Dict, Sequence, Type
 
@@ -255,13 +254,13 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
                 # a prior source used to construct this data source has changed. need to re run pipeline
                 run_pipeline = True
                 if pipeline.last_modified is None:
-                    warnings.warn(f"""
+                    logger.warning(f"""
                     Was not able to determine last modified of pipeline {pipeline.name}.
                     Will always run pipeline due to this. Consider manually setting last_modified when creating
                     the pipeline.
                     """.strip())
                 elif self.last_modified is None:
-                    warnings.warn(f"""
+                    logger.warning(f"""
                    Was not able to determine last modified of source {self.name}.
                    Will run pipeline due to this. This is due to no file currently existing for this source.
                    """.strip())
@@ -272,7 +271,7 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
                     except AttributeError:
                         # Must be Operation, get name from pipeline instead
                         recent_obj_name = pipeline.name
-                    warnings.warn(f'''{recent_obj_name} was modified at {recent_obj.last_modified}.
+                    logger.warning(f'''{recent_obj_name} was modified at {recent_obj.last_modified}.
 
                     this data source {self.name} was modified at {self.last_modified}.
 
