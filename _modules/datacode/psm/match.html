@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.psm.match &mdash; datacode 0.19.0 documentation</title>
+  <title>datacode.psm.match &mdash; datacode 0.19.1 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.19.0
+                0.19.1
               </div>
             
           
@@ -164,10 +164,10 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.psm.match</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">math</span>
+<span></span><span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">datacode.logger</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">datacode.psm.score</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">merge_treated_and_control_calculate_comparison_score</span><span class="p">,</span>
     <span class="n">EmptyArraysException</span><span class="p">,</span>
@@ -264,7 +264,7 @@
                 <span class="c1"># Not enough overlapping time observations, cannot be a match</span>
                 <span class="k">continue</span>
         <span class="k">if</span> <span class="n">comparison_scores</span> <span class="o">==</span> <span class="p">{}:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Could not find another </span><span class="si">{</span><span class="n">entity_var</span><span class="si">}</span><span class="s1"> to pair with </span><span class="si">{</span><span class="n">treated_entity_id</span><span class="si">}</span><span class="s1"> that has&#39;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Could not find another </span><span class="si">{</span><span class="n">entity_var</span><span class="si">}</span><span class="s1"> to pair with </span><span class="si">{</span><span class="n">treated_entity_id</span><span class="si">}</span><span class="s1"> that has&#39;</span>
                           <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="n">min_matching_time</span><span class="si">}</span><span class="s1"> overlapping </span><span class="si">{</span><span class="n">time_var</span><span class="si">}</span><span class="s1"> obs.&#39;</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="n">all_scores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">comparison_scores</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>

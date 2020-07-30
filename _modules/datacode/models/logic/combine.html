@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.logic.combine &mdash; datacode 0.19.0 documentation</title>
+  <title>datacode.models.logic.combine &mdash; datacode 0.19.1 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.19.0
+                0.19.1
               </div>
             
           
@@ -164,9 +164,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datacode.models.logic.combine</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Set</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Set</span>
 
+<span class="kn">from</span> <span class="nn">datacode.logger</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">datacode.models.dtypes.base</span> <span class="kn">import</span> <span class="n">DataType</span>
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Protocol</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -409,7 +409,7 @@
         <span class="k">if</span> <span class="n">col1</span><span class="o">.</span><span class="n">variable</span> <span class="o">!=</span> <span class="n">col2</span><span class="o">.</span><span class="n">variable</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;warn about mismatching must be called only on columns which match other than load_key&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">col1</span><span class="o">.</span><span class="n">load_key</span> <span class="o">!=</span> <span class="n">col2</span><span class="o">.</span><span class="n">load_key</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got both </span><span class="si">{</span><span class="n">col1</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="n">col2</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1"> as load_key for &#39;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got both </span><span class="si">{</span><span class="n">col1</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="n">col2</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1"> as load_key for &#39;</span>
                           <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">col1</span><span class="o">.</span><span class="n">variable</span><span class="si">}</span><span class="s1">, will use </span><span class="si">{</span><span class="n">col1</span><span class="o">.</span><span class="n">load_key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 
