@@ -71,6 +71,7 @@ PACKAGE_INSTALL_REQUIRES = [
     'sklearn',
     'typing_extensions',
     'graphviz',
+    'deepdiff',
 ]
 
 # Add any third party packages you use in requirements for optional features of your package here

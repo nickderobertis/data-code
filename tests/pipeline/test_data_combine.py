@@ -1,4 +1,6 @@
+import datetime
 from typing import Sequence
+from unittest.mock import patch
 
 from pandas.testing import assert_frame_equal
 
@@ -157,3 +159,17 @@ class TestDataCombinationPipeline(PipelineTest):
 
         assert_frame_equal(dp2.df, self.expect_combined_cols_2_3)
         self.assert_ordered_pipeline_operations(dp2, [dtp, dp2])
+
+    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
+    def test_hash_dict_combine_pipeline(self):
+        dcp = self.create_combine_pipeline()
+        hd1 = dcp.hash_dict()
+        dcp.execute()
+        hd2 = dcp.hash_dict()
+        assert hd1 == hd2 == {
+            "_data_sources": "4ebb5649234b8f5874cee61a579e5e41c9618089ddee64dacbda09e9a2cd4fdd",
+            "_operations_options": "7f9e1cda217ec9a6e40b2e3e435348d003d766a1d757c56a38fb960a94d958f0",
+            "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
+            "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
+            "last_modified": "caec90dd700c1651c357c7111c1aa3236603817e15d5716b1ecd0dc912deb421",
+        }

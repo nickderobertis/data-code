@@ -7,12 +7,11 @@ import warnings
 import datetime
 from typing import List, Optional, Any, Dict, Sequence, Type
 
-from graphviz import Digraph
 from mixins import ReprMixin
 
 from datacode.graph.base import GraphObject, Graphable, GraphFunction
 from datacode.graph.edge import Edge
-from datacode.graph.node import Node
+from datacode.models.dethash import DeterministicHashDictMixin
 from datacode.models.links import LinkedItem
 from datacode.models.outputter import DataOutputter
 from datacode.models.types import SourceCreatingPipeline
@@ -24,7 +23,7 @@ from datacode.models.loader import DataLoader
 import datacode.hooks as hooks
 
 
-class DataSource(LinkedItem, Graphable, ReprMixin):
+class DataSource(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
     copy_keys = [
         'location',
         'name',
@@ -154,7 +153,6 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
                 raise ValueError(f'variable name {name} repeated in load variables')
             existing_names.append(name)
 
-
     @property
     def df(self):
         if self._df is None:
@@ -198,6 +196,12 @@ class DataSource(LinkedItem, Graphable, ReprMixin):
         if item is not None:
             self._add_back_link(item)
             item._add_forward_link(self)
+
+    @property
+    def __dict__(self):
+        if hasattr(self, '_df'):
+            return {**super().__dict__, 'last_modified': self.last_modified}
+        return super().__dict__
 
     def _load(self):
         hooks.on_begin_load_source(self)

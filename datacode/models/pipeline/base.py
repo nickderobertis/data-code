@@ -11,17 +11,18 @@ from datacode.graph.node import Node
 from datacode.graph.subgraph import Subgraph
 import datacode.hooks as hooks
 from datacode.models.analysis import AnalysisResult
+from datacode.models.dethash import DeterministicHashDictMixin
 from datacode.models.links import LinkedItem
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
 from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline, ObjWithLastModified
 
 
-class DataPipeline(LinkedItem, Graphable, ReprMixin):
+class DataPipeline(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
     """
     Base class for data pipelines. Should not be used directly.
     """
-    repr_cols = ['name', 'data_sources', 'operation_options']
+    repr_cols = ['name', 'data_sources', 'operation_options', 'difficulty']
 
     def __init__(self, data_sources: DataSourcesOrPipelines,
                  operation_options: Optional[Sequence[OperationOptions]],
@@ -212,6 +213,16 @@ class DataPipeline(LinkedItem, Graphable, ReprMixin):
     def describe(self):
         for op in self.operations:
             op.describe()
+
+    def hash_dict(self) -> Dict[str, str]:
+        ops = self.operations  # sets operations if not already
+        return super().hash_dict()
+
+    @property
+    def __dict__(self):
+        if hasattr(self, '_operations'):
+            return {**super().__dict__, 'last_modified': self.last_modified}
+        return super().__dict__
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:

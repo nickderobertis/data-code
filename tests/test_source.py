@@ -1,10 +1,13 @@
+import datetime
 import os
 import shutil
 import unittest
 from copy import deepcopy
 from typing import Optional, Tuple, Any, Callable, Dict, Sequence, List
+from unittest.mock import patch
 
 import pandas as pd
+from freezegun import freeze_time
 from pandas.testing import assert_frame_equal
 
 from datacode.models.column.column import Column
@@ -651,3 +654,33 @@ class TestOutput(SourceTest):
         ]
         ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
         assert_frame_not_equal(ds.df, self.expect_loaded_df_with_transform)
+
+
+class TestHash(SourceTest):
+
+    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
+    def test_hash_dict_source(self):
+        self.create_csv()
+        ds = self.create_source()
+        hd1 = ds.hash_dict()
+        df = ds.df
+        hd2 = ds.hash_dict()
+        assert hd1 == hd2 == {
+            "location": "75553e5c242e7858a243efffe3279b3f30cc94cbba887e660b574552a86f0506",
+            "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
+            "tags": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
+            "loader_class": "cb732c35e5222bdd8e353abeee43b3426247a69981c0f003310ce1279e7c2a08",
+            "outputter_class": "f7283dc1e9aac0865e5370ab3b19584534333e9ac749637e1ff2371560f59f00",
+            "_pipeline": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
+            "_orig_columns": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
+            "_columns_for_calculate": "e78b481f6a5083ac6d266e434fd0da3dc14bf48ac1376d0476b6e310c721e6d9",
+            "columns": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
+            "_orig_load_variables": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
+            "_vars_for_calculate": "e78b481f6a5083ac6d266e434fd0da3dc14bf48ac1376d0476b6e310c721e6d9",
+            "load_variables": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
+            "read_file_kwargs": "306f6a85c8136a673f6eac5fffe265a196613180ebdfe2b9e6fdd6fdd62bb8fd",
+            "data_outputter_kwargs": "306f6a85c8136a673f6eac5fffe265a196613180ebdfe2b9e6fdd6fdd62bb8fd",
+            "optimize_size": "b195620d3676be89da6277412918e9f4e5e2bf23b0eaacfcf674c87609c67f3a",
+            "difficulty": "0721514aeeb11d91796d9f3769a20fde80566ddf03ce7f00832632e766b09596",
+            "last_modified": "caec90dd700c1651c357c7111c1aa3236603817e15d5716b1ecd0dc912deb421",
+        }

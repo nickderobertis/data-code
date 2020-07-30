@@ -1,6 +1,7 @@
 import datetime
 import time
 from copy import deepcopy
+from unittest.mock import patch
 
 from pandas.testing import assert_frame_equal
 
@@ -259,3 +260,17 @@ class TestDataTransformationPipeline(PipelineTest):
         assert th.COUNTER == counter_value + 4  # transform operation called again
 
         dc_hooks.reset_hooks()
+
+    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
+    def test_hash_dict_transformation_pipeline(self):
+        dtp = self.create_transformation_pipeline()
+        hd1 = dtp.hash_dict()
+        dtp.execute()
+        hd2 = dtp.hash_dict()
+        assert hd1 == hd2 == {
+            "_data_sources": "52e6e347c8bbb71da5ab74ad3caa113c3c10eea85b5997ae248a0f5c4b345734",
+            "_operations_options": "28ba857cd5a6a95bcdc5d2a94b0c13839ed0b3c9de2b982cbb8894653d5c41c0",
+            "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
+            "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
+            "last_modified": "caec90dd700c1651c357c7111c1aa3236603817e15d5716b1ecd0dc912deb421",
+        }

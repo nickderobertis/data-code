@@ -36,6 +36,7 @@ semopy = "<2"
 typing_extensions = "*"
 jupyterlab = "*"
 graphviz = "*"
+deepdiff = "*"
 
 [requires]
 python_version = "3.7"
