@@ -1,6 +1,6 @@
-import warnings
 from typing import Sequence, Any, Optional, List, Tuple, Dict, Union, Set
 
+from datacode.logger import logger
 from datacode.models.dtypes.base import DataType
 from typing_extensions import Protocol
 import pandas as pd
@@ -243,7 +243,7 @@ def _warn_about_mismatching_load_keys(cols1: Sequence[Column], cols2: Sequence[C
         if col1.variable != col2.variable:
             raise ValueError('warn about mismatching must be called only on columns which match other than load_key')
         if col1.load_key != col2.load_key:
-            warnings.warn(f'Got both {col1.load_key} and {col2.load_key} as load_key for '
+            logger.warning(f'Got both {col1.load_key} and {col2.load_key} as load_key for '
                           f'{col1.variable}, will use {col1.load_key}')
 
 
