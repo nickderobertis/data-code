@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Tuple, Sequence, List
+from typing import Optional, Tuple, Sequence, List, Any, Dict
 
 import pandas as pd
 from numpy import nan
@@ -392,12 +392,15 @@ class PipelineTest(SourceTest):
         return dgp
 
     def create_transformation_pipeline(self, source: Optional[DataSourceOrPipeline] = None,
-                                       **pipeline_kwargs) -> DataTransformationPipeline:
+                                       pipeline_kwargs: Optional[Dict[str, Any]] = None,
+                                       **options) -> DataTransformationPipeline:
         config_dict = dict(
             func=source_transform_func,
             out_path=self.csv_path_output
         )
-        config_dict.update(pipeline_kwargs)
+        config_dict.update(options)
+        if pipeline_kwargs is None:
+            pipeline_kwargs = {}
         if source is None:
             self.create_csv()
             all_cols = self.create_columns()
@@ -405,7 +408,7 @@ class PipelineTest(SourceTest):
 
         to = TransformOptions(**config_dict)
 
-        dtp = DataTransformationPipeline(source, to)
+        dtp = DataTransformationPipeline(source, to, **pipeline_kwargs)
         return dtp
 
     def create_combine_pipeline(self, include_indices: Sequence[int] = (0, 1),

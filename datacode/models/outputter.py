@@ -1,3 +1,4 @@
+import json
 import os
 from copy import deepcopy
 from typing import TYPE_CHECKING, Optional, Dict, Any
@@ -105,6 +106,14 @@ class DataOutputter(ReprMixin):
 
         # TODO [#60]: implement output to location types other than CSV
         df.to_csv(self.source.location, **config_dict)
+        self._output_pipeline_cache_json()
+
+    def _output_pipeline_cache_json(self):
+        if self.source.pipeline is None or self.source.cache_json_location is None:
+            return
+
+        with open(self.source.cache_json_location, 'w') as f:
+            json.dump(self.source.pipeline.hash_dict(), f, indent=2)
 
 
 

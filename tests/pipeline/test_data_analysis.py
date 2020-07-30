@@ -107,9 +107,8 @@ class TestDataAnalysisPipeline(PipelineTest):
         dap.execute()
         hd2 = dap.hash_dict()
         assert hd1 == hd2 == {
-            "_data_sources": "fe50be87f9d255a477d7c23609c3097f10a7ef9cc8477cfcffeeb6c805ae16c5",
+            "_data_sources": "b723a0cb0aa8c106d7857484846835a8279049425c474f6f06ad07dcb521b1b5",
             "_operations_options": "fc88ae22bf3ca43b567a82443e1ea75a8799fe2be195794c857f98b516bfb655",
             "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
             "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
-            "last_modified": "caec90dd700c1651c357c7111c1aa3236603817e15d5716b1ecd0dc912deb421",
         }

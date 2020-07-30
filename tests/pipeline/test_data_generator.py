@@ -47,5 +47,4 @@ class TestDataGeneratorPipeline(PipelineTest):
             "_operations_options": "8616241cb51ef1210d920715625b671172688a9cf2cf5e37e55344ff2a5ccbb4",
             "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
             "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
-            "last_modified": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
         }

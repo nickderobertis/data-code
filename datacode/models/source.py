@@ -644,6 +644,13 @@ class DataSource(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
             elems.append(Edge(self.pipeline.primary_node(include_attrs, func_dict), pn))
         return elems
 
+    @property
+    def cache_json_location(self) -> Optional[str]:
+        if self.location is None:
+            return None
+
+        return f'{self.location}.dcc.json'
+
 
 class NoColumnForVariableException(Exception):
     pass

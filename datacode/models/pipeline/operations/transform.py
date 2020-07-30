@@ -31,7 +31,7 @@ class TransformOperation(DataOperation):
 
     def _execute(self):
         ds = self.options.transform.apply(self.data_source, preserve_original=self.options.preserve_original)
-        self.result.update_from_source(ds, exclude_attrs=('location', 'data_outputter_kwargs'))
+        self.result.update_from_source(ds, exclude_attrs=('location', 'data_outputter_kwargs', 'pipeline'))
         return self.result
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,

@@ -228,36 +228,42 @@ class TestDataTransformationPipeline(PipelineTest):
         self.assert_all_pipeline_operations_have_pipeline(dtp)
         self.assert_all_pipeline_operations_have_pipeline(dtp2)
 
+    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
     def test_transformation_pipeline_cache(self):
         counter_value = th.COUNTER
         dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
 
         # Run initial pipeline
-        dtp = self.create_transformation_pipeline()
+        cols = self.create_columns()
+        dtp = self.create_transformation_pipeline(result_kwargs=dict(columns=cols))
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_func_df)
         self.assert_all_pipeline_operations_have_pipeline(dtp)
-        assert th.COUNTER == counter_value + 2  # transform operation called once
+        assert th.COUNTER == counter_value + 1  # transform operation called once
 
         # Now result should be cached to file. Running a new pipeline with
         # the same options should load from cache
         # Options should be checked for equality, so passing deepcopy it should
         # still cache
-        dtp = self.create_transformation_pipeline(func=deepcopy(source_transform_func))
+        dtp = self.create_transformation_pipeline(
+            func=deepcopy(source_transform_func), result_kwargs=dict(columns=cols)
+        )
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_func_df)
         self.assert_all_pipeline_operations_have_pipeline(dtp)
-        assert th.COUNTER == counter_value + 2  # transform operation not called again
+        assert th.COUNTER == counter_value + 1  # transform operation not called again
 
         # Running with different options should run operations again
-        dtp = self.create_transformation_pipeline(func=source_transform_func2)
+        dtp = self.create_transformation_pipeline(
+            pipeline_kwargs=dict(difficulty=20), result_kwargs=dict(columns=cols)
+        )
         dtp.execute()
 
         assert_frame_equal(dtp.df, self.expect_func_df)
         self.assert_all_pipeline_operations_have_pipeline(dtp)
-        assert th.COUNTER == counter_value + 4  # transform operation called again
+        assert th.COUNTER == counter_value + 2  # transform operation called again
 
         dc_hooks.reset_hooks()
 
@@ -268,9 +274,8 @@ class TestDataTransformationPipeline(PipelineTest):
         dtp.execute()
         hd2 = dtp.hash_dict()
         assert hd1 == hd2 == {
-            "_data_sources": "52e6e347c8bbb71da5ab74ad3caa113c3c10eea85b5997ae248a0f5c4b345734",
+            "_data_sources": "4a7dfc739fcb55ed75da70d8102acd0a02b7b70bad64d6004d5b31a69d889458",
             "_operations_options": "28ba857cd5a6a95bcdc5d2a94b0c13839ed0b3c9de2b982cbb8894653d5c41c0",
             "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
             "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
-            "last_modified": "caec90dd700c1651c357c7111c1aa3236603817e15d5716b1ecd0dc912deb421",
         }

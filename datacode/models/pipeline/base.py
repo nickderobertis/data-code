@@ -1,4 +1,7 @@
 import datetime
+import json
+import os
+import warnings
 from copy import deepcopy
 from typing import Sequence, List, Callable, Optional, Union, Dict
 
@@ -13,6 +16,7 @@ import datacode.hooks as hooks
 from datacode.models.analysis import AnalysisResult
 from datacode.models.dethash import DeterministicHashDictMixin
 from datacode.models.links import LinkedItem
+from datacode.models.pipeline.operations.load import LoadOptions, LoadOperation
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
 from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline, ObjWithLastModified
@@ -104,12 +108,43 @@ class DataPipeline(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin)
         self._operations = self._create_operations(self.data_sources, self.operation_options)
 
     def _create_operations(self, data_sources: DataSourcesOrPipelines, options_list: List[OperationOptions]):
+        force_rerun = any([op.always_rerun for op in options_list])
+        if not force_rerun and self.result_is_cached:
+            # Already have result with the same exact config from a prior run. Just load it
+            if options_list[-1].op_class.num_required_sources == 0:
+                res = options_list[-1].get_operation(
+                    self, options_list[-1], include_pipeline_in_result=True
+                ).result
+            elif options_list[-1].op_class.num_required_sources == 1:
+                res = options_list[-1].get_operation(
+                    self, [data_sources[0]], options_list[-1], include_pipeline_in_result=True
+                ).result
+            elif options_list[-1].op_class.num_required_sources == 2:
+                res = options_list[-1].get_operation(
+                    self, data_sources, options_list[-1], include_pipeline_in_result=True
+                ).result
+            else:
+                raise ValueError('DataPipeline cannot handle operations with more than two sources')
+            if isinstance(res, DataSource):
+                load_options = LoadOptions(out_path=self.location, allow_modifying_result=self.allow_modifying_result,
+                                           result_kwargs=options_list[-1].result_kwargs)
+                load_operation = load_options.get_operation(self, [res], load_options)
+                return [load_operation]
+            warnings.warn(f'No loading from file implemented for result type {type(res)}, will always run pipeline')
+
+        if len(options_list) == 1:
+            result_opts = {'include_pipeline_in_result': True}
+        else:
+            result_opts = {}
+
         if options_list[0].op_class.num_required_sources == 0:
-            operations = [options_list[0].get_operation(self, options_list[0])]
+            operations = [options_list[0].get_operation(self, options_list[0], **result_opts)]
         elif options_list[0].op_class.num_required_sources == 1:
-            operations = _get_operations_for_single(data_sources[0], options_list[0], self)
+            operations = _get_operations_for_single(data_sources[0], options_list[0], self, **result_opts)
         elif options_list[0].op_class.num_required_sources == 2:
-            operations = _get_operations_for_pair(data_sources[0], data_sources[1], options_list[0], self)
+            operations = _get_operations_for_pair(
+                data_sources[0], data_sources[1], options_list[0], self, **result_opts
+            )
         else:
             raise ValueError('DataPipeline cannot handle operations with more than two sources')
 
@@ -117,12 +152,20 @@ class DataPipeline(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin)
             return operations
 
         for i, options in enumerate(options_list[1:]):
+            if i + 2 == len(options_list):
+                # Include pipeline for last operation
+                result_opts = {'include_pipeline_in_result': True}
+            else:
+                result_opts = {}
+
             if options.op_class.num_required_sources == 0:
-                operations.append(options.get_operation(self, options))
+                operations.append(options.get_operation(self, options, **result_opts))
             elif options.op_class.num_required_sources == 1:
-                operations += _get_operations_for_single(operations[-1].result, options, self)
+                operations += _get_operations_for_single(operations[-1].result, options, self, **result_opts)
             elif options.op_class.num_required_sources == 2:
-                operations += _get_operations_for_pair(operations[-1].result, data_sources[i + 2], options, self)
+                operations += _get_operations_for_pair(
+                    operations[-1].result, data_sources[i + 2], options, self, **result_opts
+                )
             else:
                 raise ValueError('DataPipeline cannot handle operations with more than two sources')
 
@@ -175,6 +218,9 @@ class DataPipeline(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin)
     def output(self):
         if self.result is None:
             return
+        if isinstance(self.operations[-1], LoadOperation):
+            # No reason to output if operation was load, there would be no change
+            return
         if isinstance(self.result, AnalysisResult):
             if not self.operation_options[-1].can_output:
                 return
@@ -182,10 +228,9 @@ class DataPipeline(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin)
             return
         if not isinstance(self.result, DataSource):
             raise NotImplementedError(f'have not implemented pipeline output for type {type(self.result)}')
-        if self.result.location is None:
-            if not self.operation_options[-1].can_output:
-                return
-            self.result.location = self.operation_options[-1].out_path
+        self.result.location = self.location
+        if not self.operation_options[-1].can_output:
+            return
 
         # By default, save calculated variables, unless user explicitly passes to not save them
         # Essentially setting the opposite default versus working directly with the DataSource since
@@ -214,15 +259,35 @@ class DataPipeline(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin)
         for op in self.operations:
             op.describe()
 
-    def hash_dict(self) -> Dict[str, str]:
-        ops = self.operations  # sets operations if not already
-        return super().hash_dict()
+    @property
+    def location(self) -> Optional[str]:
+        if self.result is not None and self.result.location is not None:
+            return self.result.location
+
+        if not self.operation_options[-1].can_output:
+            return None
+
+        return self.operation_options[-1].out_path
 
     @property
-    def __dict__(self):
-        if hasattr(self, '_operations'):
-            return {**super().__dict__, 'last_modified': self.last_modified}
-        return super().__dict__
+    def cache_json_location(self) -> Optional[str]:
+        if self.location is None:
+            return None
+
+        return f'{self.location}.dcc.json'
+
+    @property
+    def result_is_cached(self) -> bool:
+        loc = self.cache_json_location
+        if loc is None:
+            return False
+        if not os.path.exists(loc):
+            return False
+
+        with open(loc, 'r') as f:
+            cache = json.load(f)
+
+        return cache == self.hash_dict()
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
@@ -296,7 +361,8 @@ class LastOperationFinishedException(Exception):
 
 
 def _get_operations_for_single(data_source: DataSourceOrPipeline, options: OperationOptions,
-                               current_pipeline: DataPipeline) -> List[DataOperation]:
+                               current_pipeline: DataPipeline,
+                               include_pipeline_in_result: bool = False) -> List[DataOperation]:
     """
      Creates a list of DataOperation/subclass objects from a single DataSource or DataPipeline object
     :param data_source:
@@ -316,13 +382,18 @@ def _get_operations_for_single(data_source: DataSourceOrPipeline, options: Opera
         final_operation_sources.append(data_source)  # type: ignore
 
     # Add last (or only) operation
-    operations.append(options.get_operation(current_pipeline, final_operation_sources, options))
+    operations.append(
+        options.get_operation(
+            current_pipeline, final_operation_sources, options, include_pipeline_in_result=include_pipeline_in_result
+        )
+    )
 
     return operations
 
 
 def _get_operations_for_pair(data_source_1: DataSourceOrPipeline, data_source_2: DataSourceOrPipeline,
-                             options: OperationOptions, current_pipeline: DataPipeline) -> List[DataOperation]:
+                             options: OperationOptions, current_pipeline: DataPipeline,
+                             include_pipeline_in_result: bool = False) -> List[DataOperation]:
     """
     Creates a list of DataOperation/subclass objects from a paring of two DataSource objects, a DataSource and a
     DataPipeline, or two DataPipeline objects.
@@ -352,7 +423,11 @@ def _get_operations_for_pair(data_source_1: DataSourceOrPipeline, data_source_2:
         final_operation_sources.append(data_source_2)
 
     # Add last (or only) operation
-    operations.append(options.get_operation(current_pipeline, final_operation_sources, options))
+    operations.append(
+        options.get_operation(
+            current_pipeline, final_operation_sources, options, include_pipeline_in_result=include_pipeline_in_result
+        )
+    )
 
     return operations
 

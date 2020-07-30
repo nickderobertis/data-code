@@ -670,7 +670,7 @@ class TestHash(SourceTest):
             "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
             "tags": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
             "loader_class": "cb732c35e5222bdd8e353abeee43b3426247a69981c0f003310ce1279e7c2a08",
-            "outputter_class": "f7283dc1e9aac0865e5370ab3b19584534333e9ac749637e1ff2371560f59f00",
+            "outputter_class": "fa25e85aaf795e38115c41cbeaae334ffba50917980fffedcf823c0585ada928",
             "_pipeline": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
             "_orig_columns": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
             "_columns_for_calculate": "e78b481f6a5083ac6d266e434fd0da3dc14bf48ac1376d0476b6e310c721e6d9",

@@ -16,7 +16,7 @@ class TestCopySource(PipelineTest):
         assert ds.df is new_ds.df
         assert len(ds.back_links) == 1
         assert len(new_ds.back_links) == 1
-        assert len(dgp.forward_links) == 2
+        assert len(dgp.forward_links) == 3
 
     def test_copy_custom_keep(self):
         dgp = self.create_generator_pipeline()
@@ -36,4 +36,4 @@ class TestCopySource(PipelineTest):
         assert ds.df is new_ds.df
         assert len(ds.back_links) == 1
         assert len(new_ds.back_links) == 1
-        assert len(dgp.forward_links) == 1
+        assert len(dgp.forward_links) == 2
