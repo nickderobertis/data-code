@@ -1,5 +1,8 @@
 import datetime
 from typing import Callable, Optional, Any, Sequence, Dict, TYPE_CHECKING
+
+from datacode.logger import logger
+
 if TYPE_CHECKING:
     from datacode.models.pipeline.combine import DataCombinationPipeline
 
@@ -39,7 +42,7 @@ class CombineOperation(DataOperation):
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
         # TODO [#73]: better summary for DataCombinationPipeline
-        print(f'Combining {self.data_sources[0]} with {self.data_sources[1]} with '
+        logger.info(f'Combining {self.data_sources[0]} with {self.data_sources[1]} with '
               f'options {self.options}')
 
     def describe(self):
