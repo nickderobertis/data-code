@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.analysis &mdash; datacode 0.18.15 documentation</title>
+  <title>datacode.models.pipeline.operations.analysis &mdash; datacode 0.19.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.18.15
+                0.19.0
               </div>
             
           
@@ -165,6 +165,9 @@
             
   <h1>Source code for datacode.models.pipeline.operations.analysis</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span> <span class="nn">datacode.logger</span> <span class="kn">import</span> <span class="n">logger</span>
+
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">datacode.models.pipeline.analysis</span> <span class="kn">import</span> <span class="n">DataAnalysisPipeline</span>
 
@@ -200,8 +203,8 @@
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">summary_args</span><span class="p">,</span> <span class="n">summary_method</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">summary_function</span><span class="p">:</span> <span class="n">Callable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">summary_attr</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">summary_method_kwargs</span><span class="p">):</span>
         <span class="c1"># TODO [#45]: better summary for DataAnalysisPipeline</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Runs func </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> with kwargs </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func_kwargs</span><span class="si">}</span><span class="s1"> on </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Runs func </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> with kwargs </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">func_kwargs</span><span class="si">}</span><span class="s1"> on </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>

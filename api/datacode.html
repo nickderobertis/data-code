@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode package &mdash; datacode 0.18.15 documentation</title>
+  <title>datacode package &mdash; datacode 0.19.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.18.15
+                0.19.0
               </div>
             
           
@@ -121,6 +121,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-datacode.hooks">datacode.hooks module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-datacode.load">datacode.load module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-datacode.logger">datacode.logger module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-datacode.typing">datacode.typing module</a></li>
 </ul>
 </li>
@@ -980,6 +981,44 @@ other_byvars: any other variables signifying groups in the data, prevents from c
 <dt id="datacode.load.replace_missing_csv">
 <code class="sig-prename descclassname">datacode.load.</code><code class="sig-name descname">replace_missing_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">csv_list</span></em>, <em class="sig-param"><span class="n">missing_rep</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/load.html#replace_missing_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.load.replace_missing_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replaces missing items in a CSV with a given missing representation string.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacode.logger">
+<span id="datacode-logger-module"></span><h2>datacode.logger module<a class="headerlink" href="#module-datacode.logger" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="datacode.logger.CustomFormatter">
+<em class="property">class </em><code class="sig-prename descclassname">datacode.logger.</code><code class="sig-name descname">CustomFormatter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fmt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">datefmt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">style</span><span class="o">=</span><span class="default_value">'%'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/logger.html#CustomFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.logger.CustomFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Formatter" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">logging.Formatter</span></code></a></p>
+<dl class="py attribute">
+<dt id="datacode.logger.CustomFormatter.debug_formatter">
+<code class="sig-name descname">debug_formatter</code><em class="property"> = &lt;logging.Formatter object&gt;</em><a class="headerlink" href="#datacode.logger.CustomFormatter.debug_formatter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="datacode.logger.CustomFormatter.format">
+<code class="sig-name descname">format</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">record</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/logger.html#CustomFormatter.format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.logger.CustomFormatter.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the specified record as text.</p>
+<p>The record’s attribute dictionary is used as the operand to a
+string formatting operation which yields the returned string.
+Before formatting the dictionary, a couple of preparatory steps
+are carried out. The message attribute of the record is computed
+using LogRecord.getMessage(). If the formatting string uses the
+time (as determined by a call to usesTime(), formatTime() is
+called to format the event time. If there is exception information,
+it is formatted using formatException() and appended to the message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="datacode.logger.CustomFormatter.other_formatter">
+<code class="sig-name descname">other_formatter</code><em class="property"> = &lt;logging.Formatter object&gt;</em><a class="headerlink" href="#datacode.logger.CustomFormatter.other_formatter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.source &mdash; datacode 0.18.15 documentation</title>
+  <title>datacode.models.source &mdash; datacode 0.19.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.18.15
+                0.19.0
               </div>
             
           
@@ -179,6 +179,7 @@
 <span class="kn">from</span> <span class="nn">datacode.graph.base</span> <span class="kn">import</span> <span class="n">GraphObject</span><span class="p">,</span> <span class="n">Graphable</span><span class="p">,</span> <span class="n">GraphFunction</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.edge</span> <span class="kn">import</span> <span class="n">Edge</span>
 <span class="kn">from</span> <span class="nn">datacode.graph.node</span> <span class="kn">import</span> <span class="n">Node</span>
+<span class="kn">from</span> <span class="nn">datacode.logger</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">datacode.models.links</span> <span class="kn">import</span> <span class="n">LinkedItem</span>
 <span class="kn">from</span> <span class="nn">datacode.models.outputter</span> <span class="kn">import</span> <span class="n">DataOutputter</span>
 <span class="kn">from</span> <span class="nn">datacode.models.types</span> <span class="kn">import</span> <span class="n">SourceCreatingPipeline</span>
@@ -366,20 +367,24 @@
             <span class="n">item</span><span class="o">.</span><span class="n">_add_forward_link</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Started loading source </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">hooks</span><span class="o">.</span><span class="n">on_begin_load_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;data_loader&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_class</span><span class="p">,</span> <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">read_file_kwargs</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">()</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">hooks</span><span class="o">.</span><span class="n">on_end_load_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finished loading source </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span>
 
     <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data_outputter_kwargs</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Outputting source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">config_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_outputter_kwargs</span><span class="p">)</span>
         <span class="n">config_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">data_outputter_kwargs</span><span class="p">)</span>
         <span class="n">outputter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputter_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">config_dict</span><span class="p">)</span>
         <span class="n">outputter</span><span class="o">.</span><span class="n">output</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forward</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Resetting source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">forward</span><span class="p">:</span>
@@ -390,6 +395,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mark last_modified as now</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Touching source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_modified</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_check_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
@@ -398,6 +404,7 @@
 
     <span class="k">def</span> <span class="nf">_set_data_loader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">DataLoader</span><span class="p">],</span> <span class="n">pipeline</span><span class="p">:</span> <span class="n">SourceCreatingPipeline</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                          <span class="o">**</span><span class="n">read_file_kwargs</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Setting data loader for source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">run_pipeline</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># if a source in the pipeline to create this data source was modified more recently than this data source</span>
@@ -445,6 +452,7 @@
         <span class="c1"># Still necessary to use loader as may be transforming the data</span>
         <span class="k">if</span> <span class="n">run_pipeline</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">run_pipeline_then_load</span><span class="p">(</span><span class="n">pipeline</span><span class="p">:</span> <span class="n">SourceCreatingPipeline</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running pipeline then loading source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">pipeline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span> <span class="c1"># outputs to file</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_from_existing_source</span><span class="p">(</span>
                     <span class="n">pipeline</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
@@ -454,6 +462,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">run_pipeline_then_load</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_from_location</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finished setting data loader </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="si">}</span><span class="s1"> for source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">update_from_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DataSource&#39;</span><span class="p">,</span> <span class="n">exclude_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(),</span>
                            <span class="n">include_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()):</span>
@@ -619,6 +628,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_variables</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">refresh_columns_series</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Refreshing columns series in source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
@@ -631,6 +641,7 @@
             <span class="n">col</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">series</span>
 
     <span class="k">def</span> <span class="nf">_wipe_columns_series</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Wiping columns series in source </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">cols_attrs</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s1">&#39;columns&#39;</span><span class="p">,</span>
             <span class="s1">&#39;_orig_columns&#39;</span><span class="p">,</span>

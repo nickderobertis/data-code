@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.18.15 documentation</title>
+  <title>datacode.models.pipeline.operations.merge &mdash; datacode 0.19.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.18.15
+                0.19.0
               </div>
             
           
@@ -165,6 +165,9 @@
             
   <h1>Source code for datacode.models.pipeline.operations.merge</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span> <span class="nn">datacode.logger</span> <span class="kn">import</span> <span class="n">logger</span>
+
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">datacode.models.variables.variable</span> <span class="kn">import</span> <span class="n">Variable</span>
     <span class="kn">from</span> <span class="nn">datacode.models.column.column</span> <span class="kn">import</span> <span class="n">Column</span>
@@ -202,7 +205,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">output_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">merged_name</span>
 
     <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running merge function </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_str</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running merge function </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">merge_str</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">left_df</span><span class="p">,</span> <span class="n">right_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_merge_dfs</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">merge_function</span><span class="p">(</span>
             <span class="n">left_df</span><span class="p">,</span> <span class="n">right_df</span><span class="p">,</span>
@@ -235,7 +238,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">load_variables</span> <span class="o">=</span> <span class="n">load_variables</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> obs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">left_df</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> obs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">right_df</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">        Merged obs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
