@@ -1,5 +1,8 @@
 import datetime
 from typing import Callable, Optional, Any, Dict, TYPE_CHECKING
+
+from datacode.logger import logger
+
 if TYPE_CHECKING:
     from datacode.models.pipeline.generate import DataGeneratorPipeline
 
@@ -32,7 +35,7 @@ class GenerationOperation(DataOperation):
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
         # TODO [#46]: better summary for DataGeneratorPipeline
-        print(f'Calling function {self.options.func.__name__} with kwargs {self.options.func_kwargs} to '
+        logger.info(f'Calling function {self.options.func.__name__} with kwargs {self.options.func_kwargs} to '
               f'generate a DataSource')
 
     def describe(self):

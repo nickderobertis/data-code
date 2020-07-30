@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any, Dict, Optional, List, Tuple
 import pandas as pd
 from mixins import ReprMixin
 
+from datacode.logger import logger
 from datacode.models.column.column import Column
 from pd_utils.optimize.load import read_file
 
@@ -36,15 +37,18 @@ class DataLoader(ReprMixin):
 
         :return:
         """
+        logger.debug(f'Loading source {self.source.name} from location {self.source.location} with {self}')
         self.pre_read()
         df = self.read_file_into_df()
         df = self.post_read(df)
+        logger.debug(f'Setting columns and index for source {self.source.name}')
         df = self.duplicate_columns_for_calculations_assign_series(df)
         self.rename_columns(df)
         df = self.post_rename(df)
         if self.optimize_size:
             df = self.optimize_df_size(df)
         self.set_df_index(df)
+        logger.debug(f'Finished setting columns and index for source {self.source.name}')
         df = self.apply_calculations_transforms_and_drops(df)
 
         return df
@@ -72,6 +76,7 @@ class DataLoader(ReprMixin):
         return df
 
     def apply_calculations_transforms_and_drops(self, df: pd.DataFrame):
+        logger.debug(f'Applying calculations, transforms, and drops for for source {self.source.name} in loader {self}')
         self.assign_series_to_columns(df)
         df = self.pre_calculate(df)
         df = self.try_to_calculate_variables(df)
@@ -83,6 +88,8 @@ class DataLoader(ReprMixin):
         self.assign_series_to_columns(df)
         self.drop_variables(df)
         df = self.post_load(df)
+        logger.debug(f'Finished applying calculations, transforms, and drops '
+                     f'for for source {self.source.name} in loader {self}')
         return df
 
     def duplicate_calculated_columns_if_necessary(self, df: pd.DataFrame):
@@ -108,7 +115,9 @@ class DataLoader(ReprMixin):
         df.drop(drop_cols, axis=1, inplace=True)
 
     def read_file_into_df(self) -> pd.DataFrame:
+        logger.debug(f'Reading file into df for source {self.source.name} from location {self.source.location}')
         if self.source.location is None:
+            logger.debug(f'No location so empty DataFrame was loaded for {self.source.name}')
             return pd.DataFrame()
 
         read_file_config = dict()
@@ -163,6 +172,8 @@ class DataLoader(ReprMixin):
                     else:
                         raise e
 
+        logger.debug(f'Finished reading df of {len(df)} rows for source '
+                     f'{self.source.name} from location {self.source.location}')
         return df
 
     def set_df_index(self, df: pd.DataFrame):

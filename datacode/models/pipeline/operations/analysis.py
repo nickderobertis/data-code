@@ -1,4 +1,7 @@
 from typing import Sequence, Callable, Optional, Any, Dict, TYPE_CHECKING
+
+from datacode.logger import logger
+
 if TYPE_CHECKING:
     from datacode.models.pipeline.analysis import DataAnalysisPipeline
 
@@ -34,8 +37,8 @@ class AnalysisOperation(DataOperation):
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
         # TODO [#45]: better summary for DataAnalysisPipeline
-        print(f'Runs func {self.options.func.__name__} with kwargs {self.options.func_kwargs} on {self.data_source}:')
-        print(f'{self.data_source.describe()}')
+        logger.info(f'Runs func {self.options.func.__name__} with kwargs {self.options.func_kwargs} on {self.data_source}:')
+        logger.info(f'{self.data_source.describe()}')
 
     def describe(self):
         return self.summary()

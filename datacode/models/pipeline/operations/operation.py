@@ -4,6 +4,8 @@ from typing import Sequence, Callable, Optional, Type, TYPE_CHECKING, Dict, Any
 
 from mixins.repr import ReprMixin
 
+from datacode.logger import logger
+
 if TYPE_CHECKING:
     from datacode.models.analysis import AnalysisResult
     from datacode.models.pipeline.base import DataPipeline
@@ -38,13 +40,16 @@ class DataOperation(ReprMixin):
         self._has_been_executed = False
 
     def execute(self):
+        logger.debug(f'Checking whether {self} should be executed')
         if self._has_been_executed and not self.options.always_rerun:
             return
 
+        logger.debug(f'Starting to execute {self}')
         hooks.on_begin_execute_operation(self)
         self._execute()
         self._has_been_executed = True
         hooks.on_end_execute_operation(self)
+        logger.debug(f'Finished executing {self}')
 
     def _execute(self):
         raise NotImplementedError('must implement _execute in subclass of DataOperation')
@@ -58,6 +63,7 @@ class DataOperation(ReprMixin):
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
+        logger.debug(f'Determining last_modified in {self}')
         if self.options.last_modified is not None or not self.data_sources:
             return self.options.last_modified
 
@@ -68,6 +74,7 @@ class DataOperation(ReprMixin):
         valid_choices = [lm for lm in lm_choices if lm is not None]
 
         last_modified = max(valid_choices)
+        logger.debug(f'Finished determining last_modified in {self}')
         return last_modified
 
     @last_modified.setter
@@ -118,6 +125,7 @@ class OperationOptions(ReprMixin):
         return self.out_path is not None
 
     def get_operation(self, pipeline: 'DataPipeline', *args, include_pipeline_in_result: bool = False) -> DataOperation:
+        logger.debug(f'Getting operation from options {self}')
         kwargs = {}
         if self.result_kwargs is not None:
             kwargs = self.result_kwargs

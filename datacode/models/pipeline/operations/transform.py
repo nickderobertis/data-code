@@ -1,4 +1,7 @@
 from typing import Callable, Optional, Any, Union, Dict, Sequence, TYPE_CHECKING
+
+from datacode.logger import logger
+
 if TYPE_CHECKING:
     from datacode.models.pipeline.transform import DataTransformationPipeline
 
@@ -37,7 +40,7 @@ class TransformOperation(DataOperation):
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
                              summary_attr: str=None, **summary_method_kwargs):
         # TODO [#53]: better summary for DataTransformationPipeline
-        print(f'Calls transform {self.options.transform} on existing '
+        logger.info(f'Calls transform {self.options.transform} on existing '
               f'data source {self.data_source}')
 
     def describe(self):
