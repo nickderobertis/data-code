@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.sem package &mdash; datacode 0.19.1 documentation</title>
+  <title>datacode.sem package &mdash; datacode 0.20.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.19.1
+                0.20.0
               </div>
             
           
@@ -119,10 +119,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.hooks">datacode.hooks module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.load">datacode.load module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.logger">datacode.logger module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.typing">datacode.typing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-hooks-module">datacode.hooks module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-load-module">datacode.load module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-logger-module">datacode.logger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-typing-module">datacode.typing module</a></li>
 </ul>
 </li>
 </ul>
@@ -196,372 +196,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-datacode.sem">
-<span id="datacode-sem-package"></span><h1>datacode.sem package<a class="headerlink" href="#module-datacode.sem" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="datacode-sem-package">
+<h1>datacode.sem package<a class="headerlink" href="#datacode-sem-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.constants">
-<span id="datacode-sem-constants-module"></span><h2>datacode.sem.constants module<a class="headerlink" href="#module-datacode.sem.constants" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="datacode-sem-constants-module">
+<h2>datacode.sem.constants module<a class="headerlink" href="#datacode-sem-constants-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.df">
-<span id="datacode-sem-df-module"></span><h2>datacode.sem.df module<a class="headerlink" href="#module-datacode.sem.df" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="datacode.sem.df.assemble_model_data">
-<code class="sig-prename descclassname">datacode.sem.df.</code><code class="sig-name descname">assemble_model_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">variables</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">robust_scale</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">scale_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/df.html#assemble_model_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.df.assemble_model_data" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="datacode-sem-df-module">
+<h2>datacode.sem.df module<a class="headerlink" href="#datacode-sem-df-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.eqs">
-<span id="datacode-sem-eqs-module"></span><h2>datacode.sem.eqs module<a class="headerlink" href="#module-datacode.sem.eqs" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="datacode.sem.eqs.model_eqs">
-<code class="sig-prename descclassname">datacode.sem.eqs.</code><code class="sig-name descname">model_eqs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">structural_dict</span></em>, <em class="sig-param"><span class="n">measurement_dict</span></em>, <em class="sig-param"><span class="n">var_corr_groups</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/eqs.html#model_eqs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.eqs.model_eqs" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Equation</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="datacode-sem-eqs-module">
+<h2>datacode.sem.eqs module<a class="headerlink" href="#datacode-sem-eqs-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.exc">
-<span id="datacode-sem-exc-module"></span><h2>datacode.sem.exc module<a class="headerlink" href="#module-datacode.sem.exc" title="Permalink to this headline">¶</a></h2>
-<dl class="py exception">
-<dt id="datacode.sem.exc.ModelCovMatrixNotPositiveDefiniteException">
-<em class="property">exception </em><code class="sig-prename descclassname">datacode.sem.exc.</code><code class="sig-name descname">ModelCovMatrixNotPositiveDefiniteException</code><a class="reference internal" href="../_modules/datacode/sem/exc.html#ModelCovMatrixNotPositiveDefiniteException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.exc.ModelCovMatrixNotPositiveDefiniteException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.sem.exc.ModelException" title="datacode.sem.exc.ModelException"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.sem.exc.ModelException</span></code></a></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt id="datacode.sem.exc.ModelException">
-<em class="property">exception </em><code class="sig-prename descclassname">datacode.sem.exc.</code><code class="sig-name descname">ModelException</code><a class="reference internal" href="../_modules/datacode/sem/exc.html#ModelException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.exc.ModelException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.sem.exc.SEMException" title="datacode.sem.exc.SEMException"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.sem.exc.SEMException</span></code></a></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt id="datacode.sem.exc.SEMException">
-<em class="property">exception </em><code class="sig-prename descclassname">datacode.sem.exc.</code><code class="sig-name descname">SEMException</code><a class="reference internal" href="../_modules/datacode/sem/exc.html#SEMException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.exc.SEMException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt id="datacode.sem.exc.SampleCovMatrixNotPositiveDefiniteException">
-<em class="property">exception </em><code class="sig-prename descclassname">datacode.sem.exc.</code><code class="sig-name descname">SampleCovMatrixNotPositiveDefiniteException</code><a class="reference internal" href="../_modules/datacode/sem/exc.html#SampleCovMatrixNotPositiveDefiniteException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.exc.SampleCovMatrixNotPositiveDefiniteException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.sem.exc.SampleException" title="datacode.sem.exc.SampleException"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.sem.exc.SampleException</span></code></a></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt id="datacode.sem.exc.SampleException">
-<em class="property">exception </em><code class="sig-prename descclassname">datacode.sem.exc.</code><code class="sig-name descname">SampleException</code><a class="reference internal" href="../_modules/datacode/sem/exc.html#SampleException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.exc.SampleException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.sem.exc.SEMException" title="datacode.sem.exc.SEMException"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.sem.exc.SEMException</span></code></a></p>
-</dd></dl>
-
+<div class="section" id="datacode-sem-exc-module">
+<h2>datacode.sem.exc module<a class="headerlink" href="#datacode-sem-exc-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.latents">
-<span id="datacode-sem-latents-module"></span><h2>datacode.sem.latents module<a class="headerlink" href="#module-datacode.sem.latents" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="datacode.sem.latents.get_latents">
-<code class="sig-prename descclassname">datacode.sem.latents.</code><code class="sig-name descname">get_latents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">opt</span></em>, <em class="sig-param"><span class="n">mod_df</span></em>, <em class="sig-param"><span class="n">latent_vars</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/latents.html#get_latents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.latents.get_latents" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="datacode-sem-latents-module">
+<h2>datacode.sem.latents module<a class="headerlink" href="#datacode-sem-latents-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.main">
-<span id="datacode-sem-main-module"></span><h2>datacode.sem.main module<a class="headerlink" href="#module-datacode.sem.main" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="datacode.sem.main.SEM">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.sem.main.</code><code class="sig-name descname">SEM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">structural_dict</span></em>, <em class="sig-param"><span class="n">measurement_dict</span></em>, <em class="sig-param"><span class="n">var_corr_groups</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">robust_scale</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">pos_def_warnings</span><span class="o">=</span><span class="default_value">'ignore'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">scale_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/main.html#SEM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.main.SEM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.sem.main.SEM.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">structural_dict</span></em>, <em class="sig-param"><span class="n">measurement_dict</span></em>, <em class="sig-param"><span class="n">var_corr_groups</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">robust_scale</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">pos_def_warnings</span><span class="o">=</span><span class="default_value">'ignore'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">scale_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/main.html#SEM.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.main.SEM.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.main.SEM.all_vars">
-<em class="property">property </em><code class="sig-name descname">all_vars</code><a class="headerlink" href="#datacode.sem.main.SEM.all_vars" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.main.SEM.df">
-<em class="property">property </em><code class="sig-name descname">df</code><a class="headerlink" href="#datacode.sem.main.SEM.df" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.main.SEM.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">opt_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/main.html#SEM.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.main.SEM.fit" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#datacode.sem.summary.SEMSummary" title="datacode.sem.summary.SEMSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">SEMSummary</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.main.SEM.latent_vars">
-<em class="property">property </em><code class="sig-name descname">latent_vars</code><a class="headerlink" href="#datacode.sem.main.SEM.latent_vars" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.main.SEM.latents">
-<em class="property">property </em><code class="sig-name descname">latents</code><a class="headerlink" href="#datacode.sem.main.SEM.latents" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.main.SEM.model_df">
-<em class="property">property </em><code class="sig-name descname">model_df</code><a class="headerlink" href="#datacode.sem.main.SEM.model_df" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.main.SEM.observed_endog_vars">
-<em class="property">property </em><code class="sig-name descname">observed_endog_vars</code><a class="headerlink" href="#datacode.sem.main.SEM.observed_endog_vars" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.main.SEM.observed_vars">
-<em class="property">property </em><code class="sig-name descname">observed_vars</code><a class="headerlink" href="#datacode.sem.main.SEM.observed_vars" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="datacode-sem-main-module">
+<h2>datacode.sem.main module<a class="headerlink" href="#datacode-sem-main-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.model">
-<span id="datacode-sem-model-module"></span><h2>datacode.sem.model module<a class="headerlink" href="#module-datacode.sem.model" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="datacode.sem.model.model_str">
-<code class="sig-prename descclassname">datacode.sem.model.</code><code class="sig-name descname">model_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">structural_dict</span></em>, <em class="sig-param"><span class="n">measurement_dict</span></em>, <em class="sig-param"><span class="n">var_corr_groups</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/model.html#model_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.model.model_str" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="datacode-sem-model-module">
+<h2>datacode.sem.model module<a class="headerlink" href="#datacode-sem-model-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.parse">
-<span id="datacode-sem-parse-module"></span><h2>datacode.sem.parse module<a class="headerlink" href="#module-datacode.sem.parse" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="datacode.sem.parse.lambda_df_from_opt">
-<code class="sig-prename descclassname">datacode.sem.parse.</code><code class="sig-name descname">lambda_df_from_opt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">opt</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/parse.html#lambda_df_from_opt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.parse.lambda_df_from_opt" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="datacode-sem-parse-module">
+<h2>datacode.sem.parse module<a class="headerlink" href="#datacode-sem-parse-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.run">
-<span id="datacode-sem-run-module"></span><h2>datacode.sem.run module<a class="headerlink" href="#module-datacode.sem.run" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="datacode.sem.run.run_model">
-<code class="sig-prename descclassname">datacode.sem.run.</code><code class="sig-name descname">run_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model_def</span></em>, <em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">pos_def_warnings</span><span class="o">=</span><span class="default_value">'ignore'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">opt_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/run.html#run_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.run.run_model" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Optimizer</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="datacode-sem-run-module">
+<h2>datacode.sem.run module<a class="headerlink" href="#datacode-sem-run-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.summary">
-<span id="datacode-sem-summary-module"></span><h2>datacode.sem.summary module<a class="headerlink" href="#module-datacode.sem.summary" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="datacode.sem.summary.SEMSummary">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.sem.summary.</code><code class="sig-name descname">SEMSummary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">opt</span></em>, <em class="sig-param"><span class="n">observed_endog_vars</span></em>, <em class="sig-param"><span class="n">structural_dict</span></em>, <em class="sig-param"><span class="n">measurement_dict</span></em>, <em class="sig-param"><span class="n">var_corr_groups</span></em>, <em class="sig-param"><span class="n">all_vars</span></em>, <em class="sig-param"><span class="n">scale</span></em>, <em class="sig-param"><span class="n">robust_scale</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/summary.html#SEMSummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.summary.SEMSummary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">opt</span></em>, <em class="sig-param"><span class="n">observed_endog_vars</span></em>, <em class="sig-param"><span class="n">structural_dict</span></em>, <em class="sig-param"><span class="n">measurement_dict</span></em>, <em class="sig-param"><span class="n">var_corr_groups</span></em>, <em class="sig-param"><span class="n">all_vars</span></em>, <em class="sig-param"><span class="n">scale</span></em>, <em class="sig-param"><span class="n">robust_scale</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/summary.html#SEMSummary.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.summary.SEMSummary.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.correlations">
-<em class="property">property </em><code class="sig-name descname">correlations</code><a class="headerlink" href="#datacode.sem.summary.SEMSummary.correlations" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.eqs">
-<em class="property">property </em><code class="sig-name descname">eqs</code><a class="headerlink" href="#datacode.sem.summary.SEMSummary.eqs" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Equation</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.fit">
-<em class="property">property </em><code class="sig-name descname">fit</code><a class="headerlink" href="#datacode.sem.summary.SEMSummary.fit" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.latent">
-<em class="property">property </em><code class="sig-name descname">latent</code><a class="headerlink" href="#datacode.sem.summary.SEMSummary.latent" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.notes">
-<em class="property">property </em><code class="sig-name descname">notes</code><a class="headerlink" href="#datacode.sem.summary.SEMSummary.notes" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.structural">
-<em class="property">property </em><code class="sig-name descname">structural</code><a class="headerlink" href="#datacode.sem.summary.SEMSummary.structural" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.summary">
-<code class="sig-name descname">summary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/summary.html#SEMSummary.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.summary.SEMSummary.summary" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.to_latex">
-<code class="sig-name descname">to_latex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">begin_below_text</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">end_below_text</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">replace_below_text</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">caption</span><span class="o">=</span><span class="default_value">'Structural Equation Model (SEM)'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/summary.html#SEMSummary.to_latex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.summary.SEMSummary.to_latex" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.sem.summary.SEMSummary.warnings">
-<em class="property">property </em><code class="sig-name descname">warnings</code><a class="headerlink" href="#datacode.sem.summary.SEMSummary.warnings" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt id="datacode.sem.summary.correlation_dfs">
-<code class="sig-prename descclassname">datacode.sem.summary.</code><code class="sig-name descname">correlation_dfs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">opt</span></em>, <em class="sig-param"><span class="n">all_vars</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/summary.html#correlation_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.summary.correlation_dfs" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="datacode.sem.summary.get_fit_statistics">
-<code class="sig-prename descclassname">datacode.sem.summary.</code><code class="sig-name descname">get_fit_statistics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">opt</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/summary.html#get_fit_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.summary.get_fit_statistics" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="datacode.sem.summary.latent_summary_dfs">
-<code class="sig-prename descclassname">datacode.sem.summary.</code><code class="sig-name descname">latent_summary_dfs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">opt</span></em>, <em class="sig-param"><span class="n">measurement_dict</span></em>, <em class="sig-param"><span class="n">all_vars</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/summary.html#latent_summary_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.summary.latent_summary_dfs" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="datacode.sem.summary.structural_summary_dfs">
-<code class="sig-prename descclassname">datacode.sem.summary.</code><code class="sig-name descname">structural_summary_dfs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">opt</span></em>, <em class="sig-param"><span class="n">observed_endog_vars</span></em>, <em class="sig-param"><span class="n">all_vars</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/summary.html#structural_summary_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.summary.structural_summary_dfs" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="datacode-sem-summary-module">
+<h2>datacode.sem.summary module<a class="headerlink" href="#datacode-sem-summary-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.sem.to_tex">
-<span id="datacode-sem-to-tex-module"></span><h2>datacode.sem.to_tex module<a class="headerlink" href="#module-datacode.sem.to_tex" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="datacode.sem.to_tex.summary_latex_table">
-<code class="sig-prename descclassname">datacode.sem.to_tex.</code><code class="sig-name descname">summary_latex_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fit_df</span></em>, <em class="sig-param"><span class="n">structural_dfs</span></em>, <em class="sig-param"><span class="n">latent_dfs</span></em>, <em class="sig-param"><span class="n">scale</span></em>, <em class="sig-param"><span class="n">robust_scale</span></em>, <em class="sig-param"><span class="n">equations</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">begin_below_text</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">end_below_text</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">replace_below_text</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">caption</span><span class="o">=</span><span class="default_value">'Structural Equation Model (SEM)'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/sem/to_tex.html#summary_latex_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.sem.to_tex.summary_latex_table" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="datacode-sem-to-tex-module">
+<h2>datacode.sem.to_tex module<a class="headerlink" href="#datacode-sem-to-tex-module" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

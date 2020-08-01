@@ -29,6 +29,14 @@ datacode.models.analysis module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.dethash module
+------------------------------
+
+.. automodule:: datacode.models.dethash
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.explorer module
 -------------------------------
 
@@ -41,6 +49,14 @@ datacode.models.index module
 ----------------------------
 
 .. automodule:: datacode.models.index
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+datacode.models.last\_modified module
+-------------------------------------
+
+.. automodule:: datacode.models.last_modified
    :members:
    :undoc-members:
    :show-inheritance:

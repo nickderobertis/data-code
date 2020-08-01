@@ -33,6 +33,14 @@ datacode.models.pipeline.operations.generate module
    :undoc-members:
    :show-inheritance:
 
+datacode.models.pipeline.operations.load module
+-----------------------------------------------
+
+.. automodule:: datacode.models.pipeline.operations.load
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.models.pipeline.operations.merge module
 ------------------------------------------------
 

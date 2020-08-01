@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.compareids.models package &mdash; datacode 0.19.1 documentation</title>
+  <title>datacode.compareids.models package &mdash; datacode 0.20.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.19.1
+                0.20.0
               </div>
             
           
@@ -119,10 +119,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.hooks">datacode.hooks module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.load">datacode.load module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.logger">datacode.logger module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.typing">datacode.typing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-hooks-module">datacode.hooks module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-load-module">datacode.load module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-logger-module">datacode.logger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-typing-module">datacode.typing module</a></li>
 </ul>
 </li>
 </ul>
@@ -198,482 +198,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-datacode.compareids.models">
-<span id="datacode-compareids-models-package"></span><h1>datacode.compareids.models package<a class="headerlink" href="#module-datacode.compareids.models" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="datacode-compareids-models-package">
+<h1>datacode.compareids.models package<a class="headerlink" href="#datacode-compareids-models-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.compareids.models.bars">
-<span id="datacode-compareids-models-bars-module"></span><h2>datacode.compareids.models.bars module<a class="headerlink" href="#module-datacode.compareids.models.bars" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="datacode.compareids.models.bars.BarText">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.bars.</code><code class="sig-name descname">BarText</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">bar_length</span></em>, <em class="sig-param"><span class="n">total_length</span></em>, <em class="sig-param"><span class="n">xy</span><span class="o">=</span><span class="default_value">0, 0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">text_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/bars.html#BarText"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.bars.BarText" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.bars.BarText.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">bar_length</span></em>, <em class="sig-param"><span class="n">total_length</span></em>, <em class="sig-param"><span class="n">xy</span><span class="o">=</span><span class="default_value">0, 0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">text_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/bars.html#BarText.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.bars.BarText.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.bars.BarText.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">bar_num</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/bars.html#BarText.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.bars.BarText.draw" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="datacode.compareids.models.bars.BarText.draw.params.plt"></span><strong>plt</strong><a class="paramlink headerlink reference internal" href="#datacode.compareids.models.bars.BarText.draw.params.plt">¶</a> – </p></li>
-<li><p><span class="target" id="datacode.compareids.models.bars.BarText.draw.params.bar_num"></span><strong>bar_num</strong><a class="paramlink headerlink reference internal" href="#datacode.compareids.models.bars.BarText.draw.params.bar_num">¶</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – position of bar within triple bar. i.e. a single bar has three bars in it. 0 is the left.
-1 is the middle, and 2 is the right.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.bars.MatchComparisonBar">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.bars.</code><code class="sig-name descname">MatchComparisonBar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/bars.html#MatchComparisonBar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.bars.MatchComparisonBar" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.bars.MatchComparisonBar.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/bars.html#MatchComparisonBar.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.bars.MatchComparisonBar.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.bars.MatchComparisonBarGraph">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.bars.</code><code class="sig-name descname">MatchComparisonBarGraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">bars</span></em>, <em class="sig-param"><span class="n">plt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">relative</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">thickness</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/bars.html#MatchComparisonBarGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.bars.MatchComparisonBarGraph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.bars.MatchComparisonBarGraph.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">bars</span></em>, <em class="sig-param"><span class="n">plt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">relative</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">thickness</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/bars.html#MatchComparisonBarGraph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.bars.MatchComparisonBarGraph.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.bars.MatchComparisonBarGraph.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plt</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/bars.html#MatchComparisonBarGraph.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.bars.MatchComparisonBarGraph.draw" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.bars.MatchComparisonBarGraph.from_id_comparison_collection">
-<em class="property">classmethod </em><code class="sig-name descname">from_id_comparison_collection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id_comparison</span></em>, <em class="sig-param"><span class="n">plt</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/bars.html#MatchComparisonBarGraph.from_id_comparison_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.bars.MatchComparisonBarGraph.from_id_comparison_collection" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.bars.MatchComparisonBarGraph.relative">
-<em class="property">property </em><code class="sig-name descname">relative</code><a class="headerlink" href="#datacode.compareids.models.bars.MatchComparisonBarGraph.relative" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="datacode-compareids-models-bars-module">
+<h2>datacode.compareids.models.bars module<a class="headerlink" href="#datacode-compareids-models-bars-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.compareids.models.base">
-<span id="datacode-compareids-models-base-module"></span><h2>datacode.compareids.models.base module<a class="headerlink" href="#module-datacode.compareids.models.base" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="datacode.compareids.models.base.NamedBase">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.base.</code><code class="sig-name descname">NamedBase</code><a class="reference internal" href="../_modules/datacode/compareids/models/base.html#NamedBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.base.NamedBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.base.NamedList">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.base.</code><code class="sig-name descname">NamedList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/base.html#NamedList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.base.NamedList" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.base.NamedBase" title="datacode.compareids.models.base.NamedBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.base.NamedBase</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.base.NamedList.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/base.html#NamedList.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.base.NamedList.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.base.NamedSet">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.base.</code><code class="sig-name descname">NamedSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/base.html#NamedSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.base.NamedSet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.base.NamedBase" title="datacode.compareids.models.base.NamedBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.base.NamedBase</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.base.NamedSet.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/base.html#NamedSet.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.base.NamedSet.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="datacode-compareids-models-base-module">
+<h2>datacode.compareids.models.base module<a class="headerlink" href="#datacode-compareids-models-base-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.compareids.models.datasets">
-<span id="datacode-compareids-models-datasets-module"></span><h2>datacode.compareids.models.datasets module<a class="headerlink" href="#module-datacode.compareids.models.datasets" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="datacode.compareids.models.datasets.DataCombination">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.datasets.</code><code class="sig-name descname">DataCombination</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_source</span></em>, <em class="sig-param"><span class="n">other_data_source</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataCombination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataCombination" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.datasets.DataItem" title="datacode.compareids.models.datasets.DataItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.datasets.DataItem</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataCombination.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_source</span></em>, <em class="sig-param"><span class="n">other_data_source</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataCombination.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataCombination.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataCombination.compare">
-<code class="sig-name descname">compare</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataCombination.compare"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataCombination.compare" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataCombination.ids">
-<em class="property">property </em><code class="sig-name descname">ids</code><a class="headerlink" href="#datacode.compareids.models.datasets.DataCombination.ids" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataCombination.to_node">
-<code class="sig-name descname">to_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">node_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataCombination.to_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataCombination.to_node" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.datasets.DataItem">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.datasets.</code><code class="sig-name descname">DataItem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataItem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataItem.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataItem.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataItem.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.datasets.DataSource">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.datasets.</code><code class="sig-name descname">DataSource</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">id_cols</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data_source</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data_loader</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">data_loader_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataSource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.datasets.DataItem" title="datacode.compareids.models.datasets.DataItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.datasets.DataItem</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataSource.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">id_cols</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data_source</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data_loader</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">data_loader_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataSource.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataSource.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="datacode.compareids.models.datasets.DataSource.params.name"></span><strong>name</strong><a class="paramlink headerlink reference internal" href="#datacode.compareids.models.datasets.DataSource.params.name">¶</a> – </p></li>
-<li><p><span class="target" id="datacode.compareids.models.datasets.DataSource.params.id_cols"></span><strong>id_cols</strong><a class="paramlink headerlink reference internal" href="#datacode.compareids.models.datasets.DataSource.params.id_cols">¶</a> (<em>list of tuples</em>) – list of tuples or strs of id sets to match on, e.g. [‘CUSIP6’, (‘CUSIP6’,’Year’), ‘ISIN’, (‘ISIN’, ‘Year’)]</p></li>
-<li><p><span class="target" id="datacode.compareids.models.datasets.DataSource.params.data_source"></span><strong>data_source</strong><a class="paramlink headerlink reference internal" href="#datacode.compareids.models.datasets.DataSource.params.data_source">¶</a> – </p></li>
-<li><p><span class="target" id="datacode.compareids.models.datasets.DataSource.params.data_loader"></span><strong>data_loader</strong><a class="paramlink headerlink reference internal" href="#datacode.compareids.models.datasets.DataSource.params.data_loader">¶</a> (<em>Function</em>) – function that takes self.data_source as the arg, and usecols=self.id_cols as kwargs</p></li>
-<li><p><span class="target" id="datacode.compareids.models.datasets.DataSource.params.data_loader_kwargs"></span><strong>data_loader_kwargs</strong><a class="paramlink headerlink reference internal" href="#datacode.compareids.models.datasets.DataSource.params.data_loader_kwargs">¶</a> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataSource.df">
-<em class="property">property </em><code class="sig-name descname">df</code><a class="headerlink" href="#datacode.compareids.models.datasets.DataSource.df" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataSource.set_ids">
-<code class="sig-name descname">set_ids</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id_cols</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataSource.set_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataSource.set_ids" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataSource.to_node">
-<code class="sig-name descname">to_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">node_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataSource.to_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataSource.to_node" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.datasets.DataSubject">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.datasets.</code><code class="sig-name descname">DataSubject</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">sources</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataSubject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataSubject" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataSubject.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">sources</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataSubject.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataSubject.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataSubject.to_nodes">
-<code class="sig-name descname">to_nodes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataSubject.to_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataSubject.to_nodes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.datasets.DataSubject.to_subgraph">
-<code class="sig-name descname">to_subgraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/datasets.html#DataSubject.to_subgraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.datasets.DataSubject.to_subgraph" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="datacode-compareids-models-datasets-module">
+<h2>datacode.compareids.models.datasets module<a class="headerlink" href="#datacode-compareids-models-datasets-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.compareids.models.flowchart">
-<span id="datacode-compareids-models-flowchart-module"></span><h2>datacode.compareids.models.flowchart module<a class="headerlink" href="#module-datacode.compareids.models.flowchart" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="datacode.compareids.models.flowchart.Edge">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.flowchart.</code><code class="sig-name descname">Edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">end</span></em>, <em class="sig-param"><span class="n">for_subgraphs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">edge_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#Edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.Edge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.flowchart.Edge.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">end</span></em>, <em class="sig-param"><span class="n">for_subgraphs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">edge_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#Edge.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.Edge.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.flowchart.Edge.add_to_graph">
-<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#Edge.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.Edge.add_to_graph" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.flowchart.Node">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.flowchart.</code><code class="sig-name descname">Node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'name'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">node_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.Node" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.flowchart.Node.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">'name'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">node_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#Node.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.Node.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.flowchart.Node.add_to_graph">
-<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#Node.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.Node.add_to_graph" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.flowchart.NodeCollection">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.flowchart.</code><code class="sig-name descname">NodeCollection</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">nodes</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#NodeCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.NodeCollection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.flowchart.NodeCollection.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">nodes</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#NodeCollection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.NodeCollection.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.flowchart.Subgraph">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.flowchart.</code><code class="sig-name descname">Subgraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nodes</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">digraph</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">graph_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#Subgraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.Subgraph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.flowchart.Subgraph.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nodes</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">digraph</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">graph_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#Subgraph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.Subgraph.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.flowchart.Subgraph.add_to_graph">
-<code class="sig-name descname">add_to_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/flowchart.html#Subgraph.add_to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.flowchart.Subgraph.add_to_graph" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="datacode-compareids-models-flowchart-module">
+<h2>datacode.compareids.models.flowchart module<a class="headerlink" href="#datacode-compareids-models-flowchart-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.compareids.models.interface">
-<span id="datacode-compareids-models-interface-module"></span><h2>datacode.compareids.models.interface module<a class="headerlink" href="#module-datacode.compareids.models.interface" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="datacode.compareids.models.interface.IDCollection">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.interface.</code><code class="sig-name descname">IDCollection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#IDCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.IDCollection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.base.NamedList" title="datacode.compareids.models.base.NamedList"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.base.NamedList</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.interface.IDCollection.to_id_list">
-<code class="sig-name descname">to_id_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#IDCollection.to_id_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.IDCollection.to_id_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.interface.IDComparison">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.interface.</code><code class="sig-name descname">IDComparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left_unmatched</span></em>, <em class="sig-param"><span class="n">matched</span></em>, <em class="sig-param"><span class="n">right_unmatched</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#IDComparison"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.IDComparison" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.interface.MatchData" title="datacode.compareids.models.interface.MatchData"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.interface.MatchData</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.interface.IDComparison.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left_unmatched</span></em>, <em class="sig-param"><span class="n">matched</span></em>, <em class="sig-param"><span class="n">right_unmatched</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#IDComparison.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.IDComparison.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.interface.IDComparisonCollection">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.interface.</code><code class="sig-name descname">IDComparisonCollection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#IDComparisonCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.IDComparisonCollection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.base.NamedList" title="datacode.compareids.models.base.NamedList"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.base.NamedList</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.interface.IDSet">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.interface.</code><code class="sig-name descname">IDSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#IDSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.IDSet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.base.NamedSet" title="datacode.compareids.models.base.NamedSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.base.NamedSet</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.interface.MatchComparisonBarData">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.interface.</code><code class="sig-name descname">MatchComparisonBarData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left_unmatched</span></em>, <em class="sig-param"><span class="n">matched</span></em>, <em class="sig-param"><span class="n">right_unmatched</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#MatchComparisonBarData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.MatchComparisonBarData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.interface.IDComparison" title="datacode.compareids.models.interface.IDComparison"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.interface.IDComparison</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.interface.MatchComparisonBarData.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left_unmatched</span></em>, <em class="sig-param"><span class="n">matched</span></em>, <em class="sig-param"><span class="n">right_unmatched</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#MatchComparisonBarData.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.MatchComparisonBarData.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.interface.MatchComparisonBarData.from_id_comparison">
-<em class="property">classmethod </em><code class="sig-name descname">from_id_comparison</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id_comp</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#MatchComparisonBarData.from_id_comparison"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.MatchComparisonBarData.from_id_comparison" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.interface.MatchComparisonBarGraphData">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.interface.</code><code class="sig-name descname">MatchComparisonBarGraphData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left_unmatched_tup</span></em>, <em class="sig-param"><span class="n">matched_tup</span></em>, <em class="sig-param"><span class="n">right_unmatched_tup</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#MatchComparisonBarGraphData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.MatchComparisonBarGraphData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.interface.MatchData" title="datacode.compareids.models.interface.MatchData"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.interface.MatchData</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.interface.MatchComparisonBarGraphData.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left_unmatched_tup</span></em>, <em class="sig-param"><span class="n">matched_tup</span></em>, <em class="sig-param"><span class="n">right_unmatched_tup</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#MatchComparisonBarGraphData.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.MatchComparisonBarGraphData.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.interface.MatchData">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.interface.</code><code class="sig-name descname">MatchData</code><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#MatchData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.MatchData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.interface.PipelineOptions">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.interface.</code><code class="sig-name descname">PipelineOptions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_sources</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">digraph</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">node_kwargs</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">graph_kwargs</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#PipelineOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.PipelineOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.interface.PipelineOptions.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_sources</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">digraph</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">node_kwargs</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">graph_kwargs</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#PipelineOptions.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.PipelineOptions.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.interface.PipelineOptions.keys">
-<code class="sig-name descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/interface.html#PipelineOptions.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.interface.PipelineOptions.keys" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="datacode-compareids-models-interface-module">
+<h2>datacode.compareids.models.interface module<a class="headerlink" href="#datacode-compareids-models-interface-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.compareids.models.main">
-<span id="datacode-compareids-models-main-module"></span><h2>datacode.compareids.models.main module<a class="headerlink" href="#module-datacode.compareids.models.main" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="datacode.compareids.models.main.DataMergePipeline">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.main.</code><code class="sig-name descname">DataMergePipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">process</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/main.html#DataMergePipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.main.DataMergePipeline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.main.Pipeline" title="datacode.compareids.models.main.Pipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.main.Pipeline</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.main.DataMergePipeline.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">process</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/main.html#DataMergePipeline.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.main.DataMergePipeline.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.main.LogicalPipeline">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.main.</code><code class="sig-name descname">LogicalPipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">process</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/main.html#LogicalPipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.main.LogicalPipeline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.main.Pipeline" title="datacode.compareids.models.main.Pipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.main.Pipeline</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.main.LogicalPipeline.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">process</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/main.html#LogicalPipeline.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.main.LogicalPipeline.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.main.Pipeline">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.main.</code><code class="sig-name descname">Pipeline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">process</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/main.html#Pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.main.Pipeline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.main.Pipeline.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">process</span></em>, <em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/main.html#Pipeline.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.main.Pipeline.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.main.Pipeline.build_graph">
-<code class="sig-name descname">build_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">graph_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/main.html#Pipeline.build_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.main.Pipeline.build_graph" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="datacode-compareids-models-main-module">
+<h2>datacode.compareids.models.main module<a class="headerlink" href="#datacode-compareids-models-main-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.compareids.models.steps">
-<span id="datacode-compareids-models-steps-module"></span><h2>datacode.compareids.models.steps module<a class="headerlink" href="#module-datacode.compareids.models.steps" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="datacode.compareids.models.steps.MergeStep">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.steps.</code><code class="sig-name descname">MergeStep</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_subject</span></em>, <em class="sig-param"><span class="n">merge_into_data_subject</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#MergeStep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.MergeStep" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#datacode.compareids.models.steps.Step" title="datacode.compareids.models.steps.Step"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacode.compareids.models.steps.Step</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.steps.MergeStep.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_subject</span></em>, <em class="sig-param"><span class="n">merge_into_data_subject</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#MergeStep.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.MergeStep.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.steps.MergeStep.combined_subject">
-<em class="property">property </em><code class="sig-name descname">combined_subject</code><a class="headerlink" href="#datacode.compareids.models.steps.MergeStep.combined_subject" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.steps.MergeStep.subgraphs">
-<code class="sig-name descname">subgraphs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#MergeStep.subgraphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.MergeStep.subgraphs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.steps.Process">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.steps.</code><code class="sig-name descname">Process</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">steps</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#Process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.Process" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.steps.Process.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">steps</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#Process.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.Process.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.steps.Process.to_edges">
-<code class="sig-name descname">to_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">edge_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#Process.to_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.Process.to_edges" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.steps.Process.to_subgraphs">
-<code class="sig-name descname">to_subgraphs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#Process.to_subgraphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.Process.to_subgraphs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="datacode.compareids.models.steps.Step">
-<em class="property">class </em><code class="sig-prename descclassname">datacode.compareids.models.steps.</code><code class="sig-name descname">Step</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_subject</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#Step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.Step" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="py method">
-<dt id="datacode.compareids.models.steps.Step.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_subject</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#Step.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.Step.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="datacode.compareids.models.steps.Step.subgraphs">
-<code class="sig-name descname">subgraphs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/compareids/models/steps.html#Step.subgraphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.compareids.models.steps.Step.subgraphs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="datacode-compareids-models-steps-module">
+<h2>datacode.compareids.models.steps module<a class="headerlink" href="#datacode-compareids-models-steps-module" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

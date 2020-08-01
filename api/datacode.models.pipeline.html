@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.models.pipeline package &mdash; datacode 0.19.1 documentation</title>
+  <title>datacode.models.pipeline package &mdash; datacode 0.20.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.19.1
+                0.20.0
               </div>
             
           
@@ -119,10 +119,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.hooks">datacode.hooks module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.load">datacode.load module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.logger">datacode.logger module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.typing">datacode.typing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-hooks-module">datacode.hooks module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-load-module">datacode.load module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-logger-module">datacode.logger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-typing-module">datacode.typing module</a></li>
 </ul>
 </li>
 </ul>
@@ -206,12 +206,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="datacode.models.pipeline.operations.html">datacode.models.pipeline.operations package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.analysis">datacode.models.pipeline.operations.analysis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.combine">datacode.models.pipeline.operations.combine module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.generate">datacode.models.pipeline.operations.generate module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.merge">datacode.models.pipeline.operations.merge module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.operation">datacode.models.pipeline.operations.operation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#module-datacode.models.pipeline.operations.transform">datacode.models.pipeline.operations.transform module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#datacode-models-pipeline-operations-analysis-module">datacode.models.pipeline.operations.analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#datacode-models-pipeline-operations-combine-module">datacode.models.pipeline.operations.combine module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#datacode-models-pipeline-operations-generate-module">datacode.models.pipeline.operations.generate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#datacode-models-pipeline-operations-load-module">datacode.models.pipeline.operations.load module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#datacode-models-pipeline-operations-merge-module">datacode.models.pipeline.operations.merge module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#datacode-models-pipeline-operations-operation-module">datacode.models.pipeline.operations.operation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.models.pipeline.operations.html#datacode-models-pipeline-operations-transform-module">datacode.models.pipeline.operations.transform module</a></li>
 </ul>
 </li>
 </ul>
@@ -220,29 +221,23 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.models.pipeline.analysis">
-<span id="datacode-models-pipeline-analysis-module"></span><h2>datacode.models.pipeline.analysis module<a class="headerlink" href="#module-datacode.models.pipeline.analysis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="datacode-models-pipeline-analysis-module">
+<h2>datacode.models.pipeline.analysis module<a class="headerlink" href="#datacode-models-pipeline-analysis-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.models.pipeline.base">
-<span id="datacode-models-pipeline-base-module"></span><h2>datacode.models.pipeline.base module<a class="headerlink" href="#module-datacode.models.pipeline.base" title="Permalink to this headline">¶</a></h2>
-<dl class="py exception">
-<dt id="datacode.models.pipeline.base.LastOperationFinishedException">
-<em class="property">exception </em><code class="sig-prename descclassname">datacode.models.pipeline.base.</code><code class="sig-name descname">LastOperationFinishedException</code><a class="reference internal" href="../_modules/datacode/models/pipeline/base.html#LastOperationFinishedException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.models.pipeline.base.LastOperationFinishedException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
-</dd></dl>
-
+<div class="section" id="datacode-models-pipeline-base-module">
+<h2>datacode.models.pipeline.base module<a class="headerlink" href="#datacode-models-pipeline-base-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.models.pipeline.combine">
-<span id="datacode-models-pipeline-combine-module"></span><h2>datacode.models.pipeline.combine module<a class="headerlink" href="#module-datacode.models.pipeline.combine" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="datacode-models-pipeline-combine-module">
+<h2>datacode.models.pipeline.combine module<a class="headerlink" href="#datacode-models-pipeline-combine-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.models.pipeline.generate">
-<span id="datacode-models-pipeline-generate-module"></span><h2>datacode.models.pipeline.generate module<a class="headerlink" href="#module-datacode.models.pipeline.generate" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="datacode-models-pipeline-generate-module">
+<h2>datacode.models.pipeline.generate module<a class="headerlink" href="#datacode-models-pipeline-generate-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.models.pipeline.merge">
-<span id="datacode-models-pipeline-merge-module"></span><h2>datacode.models.pipeline.merge module<a class="headerlink" href="#module-datacode.models.pipeline.merge" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="datacode-models-pipeline-merge-module">
+<h2>datacode.models.pipeline.merge module<a class="headerlink" href="#datacode-models-pipeline-merge-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-datacode.models.pipeline.transform">
-<span id="datacode-models-pipeline-transform-module"></span><h2>datacode.models.pipeline.transform module<a class="headerlink" href="#module-datacode.models.pipeline.transform" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="datacode-models-pipeline-transform-module">
+<h2>datacode.models.pipeline.transform module<a class="headerlink" href="#datacode-models-pipeline-transform-module" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datacode.summarize package &mdash; datacode 0.19.1 documentation</title>
+  <title>datacode.summarize package &mdash; datacode 0.20.0 documentation</title>
   
 
   
@@ -69,7 +69,7 @@
             
             
               <div class="version">
-                0.19.1
+                0.20.0
               </div>
             
           
@@ -119,10 +119,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.hooks">datacode.hooks module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.load">datacode.load module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.logger">datacode.logger module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datacode.html#module-datacode.typing">datacode.typing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-hooks-module">datacode.hooks module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-load-module">datacode.load module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-logger-module">datacode.logger module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacode.html#datacode-typing-module">datacode.typing module</a></li>
 </ul>
 </li>
 </ul>
@@ -196,38 +196,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-datacode.summarize">
-<span id="datacode-summarize-package"></span><h1>datacode.summarize package<a class="headerlink" href="#module-datacode.summarize" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt id="datacode.summarize.describe_df">
-<code class="sig-prename descclassname">datacode.summarize.</code><code class="sig-name descname">describe_df</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">disp=True</em>, <em class="sig-param">format_func=&lt;function format_numbers_to_decimal_places&gt;</em>, <em class="sig-param">format_kwargs=None</em>, <em class="sig-param">percentiles=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize.html#describe_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.describe_df" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Args:</dt><dd><p>df:
-disp: True to display summaries, False to only return dict of summaries</p>
-</dd>
-</dl>
-<p>Returns:</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="datacode.summarize.format_numbers_to_decimal_places">
-<code class="sig-prename descclassname">datacode.summarize.</code><code class="sig-name descname">format_numbers_to_decimal_places</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em>, <em class="sig-param"><span class="n">decimals</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">coerce_ints</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacode/summarize.html#format_numbers_to_decimal_places"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacode.summarize.format_numbers_to_decimal_places" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+  <div class="section" id="datacode-summarize-package">
+<h1>datacode.summarize package<a class="headerlink" href="#datacode-summarize-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="datacode.summarize.coverage.html">datacode.summarize.coverage package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#module-datacode.summarize.coverage.counts">datacode.summarize.coverage.counts module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#module-datacode.summarize.coverage.main">datacode.summarize.coverage.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#module-datacode.summarize.coverage.to_tex">datacode.summarize.coverage.to_tex module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#datacode-summarize-coverage-counts-module">datacode.summarize.coverage.counts module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#datacode-summarize-coverage-main-module">datacode.summarize.coverage.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacode.summarize.coverage.html#datacode-summarize-coverage-to-tex-module">datacode.summarize.coverage.to_tex module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="datacode.summarize.subset.html">datacode.summarize.subset package</a><ul>
@@ -238,37 +217,37 @@ disp: True to display summaries, False to only return dict of summaries</p>
 <li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l7"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html">datacode.summarize.subset.missing.detail.reformat package</a><ul>
 <li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#submodules">Submodules</a></li>
-<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#module-datacode.summarize.subset.missing.detail.reformat.main">datacode.summarize.subset.missing.detail.reformat.main module</a></li>
-<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#module-datacode.summarize.subset.missing.detail.reformat.numformat">datacode.summarize.subset.missing.detail.reformat.numformat module</a></li>
-<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#module-datacode.summarize.subset.missing.detail.reformat.towide">datacode.summarize.subset.missing.detail.reformat.towide module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#datacode-summarize-subset-missing-detail-reformat-main-module">datacode.summarize.subset.missing.detail.reformat.main module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#datacode-summarize-subset-missing-detail-reformat-numformat-module">datacode.summarize.subset.missing.detail.reformat.numformat module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.detail.reformat.html#datacode-summarize-subset-missing-detail-reformat-towide-module">datacode.summarize.subset.missing.detail.reformat.towide module</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#submodules">Submodules</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#module-datacode.summarize.subset.missing.detail.byid">datacode.summarize.subset.missing.detail.byid module</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#module-datacode.summarize.subset.missing.detail.byobs">datacode.summarize.subset.missing.detail.byobs module</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#module-datacode.summarize.subset.missing.detail.main">datacode.summarize.subset.missing.detail.main module</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#module-datacode.summarize.subset.missing.detail.textfuncs">datacode.summarize.subset.missing.detail.textfuncs module</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#module-datacode.summarize.subset.missing.detail.totex">datacode.summarize.subset.missing.detail.totex module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-byid-module">datacode.summarize.subset.missing.detail.byid module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-byobs-module">datacode.summarize.subset.missing.detail.byobs module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-main-module">datacode.summarize.subset.missing.detail.main module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-textfuncs-module">datacode.summarize.subset.missing.detail.textfuncs module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.detail.html#datacode-summarize-subset-missing-detail-totex-module">datacode.summarize.subset.missing.detail.totex module</a></li>
 </ul>
 </li>
 <li class="toctree-l5"><a class="reference internal" href="datacode.summarize.subset.missing.summary.html">datacode.summarize.subset.missing.summary package</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.missing.summary.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l7"><a class="reference internal" href="datacode.summarize.subset.missing.summary.graphs.html">datacode.summarize.subset.missing.summary.graphs package</a><ul>
 <li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.summary.graphs.html#submodules">Submodules</a></li>
-<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.summary.graphs.html#module-datacode.summarize.subset.missing.summary.graphs.pctbyid">datacode.summarize.subset.missing.summary.graphs.pctbyid module</a></li>
+<li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.summary.graphs.html#datacode-summarize-subset-missing-summary-graphs-pctbyid-module">datacode.summarize.subset.missing.summary.graphs.pctbyid module</a></li>
 </ul>
 </li>
 <li class="toctree-l7"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.html">datacode.summarize.subset.missing.summary.tables package</a><ul>
 <li class="toctree-l8"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l9"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html">datacode.summarize.subset.missing.summary.tables.fullsample package</a><ul>
 <li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#submodules">Submodules</a></li>
-<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#module-datacode.summarize.subset.missing.summary.tables.fullsample.idcount">datacode.summarize.subset.missing.summary.tables.fullsample.idcount module</a></li>
-<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#module-datacode.summarize.subset.missing.summary.tables.fullsample.main">datacode.summarize.subset.missing.summary.tables.fullsample.main module</a></li>
-<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#module-datacode.summarize.subset.missing.summary.tables.fullsample.missingmore">datacode.summarize.subset.missing.summary.tables.fullsample.missingmore module</a></li>
-<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#module-datacode.summarize.subset.missing.summary.tables.fullsample.obs">datacode.summarize.subset.missing.summary.tables.fullsample.obs module</a></li>
-<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#module-datacode.summarize.subset.missing.summary.tables.fullsample.periods">datacode.summarize.subset.missing.summary.tables.fullsample.periods module</a></li>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-idcount-module">datacode.summarize.subset.missing.summary.tables.fullsample.idcount module</a></li>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-main-module">datacode.summarize.subset.missing.summary.tables.fullsample.main module</a></li>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-missingmore-module">datacode.summarize.subset.missing.summary.tables.fullsample.missingmore module</a></li>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-obs-module">datacode.summarize.subset.missing.summary.tables.fullsample.obs module</a></li>
+<li class="toctree-l10"><a class="reference internal" href="datacode.summarize.subset.missing.summary.tables.fullsample.html#datacode-summarize-subset-missing-summary-tables-fullsample-periods-module">datacode.summarize.subset.missing.summary.tables.fullsample.periods module</a></li>
 </ul>
 </li>
 </ul>
@@ -282,30 +261,30 @@ disp: True to display summaries, False to only return dict of summaries</p>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.missing.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.missing.html#module-datacode.summarize.subset.missing.main">datacode.summarize.subset.missing.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.missing.html#datacode-summarize-subset-missing-main-module">datacode.summarize.subset.missing.main module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datacode.summarize.subset.outliers.html">datacode.summarize.subset.outliers package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.outliers.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="datacode.summarize.subset.outliers.detail.html">datacode.summarize.subset.outliers.detail package</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.detail.html#submodules">Submodules</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.detail.html#module-datacode.summarize.subset.outliers.detail.totex">datacode.summarize.subset.outliers.detail.totex module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.detail.html#datacode-summarize-subset-outliers-detail-totex-module">datacode.summarize.subset.outliers.detail.totex module</a></li>
 </ul>
 </li>
 <li class="toctree-l5"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html">datacode.summarize.subset.outliers.summary package</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#submodules">Submodules</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#module-datacode.summarize.subset.outliers.summary.main">datacode.summarize.subset.outliers.summary.main module</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#module-datacode.summarize.subset.outliers.summary.overview">datacode.summarize.subset.outliers.summary.overview module</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#module-datacode.summarize.subset.outliers.summary.stats">datacode.summarize.subset.outliers.summary.stats module</a></li>
-<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#module-datacode.summarize.subset.outliers.summary.totex">datacode.summarize.subset.outliers.summary.totex module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#datacode-summarize-subset-outliers-summary-main-module">datacode.summarize.subset.outliers.summary.main module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#datacode-summarize-subset-outliers-summary-overview-module">datacode.summarize.subset.outliers.summary.overview module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#datacode-summarize-subset-outliers-summary-stats-module">datacode.summarize.subset.outliers.summary.stats module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="datacode.summarize.subset.outliers.summary.html#datacode-summarize-subset-outliers-summary-totex-module">datacode.summarize.subset.outliers.summary.totex module</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.outliers.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.outliers.html#module-datacode.summarize.subset.outliers.main">datacode.summarize.subset.outliers.main module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.outliers.html#module-datacode.summarize.subset.outliers.select">datacode.summarize.subset.outliers.select module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.outliers.html#module-datacode.summarize.subset.outliers.typing">datacode.summarize.subset.outliers.typing module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.outliers.html#datacode-summarize-subset-outliers-main-module">datacode.summarize.subset.outliers.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.outliers.html#datacode-summarize-subset-outliers-select-module">datacode.summarize.subset.outliers.select module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacode.summarize.subset.outliers.html#datacode-summarize-subset-outliers-typing-module">datacode.summarize.subset.outliers.typing module</a></li>
 </ul>
 </li>
 </ul>
