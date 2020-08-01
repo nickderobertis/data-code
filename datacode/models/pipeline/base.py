@@ -3,6 +3,7 @@ import json
 import os
 import warnings
 from copy import deepcopy
+from json.decoder import JSONDecodeError
 from typing import Sequence, List, Callable, Optional, Union, Dict
 
 from graphviz import Digraph
@@ -294,8 +295,13 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
         if not os.path.exists(loc):
             return False
 
-        with open(loc, 'r') as f:
-            cache = json.load(f)
+        try:
+            with open(loc, 'r') as f:
+                cache = json.load(f)
+        except JSONDecodeError:
+            # Invalid json, treat as no match
+            logger.warning(f'Got an invalid cache dict {loc}. Treating as if no cache.')
+            return False
 
         return cache == self.hash_dict()
 
