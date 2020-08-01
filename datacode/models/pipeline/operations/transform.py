@@ -1,3 +1,4 @@
+import datetime
 from typing import Callable, Optional, Any, Union, Dict, Sequence, TYPE_CHECKING
 
 from datacode.logger import logger
@@ -74,6 +75,7 @@ class TransformOptions(OperationOptions):
                  preserve_original: bool = True, out_path: Optional[str] = None,
                  allow_modifying_result: bool = True, result_kwargs: Optional[Dict[str, Any]] = None,
                  transform_key: Optional[str] = None, always_rerun: bool = False,
+                 last_modified: Optional[datetime.datetime] = None,
                  subset: Optional[Union[
                      Sequence[Variable],
                      Callable[[DataSource], Sequence[Variable]]
@@ -90,6 +92,7 @@ class TransformOptions(OperationOptions):
         :param transform_key: Only used when passing callable instead of SourceTransform. Sets the key for the
             generated SourceTransform
         :param always_rerun: Whether to re-run operation if executed multiple times
+        :param last_modified: manually override last modified
         :param subset: Only applies when function is passed rather than SourceTransform. See SourceTransform.subset
         """
         if isinstance(func, SourceTransform):
@@ -103,3 +106,4 @@ class TransformOptions(OperationOptions):
         self.allow_modifying_result = allow_modifying_result
         self.result_kwargs = result_kwargs
         self.always_rerun = always_rerun
+        self.last_modified = last_modified

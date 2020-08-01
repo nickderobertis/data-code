@@ -152,6 +152,28 @@ class TestDataTransformationPipeline(PipelineTest):
         assert th.COUNTER == counter_value + 1  # transform operation called once
         self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
 
+    def test_nested_last_modified_of_pipeline_manually_set_to_be_greater_than_source(self):
+        counter_value = th.COUNTER
+        dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
+
+        dmp = self.create_merge_pipeline()
+
+        now = datetime.datetime.now()
+        later = now + datetime.timedelta(minutes=5)
+        dtp = self.create_transformation_pipeline(source=dmp, last_modified=later)
+        self.create_csv_for_2()
+        ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp)
+
+        assert dtp.last_modified > dmp.last_modified
+        assert dtp.last_modified > ds.last_modified
+        # Should run pipeline as was manually set last modified in the future
+        df = ds.df
+
+        dc_hooks.reset_hooks()
+        assert_frame_equal(df, self.expect_merged_1_2_both_transformed)
+        assert th.COUNTER == counter_value + 1  # transform operation called once
+        self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
+
     def test_nested_last_modified_of_source_less_than_pipeline(self):
         counter_value = th.COUNTER
         dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
@@ -192,6 +214,33 @@ class TestDataTransformationPipeline(PipelineTest):
         assert ds.last_modified > dtp.last_modified
         assert ds.last_modified > dmp.last_modified
         # Should not run pipeline as source was touched to be newer
+        df = ds.df
+
+        dc_hooks.reset_hooks()
+        assert_frame_equal(df, self.test_df2)
+        assert th.COUNTER == counter_value  # transform operation not called
+        self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
+
+    def test_nested_last_modified_of_source_manually_overridden_to_be_greater_than_pipeline(self):
+        counter_value = th.COUNTER
+        dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
+
+        dmp = self.create_merge_pipeline()
+
+        dtp = self.create_transformation_pipeline(source=dmp)
+        self.create_csv_for_2()
+        now = datetime.datetime.now()
+        later = now + datetime.timedelta(minutes=5)
+        ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp, last_modified=later)
+
+        time.sleep(0.01)
+        self.create_csv()
+        # now earlier source has csv more recently modified, but this
+        # should be ignored due to manually passing last_modified in the future
+
+        assert ds.last_modified > dtp.last_modified
+        assert ds.last_modified > dmp.last_modified
+        # Should not run pipeline as source was manually set to be newer
         df = ds.df
 
         dc_hooks.reset_hooks()
