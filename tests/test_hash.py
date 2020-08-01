@@ -1,7 +1,7 @@
 import datetime
 import json
 import os
-from typing import Union
+from typing import Union, Dict
 from unittest.mock import patch
 
 from datacode import DataPipeline, DataSource
@@ -15,16 +15,24 @@ SHOULD_GENERATE = os.environ.get('DATACODE_GENERATE_HASH_TESTS', False) == 'true
 def check_or_store_hash_dict(obj_with_hd: Union[DataSource, DataPipeline], obj_name: str):
     hd = obj_with_hd.hash_dict()
 
-    static_path = os.path.join(GENERATED_HASH_DIR, f'{obj_name}.json')
     if SHOULD_GENERATE:
-        with open(static_path, 'w') as f:
-            json.dump(hd, f, indent=2)
-        return
+        store_hash_dict(hd, obj_name)
     else:
-        with open(static_path, 'r') as f:
-            expect_hash = json.load(f)
+        check_hash_dict(hd, obj_name)
 
+
+def check_hash_dict(hd: Dict[str, str], obj_name: str):
+    static_path = os.path.join(GENERATED_HASH_DIR, f'{obj_name}.json')
+    with open(static_path, 'r') as f:
+        expect_hash = json.load(f)
     assert hd == expect_hash
+
+
+def store_hash_dict(hd: Dict[str, str], obj_name: str):
+    static_path = os.path.join(GENERATED_HASH_DIR, f'{obj_name}.json')
+    with open(static_path, 'w') as f:
+        json.dump(hd, f, indent=2)
+    return
 
 
 class HashTest(PipelineTest):

@@ -28,6 +28,7 @@ from datacode.models.variables.collection import VariableCollection
 from datacode.models.variables.expression import Expression
 from datacode.models.explorer import DataExplorer
 from datacode.summarize import describe_df
+from datacode.models.dethash import HashDictOptions, DEFAULT_HASH_DICT_OPTIONS
 from datacode.models.options import options
 
 from datacode.models.dtypes.base import DataType

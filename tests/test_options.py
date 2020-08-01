@@ -1,13 +1,17 @@
+import datetime
 import unittest
 from copy import deepcopy
+from unittest.mock import patch
 
 import datacode as dc
 from datacode import DataSource
+from tests.test_hash import check_hash_dict
+from tests.test_source import SourceTest
 
 ORIG_COPY_KEYS = deepcopy(DataSource.copy_keys)
 
 
-class OptionsTest(unittest.TestCase):
+class OptionsTest(SourceTest):
     def tearDown(self) -> None:
         dc.options.reset()
 
@@ -39,3 +43,16 @@ class TestOptions(OptionsTest):
         with dc.options.set_class_attr("DataSource", "copy_keys", new_value):
             assert DataSource.copy_keys == new_value
         assert DataSource.copy_keys == ORIG_COPY_KEYS
+
+    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
+    def test_set_hash_options(self):
+        new_value = dict(exclude_types=[object], ignore_type_subclasses=True)
+        self.create_csv()
+        ds = self.create_source()
+        hd = ds.hash_dict()
+        check_hash_dict(hd, 'source')
+        with dc.options.set_hash_options(new_value):
+            hd = ds.hash_dict()
+            assert hd == {}
+        hd = ds.hash_dict()
+        check_hash_dict(hd, 'source')
