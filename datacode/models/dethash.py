@@ -43,6 +43,7 @@ DEFAULT_HASH_DICT_OPTIONS: HashDictOptions = dict(
             ".repr_cols$",
             ".result$",
             ".transform.key$",
+            "._pre_execute_hash_dict$"
         ],
         exclude_types=[np.dtype],
         ignore_type_subclasses=True,

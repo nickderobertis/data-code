@@ -1,6 +1,7 @@
 import datetime
 import json
 import os
+from copy import deepcopy
 from typing import Union, Dict
 from unittest.mock import patch
 
@@ -12,8 +13,11 @@ GENERATED_HASH_DIR = os.path.join(INPUT_FILES_PATH, 'hashes')
 SHOULD_GENERATE = os.environ.get('DATACODE_GENERATE_HASH_TESTS', False) == 'true'
 
 
-def check_or_store_hash_dict(obj_with_hd: Union[DataSource, DataPipeline], obj_name: str):
-    hd = obj_with_hd.hash_dict()
+def check_or_store_hash_dict(obj_with_hd: Union[DataSource, DataPipeline], obj_name: str, pre_execute: bool = False):
+    if pre_execute:
+        hd = obj_with_hd._pre_execute_hash_dict
+    else:
+        hd = obj_with_hd.hash_dict()
 
     if SHOULD_GENERATE:
         store_hash_dict(hd, obj_name)
@@ -56,9 +60,10 @@ class TestSourceHash(HashTest):
         a, b, c = self.create_variables()
         d = Variable('d', 'D', calculation=a + b)
         ds = self.create_source(df=None, columns=all_cols, load_variables=[a, b, c, d])
-        check_or_store_hash_dict(ds, 'source_with_calculated')
-        df = ds.df
-        check_or_store_hash_dict(ds, 'source_with_calculated')
+        dtp = self.create_transformation_pipeline(source=ds, func=lambda source: source)
+        check_or_store_hash_dict(dtp, 'transform_source_with_calculated')
+        dtp.execute()
+        check_or_store_hash_dict(dtp, 'transform_source_with_calculated', pre_execute=True)
 
     @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
     def test_hash_dict_source_with_repeated_variables_different_transforms(self):
@@ -74,9 +79,10 @@ class TestSourceHash(HashTest):
             c,
         ]
         ds = self.create_source(df=None, columns=all_cols, load_variables=load_variables)
-        check_or_store_hash_dict(ds, 'source_with_repeated_variables_different_transforms')
-        df = ds.df
-        check_or_store_hash_dict(ds, 'source_with_repeated_variables_different_transforms')
+        dtp = self.create_transformation_pipeline(source=ds, func=lambda source: source)
+        check_or_store_hash_dict(dtp, 'transform_source_with_repeated_variables_different_transforms')
+        dtp.execute()
+        check_or_store_hash_dict(dtp, 'transform_source_with_repeated_variables_different_transforms', pre_execute=True)
 
     @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
     def test_hash_dict_source_with_calculated_and_same_calculated_variable_transformed(self):
@@ -95,9 +101,10 @@ class TestSourceHash(HashTest):
             d.add_one_cell()
         ]
         ds = self.create_source(df=None, columns=all_cols, load_variables=load_vars)
-        check_or_store_hash_dict(ds, 'source_with_calculated_and_calculated_transformed')
-        df = ds.df
-        check_or_store_hash_dict(ds, 'source_with_calculated_and_calculated_transformed')
+        dtp = self.create_transformation_pipeline(source=ds, func=lambda source: source)
+        check_or_store_hash_dict(dtp, 'transform_source_with_calculated_and_calculated_transformed')
+        dtp.execute()
+        check_or_store_hash_dict(dtp, 'transform_source_with_calculated_and_calculated_transformed', pre_execute=True)
 
     @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
     def test_hash_dict_source_with_calculate_on_transformed_before_and_after_transform(self):
@@ -106,9 +113,10 @@ class TestSourceHash(HashTest):
         a, b, c = self.create_variables(transform_data='cell', apply_transforms=False)
         d = Variable('d', 'D', calculation=a + b.add_one_cell())
         ds = self.create_source(df=None, columns=all_cols, load_variables=[a.add_one_cell(), b.add_one_cell(), c, d])
-        check_or_store_hash_dict(ds, 'source_with_calculate_on_transformed_before_after')
-        df = ds.df
-        check_or_store_hash_dict(ds, 'source_with_calculate_on_transformed_before_after')
+        dtp = self.create_transformation_pipeline(source=ds, func=lambda source: source)
+        check_or_store_hash_dict(dtp, 'transform_source_with_calculate_on_transformed_before_after')
+        dtp.execute()
+        check_or_store_hash_dict(dtp, 'transform_source_with_calculate_on_transformed_before_after', pre_execute=True)
 
 class TestPipelineHash(HashTest):
     @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))

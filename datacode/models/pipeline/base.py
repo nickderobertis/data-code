@@ -59,8 +59,10 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
         self._operation_index = 0
         self.result = None
         self.difficulty = difficulty
+        self._pre_execute_hash_dict: Dict[str, str] = {}
 
     def execute(self, output: bool = True):
+        self._pre_execute_hash_dict = self.hash_dict()
         logger.debug(f'Executing pipeline {self}')
         hooks.on_begin_execute_pipeline(self)
         while True:

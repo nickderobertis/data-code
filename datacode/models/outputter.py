@@ -117,7 +117,7 @@ class DataOutputter(ReprMixin):
             return
 
         with open(self.source.cache_json_location, 'w') as f:
-            json.dump(self.source.pipeline.hash_dict(), f, indent=2)
+            json.dump(self.source.pipeline._pre_execute_hash_dict, f, indent=2)
 
 
 
