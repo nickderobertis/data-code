@@ -3,6 +3,7 @@ import json
 import os
 import warnings
 from copy import deepcopy
+from json.decoder import JSONDecodeError
 from typing import Sequence, List, Callable, Optional, Union, Dict
 
 from graphviz import Digraph
@@ -58,8 +59,10 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
         self._operation_index = 0
         self.result = None
         self.difficulty = difficulty
+        self._pre_execute_hash_dict: Dict[str, str] = {}
 
     def execute(self, output: bool = True):
+        self._pre_execute_hash_dict = self.hash_dict()
         logger.debug(f'Executing pipeline {self}')
         hooks.on_begin_execute_pipeline(self)
         while True:
@@ -294,8 +297,13 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
         if not os.path.exists(loc):
             return False
 
-        with open(loc, 'r') as f:
-            cache = json.load(f)
+        try:
+            with open(loc, 'r') as f:
+                cache = json.load(f)
+        except JSONDecodeError:
+            # Invalid json, treat as no match
+            logger.warning(f'Got an invalid cache dict {loc}. Treating as if no cache.')
+            return False
 
         return cache == self.hash_dict()
 

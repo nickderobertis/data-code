@@ -1,10 +1,16 @@
 import inspect
 import re
 from typing import Any, Iterable, Dict, Sequence, Type, List, Union, Optional, Callable, Tuple
+import logging
 
 from deepdiff import DeepHash
 import numpy as np
 from typing_extensions import TypedDict
+
+
+# Suppress warnings about attributes not able to be hashed
+dh_logger = logging.getLogger('deepdiff.deephash')
+dh_logger.setLevel(logging.ERROR)
 
 
 class HashDictOptions(TypedDict, total=False):
@@ -37,6 +43,7 @@ DEFAULT_HASH_DICT_OPTIONS: HashDictOptions = dict(
             ".repr_cols$",
             ".result$",
             ".transform.key$",
+            "._pre_execute_hash_dict$"
         ],
         exclude_types=[np.dtype],
         ignore_type_subclasses=True,
