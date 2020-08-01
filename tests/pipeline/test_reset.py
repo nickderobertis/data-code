@@ -13,7 +13,7 @@ class TestPipelineReset(PipelineTest):
 
     def test_reset_pipeline_causes_run_of_same_pipeline_again(self):
         dc_hooks.on_begin_apply_source_transform = th.increase_counter_hook_return_only_second_arg
-        dtp = self.create_transformation_pipeline()
+        dtp = self.create_transformation_pipeline(always_rerun=True)
         assert th.COUNTER == 0
         dtp.execute()
         assert_frame_equal(dtp.result.df, self.expect_func_df)
@@ -44,7 +44,7 @@ class TestPipelineReset(PipelineTest):
         dgp = self.create_generator_pipeline()
         cols = self.create_columns_for_generated()
         ds = self.create_source(pipeline=dgp, df=None, columns=cols)
-        dtp = self.create_transformation_pipeline(source=ds)
+        dtp = self.create_transformation_pipeline(source=ds, always_rerun=True)
         assert th.COUNTER == 0
         dtp.execute()
         assert_frame_equal(dtp.result.df, self.expect_generated_transformed)
@@ -66,7 +66,7 @@ class TestPipelineReset(PipelineTest):
         dgp = self.create_generator_pipeline()
         cols = self.create_columns_for_generated()
         ds = self.create_source(pipeline=dgp, df=None, columns=cols)
-        dtp = self.create_transformation_pipeline(source=ds)
+        dtp = self.create_transformation_pipeline(source=ds, always_rerun=True)
         assert th.COUNTER == 0
         dtp.execute()
         assert_frame_equal(dtp.result.df, self.expect_generated_transformed)

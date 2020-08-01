@@ -28,11 +28,6 @@ class CombineOperation(DataOperation):
             options,
             **result_kwargs
         )
-        possible_last_modified = [source.last_modified for source in self.data_sources if source.last_modified]
-        if possible_last_modified:
-            self.options.last_modified = max(possible_last_modified)
-        else:
-            self.options.last_modified = None
 
     def _execute(self):
         ds = self.options.func(self.data_sources, **self.options.func_kwargs)
@@ -61,7 +56,7 @@ class CombineOptions(OperationOptions):
     def __init__(self, func: CombineFunction = combine_sources,
                  out_path: Optional[str] = None,
                  result_kwargs: Optional[Dict[str, Any]] = None,
-                 always_rerun: bool = False,
+                 always_rerun: bool = False, last_modified: Optional[datetime.datetime] = None,
                  **func_kwargs):
         """
 
@@ -69,9 +64,11 @@ class CombineOptions(OperationOptions):
         :param out_path: location for generated DataSource
         :param func_kwargs: Keyword arguments to pass to the function which generates the DataSource
         :param always_rerun: Whether to re-run operation if executed multiple times
+        :param last_modified: manually override last modified
         """
         self.func = func
         self.func_kwargs = func_kwargs
         self.out_path = out_path
         self.result_kwargs = result_kwargs
         self.always_rerun = always_rerun
+        self.last_modified = last_modified

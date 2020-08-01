@@ -3,6 +3,7 @@ import os
 from pandas.testing import assert_frame_equal
 
 GENERATED_PATH = os.path.join('tests', 'generated_files')
+INPUT_FILES_PATH = os.path.join('tests', 'input_files')
 
 def assert_frame_not_equal(*args, **kwargs):
     try:

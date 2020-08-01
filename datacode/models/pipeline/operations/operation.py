@@ -24,7 +24,7 @@ class DataOperation(ReprMixin):
 
     def __init__(self, pipeline: 'DataPipeline',
                  data_sources: Sequence[DataSource], options: 'OperationOptions',
-                 output_name: Optional[str] = None,
+                 output_name: Optional[str] = None, include_pipeline_in_result: bool = False,
                  **result_kwargs):
         if output_name is None:
             names = [ds.name if ds.name is not None else 'unnamed' for ds in data_sources]
@@ -33,6 +33,7 @@ class DataOperation(ReprMixin):
         self.data_sources = data_sources
         self.output_name = output_name
         self.pipeline = pipeline
+        self.include_pipeline_in_result = include_pipeline_in_result
         self.result = None
         self.result_kwargs = result_kwargs
         self._set_result(**result_kwargs)
@@ -62,31 +63,24 @@ class DataOperation(ReprMixin):
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
-        logger.debug(f'Determining last_modified in {self}')
-        if self.options.last_modified is not None or not self.data_sources:
-            return self.options.last_modified
-
-        if any([ds.last_modified is None for ds in self.data_sources]):
-            return None
-
-        lm_choices = [ds.pipeline_last_modified for ds in self.data_sources] + [ds.last_modified for ds in self.data_sources]
-        valid_choices = [lm for lm in lm_choices if lm is not None]
-
-        last_modified = max(valid_choices)
-        logger.debug(f'Finished determining last_modified in {self}')
-        return last_modified
+        return self.options.last_modified
 
     @last_modified.setter
     def last_modified(self, value: Optional[datetime.datetime]):
         self.options.last_modified = value
 
     def _set_result(self, **kwargs):
-        self.result = self.options.result_class(
+        config = dict(
             name=self.output_name,
             location=self.options.out_path,
             last_modified=self.last_modified,
             **kwargs
         )
+
+        if self.include_pipeline_in_result:
+            config['pipeline'] = self.pipeline
+
+        self.result = self.options.result_class(**config)
 
     def __repr__(self):
         return f'<DataOperation(data_sources={self.data_sources}, result={self.result})>'
@@ -118,9 +112,9 @@ class OperationOptions(ReprMixin):
     def can_output(self) -> bool:
         return self.out_path is not None
 
-    def get_operation(self, pipeline: 'DataPipeline', *args) -> DataOperation:
+    def get_operation(self, pipeline: 'DataPipeline', *args, include_pipeline_in_result: bool = False) -> DataOperation:
         logger.debug(f'Getting operation from options {self}')
         kwargs = {}
         if self.result_kwargs is not None:
             kwargs = self.result_kwargs
-        return self.op_class(pipeline, *args, **kwargs)
+        return self.op_class(pipeline, *args, include_pipeline_in_result=include_pipeline_in_result, **kwargs)

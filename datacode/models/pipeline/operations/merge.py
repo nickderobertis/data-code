@@ -1,3 +1,4 @@
+import datetime
 from typing import Callable, List, Union, Tuple, Optional, Dict, Any, Sequence, TYPE_CHECKING
 
 from datacode.logger import logger
@@ -151,7 +152,7 @@ class MergeOptions(OperationOptions):
                  right_df_pre_process_kwargs: Optional[Dict[str, Any]] = None,
                  post_merge_func: Callable = None, post_merge_func_kwargs: Optional[Dict[str, Any]] = None,
                  allow_modifying_result: bool = True, result_kwargs: Optional[Dict[str, Any]] = None,
-                 always_rerun: bool = False,
+                 always_rerun: bool = False, last_modified: Optional[datetime.datetime] = None,
                  **merge_function_kwargs):
         """
 
@@ -182,6 +183,7 @@ class MergeOptions(OperationOptions):
             to ensure it won't be modified (but uses more memory). Setting to False should only be needed
             if multiple sources load from the same pipeline in one session
         :param always_rerun: Whether to re-run operation if executed multiple times
+        :param last_modified: manually override last modified
         """
         from datacode.models.variables.variable import Variable
         from datacode.models.column.column import Column
@@ -226,6 +228,7 @@ class MergeOptions(OperationOptions):
         self.allow_modifying_result = allow_modifying_result
         self.result_kwargs = result_kwargs
         self.always_rerun = always_rerun
+        self.last_modified = last_modified
 
     def __repr__(self):
         return f'<DataMerge(on_names={self.on_names}, merge_function={self.merge_function.__name__}, ' \
