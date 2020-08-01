@@ -77,7 +77,7 @@ class DatacodeOptions:
     def set_hash_options(self, options: HashDictOptions) -> 'DatacodeOptions':
         """
         Control how pipelines determine whether the result is cached. Each time
-        a pipeline is run it calculates a hash it calculates a hash of its options
+        a pipeline is run it calculates a hash of its options
         and its data sources to determine whether it has already run with the
         same settings.
 
