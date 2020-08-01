@@ -13,7 +13,7 @@ from datacode.graph.edge import Edge
 from datacode.models.dethash import DeterministicHashDictMixin
 from datacode.graph.node import Node
 from datacode.logger import logger
-from datacode.models.links import LinkedLastModifiedItem, most_recent_last_modified
+from datacode.models.last_modified import LinkedLastModifiedItem, most_recent_last_modified
 from datacode.models.outputter import DataOutputter
 from datacode.models.types import SourceCreatingPipeline
 from datacode.summarize import describe_df

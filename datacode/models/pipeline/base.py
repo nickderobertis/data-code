@@ -16,7 +16,7 @@ import datacode.hooks as hooks
 from datacode.logger import logger
 from datacode.models.analysis import AnalysisResult
 from datacode.models.dethash import DeterministicHashDictMixin
-from datacode.models.links import LinkedLastModifiedItem, most_recent_last_modified
+from datacode.models.last_modified import LinkedLastModifiedItem, most_recent_last_modified
 from datacode.models.pipeline.operations.load import LoadOptions, LoadOperation
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
