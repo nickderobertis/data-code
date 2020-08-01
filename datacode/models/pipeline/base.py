@@ -16,14 +16,14 @@ import datacode.hooks as hooks
 from datacode.logger import logger
 from datacode.models.analysis import AnalysisResult
 from datacode.models.dethash import DeterministicHashDictMixin
-from datacode.models.links import LinkedItem
+from datacode.models.links import LinkedLastModifiedItem, most_recent_last_modified
 from datacode.models.pipeline.operations.load import LoadOptions, LoadOperation
 from datacode.models.pipeline.operations.operation import DataOperation, OperationOptions
 from datacode.models.source import DataSource
 from datacode.models.types import DataSourcesOrPipelines, DataSourceOrPipeline, ObjWithLastModified
 
 
-class DataPipeline(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
+class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
     """
     Base class for data pipelines. Should not be used directly.
     """
@@ -302,43 +302,10 @@ class DataPipeline(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin)
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
         logger.debug(f'Determining last_modified in pipeline {self.name}')
-        # TODO [#95]: more efficient last_modified
-        #
-        # `last_modified` is calculated a lot and goes through the
-        # entire pipeline each time. Caching the result of the
-        # calculations will give a significant speed up, especially
-        # in `DataExplorer.graph`. Need to handle updating the cache
-        # whenever data sources or operations change, and somehow
-        # also when OS modified time of file changes (fs events?).
-        if any([obj.last_modified is None for obj in self.operations]):
-            return None
-
-        return max([source.last_modified for source in self._objs_with_last_modified])
-
-    @property
-    def pipeline_last_modified(self) -> Optional[datetime.datetime]:
-        return self.last_modified
-
-    @property
-    def obj_last_modified(self) -> Optional[ObjWithLastModified]:
-        if not self._objs_with_last_modified:
-            return None
-        most_recent_time = datetime.datetime(1900, 1, 1)
-        most_recent_index = None
-        for i, obj in enumerate(self._objs_with_last_modified):
-            if obj.last_modified > most_recent_time:
-                most_recent_time = obj.last_modified
-                most_recent_index = i
-
-        if most_recent_index is not None:
-            return self._objs_with_last_modified[most_recent_index]
-
-    @property
-    def _objs_with_last_modified(self) -> List[ObjWithLastModified]:
-        objs_with_last_modified: List[ObjWithLastModified]
-        objs_with_last_modified = self.operations
-        objs_with_last_modified = [obj for obj in objs_with_last_modified if obj.last_modified is not None]
-        return objs_with_last_modified
+        lm = None
+        for obj in self.operations:
+            lm = most_recent_last_modified(lm, obj.last_modified)
+        return lm
 
     @property
     def allow_modifying_result(self) -> bool:

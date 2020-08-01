@@ -13,7 +13,7 @@ from datacode.graph.edge import Edge
 from datacode.models.dethash import DeterministicHashDictMixin
 from datacode.graph.node import Node
 from datacode.logger import logger
-from datacode.models.links import LinkedItem
+from datacode.models.links import LinkedLastModifiedItem, most_recent_last_modified
 from datacode.models.outputter import DataOutputter
 from datacode.models.types import SourceCreatingPipeline
 from datacode.summarize import describe_df
@@ -24,7 +24,7 @@ from datacode.models.loader import DataLoader
 import datacode.hooks as hooks
 
 
-class DataSource(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
+class DataSource(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
     copy_keys = [
         'location',
         'name',
@@ -181,13 +181,6 @@ class DataSource(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
         self._last_modified = value
 
     @property
-    def pipeline_last_modified(self):
-        if self.pipeline is None:
-            return None
-
-        return self.pipeline.last_modified
-
-    @property
     def pipeline(self) -> Optional[SourceCreatingPipeline]:
         return self._pipeline
 
@@ -240,6 +233,15 @@ class DataSource(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
         pass
         # assert not (filepath is None) and (df is None)
 
+    @property
+    def should_run_pipeline(self) -> bool:
+        lm = most_recent_last_modified(self.last_modified, self.pipeline_last_modified)
+        if lm is None:
+            return True
+        if lm == self.last_modified:
+            return False
+        return True
+
     def _set_data_loader(self, data_loader_class: Type[DataLoader], pipeline: SourceCreatingPipeline = None,
                          **read_file_kwargs):
         logger.debug(f'Setting data loader for source {self.name}')
@@ -248,39 +250,43 @@ class DataSource(LinkedItem, Graphable, DeterministicHashDictMixin, ReprMixin):
             # if a source in the pipeline to create this data source was modified more recently than this data source
             # note: if there is no location, will always enter the next block, as last modified time will set
             # to a long time ago
-            if (
-                    # no existing location for this source, must use pipeline
-                    self.last_modified is None or
-                    # not able to determine when pipeline sources were modified, must always run pipeline
-                    pipeline.last_modified is None or
-                    # pipeline sources were modified more recently than this source, run pipeline
-                    pipeline.last_modified > self.last_modified
-            ):
-                # a prior source used to construct this data source has changed. need to re run pipeline
+            source_lm = self.last_modified
+            pipeline_lm = self.pipeline_last_modified
+            lm = most_recent_last_modified(source_lm, pipeline_lm)
+            if lm is None:
                 run_pipeline = True
-                if pipeline.last_modified is None:
-                    logger.warning(f"""
-                    Was not able to determine last modified of pipeline {pipeline.name}.
-                    Will always run pipeline due to this. Consider manually setting last_modified when creating
-                    the pipeline.
-                    """.strip())
-                elif self.last_modified is None:
-                    logger.warning(f"""
-                   Was not able to determine last modified of source {self.name}.
-                   Will run pipeline due to this. This is due to no file currently existing for this source.
-                   """.strip())
+            elif lm == pipeline_lm and lm != source_lm:
+                run_pipeline = True
+
+            if run_pipeline:
+                # a prior source used to construct this data source has changed. need to re run pipeline
+                if pipeline_lm is None:
+                    logger.warning(
+                        f"Was not able to determine last modified of pipeline "
+                        f"{pipeline.name}. Will always run pipeline due to this. "
+                        f"Consider manually setting last_modified when creating "
+                        f"the pipeline."
+                    )
+                elif source_lm is None:
+                    logger.warning(
+                        f"Was not able to determine last modified of source "
+                        f"{self.name}. Will run pipeline due to this. "
+                        f"This is due to no file currently existing for this source."
+                    )
                 else:
-                    recent_obj = pipeline.obj_last_modified
+                    recent_obj, obj_lm = self.pipeline_obj_last_modified
                     try:
                         recent_obj_name = recent_obj.name
                     except AttributeError:
                         # Must be Operation, get name from pipeline instead
                         recent_obj_name = pipeline.name
-                    logger.warning(f'''{recent_obj_name} was modified at {recent_obj.last_modified}.
-
-                    this data source {self.name} was modified at {self.last_modified}.
-
-                    to get new changes, will load this data source through pipeline rather than from file.''')
+                    logger.warning(
+                        f'{recent_obj_name} was modified at {obj_lm}. '
+                        f'This data source {self.name} was modified at '
+                        f'{self.last_modified}. To get new changes, '
+                        f'will load this data source through pipeline '
+                        f'rather than from file.'
+                    )
 
             # otherwise, don't need to worry about pipeline, continue handling
 

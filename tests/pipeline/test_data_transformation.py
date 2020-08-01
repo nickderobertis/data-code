@@ -120,14 +120,15 @@ class TestDataTransformationPipeline(PipelineTest):
         dmp = self.create_merge_pipeline()
 
         dtp = self.create_transformation_pipeline(source=dmp)
-        self.create_csv_for_2()
-        ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp)
+        time.sleep(0.01)
+        self.create_csv_for_3()
+        ds = self.create_source(df=None, location=self.csv_path3, pipeline=dtp)
 
         # Should not run pipeline as source is newer
         df = ds.df
 
         dc_hooks.reset_hooks()
-        assert_frame_equal(df, self.test_df2)
+        assert_frame_equal(df, self.test_df3)
         assert th.COUNTER == counter_value  # transform operation not called
         self.assert_ordered_pipeline_operations(dtp, [dmp, dtp])
 
@@ -141,9 +142,14 @@ class TestDataTransformationPipeline(PipelineTest):
         self.create_csv_for_2()
         ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp)
 
+        before_touch = datetime.datetime.now()
         dtp.touch()
-        assert dtp.last_modified > dmp.last_modified
-        assert dtp.last_modified > ds.last_modified
+        after_touch = datetime.datetime.now()
+        assert dtp.last_modified < after_touch
+        assert dtp.last_modified > before_touch
+        assert dmp.last_modified is None
+        assert dtp.pipeline_last_modified == dmp.pipeline_last_modified
+        assert ds.pipeline_last_modified > ds.last_modified
         # Should run pipeline as was just touched
         df = ds.df
 
@@ -164,8 +170,10 @@ class TestDataTransformationPipeline(PipelineTest):
         self.create_csv_for_2()
         ds = self.create_source(df=None, location=self.csv_path2, pipeline=dtp)
 
-        assert dtp.last_modified > dmp.last_modified
-        assert dtp.last_modified > ds.last_modified
+        assert dtp.last_modified == later
+        assert dmp.last_modified is None
+        assert dtp.pipeline_last_modified == dmp.pipeline_last_modified
+        assert ds.pipeline_last_modified > ds.last_modified
         # Should run pipeline as was manually set last modified in the future
         df = ds.df
 
@@ -210,9 +218,15 @@ class TestDataTransformationPipeline(PipelineTest):
         self.create_csv()  # now earlier source is more recently modified
         assert dmp.data_sources[0].last_modified > ds.last_modified
 
+        before_touch = datetime.datetime.now()
         ds.touch()
-        assert ds.last_modified > dtp.last_modified
-        assert ds.last_modified > dmp.last_modified
+        after_touch = datetime.datetime.now()
+        assert ds.last_modified < after_touch
+        assert ds.last_modified > before_touch
+        assert dmp.last_modified is None
+        assert dtp.last_modified is None
+        assert ds.pipeline_last_modified < ds.last_modified
+
         # Should not run pipeline as source was touched to be newer
         df = ds.df
 
@@ -238,8 +252,10 @@ class TestDataTransformationPipeline(PipelineTest):
         # now earlier source has csv more recently modified, but this
         # should be ignored due to manually passing last_modified in the future
 
-        assert ds.last_modified > dtp.last_modified
-        assert ds.last_modified > dmp.last_modified
+        assert ds.last_modified == later
+        assert dmp.last_modified is None
+        assert dtp.last_modified is None
+        assert ds.pipeline_last_modified < ds.last_modified
         # Should not run pipeline as source was manually set to be newer
         df = ds.df
 

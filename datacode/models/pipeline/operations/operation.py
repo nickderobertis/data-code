@@ -63,19 +63,7 @@ class DataOperation(ReprMixin):
 
     @property
     def last_modified(self) -> Optional[datetime.datetime]:
-        logger.debug(f'Determining last_modified in {self}')
-        if self.options.last_modified is not None or not self.data_sources:
-            return self.options.last_modified
-
-        if any([ds.last_modified is None for ds in self.data_sources]):
-            return None
-
-        lm_choices = [ds.pipeline_last_modified for ds in self.data_sources] + [ds.last_modified for ds in self.data_sources]
-        valid_choices = [lm for lm in lm_choices if lm is not None]
-
-        last_modified = max(valid_choices)
-        logger.debug(f'Finished determining last_modified in {self}')
-        return last_modified
+        return self.options.last_modified
 
     @last_modified.setter
     def last_modified(self, value: Optional[datetime.datetime]):
