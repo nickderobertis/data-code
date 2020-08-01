@@ -57,7 +57,11 @@ class DeterministicHashDictMixin:
             value = getattr(self, key)
             if inspect.ismethod(value):
                 continue
-            out_dict[key] = dh[value]
+            try:
+                out_dict[key] = dh[value]
+            except KeyError:
+                # hash was not calculated for this item for some other reason
+                continue
 
         return out_dict
 

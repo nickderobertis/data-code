@@ -74,6 +74,23 @@ class DatacodeOptions:
         self._set_class_attr(klass, attr, value)
         return self
 
+    def set_hash_options(self, options: HashDictOptions) -> 'DatacodeOptions':
+        """
+        Control how pipelines determine whether the result is cached. Each time
+        a pipeline is run it calculates a hash it calculates a hash of its options
+        and its data sources to determine whether it has already run with the
+        same settings.
+
+        ``deepdiff.DeepHash` is used to determine the hash. DeepHash options
+        can be passed to control the hashing behavior. The :py:class:`HashDictOptions`
+        typed dictionary is provided for convenience and matches those options
+
+        :param options: dict of kwargs that would be passed to ``deepdiff.DeepHash``
+        :return: same options instance
+        """
+        self._set_class_attr(DeterministicHashDictMixin, 'hash_dict_options', options)
+        return self
+
     def _set_class_attr(
         self, klass: Type, attr: str, value: Any,
     ):
