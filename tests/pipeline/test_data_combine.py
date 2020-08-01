@@ -160,16 +160,3 @@ class TestDataCombinationPipeline(PipelineTest):
 
         assert_frame_equal(dp2.df, self.expect_combined_cols_2_3)
         self.assert_ordered_pipeline_operations(dp2, [dtp, dp2])
-
-    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
-    def test_hash_dict_combine_pipeline(self):
-        dcp = self.create_combine_pipeline()
-        hd1 = dcp.hash_dict()
-        dcp.execute()
-        hd2 = dcp.hash_dict()
-        assert hd1 == hd2 == {
-            "_data_sources": "f057dc9c4b6f3d664c120969bca6b094db9539b397ac32ac0cc62ce042e96fb6",
-            "_operations_options": "9705db1f1fa78dac3c74d509a39ce608063a7a334795b7cb1b9a010c117a2a3c",
-            "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
-            "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
-        }

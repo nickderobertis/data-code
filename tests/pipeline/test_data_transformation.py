@@ -267,15 +267,3 @@ class TestDataTransformationPipeline(PipelineTest):
 
         dc_hooks.reset_hooks()
 
-    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
-    def test_hash_dict_transformation_pipeline(self):
-        dtp = self.create_transformation_pipeline()
-        hd1 = dtp.hash_dict()
-        dtp.execute()
-        hd2 = dtp.hash_dict()
-        assert hd1 == hd2 == {
-            "_data_sources": "4a7dfc739fcb55ed75da70d8102acd0a02b7b70bad64d6004d5b31a69d889458",
-            "_operations_options": "28ba857cd5a6a95bcdc5d2a94b0c13839ed0b3c9de2b982cbb8894653d5c41c0",
-            "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
-            "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
-        }

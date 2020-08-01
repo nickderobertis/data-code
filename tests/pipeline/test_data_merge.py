@@ -99,18 +99,3 @@ class TestDataMergePipeline(PipelineTest):
         # Should also check the contents of the graphs. Also see TestCreateSource.test_graph
         ds.graph
         dp.graph
-
-    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
-    def test_hash_dict_merge_pipeline(self):
-        dmp = self.create_merge_pipeline()
-        hd1 = dmp.hash_dict()
-        dmp.execute()
-        hd2 = dmp.hash_dict()
-        assert hd1 == hd2 == {
-            "has_post_merge_cleanup_func": "b195620d3676be89da6277412918e9f4e5e2bf23b0eaacfcf674c87609c67f3a",
-            "cleanup_kwargs": "306f6a85c8136a673f6eac5fffe265a196613180ebdfe2b9e6fdd6fdd62bb8fd",
-            "_data_sources": "f057dc9c4b6f3d664c120969bca6b094db9539b397ac32ac0cc62ce042e96fb6",
-            "_operations_options": "08aaebf91e162866cccee6b5ab2bae1d21595ad5da53f1dfc465e407f792cf58",
-            "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
-            "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
-        }

@@ -99,16 +99,3 @@ class TestDataAnalysisPipeline(PipelineTest):
         assert th.COUNTER == counter_value + 2  # transform operation called twice as always rerun
         self.assert_ordered_pipeline_operations(dap1, [dtp, dap1])
         self.assert_ordered_pipeline_operations(dap2, [dtp, dap2])
-
-    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
-    def test_hash_dict_analysis_pipeline(self):
-        dap = self.create_analysis_pipeline()
-        hd1 = dap.hash_dict()
-        dap.execute()
-        hd2 = dap.hash_dict()
-        assert hd1 == hd2 == {
-            "_data_sources": "b723a0cb0aa8c106d7857484846835a8279049425c474f6f06ad07dcb521b1b5",
-            "_operations_options": "fc88ae22bf3ca43b567a82443e1ea75a8799fe2be195794c857f98b516bfb655",
-            "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
-            "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
-        }

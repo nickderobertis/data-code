@@ -35,16 +35,3 @@ class TestDataGeneratorPipeline(PipelineTest):
         assert dgp._operation_index == 1
         assert_frame_equal(df, EXPECT_GENERATED_DF)
         self.assert_all_pipeline_operations_have_pipeline(dgp)
-
-    @patch('datacode.models.source.DataSource.last_modified', datetime.datetime(2020, 7, 29))
-    def test_hash_dict_generator_pipeline(self):
-        dgp = self.create_generator_pipeline()
-        hd1 = dgp.hash_dict()
-        dgp.execute()
-        hd2 = dgp.hash_dict()
-        assert hd1 == hd2 == {
-            "_data_sources": "e78b481f6a5083ac6d266e434fd0da3dc14bf48ac1376d0476b6e310c721e6d9",
-            "_operations_options": "8616241cb51ef1210d920715625b671172688a9cf2cf5e37e55344ff2a5ccbb4",
-            "name": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
-            "difficulty": "f71d3c329180a20f409d73572d25e0975ae38db1230fd18c59671532b2f9fcda",
-        }
