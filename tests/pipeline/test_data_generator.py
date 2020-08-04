@@ -20,6 +20,7 @@ class TestDataGeneratorPipeline(PipelineTest):
         dgp = self.create_generator_pipeline()
 
         ds = DataSource(pipeline=dgp, location=self.csv_path_output)
+        ds.touch()  # even with last_modified set, should still load from pipeline
         df = ds.df
         assert_frame_equal(df, EXPECT_GENERATED_DF)
         self.assert_all_pipeline_operations_have_pipeline(dgp)

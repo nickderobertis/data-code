@@ -11,7 +11,7 @@ class CustomFormatter(logging.Formatter):
     )
 
     def format(self, record: logging.LogRecord) -> str:
-        if record.levelno == logging.DEBUG:
+        if record.levelno <= logging.DEBUG:
             return self.debug_formatter.format(record)
         return self.other_formatter.format(record)
 
