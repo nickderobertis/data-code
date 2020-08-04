@@ -1,5 +1,7 @@
 import uuid
 from copy import deepcopy
+from enum import Enum
+
 import pandas as pd
 from functools import partial
 import os
@@ -166,11 +168,15 @@ class DataSource(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin, 
         self.refresh_columns_series()
 
     @property
+    def data_exists_at_location(self) -> bool:
+        return self.location is not None and os.path.exists(self.location)
+
+    @property
     def last_modified(self) -> Optional[datetime.datetime]:
         if self._last_modified is not None:
             return self._last_modified
 
-        if self.location is None or not os.path.exists(self.location):
+        if not self.data_exists_at_location:
             # No location. Will trigger pipeline instead
             return None
 
@@ -247,46 +253,29 @@ class DataSource(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin, 
         logger.debug(f'Setting data loader for source {self.name}')
         run_pipeline = False
         if pipeline is not None:
-            # if a source in the pipeline to create this data source was modified more recently than this data source
-            # note: if there is no location, will always enter the next block, as last modified time will set
-            # to a long time ago
-            source_lm = self.last_modified
-            pipeline_lm = self.pipeline_last_modified
-            lm = most_recent_last_modified(source_lm, pipeline_lm)
-            if lm is None:
-                run_pipeline = True
-            elif lm == pipeline_lm and lm != source_lm:
+
+            reason = LoadFromPipelineReason.PIPELINE_NEWER
+            if self.data_exists_at_location:
+                # if a source in the pipeline to create this data source was modified
+                # more recently than this data source
+                source_lm = self.last_modified
+                pipeline_lm = self.pipeline_last_modified
+                lm = most_recent_last_modified(source_lm, pipeline_lm)
+                if lm is None:
+                    run_pipeline = True
+                elif lm == pipeline_lm and lm != source_lm:
+                    run_pipeline = True
+                if pipeline_lm is None:
+                    reason = LoadFromPipelineReason.NO_LAST_MODIFIED_IN_PIPELINE
+                elif source_lm is None:
+                    reason = LoadFromPipelineReason.NO_DATA_AT_LOCATION
+            else:
+                # No location or no data at location, must run pipeline regardless of last modified
                 run_pipeline = True
 
             if run_pipeline:
                 # a prior source used to construct this data source has changed. need to re run pipeline
-                if pipeline_lm is None:
-                    logger.warning(
-                        f"Was not able to determine last modified of pipeline "
-                        f"{pipeline.name}. Will always run pipeline due to this. "
-                        f"Consider manually setting last_modified when creating "
-                        f"the pipeline."
-                    )
-                elif source_lm is None:
-                    logger.warning(
-                        f"Was not able to determine last modified of source "
-                        f"{self.name}. Will run pipeline due to this. "
-                        f"This is due to no file currently existing for this source."
-                    )
-                else:
-                    recent_obj, obj_lm = self.pipeline_obj_last_modified
-                    try:
-                        recent_obj_name = recent_obj.name
-                    except AttributeError:
-                        # Must be Operation, get name from pipeline instead
-                        recent_obj_name = pipeline.name
-                    logger.warning(
-                        f'{recent_obj_name} was modified at {obj_lm}. '
-                        f'This data source {self.name} was modified at '
-                        f'{self.last_modified}. To get new changes, '
-                        f'will load this data source through pipeline '
-                        f'rather than from file.'
-                    )
+                report_load_from_pipeline_reason(self, pipeline, reason)
 
             # otherwise, don't need to worry about pipeline, continue handling
 
@@ -671,3 +660,43 @@ class DataSource(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin, 
 
 class NoColumnForVariableException(Exception):
     pass
+
+
+class LoadFromPipelineReason(Enum):
+    PIPELINE_NEWER = 'pipeline_newer'
+    NO_DATA_AT_LOCATION = 'no_data_at_location'
+    NO_LAST_MODIFIED_IN_PIPELINE = 'no_last_modified_in_pipeline'
+
+
+def report_load_from_pipeline_reason(
+    source: DataSource,
+    pipeline: SourceCreatingPipeline,
+    reason: LoadFromPipelineReason
+):
+    if reason == LoadFromPipelineReason.NO_LAST_MODIFIED_IN_PIPELINE:
+        logger.warning(
+            f"Was not able to determine last modified of pipeline "
+            f"{pipeline.name}. Will always run pipeline due to this. "
+            f"Consider manually setting last_modified when creating "
+            f"the pipeline."
+        )
+    elif reason == LoadFromPipelineReason.NO_DATA_AT_LOCATION:
+        logger.warning(
+            f"Was not able to determine last modified of source "
+            f"{source.name}. Will run pipeline due to this. "
+            f"This is due to no file currently existing for this source."
+        )
+    elif reason == LoadFromPipelineReason.PIPELINE_NEWER:
+        recent_obj, obj_lm = source.pipeline_obj_last_modified
+        try:
+            recent_obj_name = recent_obj.name
+        except AttributeError:
+            # Must be Operation, get name from pipeline instead
+            recent_obj_name = pipeline.name
+        logger.info(
+            f'{recent_obj_name} was modified at {obj_lm}. '
+            f'This data source {source.name} was modified at '
+            f'{source.last_modified}. To get new changes, '
+            f'will load this data source through pipeline '
+            f'rather than from file.'
+        )
