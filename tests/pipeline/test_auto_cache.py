@@ -160,7 +160,7 @@ class TestAutoCacheTransform(TestAutoCacheGenerator):
         self.assert_all_pipeline_operations_have_pipeline(dtp)
         return dtp
 
-    # TODO: Saving calculated variables
+    # TODO [$5f2afe329be7710007b9110e]: Saving calculated variables
     #
     # When variables are calculated there is no corresponding column
     # being passed to DataSource so it does not have a consistent load_key
