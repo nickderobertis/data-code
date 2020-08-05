@@ -16,24 +16,20 @@ class LoadOperation(DataOperation):
     """
     options: 'LoadOptions'
     result: 'DataSource'
+    num_required_sources = 0
 
-    def __init__(self, pipeline: 'DataPipeline', data_sources: DataSourcesOrPipelines,
+    def __init__(self, pipeline: 'DataPipeline',
                  options: 'LoadOptions',
                  **result_kwargs):
         super().__init__(
             pipeline,
-            data_sources,
+            [],
             options,
             **result_kwargs
         )
 
-    @property
-    def data_source(self) -> DataSource:
-        return self.data_sources[0]
-
     def _execute(self):
-        self.data_source.df  # causes load of df
-        self.result.update_from_source(self.data_source)
+        self.result.df  # causes load of df
         return self.result
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,
@@ -48,7 +44,7 @@ class LoadOperation(DataOperation):
 
     @property
     def last_modified(self) -> datetime.datetime:
-        return self.data_source.last_modified
+        return self.result.last_modified
 
     def _set_result(self, **kwargs):
         # Override base implementation to not pass last_modified

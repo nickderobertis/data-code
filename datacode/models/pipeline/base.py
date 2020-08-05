@@ -29,10 +29,13 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
     Base class for data pipelines. Should not be used directly.
     """
     repr_cols = ['name', 'data_sources', 'operation_options', 'difficulty']
+    auto_cache_location: Optional[str] = None
 
     def __init__(self, data_sources: DataSourcesOrPipelines,
                  operation_options: Optional[Sequence[OperationOptions]],
-                 name: Optional[str] = None, difficulty: float = 50):
+                 name: Optional[str] = None, difficulty: float = 50,
+                 auto_cache: bool = True,
+                 auto_cache_location: Optional[str] = None, cache_key: str = ''):
         """
 
         :param data_sources:
@@ -52,6 +55,15 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
         if not isinstance(operation_options, list):
             operation_options = list(operation_options)
 
+        if auto_cache_location is not None:
+            # Only use passed location if not None as otherwise take default from class
+            self.auto_cache_location = auto_cache_location
+
+        if self.auto_cache_location is not None and not os.path.exists(self.auto_cache_location):
+            os.makedirs(self.auto_cache_location)
+
+        self.auto_cache = auto_cache
+        self.cache_key = cache_key
         self.data_sources: List[DataSourceOrPipeline] = data_sources
         self.operation_options: List[OperationOptions] = operation_options
         self.name = name
@@ -119,25 +131,25 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
         if not force_rerun and self.result_is_cached:
             # Already have result with the same exact config from a prior run. Just load it
             if options_list[-1].op_class.num_required_sources == 0:
-                res = options_list[-1].get_operation(
+                orig_op = options_list[-1].get_operation(
                     self, options_list[-1], include_pipeline_in_result=True
-                ).result
+                )
             elif options_list[-1].op_class.num_required_sources == 1:
-                res = options_list[-1].get_operation(
+                orig_op = options_list[-1].get_operation(
                     self, [data_sources[0]], options_list[-1], include_pipeline_in_result=True
-                ).result
+                )
             elif options_list[-1].op_class.num_required_sources == 2:
-                res = options_list[-1].get_operation(
+                orig_op = options_list[-1].get_operation(
                     self, data_sources, options_list[-1], include_pipeline_in_result=True
-                ).result
+                )
             else:
                 raise ValueError('DataPipeline cannot handle operations with more than two sources')
-            if isinstance(res, DataSource):
+            if isinstance(orig_op.result, DataSource):
                 load_options = LoadOptions(out_path=self.location, allow_modifying_result=self.allow_modifying_result,
                                            result_kwargs=options_list[-1].result_kwargs)
-                load_operation = load_options.get_operation(self, [res], load_options)
+                load_operation = load_options.get_operation(self, load_options, output_name=orig_op.output_name)
                 return [load_operation]
-            warnings.warn(f'No loading from file implemented for result type {type(res)}, will always run pipeline')
+            warnings.warn(f'No loading from file implemented for result type {type(orig_op.result)}, will always run pipeline')
 
         if len(options_list) == 1:
             result_opts = {'include_pipeline_in_result': True}
@@ -183,7 +195,11 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
     def _set_df_from_first_operation(self):
         logger.debug(f'Setting pipeline {self.name} df from first operation')
         # Need to check as may be generation pipeline which would not have a df to start from
-        if hasattr(self.operations[0], 'data_sources') and self.operations[0].data_sources:
+        if (
+            hasattr(self.operations[0], 'data_sources') and
+            self.operations[0].data_sources and
+            self.operations[0].num_required_sources > 0
+        ):
             self.df = self.operations[0].data_sources[0].df
 
     @property
@@ -241,7 +257,7 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
         if not isinstance(self.result, DataSource):
             raise NotImplementedError(f'have not implemented pipeline output for type {type(self.result)}')
         self.result.location = self.location
-        if not self.operation_options[-1].can_output:
+        if not self.location:
             return
 
         logger.debug(f'Outputting data source result {self.result} from pipeline {self.name}')
@@ -277,10 +293,17 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
         if self.result is not None and self.result.location is not None:
             return self.result.location
 
-        if not self.operation_options[-1].can_output:
-            return None
+        if self.operation_options[-1].out_path is not None:
+            return self.operation_options[-1].out_path
 
-        return self.operation_options[-1].out_path
+        if self.auto_cache and self.auto_cache_location is not None:
+            cache_name = self.name
+            if self.cache_key:
+                cache_name = f'{cache_name}.{self.cache_key}'
+            cache_path = os.path.join(self.auto_cache_location, f'{cache_name}.csv')
+            return cache_path
+
+        return None
 
     @property
     def cache_json_location(self) -> Optional[str]:

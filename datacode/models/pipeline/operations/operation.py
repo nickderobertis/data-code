@@ -112,9 +112,10 @@ class OperationOptions(ReprMixin):
     def can_output(self) -> bool:
         return self.out_path is not None
 
-    def get_operation(self, pipeline: 'DataPipeline', *args, include_pipeline_in_result: bool = False) -> DataOperation:
+    def get_operation(self, pipeline: 'DataPipeline', *args, include_pipeline_in_result: bool = False, **kwargs) -> DataOperation:
         logger.debug(f'Getting operation from options {self}')
-        kwargs = {}
+        all_kwargs = {}
         if self.result_kwargs is not None:
-            kwargs = self.result_kwargs
-        return self.op_class(pipeline, *args, include_pipeline_in_result=include_pipeline_in_result, **kwargs)
+            all_kwargs.update(self.result_kwargs)
+        all_kwargs.update(kwargs)
+        return self.op_class(pipeline, *args, include_pipeline_in_result=include_pipeline_in_result, **all_kwargs)

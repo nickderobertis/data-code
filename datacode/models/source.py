@@ -265,6 +265,7 @@ class DataSource(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin, 
                     run_pipeline = True
                 elif lm == pipeline_lm and lm != source_lm:
                     run_pipeline = True
+
                 if pipeline_lm is None:
                     reason = LoadFromPipelineReason.NO_LAST_MODIFIED_IN_PIPELINE
                 elif source_lm is None:

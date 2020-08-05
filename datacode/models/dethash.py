@@ -28,6 +28,7 @@ class HashDictOptions(TypedDict, total=False):
     ignore_numeric_type_changes: bool
     ignore_string_case: bool
 
+
 DEFAULT_HASH_DICT_OPTIONS: HashDictOptions = dict(
         exclude_regex_paths=[
             ".df$",
@@ -38,12 +39,17 @@ DEFAULT_HASH_DICT_OPTIONS: HashDictOptions = dict(
             ".back_links$",
             "._node_id$",
             "._last_modified$",
+            ".last_modified$",
             "._operations$",
             "._operation_index$",
             ".repr_cols$",
             ".result$",
             ".transform.key$",
-            "._pre_execute_hash_dict$"
+            "._pre_execute_hash_dict$",
+            ".pd_class$",
+            ".auto_cache$",
+            ".cache_key$",
+            ".difficulty$",
         ],
         exclude_types=[np.dtype],
         ignore_type_subclasses=True,

@@ -13,7 +13,7 @@ from datacode.models.pipeline.operations.combine import CombineOptions
 from datacode.models.types import DataSourceOrPipeline
 import datacode.hooks as dc_hooks
 from tests.test_source import SourceTest
-from tests.utils import GENERATED_PATH
+from tests.utils import GENERATED_PATH, reset_operation_counter
 
 
 def analysis_from_source(ds: DataSource, sum_offset: int = 0) -> float:
@@ -209,6 +209,7 @@ class PipelineTest(SourceTest):
         super().teardown_method(*args, **kwargs)
         dc_hooks.reset_hooks()
         th.COUNTER = 0
+        reset_operation_counter()
 
     def create_csv_for_2(self, df: Optional[pd.DataFrame] = None, **to_csv_kwargs):
         if df is None:
@@ -381,18 +382,26 @@ class PipelineTest(SourceTest):
         dap = DataAnalysisPipeline(source, options)
         return dap
 
-    def create_generator_pipeline(self, **kwargs) -> DataGeneratorPipeline:
+    def create_generator_pipeline(self, pipeline_kwargs: Optional[Dict[str, Any]] = None,
+                                  create_csv: bool = True,
+                                  **kwargs) -> DataGeneratorPipeline:
+        if pipeline_kwargs is None:
+            pipeline_kwargs = {}
         gen_cols = self.create_columns_for_generated()
         config_dict = dict(
-            out_path=self.csv_path_output, columns=gen_cols
+            out_path=self.csv_path_output, columns=gen_cols,
+            result_kwargs=dict(
+                columns=gen_cols,
+            )
         )
         config_dict.update(**kwargs)
         go = GenerationOptions(ds_generator_func, **config_dict)
-        dgp = DataGeneratorPipeline(go)
+        dgp = DataGeneratorPipeline(go, **pipeline_kwargs)
         return dgp
 
     def create_transformation_pipeline(self, source: Optional[DataSourceOrPipeline] = None,
                                        pipeline_kwargs: Optional[Dict[str, Any]] = None,
+                                       create_csv: bool = True,
                                        **options) -> DataTransformationPipeline:
         config_dict = dict(
             func=source_transform_func,
@@ -402,7 +411,8 @@ class PipelineTest(SourceTest):
         if pipeline_kwargs is None:
             pipeline_kwargs = {}
         if source is None:
-            self.create_csv()
+            if create_csv:
+                self.create_csv()
             all_cols = self.create_columns()
             source = self.create_source(df=None, columns=all_cols)
 

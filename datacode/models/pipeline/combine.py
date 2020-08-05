@@ -12,12 +12,16 @@ class DataCombinationPipeline(DataPipeline):
 
     def __init__(self, data_sources: DataSourcesOrPipelines,
                  options_list: Sequence[CombineOptions], name: Optional[str] = None,
-                 difficulty: float = 50):
+                 difficulty: float = 50, auto_cache: bool = True,
+                 auto_cache_location: Optional[str] = None, cache_key: str = ''):
         super().__init__(
             data_sources,
             options_list,
             name=name,
-            difficulty=difficulty
+            difficulty=difficulty,
+            auto_cache=auto_cache,
+            auto_cache_location=auto_cache_location,
+            cache_key=cache_key,
         )
 
     def execute(self, output: bool = True):
