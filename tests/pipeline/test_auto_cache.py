@@ -214,3 +214,32 @@ class TestAutoCacheCombine(TestAutoCacheGenerator):
         assert_frame_equal(dp.df, expect_cached_loaded_df)
         self.assert_all_pipeline_operations_have_pipeline(dp)
         return dp
+
+
+class TestAutoCacheMerge(TestAutoCacheGenerator):
+    pipeline_key = 'merge'
+    expect_cached_df = pd.DataFrame(
+        [
+            (1, 2, 'd', 10, 20),
+            (3, 4, 'd', 10, 20),
+            (5, 6, 'e', 50, 60),
+        ],
+        columns=['a', 'b', 'c', 'e', 'f']
+    ).convert_dtypes()
+    expect_cached_loaded_df = PipelineTest.expect_merged_1_2
+
+    def execute_pipeline(self, expect_cached_loaded_df: Optional[pd.DataFrame] = None, **kwargs) -> dc.DataPipeline:
+        if expect_cached_loaded_df is None:
+            expect_cached_loaded_df = self.expect_cached_loaded_df
+
+        config = dict(
+           last_option_config=dict(out_path=None),
+        )
+        config.update(kwargs)
+
+        dp = self.create_merge_pipeline(**config)
+        dp.execute()
+
+        assert_frame_equal(dp.df, expect_cached_loaded_df)
+        self.assert_all_pipeline_operations_have_pipeline(dp)
+        return dp
