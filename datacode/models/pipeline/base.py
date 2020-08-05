@@ -128,6 +128,7 @@ class DataPipeline(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin
     def _create_operations(self, data_sources: DataSourcesOrPipelines, options_list: List[OperationOptions]):
         logger.debug(f'Creating operations for pipeline {self.name}')
         force_rerun = any([op.always_rerun for op in options_list])
+
         if not force_rerun and self.result_is_cached:
             # Already have result with the same exact config from a prior run. Just load it
             if options_list[-1].op_class.num_required_sources == 0:
