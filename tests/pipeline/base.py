@@ -408,6 +408,8 @@ class PipelineTest(SourceTest):
             out_path=self.csv_path_output
         )
         config_dict.update(options)
+        if 'result_kwargs' not in config_dict:
+            config_dict['result_kwargs'] = {}
         if pipeline_kwargs is None:
             pipeline_kwargs = {}
         if source is None:
@@ -415,6 +417,7 @@ class PipelineTest(SourceTest):
                 self.create_csv()
             all_cols = self.create_columns()
             source = self.create_source(df=None, columns=all_cols)
+            config_dict['result_kwargs'].update(columns=all_cols)
 
         to = TransformOptions(**config_dict)
 
