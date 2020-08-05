@@ -322,7 +322,8 @@ class TestDataTransformationPipeline(PipelineTest):
 
         # Running with different options should run operations again
         dtp = self.create_transformation_pipeline(
-            pipeline_kwargs=dict(difficulty=20), result_kwargs=dict(columns=cols)
+            result_kwargs=dict(columns=cols),
+            subset=lambda source: source.load_variables
         )
         dtp.execute()
 

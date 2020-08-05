@@ -13,7 +13,7 @@ from datacode.models.pipeline.operations.combine import CombineOptions
 from datacode.models.types import DataSourceOrPipeline
 import datacode.hooks as dc_hooks
 from tests.test_source import SourceTest
-from tests.utils import GENERATED_PATH
+from tests.utils import GENERATED_PATH, reset_operation_counter
 
 
 def analysis_from_source(ds: DataSource, sum_offset: int = 0) -> float:
@@ -209,6 +209,7 @@ class PipelineTest(SourceTest):
         super().teardown_method(*args, **kwargs)
         dc_hooks.reset_hooks()
         th.COUNTER = 0
+        reset_operation_counter()
 
     def create_csv_for_2(self, df: Optional[pd.DataFrame] = None, **to_csv_kwargs):
         if df is None:
@@ -327,7 +328,10 @@ class PipelineTest(SourceTest):
     def create_merge_pipeline(self, include_indices: Sequence[int] = (0, 1),
                               data_sources: Optional[Sequence[DataSource]] = None,
                               merge_options_list: Optional[Sequence[MergeOptions]] = None,
-                              indexed: bool = False) -> DataMergePipeline:
+                              indexed: bool = False, all_option_config: Optional[Dict[str, Any]] = None,
+                              last_option_config: Optional[Dict[str, Any]] = None,
+                              pipeline_kwargs: Optional[Dict[str, Any]] = None, create_csv: bool = True,
+                              ) -> DataMergePipeline:
         if indexed:
             col_func_1 = self.create_indexed_columns
             col_func_2 = self.create_indexed_columns_for_2
@@ -339,17 +343,16 @@ class PipelineTest(SourceTest):
 
 
         if data_sources is None:
-            self.create_csv()
+            if create_csv:
+                self.create_csv()
+                self.create_csv_for_2()
+                self.create_csv_for_3()
             ds1_cols = col_func_1()
             ds1 = self.create_source(df=None, columns=ds1_cols, name='one')
-            self.create_csv_for_2()
             ds2_cols = col_func_2()
             ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
-            self.create_csv_for_3()
             ds3_cols = col_func_3()
             ds3 = self.create_source(df=None, location=self.csv_path3, columns=ds3_cols, name='three')
-
-
             data_sources = [ds1, ds2, ds3]
             selected_data_sources = []
             for i, ds in enumerate(data_sources):
@@ -358,13 +361,30 @@ class PipelineTest(SourceTest):
         else:
             selected_data_sources = data_sources
 
+        if pipeline_kwargs is None:
+            pipeline_kwargs = {}
+        if all_option_config is None:
+            all_cols = []
+            for ds in selected_data_sources:
+                if isinstance(ds, DataSource) and ds.columns is not None:
+                    for col in ds.columns:
+                        if col not in all_cols:
+                            all_cols.append(col)
+            all_option_config = dict(result_kwargs=dict(columns=all_cols))
+
+        if last_option_config is None:
+            last_option_config = dict(
+                out_path=self.csv_path_output,
+            )
+
         if merge_options_list is None:
-            mo = MergeOptions([self.merge_var.name])
+            mo = MergeOptions([self.merge_var.name], **all_option_config)
             merge_options_list = [mo for _ in range(len(selected_data_sources) - 1)]
 
-        merge_options_list[-1].out_path = self.csv_path_output
+        for key, value in last_option_config.items():
+            setattr(merge_options_list[-1], key, value)
 
-        dp = DataMergePipeline(selected_data_sources, merge_options_list)
+        dp = DataMergePipeline(selected_data_sources, merge_options_list, **pipeline_kwargs)
         return dp
 
 
@@ -381,30 +401,42 @@ class PipelineTest(SourceTest):
         dap = DataAnalysisPipeline(source, options)
         return dap
 
-    def create_generator_pipeline(self, **kwargs) -> DataGeneratorPipeline:
+    def create_generator_pipeline(self, pipeline_kwargs: Optional[Dict[str, Any]] = None,
+                                  create_csv: bool = True,
+                                  **kwargs) -> DataGeneratorPipeline:
+        if pipeline_kwargs is None:
+            pipeline_kwargs = {}
         gen_cols = self.create_columns_for_generated()
         config_dict = dict(
-            out_path=self.csv_path_output, columns=gen_cols
+            out_path=self.csv_path_output, columns=gen_cols,
+            result_kwargs=dict(
+                columns=gen_cols,
+            )
         )
         config_dict.update(**kwargs)
         go = GenerationOptions(ds_generator_func, **config_dict)
-        dgp = DataGeneratorPipeline(go)
+        dgp = DataGeneratorPipeline(go, **pipeline_kwargs)
         return dgp
 
     def create_transformation_pipeline(self, source: Optional[DataSourceOrPipeline] = None,
                                        pipeline_kwargs: Optional[Dict[str, Any]] = None,
+                                       create_csv: bool = True,
                                        **options) -> DataTransformationPipeline:
         config_dict = dict(
             func=source_transform_func,
             out_path=self.csv_path_output
         )
         config_dict.update(options)
+        if 'result_kwargs' not in config_dict:
+            config_dict['result_kwargs'] = {}
         if pipeline_kwargs is None:
             pipeline_kwargs = {}
         if source is None:
-            self.create_csv()
+            if create_csv:
+                self.create_csv()
             all_cols = self.create_columns()
             source = self.create_source(df=None, columns=all_cols)
+            config_dict['result_kwargs'].update(columns=all_cols)
 
         to = TransformOptions(**config_dict)
 
@@ -414,7 +446,10 @@ class PipelineTest(SourceTest):
     def create_combine_pipeline(self, include_indices: Sequence[int] = (0, 1),
                                 data_sources: Optional[Sequence[DataSource]] = None,
                                 combine_options_list: Optional[Sequence[CombineOptions]] = None,
-                                indexed: bool = False):
+                                indexed: bool = False, all_option_config: Optional[Dict[str, Any]] = None,
+                                last_option_config: Optional[Dict[str, Any]] = None,
+                                pipeline_kwargs: Optional[Dict[str, Any]] = None,
+                                create_csv: bool = True):
         if indexed:
             col_func_1 = self.create_indexed_columns
             col_func_2 = self.create_indexed_columns_for_2
@@ -424,19 +459,17 @@ class PipelineTest(SourceTest):
             col_func_2 = self.create_columns_for_2
             col_func_3 = self.create_columns_for_3
 
-
         if data_sources is None:
-            self.create_csv()
+            if create_csv:
+                self.create_csv()
+                self.create_csv_for_2()
+                self.create_csv_for_3()
             ds1_cols = col_func_1()
             ds1 = self.create_source(df=None, columns=ds1_cols, name='one')
-            self.create_csv_for_2()
             ds2_cols = col_func_2()
             ds2 = self.create_source(df=None, location=self.csv_path2, columns=ds2_cols, name='two')
-            self.create_csv_for_3()
             ds3_cols = col_func_3()
             ds3 = self.create_source(df=None, location=self.csv_path3, columns=ds3_cols, name='three')
-
-
             data_sources = [ds1, ds2, ds3]
             selected_data_sources = []
             for i, ds in enumerate(data_sources):
@@ -445,13 +478,27 @@ class PipelineTest(SourceTest):
         else:
             selected_data_sources = data_sources
 
+        if all_option_config is None:
+            all_cols = []
+            for ds in selected_data_sources:
+                if isinstance(ds, DataSource) and ds.columns is not None:
+                    for col in ds.columns:
+                        if col not in all_cols:
+                            all_cols.append(col)
+            all_option_config = dict(result_kwargs=dict(columns=all_cols))
+        if last_option_config is None:
+            last_option_config = dict(out_path=self.csv_path_output)
+        if pipeline_kwargs is None:
+            pipeline_kwargs = {}
+
         if combine_options_list is None:
-            mo = CombineOptions()
+            mo = CombineOptions(**all_option_config)
             combine_options_list = [mo for _ in range(len(selected_data_sources) - 1)]
 
-        combine_options_list[-1].out_path = self.csv_path_output
+        for key, value in last_option_config.items():
+            setattr(combine_options_list[-1], key, value)
 
-        dp = DataCombinationPipeline(selected_data_sources, combine_options_list)
+        dp = DataCombinationPipeline(selected_data_sources, combine_options_list, **pipeline_kwargs)
         return dp
 
     def assert_all_pipeline_operations_have_pipeline(self, pipeline: DataPipeline):

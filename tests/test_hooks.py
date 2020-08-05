@@ -168,7 +168,7 @@ class TestPipelineHooks(PipelineTest):
         dtp.execute()
         assert COUNTER == counter_value + 1
         dc_hooks.chain('on_begin_apply_source_transform', increase_counter_hook_return_only_second_arg)
-        dtp = self.create_transformation_pipeline()
+        dtp = self.create_transformation_pipeline(always_rerun=True)
         dtp.execute()
         assert COUNTER == counter_value + 3
 
@@ -179,6 +179,6 @@ class TestPipelineHooks(PipelineTest):
         dtp.execute()
         assert COUNTER == counter_value + 1
         dc_hooks.chain('on_end_apply_source_transform', increase_counter_hook_return_only_second_arg)
-        dtp = self.create_transformation_pipeline()
+        dtp = self.create_transformation_pipeline(always_rerun=True)
         dtp.execute()
         assert COUNTER == counter_value + 3

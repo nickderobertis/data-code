@@ -31,7 +31,7 @@ class CombineOperation(DataOperation):
 
     def _execute(self):
         ds = self.options.func(self.data_sources, **self.options.func_kwargs)
-        self.result.update_from_source(ds)
+        self.result.update_from_source(ds, exclude_attrs=('location', 'data_outputter_kwargs', 'pipeline'))
         return self.result
 
     def summary(self, *summary_args, summary_method: str=None, summary_function: Callable=None,

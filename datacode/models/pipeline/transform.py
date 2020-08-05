@@ -12,12 +12,16 @@ class DataTransformationPipeline(DataPipeline):
     """
 
     def __init__(self, data_source: DataSource, options: TransformOptions, name: Optional[str] = None,
-                 difficulty: float = 50):
+                 difficulty: float = 50, auto_cache: bool = True,
+                 auto_cache_location: Optional[str] = None, cache_key: str = ''):
         super().__init__(
             [data_source],
             [options],
             name=name,
-            difficulty=difficulty
+            difficulty=difficulty,
+            auto_cache=auto_cache,
+            auto_cache_location=auto_cache_location,
+            cache_key=cache_key,
         )
 
     @property

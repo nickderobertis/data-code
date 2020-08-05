@@ -13,7 +13,5 @@
   "load_variables": "bbd393a60007e5f9621b8fde442dbcf493227ef7ced9708aa743b46a88e1b49e",
   "read_file_kwargs": "306f6a85c8136a673f6eac5fffe265a196613180ebdfe2b9e6fdd6fdd62bb8fd",
   "data_outputter_kwargs": "306f6a85c8136a673f6eac5fffe265a196613180ebdfe2b9e6fdd6fdd62bb8fd",
-  "optimize_size": "b195620d3676be89da6277412918e9f4e5e2bf23b0eaacfcf674c87609c67f3a",
-  "difficulty": "0721514aeeb11d91796d9f3769a20fde80566ddf03ce7f00832632e766b09596",
-  "last_modified": "caec90dd700c1651c357c7111c1aa3236603817e15d5716b1ecd0dc912deb421"
+  "optimize_size": "b195620d3676be89da6277412918e9f4e5e2bf23b0eaacfcf674c87609c67f3a"
 }

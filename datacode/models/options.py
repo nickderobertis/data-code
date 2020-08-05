@@ -1,4 +1,5 @@
-from typing import Any, Tuple, Dict, Type
+import os
+from typing import Any, Tuple, Dict, Type, Optional
 
 from datacode.logger import logger
 from datacode.models.dethash import HashDictOptions, DeterministicHashDictMixin
@@ -89,6 +90,22 @@ class DatacodeOptions:
         :return: same options instance
         """
         self._set_class_attr(DeterministicHashDictMixin, 'hash_dict_options', options)
+        return self
+
+    def set_default_cache_location(self, location: Optional[str]) -> 'DatacodeOptions':
+        """
+        Sets the folder for where auto-cached pipelines should output
+        when there is no explicit out_path set in the options.
+
+
+        :param location: The folder for where auto-cached pipelines should output
+            when there is no explicit out_path set in the options. Set to None to
+            disable auto-caching with no out_path.
+        :return: same options instance
+        """
+        if not os.path.exists(location):
+            os.makedirs(location)
+        self.set_class_attr('DataPipeline', 'auto_cache_location', location)
         return self
 
     def _set_class_attr(
