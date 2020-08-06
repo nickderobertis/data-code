@@ -94,6 +94,8 @@ class DataLoader(ReprMixin):
 
     def duplicate_calculated_columns_if_necessary(self, df: pd.DataFrame):
         for var_key, (orig_var, new_var) in self._calculated_variables_that_need_duplication.items():
+            logger.debug(f'Duplicating column for original var {orig_var} new var '
+                         f'{new_var} for {self.source.name} in loader {self}')
             self.source._duplicate_column_for_calculation(
                 df,
                 orig_var=orig_var,
@@ -179,10 +181,12 @@ class DataLoader(ReprMixin):
     def set_df_index(self, df: pd.DataFrame):
         if not self.source.index_vars:
             return
-
+        logger.debug(f'Setting index to {self.source.index_var_names} in df '
+                     f'for source {self.source.name} in loader {self}')
         df.set_index(self.source.index_var_names, inplace=True)
 
     def assign_series_to_columns(self, df: pd.DataFrame):
+        logger.debug(f'Assigning series to columns for source {self.source.name} in loader {self}')
         if not self.source.columns:
             return
         for var in self.source.load_variables:
@@ -203,7 +207,7 @@ class DataLoader(ReprMixin):
         # a variable, then it copies that series for as many transformations are needed.
         # It would be better to have an implementation that doesn't require carrying copies
         # through everything.
-
+        logger.debug(f'Duplicating columns for calculation in source {self.source.name} in loader {self}')
         for col in self.source._columns_for_calculate:
             # Extra column is already in source, but need to add to df
             self.source._create_series_in_df_for_calculation(df, col)
@@ -263,6 +267,7 @@ class DataLoader(ReprMixin):
         if not self.source.columns:
             return
 
+        logger.debug(f'Renaming columns in {self.source.name} in loader {self}')
         rename_dict = {}
         for variable in self.source._orig_load_variables:
             if variable.key not in self.source.col_var_keys:
@@ -286,13 +291,12 @@ class DataLoader(ReprMixin):
         df.rename(columns=rename_dict, inplace=True)
 
     def try_to_calculate_variables(self, df: pd.DataFrame):
+        logger.debug(f'Trying to calculate variables for source {self.source.name} in loader {self}')
         if not self.source.columns:
             return df
 
         # Create temporary source so that transform can have access to df and all columns with one object
-        temp_source = deepcopy(self.source)
-        temp_source.df = df
-        temp_source.name = '_temp_source_for_transform'
+        self.source.df = df
 
         for variable in self.source.load_variables:
             if variable.key in self.source.col_var_keys:
@@ -326,20 +330,18 @@ class DataLoader(ReprMixin):
                 new_series.name = variable.name
                 # TODO [#34]: determine how to set index for columns from calculated variables
                 new_col = Column(variable, dtype=str(new_series.dtype), series=new_series)
-                temp_source.df[variable.name] = new_series
+                self.source.df[variable.name] = new_series
                 self.source.columns.append(new_col)
 
-        return temp_source.df
+        return self.source.df
 
     def apply_transforms(self, df: pd.DataFrame) -> pd.DataFrame:
         if not self.source.columns:
             return df
 
-        # Create temporary source so that transform can have access to df and all columns with one object
-        # TODO [#28]: don't copy df, use same df
-        temp_source = deepcopy(self.source)
-        temp_source.df = df
-        temp_source.name = '_temp_source_for_transform'
+        logger.debug(f'Applying transforms in {self.source.name} in loader {self}')
+        # Assign df so can have access to all columns and data with one object
+        self.source.df = df
 
         for var in self.source.load_variables:
             if not var.applied_transforms:
@@ -350,8 +352,8 @@ class DataLoader(ReprMixin):
                                      f'in columns {self.source.columns}')
                 continue
             column = self.source.col_for(var)
-            temp_source = _apply_transforms_to_var(var, column, temp_source)
-        return temp_source.df
+            self.source = _apply_transforms_to_var(var, column, self.source)
+        return self.source.df
 
     def drop_variables(self, df: pd.DataFrame):
         if not self.source._vars_for_calculate:
@@ -359,6 +361,7 @@ class DataLoader(ReprMixin):
             return
 
         drop_names = [var.name for var in self.source._vars_for_calculate]
+        logger.debug(f'Dropping variables {drop_names} in df for {self.source.name} in loader {self}')
         df.drop(drop_names, axis=1, inplace=True)
 
     def pre_transform(self, df: pd.DataFrame) -> pd.DataFrame:
