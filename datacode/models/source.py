@@ -622,6 +622,8 @@ class DataSource(LinkedLastModifiedItem, Graphable, DeterministicHashDictMixin, 
 
     def _duplicate_column_for_calculation(self, df: pd.DataFrame, orig_var: Variable, new_var: Variable,
                                           pre_rename: bool = True):
+        logger.debug(f'Duplicating column for calculation in source {self.name} for '
+                     f'orig variable {orig_var}, new variable {new_var}')
         # should get column which already has data for this variable
         existing_col = self.col_for(orig_var)
 
