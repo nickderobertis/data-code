@@ -1,4 +1,5 @@
 import datetime
+import math
 from typing import Iterable, Optional, List
 
 import pandas as pd
@@ -14,14 +15,14 @@ def cumulate_buy_and_hold_portfolios(
     date_var: str,
     port_date_var: str,
     ret_var: str,
-    cum_days: Iterable[int] = (0, 1, 5),
+    cum_days: Iterable[float] = (0, 1, 5),
     freq: str = "d",
     grossify: bool = True,
     weight_var: Optional[str] = None,
 ):
     daily_multiplier = _daily_multiplier(freq)
-    cum_time = [t * daily_multiplier for t in cum_days]
-    needed_days = max(cum_days)
+    cum_time: List[int] = [int(round(t * daily_multiplier, 0)) for t in cum_days]
+    needed_days = math.ceil(max(cum_days))
 
     # Get buy and hold portfolios
     persist_port_df = collect_portfolios_through_time(
