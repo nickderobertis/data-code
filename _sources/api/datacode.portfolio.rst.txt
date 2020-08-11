@@ -9,6 +9,14 @@ datacode.portfolio package
 Submodules
 ----------
 
+datacode.portfolio.cumret module
+--------------------------------
+
+.. automodule:: datacode.portfolio.cumret
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 datacode.portfolio.name module
 ------------------------------
 
