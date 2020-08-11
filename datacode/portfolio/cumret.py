@@ -139,7 +139,7 @@ def _offset(nper: int, freq: str) -> datetime.timedelta:
 
 
 def _daily_multiplier(freq: str, trading_calendar: bool = False) -> int:
-    # TODO: support trading calendar in cumulative portfolio
+    # TODO [$5f329d8da294330008d323cb]: support trading calendar in cumulative portfolio
     #
     # Some initial work is done in _daily_multipler, but need to add
     # for other functions, and be more flexible for custom calendars
