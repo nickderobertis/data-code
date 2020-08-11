@@ -44,3 +44,5 @@ from datacode.models.transform.plugin import register_transforms
 
 from datacode.sem import SEM, SEMSummary
 from datacode.summarize.coverage.main import variables_drop_obs_doc
+
+from datacode.portfolio.cumret import cumulate_buy_and_hold_portfolios
