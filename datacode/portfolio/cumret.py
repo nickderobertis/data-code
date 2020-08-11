@@ -20,6 +20,35 @@ def cumulate_buy_and_hold_portfolios(
     grossify: bool = True,
     weight_var: Optional[str] = None,
 ):
+    """
+    Creates buy-and-hold portfolios from normal portfolios and
+    cumulates a variable within them.
+
+    For each portfolio in each portfolio date, finds the ids which
+    are present in that portfolio. Extends this portfolio for
+    however many days are needed to cumulate.
+
+    Then within these extended buy-and-hold portfolios, cumulates then calculates
+    the average (and optionally, weighted-average) of the cumulated variable.
+
+    :param df: DataFrame containing portfolios, a date variable, a portfolio
+        formation date variable, and id variable, and a variable to be cumulated
+    :param port_var: Name of variable containing portfolios
+    :param id_var: Name of variable containing entity ids
+    :param date_var: Name pf variable containing entity dates
+    :param port_date_var: Name of variable containing portfolio formation dates
+    :param ret_var: Name of variable to be cumulated
+    :param cum_days: Cumulate to between this many days, e.g. (0, 1, 5) means
+        give return for initial period (0), return for first period (0 to 1),
+        and return for periods 1 to 5 cumulated
+    :param freq: 'd' for daily, 'h' for hourly, 'w' for weekly, 'm' for monthly,
+        'y' for annual
+    :param grossify: Set to True to add one to all variables then subtract one at the end
+    :param weight_var: Variable to use for calculating weights in weighted average, None
+        to disable weighted averages
+    :return: Wide-format DataFrame which has portfolio variable, portfolio formation date
+        variable, and cumulative return variables
+    """
     daily_multiplier = _daily_multiplier(freq)
     cum_time: List[int] = [int(round(t * daily_multiplier, 0)) for t in cum_days]
     needed_days = math.ceil(max(cum_days))

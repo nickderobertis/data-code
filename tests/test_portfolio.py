@@ -105,7 +105,7 @@ class PortfolioTest(DataFrameTest):
     def vw_ret_name(self, cum_period: int) -> str:
         return f"VW {self.ret_var} {cum_period}"
 
-    def expect_cum_df(self, freq: str = 'd') -> pd.DataFrame:
+    def expect_cum_df(self, freq: str = 'd', weighted: bool = True) -> pd.DataFrame:
         if freq == 'd':
             early_ts = Timestamp("2000-01-01 00:00:00")
             late_ts = Timestamp("2000-01-05 00:00:00")
@@ -115,7 +115,7 @@ class PortfolioTest(DataFrameTest):
         else:
             raise ValueError(f'unsupported freq {freq}')
 
-        return pd.DataFrame(
+        df = pd.DataFrame(
             data=[
                 (
                     1,
@@ -170,32 +170,53 @@ class PortfolioTest(DataFrameTest):
             ],
         )
 
+        if not weighted:
+            weight_cols = [col for col in df.columns if 'VW' in col]
+            df.drop(weight_cols, axis=1, inplace=True)
+
+        return df
+
 
 class TestCumulativePortfolios(PortfolioTest):
-    def test_daily_cumulate_bhr(self):
-        cum_df = cumulate_buy_and_hold_portfolios(
-            self.daily_port_df,
-            self.port_var,
-            self.id_var,
-            self.date_var,
-            self.port_date_var,
-            self.ret_var,
+
+    def get_cum_bhr_df(self, **kwargs) -> pd.DataFrame:
+        config = dict(
+            df=self.daily_port_df,
+            port_var=self.port_var,
+            id_var=self.id_var,
+            date_var=self.date_var,
+            port_date_var=self.port_date_var,
+            ret_var=self.ret_var,
             cum_days=self.cum_days,
             weight_var=self.weight_var,
             freq="d",
         )
+        config.update(kwargs)
+        cum_df = cumulate_buy_and_hold_portfolios(**config)
+        return cum_df
+
+
+    def test_daily_cumulate_bhr(self):
+        cum_df = self.get_cum_bhr_df(weight_var=None)
+        assert_frame_equal(cum_df, self.expect_cum_df('d', weighted=False))
+
+    def test_daily_cumulate_bhr_weighted(self):
+        cum_df = self.get_cum_bhr_df()
         assert_frame_equal(cum_df, self.expect_cum_df('d'))
 
     def test_hourly_cumulate_bhr(self):
-        cum_df = cumulate_buy_and_hold_portfolios(
-            self.hourly_port_df,
-            self.port_var,
-            self.id_var,
-            self.date_var,
-            self.port_date_var,
-            self.ret_var,
+        cum_df = self.get_cum_bhr_df(
+            df=self.hourly_port_df,
             cum_days=self.hourly_cum_days,
-            weight_var=self.weight_var,
-            freq="h",
+            freq='h',
+            weight_var=None
+        )
+        assert_frame_equal(cum_df, self.expect_cum_df('h', weighted=False))
+
+    def test_hourly_cumulate_bhr_weighted(self):
+        cum_df = self.get_cum_bhr_df(
+            df=self.hourly_port_df,
+            cum_days=self.hourly_cum_days,
+            freq='h'
         )
         assert_frame_equal(cum_df, self.expect_cum_df('h'))
