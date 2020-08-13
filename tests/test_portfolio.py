@@ -99,13 +99,40 @@ class PortfolioTest(DataFrameTest):
     hourly_port_df[date_var] = pd.to_datetime(hourly_port_df[date_var])
     hourly_port_df[port_date_var] = pd.to_datetime(hourly_port_df[port_date_var])
 
+    @classmethod
+    def col_sort_key(cls, col: str) -> int:
+        col_type_order = {
+            'EW': 0,
+            'VW': 1,
+            'Stderr': 2,
+            'Count': 3,
+        }
+
+        if col == cls.port_var:
+            return 0
+        if col == cls.port_date_var:
+            return 1
+        col_parts = col.split()
+        cum_period = int(col_parts[-1])
+        sort_key = (cum_period + 1) * 10
+        col_type = col_parts[0]
+        sort_key += col_type_order[col_type]
+        return sort_key
+
     def ew_ret_name(self, cum_period: int) -> str:
         return f"EW {self.ret_var} {cum_period}"
 
     def vw_ret_name(self, cum_period: int) -> str:
         return f"VW {self.ret_var} {cum_period}"
 
-    def expect_cum_df(self, freq: str = 'd', weighted: bool = True) -> pd.DataFrame:
+    def stderr_name(self, cum_period: int) -> str:
+        return f"Stderr {cum_period}"
+
+    def count_name(self, cum_period: int) -> str:
+        return f"Count {cum_period}"
+
+    def expect_cum_df(self, freq: str = 'd', weighted: bool = True,
+                      include_stderr: bool = False, include_count: bool = False) -> pd.DataFrame:
         if freq == 'd':
             early_ts = Timestamp("2000-01-01 00:00:00")
             late_ts = Timestamp("2000-01-05 00:00:00")
@@ -174,6 +201,21 @@ class PortfolioTest(DataFrameTest):
             weight_cols = [col for col in df.columns if 'VW' in col]
             df.drop(weight_cols, axis=1, inplace=True)
 
+        if include_stderr:
+            df_len = len(df)
+            df[self.stderr_name(0)] = pd.Series([0.035355] * df_len)
+            df[self.stderr_name(1)] = pd.Series([0.01450574598794102] * df_len)
+            df[self.stderr_name(5)] = pd.Series([0.00445, nan] * int((df_len / 2)))
+
+        if include_count:
+            df_len = len(df)
+            df[self.count_name(0)] = pd.Series([2] * df_len)
+            df[self.count_name(1)] = pd.Series([4] * df_len)
+            df[self.count_name(5)] = pd.Series([12, nan] * int((df_len / 2)))
+
+        sorted_cols = sorted(df.columns, key=PortfolioTest.col_sort_key)
+        df = df[sorted_cols]
+
         return df
 
 
@@ -204,6 +246,20 @@ class TestCumulativePortfolios(PortfolioTest):
         cum_df = self.get_cum_bhr_df()
         assert_frame_equal(cum_df, self.expect_cum_df('d'))
 
+    def test_daily_cumulate_bhr_include_stderr(self):
+        cum_df = self.get_cum_bhr_df(include_stderr=True)
+        assert_frame_equal(cum_df, self.expect_cum_df('d', include_stderr=True))
+
+    def test_daily_cumulate_bhr_include_count(self):
+        cum_df = self.get_cum_bhr_df(include_count=True)
+        assert_frame_equal(cum_df, self.expect_cum_df('d', include_count=True))
+
+    def test_daily_cumulate_bhr_include_stderr_and_count(self):
+        cum_df = self.get_cum_bhr_df(include_count=True, include_stderr=True)
+        assert_frame_equal(cum_df, self.expect_cum_df(
+            'd', include_count=True, include_stderr=True
+        ))
+
     def test_hourly_cumulate_bhr(self):
         cum_df = self.get_cum_bhr_df(
             df=self.hourly_port_df,
@@ -220,3 +276,32 @@ class TestCumulativePortfolios(PortfolioTest):
             freq='h'
         )
         assert_frame_equal(cum_df, self.expect_cum_df('h'))
+
+    def test_hourly_cumulate_bhr_include_stderr(self):
+        cum_df = self.get_cum_bhr_df(
+            df=self.hourly_port_df,
+            cum_days=self.hourly_cum_days,
+            freq='h',
+            include_stderr=True
+        )
+        assert_frame_equal(cum_df, self.expect_cum_df('h', include_stderr=True))
+
+    def test_hourly_cumulate_bhr_include_count(self):
+        cum_df = self.get_cum_bhr_df(
+            df=self.hourly_port_df,
+            cum_days=self.hourly_cum_days,
+            freq='h',
+            include_count=True
+        )
+        assert_frame_equal(cum_df, self.expect_cum_df('h', include_count=True))
+
+    def test_hourly_cumulate_bhr_include_stderr_and_count(self):
+        cum_df = self.get_cum_bhr_df(
+            df=self.hourly_port_df,
+            cum_days=self.hourly_cum_days,
+            freq='h',
+            include_count=True, include_stderr=True
+        )
+        assert_frame_equal(cum_df, self.expect_cum_df(
+            'h', include_count=True, include_stderr=True
+        ))

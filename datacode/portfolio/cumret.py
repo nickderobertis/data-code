@@ -19,6 +19,8 @@ def cumulate_buy_and_hold_portfolios(
     freq: str = "d",
     grossify: bool = True,
     weight_var: Optional[str] = None,
+    include_stderr: bool = False,
+    include_count: bool = False,
 ):
     """
     Creates buy-and-hold portfolios from normal portfolios and
@@ -46,6 +48,9 @@ def cumulate_buy_and_hold_portfolios(
     :param grossify: Set to True to add one to all variables then subtract one at the end
     :param weight_var: Variable to use for calculating weights in weighted average, None
         to disable weighted averages
+    :param include_stderr: Whether to include calculated standard errors in output DataFrame
+    :param include_count: Whether to include counts of entities in each portfolio-date
+        observation
     :return: Wide-format DataFrame which has portfolio variable, portfolio formation date
         variable, and cumulative return variables
     """
@@ -90,6 +95,8 @@ def cumulate_buy_and_hold_portfolios(
             ret_var,
             freq=freq,
             weight_var=weight_var,
+            include_stderr=include_stderr,
+            include_count=include_count,
         )
         out_df = out_df.merge(period_df, how="left", on=[port_var, port_date_var])
 
@@ -105,13 +112,39 @@ def _average_for_cum_time(
     ret_var: str,
     freq: str = "d",
     weight_var: Optional[str] = None,
+    include_stderr: bool = False,
+    include_count: bool = False,
 ) -> pd.DataFrame:
+    count_name = f'{ret_var}_count'
+    wavg_count_name = f'{count_name}_wavg'
+
     td = _offset(cum_period, freq)
     this_cum_df = cum_df[cum_df[date_var] == (cum_df[port_date_var] + td)]
 
     avgs = pd_utils.averages(
         this_cum_df, f"cum_{ret_var}", [port_var, port_date_var], wtvar=weight_var
     )
+
+    count = pd.Series()
+    if include_stderr or include_count:
+        this_cum_obs_df = cum_df[
+            (cum_df[date_var] >= (cum_df[port_date_var])) &
+            (cum_df[date_var] <= (cum_df[port_date_var] + td))
+        ]
+        # Eliminate portfolio dates where desired offset is beyond sample period
+        reduced_cum_obs_df = pd.DataFrame()
+        for (port, port_date), cum_obs_port_df in this_cum_obs_df.groupby([port_var, port_date_var]):
+            valid_df = not cum_obs_port_df[cum_obs_port_df[date_var] == port_date + td].empty
+            if not valid_df:
+                continue
+            reduced_cum_obs_df = reduced_cum_obs_df.append(cum_obs_port_df)
+
+        count = reduced_cum_obs_df.groupby([port_var, port_date_var], as_index=False)[ret_var].count()[ret_var]
+        if include_stderr:
+            stdev = reduced_cum_obs_df.groupby([port_var, port_date_var], as_index=False)[ret_var].std()[ret_var]
+            avgs[f'Stderr {cum_period}'] = stdev / count
+            # TODO: weighted average stderr in cumulative portfolios
+
     avgs.rename(
         columns={
             f"cum_{ret_var}": f"EW {ret_var} {cum_period}",
@@ -119,6 +152,10 @@ def _average_for_cum_time(
         },
         inplace=True,
     )
+
+    if include_count:
+        avgs[f'Count {cum_period}'] = count.astype(int)
+
     return avgs
 
 
