@@ -143,7 +143,7 @@ def _average_for_cum_time(
         if include_stderr:
             stdev = reduced_cum_obs_df.groupby([port_var, port_date_var], as_index=False)[ret_var].std()[ret_var]
             avgs[f'Stderr {cum_period}'] = stdev / count
-            # TODO [$5f3511ffb8a95e000729b040]: weighted average stderr in cumulative portfolios
+            # TODO [#128]: weighted average stderr in cumulative portfolios
 
     avgs.rename(
         columns={
