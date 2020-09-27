@@ -1,4 +1,4 @@
-from typing import Sequence, List, Dict, Optional
+from typing import Sequence, List, Dict, Optional, Any
 
 import pandas as pd
 import numpy as np
@@ -137,9 +137,8 @@ class SEMSummary:
     def fit(self) -> pd.DataFrame:
         return get_fit_statistics(self.opt)
 
-    @property
-    def eqs(self) -> List[pl.Equation]:
-        return model_eqs(self.structural_dict, self.measurement_dict, self.var_corr_groups)
+    def eqs(self, **eq_kwargs) -> List[pl.Equation]:
+        return model_eqs(self.structural_dict, self.measurement_dict, self.var_corr_groups, **eq_kwargs)
 
     @property
     def warnings(self) -> List[str]:
@@ -170,17 +169,24 @@ class SEMSummary:
 
     def to_latex(self, begin_below_text: Optional[str] = None,
                  end_below_text: Optional[str] = None, replace_below_text: Optional[str] = None,
-                 caption: str = 'Structural Equation Model (SEM)') -> pl.Table:
+                 caption: str = 'Structural Equation Model (SEM)',
+                 space_equations: bool = False, label: Optional[str] = None,
+                 eq_kwargs: Optional[Dict[str, Any]] = None) -> pl.Table:
+        if eq_kwargs is None:
+            eq_kwargs = {}
+
         return summary_latex_table(
             self.fit,
             self.structural,
             self.latent,
             self.scale,
             self.robust_scale,
-            equations=self.eqs,
+            equations=self.eqs(**eq_kwargs),
+            space_equations=space_equations,
             begin_below_text=begin_below_text,
             end_below_text=end_below_text,
             replace_below_text=replace_below_text,
+            label=label,
             caption=caption
         )
 

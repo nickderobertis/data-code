@@ -1,26 +1,37 @@
 import pandas as pd
-from typing import Callable
+from typing import Callable, Optional
 from functools import partial
 
 from datacode.display import display_df_dict
 from datacode.typing import DfDictOrNone, FloatList
 
 
-def format_numbers_to_decimal_places(item, decimals=2, coerce_ints: bool = False):
-
+def format_numbers_to_decimal_places(item, decimals=2, coerce_ints: bool = False,
+                                     reduce_decimals_after_digits: Optional[int] = 3):
+    units_str = ''
     if isinstance(item, (float, int)):
-        if abs(item) > 999999.99:
+        if abs(item) > 999999999.99:
+            item = item / 1000000000
+            units_str = 'B'
+        elif abs(item) > 999999.99:
             # Millions formatter
             item = item / 1000000
-            # For millions decimals, treat int as float (still have decimals, because 7.02M is better than 7M for int
-            return f'{item:,.{decimals}f}M'
+            units_str = 'M'
+        if reduce_decimals_after_digits is not None:
+            non_decimal_digit_length = len(str(int(item)))
+            over_limit = non_decimal_digit_length - reduce_decimals_after_digits
+            if over_limit > 0:
+                decimals -= over_limit
+            if decimals < 0:
+                decimals = 0
         if coerce_ints:
             decimals = 0 if int(item) == item else decimals  # checks if is int stored as type float
         else:
             decimals = decimals if isinstance(item, float) else 0  # uses dtype to handle int vs. float
-        return f'{item:,.{decimals}f}'
+        return f'{item:,.{decimals}f}{units_str}'
     else:
         return item
+
 
 def describe_df(df: pd.DataFrame, disp: bool=True, format_func: Callable=format_numbers_to_decimal_places,
                 format_kwargs: dict=None, percentiles: FloatList =None) -> DfDictOrNone:

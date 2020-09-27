@@ -1,5 +1,6 @@
 from typing import Sequence, Dict
 
+from datacode.logger import logger
 from datacode.models.variables.variable import Variable
 
 
@@ -20,6 +21,7 @@ def model_str(structural_dict: Dict[Variable, Sequence[Variable]],
     for corr_group in var_corr_groups:
         m_str += _vars_to_correlated_str(corr_group)
         m_str += '\n'
+    logger.debug(f'Created semopy model {m_str}')
     return m_str
 
 

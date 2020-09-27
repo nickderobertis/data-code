@@ -9,13 +9,15 @@ from datacode.sem.constants import STANDARD_SCALE_MESSAGE, ROBUST_SCALE_MESSAGE
 def summary_latex_table(fit_df: pd.DataFrame, structural_dfs: Sequence[pd.DataFrame],
                         latent_dfs: Sequence[pd.DataFrame], scale: bool, robust_scale: bool,
                         equations: Optional[Sequence[pl.Equation]] = None,
+                        space_equations: bool = False,
                         begin_below_text: Optional[str] = None,
                         end_below_text: Optional[str] = None, replace_below_text: Optional[str] = None,
-                        caption: str = 'Structural Equation Model (SEM)') -> pl.Table:
+                        caption: str = 'Structural Equation Model (SEM)', label: Optional[str] = None) -> pl.Table:
     below_text = _below_text(
         scale,
         robust_scale,
         equations=equations,
+        space_equations=space_equations,
         begin_below_text=begin_below_text,
         end_below_text=end_below_text,
         replace_below_text=replace_below_text
@@ -24,12 +26,14 @@ def summary_latex_table(fit_df: pd.DataFrame, structural_dfs: Sequence[pd.DataFr
     table = pl.Table.from_panel_list(
         panels,
         caption=caption,
-        below_text=below_text
+        below_text=below_text,
+        label=label,
     )
     return table
 
 
 def _below_text(scale: bool, robust_scale: bool, equations: Optional[Sequence[pl.Equation]] = None,
+                space_equations: bool = False,
                 begin_below_text: Optional[str] = None,
                 end_below_text: Optional[str] = None, replace_below_text: Optional[str] = None) -> Union[str, List[str]]:
     if replace_below_text:
@@ -40,7 +44,10 @@ def _below_text(scale: bool, robust_scale: bool, equations: Optional[Sequence[pl
         below_text.append(begin_below_text)
     if equations:
         below_text.append('The model is represented by the following equations:')
-        below_text.extend(equations)
+        for eq in equations:
+            below_text.append(eq)
+            if space_equations:
+                below_text.append('')
     if scale:
         below_text.append(STANDARD_SCALE_MESSAGE)
     if robust_scale:
