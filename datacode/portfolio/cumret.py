@@ -139,9 +139,9 @@ def _average_for_cum_time(
                 continue
             reduced_cum_obs_df = reduced_cum_obs_df.append(cum_obs_port_df)
 
-        count = reduced_cum_obs_df.groupby([port_var, port_date_var], as_index=False)[ret_var].count()[ret_var]
+        count = reduced_cum_obs_df.groupby([port_var, port_date_var])[ret_var].count().reset_index(drop=True)
         if include_stderr:
-            stdev = reduced_cum_obs_df.groupby([port_var, port_date_var], as_index=False)[ret_var].std()[ret_var]
+            stdev = reduced_cum_obs_df.groupby([port_var, port_date_var])[ret_var].std().reset_index(drop=True)
             avgs[f'Stderr {cum_period}'] = stdev / count
             # TODO [#128]: weighted average stderr in cumulative portfolios
 
